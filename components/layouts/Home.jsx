@@ -1,4 +1,19 @@
 import Head from "next/head"
+import Styled from "styled-components"
+
+const HomeLayoutStyled = Styled.div`
+  font-family: 'Montserrat', sans-serif;
+  
+  // global class
+  .container {
+    width: 1000px;
+    margin: 0 auto;
+  }
+  .align-center {
+    text-align: center;
+  }
+`
+
 
 const defaultMetadata = {
   title: "Mau Gowes - Yuk Mari"
@@ -10,12 +25,15 @@ export default ({ children, metadata = defaultMetadata  }) => (
       <meta charSet="utf-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="img/fav-icon.png" type="image/x-icon" />
-      {/* The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags */}
+      <link rel="icon" href="/static/img/fav-icon.png" type="image/x-icon" />
+      <link rel="stylesheet" href="/static/vendor/gridlex/gridlex.min.css" />
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
       <title>{metadata.title}</title>
     </Head>
 
-    {children}
+    <HomeLayoutStyled>
+      {children}
+    </HomeLayoutStyled>
 
   </div>
 )
