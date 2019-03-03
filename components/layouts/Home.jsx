@@ -1,5 +1,6 @@
 import Head from "next/head"
-import Styled from "styled-components"
+import React from "react"
+import Styled, { ServerStyleSheet } from "styled-components"
 
 const HomeLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -19,21 +20,28 @@ const defaultMetadata = {
   title: "Mau Gowes - Yuk Mari"
 }
 
-export default ({ children, metadata = defaultMetadata  }) => (
-  <div>
-    <Head>
-      <meta charSet="utf-8" />
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="/static/img/fav-icon.png" type="image/x-icon" />
-      <link rel="stylesheet" href="/static/vendor/gridlex/gridlex.min.css" />
-      <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
-      <title>{metadata.title}</title>
-    </Head>
+export default class HomeLayout extends React.Component {
 
-    <HomeLayoutStyled>
-      {children}
-    </HomeLayoutStyled>
+  render = () => {
+    const { children, metadata = defaultMetadata  } = this.props 
 
-  </div>
-)
+    return (
+      <React.Fragment>
+        <Head>
+          <meta charSet="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" href="/static/img/fav-icon.png" type="image/x-icon" />
+          <link rel="stylesheet" href="/static/vendor/gridlex/gridlex.min.css" />
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
+          <title>{metadata.title}</title>
+        </Head>
+
+        <HomeLayoutStyled>
+          {children}
+        </HomeLayoutStyled>
+
+      </React.Fragment>
+    )
+  }
+}

@@ -5,7 +5,7 @@ import initialDropdown from "../../modules/dropdown"
 
 // components
 import Dropdown from "../dropdown/index"
-import Link from "next/link"
+import IconBottomArrow from "../icons/bottom-arrow"
 
 const HeaderStyled = Styled.header`
   .header-logo {
@@ -16,10 +16,11 @@ const HeaderStyled = Styled.header`
   .header-top-menu {
     border-top: 2px solid ${color_gray_soft}; 
     border-bottom: 2px solid ${color_gray_soft};
-    
-
 
     .header-top-menu_link {
+      margin: 0 auto;
+      border: none;
+      cursor: pointer;
       text-decoration: none;
       color: ${color_black_main};
       font-size: 18px;
@@ -27,6 +28,38 @@ const HeaderStyled = Styled.header`
       text-align: center;
       font-weight: bold;
       text-transform: uppercase;
+      outline: none;
+      
+      .header-top-menu_link_icon {
+        margin-left: 5px;
+      }
+    }
+
+    .header-top-menu_dropdown {
+      padding: 10px;
+    }
+
+    .header-categories-list-dropdown {
+      max-height: 100vh;
+      overflow: auto;
+      padding: 10px 20px;
+      a {
+        text-decoration: none;
+        text-transform: capitalize;
+      }
+      h3 {
+        font-weight: 100;
+        margin: 5px 0;
+        text-transform: uppercase;
+      }
+      ul {
+        border-bottom: .5px solid #eee;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        li {
+          padding: 0;
+        }
+      }
     }
 
     .header-top-menu_group_left {
@@ -36,11 +69,11 @@ const HeaderStyled = Styled.header`
     .header-top-menu_group {
       margin: 0;
       padding: 0;
-      display: inline-flex;
+      display: -webkit-inline-box;
       padding: 25px 10px;
       li {
-        width: 200px;
         list-style: none;
+        padding: 0 10px;
       }
     }
   }
@@ -52,21 +85,32 @@ const HeaderStyled = Styled.header`
 
 const AvailableMenu = [
   {
+    name: "Video",
+    link: "/videos"
+  },
+  {
+    name: "Blog",
+    link: "/blog"
+  }
+]
+
+const AvailableSellCategories = [
+  {
     name: "Roadbike",
     link: "/categories/roadbike",
     child: [
-      {name: "accesories", link: "/categories/roadbike/accesories"},
-      {name: "part", link: "/categories/roadbike/part"},
-      {name: "frameset", link: "/categories/roadbike/frameset"},
+      { name: "accesories", link: "/categories/roadbike/accesories" },
+      { name: "part", link: "/categories/roadbike/part" },
+      { name: "frameset", link: "/categories/roadbike/frameset" }
     ]
   },
   {
     name: "MTB",
     link: "/categories/mtb",
     child: [
-      {name: "accesories", link: "/categories/roadbike/mtb"},
-      {name: "part", link: "/categories/mtb/part"},
-      {name: "frameset", link: "/categories/mtb/frameset"},
+      { name: "accesories", link: "/categories/roadbike/mtb" },
+      { name: "part", link: "/categories/mtb/part" },
+      { name: "frameset", link: "/categories/mtb/frameset" }
     ]
   }
 ]
@@ -89,44 +133,76 @@ class Header extends React.Component {
           <div className="grid header-top-menu">
             <div className="col-3_xs-6 header-top-menu_group header-top-menu_group_left">
               <Dropdown>
-                <a
+                <button
                   className="dropdown-btn header-top-menu_link"
-                  href="javascript:;">
-                  Categories
-                </a>
-                <div className="dropdown-content">this is dropdown...</div>
+                  type="button">
+                  Mau Beli apa ?
+                  <IconBottomArrow
+                    className="header-top-menu_link_icon"
+                    size="15"
+                  />
+                </button>
+                {/* categories of selling */}
+                <div className="dropdown-content header-categories-list-dropdown">
+                  {AvailableSellCategories.map((n, key) => {
+                    return (
+                      <div key={key}>
+                        <h3>{n.name}</h3>
+                        <ul
+                          style={
+                            key == AvailableSellCategories.length - 1 ? { borderBottom: "none", marginBottom: 0 } : {}
+                          }>
+                          {n.child.map((m, key) => {
+                            return (
+                              <li key={key}>
+                                <a href={m.link}>{m.name}</a>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      </div>
+                    )
+                  })}
+                </div>
+                {/* categories of selling */}
               </Dropdown>
             </div>
-            <div className="col-3_xs-6"> 
+            <div className="col-3_xs-6">
               <ul className="header-top-menu_group">
-                {
-                  AvailableMenu.map((n, key) => {
-                    return (
-                      <li>
+                {AvailableMenu.map((n, key) => {
+                  return (
+                    <li key={key}>
+                      {n.child ? (
                         <Dropdown>
-                          <a
-                            className="dropdown-btn header-top-menu_link"
-                            href="javascript:;">
+                          <button
+                            type="button"
+                            className="dropdown-btn header-top-menu_link">
                             {n.name}
-                          </a>
-                          <div className="dropdown-content">
+                            <IconBottomArrow
+                              className="header-top-menu_link_icon"
+                              size="15"
+                            />
+                          </button>
+                          <div className="dropdown-content dropdown-btn header-top-menu_dropdown">
                             <ul>
-                              {
-                                n.child.map((m, key) => {
-                                  return (
-                                    <li>
-                                      <Link href={m.link}>{m.name}</Link>
-                                    </li>
-                                  )
-                                })
-                              }
+                              {n.child.map((m, key) => {
+                                return (
+                                  <li key={key}>
+                                    <a href={{ pathname: m.link }}>{m.name}</a>
+                                  </li>
+                                )
+                              })}
                             </ul>
                           </div>
                         </Dropdown>
-                      </li>
-                    ) 
-                  })
-                }
+                      ) : (
+                        <a className="header-top-menu_link" href={n.link}>
+                          {n.name}
+                        </a>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           </div>

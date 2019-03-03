@@ -1,8 +1,10 @@
 import styled from "styled-components"
+import {color_black_main} from "../Const"
 
 export const DropdownStyled = styled.div`
   position: relative; 
   width: 100%;
+  
   .dropdown {
     padding: 11px 15px;
     position: relative;
@@ -27,6 +29,8 @@ export const DropdownStyled = styled.div`
   }
 
   .dropdown-content {
+    background: ${color_black_main};
+    color: #FFF;
     display: none;
     position: absolute;
     min-width: 160px;
@@ -34,6 +38,16 @@ export const DropdownStyled = styled.div`
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     top: 35px;
     right: 0;
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    a {
+      color: #FFF;
+      text-decocation: none;
+    }
 
     &.dropdown-content-small {
       width: 180px;
