@@ -38,6 +38,7 @@ export const DropdownStyled = styled.div`
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     top: 35px;
     right: 0;
+    z-index: 100;
 
     ul {
       padding: 0;

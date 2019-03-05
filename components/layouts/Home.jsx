@@ -13,6 +13,14 @@ const HomeLayoutStyled = Styled.div`
   .align-center {
     text-align: center;
   }
+  [class~=col] {
+    padding: 0;
+    margin: 0;
+  }
+  .grid {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 

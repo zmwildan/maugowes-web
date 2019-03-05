@@ -124,108 +124,110 @@ const AvailableSellCategories = [
 class Header extends React.Component {
   componentDidMount = () => {
     initialDropdown()
-    
+
     // set category weight same as category link
     const CatDropDown = document.getElementById("dropdown-categories")
     const BtnDropDown = document.getElementById("button-categories")
 
-    CatDropDown.style.width =  `calc(${BtnDropDown.offsetWidth}px - 40px)`
-
+    CatDropDown.style.width = `calc(${BtnDropDown.offsetWidth}px - 40px)`
   }
 
   render = () => {
     return (
       <HeaderStyled>
-        <div className="container">
-          <div className="grid-center header-logo">
-            <div className="col">
-              <img src="/static/images/logo.png" alt="logo Mau Gowes" />
-            </div>
+        <div className="grid-center header-logo">
+          <div className="col">
+            <img src="/static/images/logo.png" alt="logo Mau Gowes" />
           </div>
+        </div>
 
-          <div className="grid header-top-menu">
-            <div className="col-3_xs-6 header-top-menu_group header-top-menu_group_left" id="button-categories">
-              <Dropdown>
-                <button
-                  className="dropdown-btn header-top-menu_link"
-                  type="button">
-                  Mau Beli apa ?
-                  <IconBottomArrow
-                    className="header-top-menu_link_icon"
-                    size="10"
-                  />
-                </button>
-                {/* categories of selling */}
-                <div className="dropdown-content header-categories-list-dropdown" id="dropdown-categories" style={{right: -10}}>
-                  {AvailableSellCategories.map((n, key) => {
-                    return (
-                      <div key={key}>
-                        <h3>{n.name}</h3>
-                        <ul
-                          style={
-                            key == AvailableSellCategories.length - 1
-                              ? { borderBottom: "none", marginBottom: 0 }
-                              : {}
-                          }>
-                          {n.child.map((m, key) => {
-                            return (
-                              <li key={key}>
-                                <a href={m.link}>{m.name}</a>
-                              </li>
-                            )
-                          })}
-                        </ul>
-                      </div>
-                    )
-                  })}
-                </div>
-                {/* categories of selling */}
-              </Dropdown>
-            </div>
-            <div className="col-3_xs-6">
-              <ul className="header-top-menu_group">
-                {AvailableMenu.map((n, key) => {
+        <div className="grid header-top-menu">
+          <div
+            className="col-3_xs-6 header-top-menu_group header-top-menu_group_left"
+            id="button-categories">
+            <Dropdown>
+              <button
+                className="dropdown-btn header-top-menu_link"
+                type="button">
+                Mau Beli apa ?
+                <IconBottomArrow
+                  className="header-top-menu_link_icon"
+                  size="10"
+                />
+              </button>
+              {/* categories of selling */}
+              <div
+                className="dropdown-content header-categories-list-dropdown"
+                id="dropdown-categories"
+                style={{ right: -10 }}>
+                {AvailableSellCategories.map((n, key) => {
                   return (
-                    <li key={key}>
-                      {n.child ? (
-                        <Dropdown>
-                          <button
-                            type="button"
-                            className="dropdown-btn header-top-menu_link">
-                            {n.name}
-                            <IconBottomArrow
-                              className="header-top-menu_link_icon"
-                              size="10"
-                            />
-                          </button>
-                          <div className="dropdown-content dropdown-btn header-top-menu_dropdown">
-                            <ul>
-                              {n.child.map((m, key) => {
-                                return (
-                                  <li key={key}>
-                                    <a href={{ pathname: m.link }}>
-                                      {m.name}{" "}
-                                      <IconBottomArrow
-                                        className="header-top-menu_link_icon"
-                                        size="10"
-                                      />
-                                    </a>
-                                  </li>
-                                )
-                              })}
-                            </ul>
-                          </div>
-                        </Dropdown>
-                      ) : (
-                        <a className="header-top-menu_link" href={n.link}>
-                          {n.name}
-                        </a>
-                      )}
-                    </li>
+                    <div key={key}>
+                      <h3>{n.name}</h3>
+                      <ul
+                        style={
+                          key == AvailableSellCategories.length - 1
+                            ? { borderBottom: "none", marginBottom: 0 }
+                            : {}
+                        }>
+                        {n.child.map((m, key) => {
+                          return (
+                            <li key={key}>
+                              <a href={m.link}>{m.name}</a>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
                   )
                 })}
-              </ul>
-            </div>
+              </div>
+              {/* categories of selling */}
+            </Dropdown>
+          </div>
+          <div className="col-3_xs-6">
+            <ul className="header-top-menu_group">
+              {AvailableMenu.map((n, key) => {
+                return (
+                  <li key={key}>
+                    {n.child ? (
+                      <Dropdown>
+                        <button
+                          type="button"
+                          className="dropdown-btn header-top-menu_link">
+                          {n.name}
+                          <IconBottomArrow
+                            className="header-top-menu_link_icon"
+                            size="10"
+                          />
+                        </button>
+                        <div className="dropdown-content dropdown-btn header-top-menu_dropdown">
+                          <ul>
+                            {n.child.map((m, key) => {
+                              return (
+                                <li key={key}>
+                                  <a href={{ pathname: m.link }}>
+                                    {m.name}{" "}
+                                    <IconBottomArrow
+                                      className="header-top-menu_link_icon"
+                                      size="10"
+                                    />
+                                  </a>
+                                </li>
+                              )
+                            })}
+                          </ul>
+                        </div>
+                      </Dropdown>
+                    ) : (
+                      <a className="header-top-menu_link" href={n.link}>
+                        {n.name}
+                      </a>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
       </HeaderStyled>
