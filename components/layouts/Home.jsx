@@ -1,9 +1,11 @@
 import Head from "next/head"
 import React from "react"
-import Styled, { ServerStyleSheet } from "styled-components"
+import Styled from "styled-components"
+import { color_black_main } from "../Const"
 
 const HomeLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
+  color: ${color_black_main};
   
   // global class
   .container {
