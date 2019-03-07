@@ -19,9 +19,8 @@ const HomeLayoutStyled = Styled.div`
     padding: 0;
     margin: 0;
   }
-  .grid {
-    margin: 0;
-    padding: 0;
+  .p-t-30 {
+    padding-top: 30px;
   }
 `
 
@@ -43,7 +42,7 @@ export default class HomeLayout extends React.Component {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/static/img/fav-icon.png" type="image/x-icon" />
           <link rel="stylesheet" href="/static/vendor/gridlex/gridlex.min.css" />
-          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500,700" rel="stylesheet" />
           <title>{metadata.title}</title>
         </Head>
 

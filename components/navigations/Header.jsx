@@ -141,7 +141,7 @@ class Header extends React.Component {
           </div>
         </div>
 
-        <div className="grid header-top-menu">
+        <div className="grid-noGuttter header-top-menu">
           <div
             className="col-3_xs-6 header-top-menu_group header-top-menu_group_left"
             id="button-categories">

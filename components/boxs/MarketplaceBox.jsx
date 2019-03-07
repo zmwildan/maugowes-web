@@ -7,15 +7,22 @@ const MarketplaceBoxStyled = Styled.div`
   h2 {
     font-size: 30px;
   }
+  .container-card-product {
+    margin: 0 -1rem;
+  }
+
 `
 
 export default props => {
   return (
     <MarketplaceBoxStyled>
       <div className="grid">
-        <h2>Marketplace</h2>
+        <h2>{props.title || "Marketplace"}</h2>
       </div>
-      <div className="grid">
+      <div className="grid container-card-product">
+        <CardProduct />
+        <CardProduct />
+        <CardProduct />
         <CardProduct />
       </div>
     </MarketplaceBoxStyled>

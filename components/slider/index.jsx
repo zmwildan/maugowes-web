@@ -5,6 +5,11 @@ import styled from "styled-components"
 const SliderContainer = styled.div`
   position: relative;
 
+  &.grid, .grid {
+    margin: 0;
+    padding : 0;
+  }
+
   div.slider-items {
     width: 100%;
     display: -webkit-inline-box;

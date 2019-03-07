@@ -1,0 +1,1 @@
+git pull origin && pm2 restart maugowes-web
