@@ -28,7 +28,7 @@ function home() {
 
           {/* newest products */}
           <MarketplaceBox title="Produk Baru Siap COD" />
-          <div className="grid-center p-t-30">
+          <div className="grid-center p-t-30 p-b-50">
             <Button text="Ke Marketplace" />
           </div>
           {/* end of newest products */}

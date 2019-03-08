@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 const SliderContainer = styled.div`
   position: relative;
+  margin: 0 -8px !important;
 
   &.grid, .grid {
     margin: 0;

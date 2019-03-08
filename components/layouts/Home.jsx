@@ -22,6 +22,12 @@ const HomeLayoutStyled = Styled.div`
   .p-t-30 {
     padding-top: 30px;
   }
+  .p-b-50 {
+    padding-bottom: 50px;
+  }
+  .text-black {
+    color: ${color_black_main};
+  }
 `
 
 

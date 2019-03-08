@@ -3,9 +3,10 @@ import Styled from "styled-components"
 import CardProduct from "../cards/CardProduct"
 
 const MarketplaceBoxStyled = Styled.div`
-  margin-top: 30px;
+  margin-top: 40px;
   h2 {
-    font-size: 30px;
+    font-size: 23px;
+    margin-bottom: 30px;
   }
   .container-card-product {
     margin: 0 -1rem;
