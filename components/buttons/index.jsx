@@ -3,6 +3,8 @@ import { color_blue_main, color_blue_dark } from "../Const"
 
 const ButtonStyled = Styled.button`
   cursor: pointer;
+  border: none;
+  transition: background .5s ease;
   padding: ${props => {
     switch (props.size) {
       default:
