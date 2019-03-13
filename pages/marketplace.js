@@ -1,4 +1,5 @@
 import GlobalLayout from "../components/layouts/Global"
+import DefaultLayout from "../components/layouts/Default"
 import Styled from "styled-components"
 
 const MarketplaceStyled = Styled.div`
@@ -7,9 +8,11 @@ const MarketplaceStyled = Styled.div`
 const MarketplacePage = props => {
   return (
     <GlobalLayout>
-      <MarketplaceStyled>
-        <div>this is marketplace</div>
-      </MarketplaceStyled>
+      <DefaultLayout>
+        <MarketplaceStyled>
+          <div>this is marketplace</div>
+        </MarketplaceStyled>
+      </DefaultLayout>
     </GlobalLayout>
   )
 }

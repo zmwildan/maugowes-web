@@ -32,7 +32,7 @@ const Footer = Styled.div`
       }
     }
   }
-  .footer-content {
+  .col.footer-content {
     padding: 0 50px;
     text-align: left;
     .footer-content-title {

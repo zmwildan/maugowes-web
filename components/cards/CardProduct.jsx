@@ -1,12 +1,16 @@
 import Styled from "styled-components"
 import { color_gray_soft, color_gray_medium, color_blue_main } from "../Const"
+import Link from "next/link"
 
 const CardProductStyled = Styled.div`
   padding: 10px;
   text-align: center;
+  cursor: pointer;
+
   .card-product {
     border: 1px solid ${color_gray_medium};
     position: relative;
+
 
     span.label {
       padding: 5px 10px;
@@ -46,19 +50,21 @@ const CardProductStyled = Styled.div`
 const CardProduct = props => {
   return (
     <CardProductStyled className="col-3">
-      <div className="card-product">
-        <span className="label">Bekas</span>
-        <div className="card-product-cover" style={{backgroundImage: `url(/static/images/dummies/product-1.jpg)`}} />
-        <div className="card-product-text">
-          Stem Zipp Course 100mm
+      <Link prefetch href="/product?id=1">
+        <div className="card-product">
+          <span className="label">Bekas</span>
+          <div className="card-product-cover" style={{backgroundImage: `url(/static/images/dummies/product-1.jpg)`}} />
+          <div className="card-product-text">
+            Stem Zipp Course 100mm
+          </div>
+          <div className="card-product-desc">
+            COD di Sleman, DIY
+          </div>
+          <div className="card-product-price">
+            Rp 700.000,-
+          </div>
         </div>
-        <div className="card-product-desc">
-          COD di Sleman, DIY
-        </div>
-        <div className="card-product-price">
-          Rp 700.000,-
-        </div>
-      </div>
+      </Link>
     </CardProductStyled>
   )
 }

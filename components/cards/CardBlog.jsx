@@ -1,5 +1,11 @@
 import Styled from "styled-components"
-import { color_gray_dark, color_black_main, color_blue_dark, color_blue_main } from "../Const";
+import {
+  color_gray_dark,
+  color_black_main,
+  color_blue_dark,
+  color_blue_main
+} from "../Const"
+import Link from "next/link"
 
 const CardBlogStyled = Styled.div`
 .card-blog {
@@ -8,6 +14,7 @@ const CardBlogStyled = Styled.div`
     height: 250px;
     background-size: cover;
     background-position: top center;
+    cursor: pointer;
 
     .card-blog-title {
       bottom: 0;
@@ -46,23 +53,24 @@ const CardBlogStyled = Styled.div`
 export default props => {
   return (
     <CardBlogStyled className="col-4">
-      <div
-        className="card-blog"
-        style={{
-          backgroundImage: `url('/static/images/dummies/blog-1.jpeg')`
-        }}>
-        <div className="card-blog-title">
-          <span className="card-blog-label">
-            <a href="#">news</a>
-          </span>
-          <h3>
-            <a href="#">
-              This is Title of the Post cukup panjang dan gila apa adanya
-            </a>
-          </h3>
-
+      <Link href="/blog?id=1" as="/blog/1">
+        <div
+          className="card-blog"
+          style={{
+            backgroundImage: `url('/static/images/dummies/blog-1.jpeg')`
+          }}>
+          <div className="card-blog-title">
+            <span className="card-blog-label">
+              <a href="#">news</a>
+            </span>
+            <h3>
+              <a href="#">
+                This is Title of the Post cukup panjang dan gila apa adanya
+              </a>
+            </h3>
+          </div>
         </div>
-      </div>
+      </Link>
     </CardBlogStyled>
   )
 }
