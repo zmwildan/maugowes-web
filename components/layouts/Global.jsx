@@ -3,7 +3,7 @@ import React from "react"
 import Styled from "styled-components"
 import { color_black_main } from "../Const"
 
-const HomeLayoutStyled = Styled.div`
+const GlobalLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
   color: ${color_black_main};
   
@@ -52,9 +52,9 @@ export default class HomeLayout extends React.Component {
           <title>{metadata.title}</title>
         </Head>
 
-        <HomeLayoutStyled>
+        <GlobalLayoutStyled>
           {children}
-        </HomeLayoutStyled>
+        </GlobalLayoutStyled>
 
       </React.Fragment>
     )

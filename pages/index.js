@@ -1,6 +1,6 @@
 import Styled from "styled-components"
 
-import HomeLayout from "../components/layouts/Home"
+import GlobalLayout from "../components/layouts/Global"
 import Header from "../components/navigations/Header"
 import Footer from "../components/navigations/Footer"
 import Slider from "../components/slider/index"
@@ -15,7 +15,7 @@ const HomePage = Styled.div`
 
 function home() {
   return (
-    <HomeLayout>
+    <GlobalLayout>
       <HomePage>
         <div className="container">
           <Header />
@@ -30,21 +30,21 @@ function home() {
           {/* newest products */}
           <MarketplaceBox title="Produk Baru Siap COD" />
           <div className="grid-center p-t-30 p-b-50">
-            <Button text="Ke Marketplace" />
+            <Button onClick={() => location.href="/marketplace"} text="Ke Marketplace" />
           </div>
           {/* end of newest products */}
 
           {/* blog */}
           <BlogBox />
           <div className="grid-center p-t-30 p-b-50">
-            <Button text="Ke Blog" />
+            <Button onClick={() => location.href="/blog"} text="Ke Blog" />
           </div>
           {/* end of blog */}
 
           <Footer />
         </div>
       </HomePage>
-    </HomeLayout>
+    </GlobalLayout>
   )
 }
 
