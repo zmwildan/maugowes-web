@@ -97,6 +97,14 @@ const AvailableMenu = [
   {
     name: "Blog",
     link: "/blog"
+  },
+  {
+    name: "Marketplace",
+    link: "/marketplace"
+  },
+  {
+    name: "Rangking Goweser",
+    link: "/rangking"
   }
 ]
 

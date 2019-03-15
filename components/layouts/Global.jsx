@@ -6,10 +6,17 @@ import { color_black_main } from "../Const"
 const GlobalLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
   color: ${color_black_main};
+
+  // form components global style
+  select {
+    background: #FFF;
+    border: none;
+    outline: none
+  }
   
   // global class
   .container {
-    width: 1000px;
+    width: 1150px;
     margin: 0 auto;
   }
   .align-center {
