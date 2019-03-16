@@ -5,6 +5,10 @@ const SidebarMarketplaceSytled = Styled.div`
   .sidebar-items {
     margin-bottom: 10px;
     padding-right: 20px;
+    &.sidebar-items_fixed {
+      position: fixed;
+      top: 0;
+    }
     h2.title {
       text-transform: uppercase;
       font-size: 18px;
@@ -74,24 +78,68 @@ const dummyCats = [
 ]
 
 export default class SidebarMarketplace extends React.Component {
-  state = {
-    activeCat: null
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeCat: null,
+      sidebarWidth: 0,
+      sidebarFixed: false
+    }
+    this.scrollHandler = this.scrollHandler.bind(this)
+  }
+
+  componentDidMount() {
+    const sidebarWidth = document.getElementById("sidebar-marketplace").clientWidth - 20
+    this.setState({ sidebarWidth }, () => {
+      // scroll listener
+      document.addEventListener("scroll", this.scrollHandler)
+    })
+  }
+
+  scrollHandler() {
+    console.log(window.pageYOffset)
+    if(window.pageYOffset >= 710 ) {
+      if(this.state.sidebarFixed === false) {
+        this.setState({
+          sidebarFixed: true
+        })
+      }
+    } else{
+      if(this.state.sidebarFixed === true) {
+        this.setState({
+          sidebarFixed: false
+        })
+      }
+    }
   }
 
   render() {
     return (
-      <SidebarMarketplaceSytled>
-        <div className="sidebar-items">
+      <SidebarMarketplaceSytled id="sidebar-marketplace">
+        <div
+          className={`sidebar-items ${
+            this.state.sidebarFixed ? "sidebar-items_fixed" : ""
+          }`}
+          style={{
+            width: this.state.sidebarFixed ? this.state.sidebarWidth : "inherit"
+          }}>
           <h2 className="title">Categories</h2>
           <div className="categories">
             {dummyCats.map((category, catKey) => {
               return (
                 <div className="category-item" key={catKey}>
                   <a
-                    onClick={() => this.setState({ activeCat: this.state.activeCat === catKey ? null : catKey })}
+                    onClick={() =>
+                      this.setState({
+                        activeCat:
+                          this.state.activeCat === catKey ? null : catKey
+                      })
+                    }
                     href="javascript:;">
                     {category.name}
-                    <span style={{float:"right"}}>{this.state.activeCat === catKey ? "-" : "+"}</span>
+                    <span style={{ float: "right" }}>
+                      {this.state.activeCat === catKey ? "-" : "+"}
+                    </span>
                   </a>
                   <div
                     className={`subcategories ${
@@ -102,10 +150,11 @@ export default class SidebarMarketplace extends React.Component {
                         <div className={`subcategory-item`} key={subKey}>
                           <a href="#">{subcategory.name}</a>
                         </div>
-                      )})}
-                      <div className={`subcategory-item`}>
-                       <a href="#">Semua Kategori</a>
-                      </div>
+                      )
+                    })}
+                    <div className={`subcategory-item`}>
+                      <a href="#">Semua Kategori</a>
+                    </div>
                   </div>
                 </div>
               )
