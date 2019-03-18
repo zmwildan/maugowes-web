@@ -2,8 +2,6 @@ import Styled from "styled-components"
 
 import GlobalLayout from "../components/layouts/Global"
 import DefaultLayout from "../components/layouts/Default"
-import Header from "../components/navigations/Header"
-import Footer from "../components/navigations/Footer"
 import Slider from "../components/slider/index"
 import SliderItem from "../components/cards/CardHomeSlider"
 import MarketplaceBox from "../components/boxs/MarketplaceBox"

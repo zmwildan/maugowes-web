@@ -3,10 +3,14 @@ import React from "react"
 import GlobalLayout from "../components/layouts/Global"
 import DefaultLayout from "../components/layouts/Default"
 import Styled from "styled-components"
+import Tab from "../components/navigations/Tab"
+import HeaderLvl2 from "../components/navigations/HeaderLvl2"
+import MarketplaceBox from "../components/boxs/MarketplaceBox"
 import { color_gray_dark, color_gray_medium } from "../components/Const";
 
 const ProductStyled = Styled.div`
   margin-top: 80px;
+  margin-bottom: 90px;
   font-size: 14px;
   .product-page-left {
     .preview-product {
@@ -55,6 +59,7 @@ const ProductStyled = Styled.div`
     padding: 10px 0;
   }
   .product-shortdesc {
+    line-height: 1.8;
     padding: 20px 0;
     margin: 10px 0;
     border-top: 1px solid ${color_gray_medium};
@@ -71,7 +76,16 @@ const ProductStyled = Styled.div`
       margin-right: 20px;
     }
   }
+  .product-description {
+    line-height: 1.8;
+    color: ${color_gray_dark};
+  }
 `
+
+const TabContent = [
+  {text: "Deskripsi Produk", link: "/product/description"},
+  {text: "Diskusi", link: "/product/discussions"},
+]
 
 class ProductPage extends React.Component {
   static async getInitialProps({query}) {
@@ -82,6 +96,8 @@ class ProductPage extends React.Component {
       <GlobalLayout>
         <DefaultLayout>
           <ProductStyled className="product-page">
+
+            {/*top view*/}
             <div className="grid">
               <div className="col-4 product-page-left">
                 <div className="preview-product">
@@ -96,7 +112,7 @@ class ProductPage extends React.Component {
               </div>
               <div className="col-6 product-page-right">
                 <div className="product-title">
-                  <h1>Argon 81 Special Edition</h1>
+                  <h1>Argon 81 Krypton Red</h1>
                 </div>
                 <div className="product-rate">
                   <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
@@ -111,7 +127,7 @@ class ProductPage extends React.Component {
                   <strong>COD:</strong> di Sleman
                 </div>
                 <div className="product-price">
-                  Rp 19.000.000,-
+                  Rp 23.000.000,-
                 </div>
                 <div className="product-shortdesc">
                   Curabitur semper varius lectus sed consequat. Nam accumsan dapibus sem, sed lobortis nisi porta vitae. Ut quam tortor, facilisis nec laoreet consequat, malesuada a massa. Proin pretium tristique leo et imperdiet.
@@ -129,6 +145,33 @@ class ProductPage extends React.Component {
                 </div>
               </div>
             </div>
+            {/*end of top view*/}
+
+            {/*bottom view*/}
+            <div className={"grid"}>
+              <div className={"col-12"}>
+                <Tab tabContent={TabContent} />
+              </div>
+              <div className={"col-12 product-description"}>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id erat a nisl consequat elementum aliquam et sem. Maecenas augue felis, rutrum ut facilisis at, auctor id nisl. Ut vestibulum iaculis turpis, eget condimentum mi volutpat eget. Ut convallis luctus mauris, dapibus vestibulum dui tristique ut. Morbi sed felis tellus. Aenean consectetur diam et accumsan molestie. Donec consequat tortor in pulvinar finibus.
+                  <br/>
+                  Integer nec rutrum sem. Pellentesque convallis enim vel nulla ornare faucibus. Nam ullamcorper erat quis porta finibus. Maecenas quis tincidunt ligula. Ut ornare fringilla lorem, sit amet tincidunt risus congue vitae. In id dui vehicula urna pretium gravida ut id ipsum. Mauris tincidunt consequat interdum. Ut pulvinar nibh in est pulvinar, ullamcorper scelerisque est finibus. Sed id est hendrerit, semper mi et, sollicitudin erat. Quisque accumsan odio non pretium euismod.
+                </p>
+              </div>
+            </div>
+            {/*end of bottom view*/}
+
+            {/*related product*/}
+            <HeaderLvl2 title={"Produk Lainnya"} />
+
+            <div className={"grid"}>
+              <div className={"col-12"}>
+                <MarketplaceBox noMarginTop />
+              </div>
+            </div>
+            {/*end of related product*/}
+
           </ProductStyled>
         </DefaultLayout>
       </GlobalLayout>

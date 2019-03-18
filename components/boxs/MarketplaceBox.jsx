@@ -3,7 +3,7 @@ import Styled from "styled-components"
 import CardProduct from "../cards/CardProduct"
 
 const MarketplaceBoxStyled = Styled.div`
-  margin-top: 40px;
+  margin-top: ${props => props.noMarginTop ? 0 : "50px"};
   h2 {
     font-size: 23px;
     margin-bottom: 30px;
@@ -16,10 +16,10 @@ const MarketplaceBoxStyled = Styled.div`
 
 export default props => {
   return (
-    <MarketplaceBoxStyled>
-      <div className="grid">
-        <h2>{props.title || "Marketplace"}</h2>
-      </div>
+    <MarketplaceBoxStyled noMarginTop={props.noMarginTop}>
+      {props.title ? <div className="grid">
+        <h2>{props.title}</h2>
+      </div> : null}
       <div className="grid container-card-product">
         <CardProduct />
         <CardProduct />
