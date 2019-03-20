@@ -45,7 +45,7 @@ const defaultMetadata = {
 export default class HomeLayout extends React.Component {
 
   render = () => {
-    const { children, metadata = defaultMetadata  } = this.props 
+    const { children, metadata = defaultMetadata, script = []  } = this.props 
 
     return (
       <React.Fragment>
@@ -57,6 +57,13 @@ export default class HomeLayout extends React.Component {
           <link rel="stylesheet" href="/static/vendor/gridlex/gridlex.min.css" />
           <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500,700" rel="stylesheet" />
           <title>{metadata.title}</title>
+          {
+            script.length > 0 ?
+              script.map((n, key) => {
+                  return <script src={n.src} key={key}></script>
+                })
+            : null
+          }
         </Head>
 
         <GlobalLayoutStyled>

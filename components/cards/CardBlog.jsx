@@ -53,7 +53,7 @@ const CardBlogStyled = Styled.div`
 export default props => {
   return (
     <CardBlogStyled className="col-4">
-      <Link href="/blog?id=1" as="/blog/1">
+      <Link href="/blog/detail?id=1" as="/blog/1">
         <div
           className="card-blog"
           style={{
@@ -61,12 +61,16 @@ export default props => {
           }}>
           <div className="card-blog-title">
             <span className="card-blog-label">
-              <a href="#">news</a>
+              <Link href="/blog?tag=news">
+                <a href="/blog?tag=news">news</a>
+              </Link>
             </span>
             <h3>
-              <a href="#">
-                This is Title of the Post cukup panjang dan gila apa adanya
-              </a>
+              <Link href="/blog/detail?id=1">
+                <a href="/blog/detail?id=1">
+                  This is Title of the Post cukup panjang dan gila apa adanya
+                </a>
+              </Link>
             </h3>
           </div>
         </div>

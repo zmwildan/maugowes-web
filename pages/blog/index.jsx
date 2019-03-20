@@ -1,9 +1,9 @@
 import Styled from "styled-components"
-import GlobalLayout from "../components/layouts/Global"
-import DefaultLayout from "../components/layouts/Default"
-import Header from "../components/boxs/FullWidthHeader"
-import BlogBox from "../components/boxs/BlogBox"
-import Pagination from "../components/navigations/Pagination"
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
+import Header from "../../components/boxs/FullWidthHeader"
+import BlogBox from "../../components/boxs/BlogBox"
+import Pagination from "../../components/navigations/Pagination"
 
 const BlogStyled = Styled.div`
 
