@@ -49,14 +49,14 @@ export default props => {
   return (
     <RowProduct className="grid">
       <div className="col-3 row-product-left">
-        <Link href="/product?id=1">
+        <Link href="/product/1">
           <img src="/static/images/dummies/product-1.jpg" alt="product image" />
         </Link>
       </div>
       <div className="col-9 row-product-right">
         <div>
           <React.Fragment>
-            <Link href="/product?id=1">
+            <Link href="/product/1">
               <h2>Stem Zipp Course SL</h2>
             </Link>
             <div className="row-product-right_price">Rp800.000</div>
@@ -83,7 +83,7 @@ export default props => {
               style={{ marginTop: 30 }}
               text="Selengkapnya"
               type="link"
-              target="/product?id=1"
+              target="/product/1"
               size="small"
               color="black"
             />
