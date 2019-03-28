@@ -16,6 +16,29 @@ const CardBlogStyled = Styled.div`
     background-position: top center;
     cursor: pointer;
 
+    .btn-play-video {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -40px;
+      margin-left: -40px;
+      transition: margin .5s ease;
+      img {
+        width: 80px;
+        height: 80px;
+        transition: all .5s ease;
+      }
+      &:hover {
+        margin-top: -50px;
+        margin-left: -50px;
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
     .card-blog-title {
       bottom: 0;
       position: absolute;
@@ -59,6 +82,16 @@ export default props => {
           style={{
             backgroundImage: `url('/static/images/dummies/blog-1.jpeg')`
           }}>
+          {props.isVideo ? (
+            <a className="btn-play-video" href="/video/1" title="play-audio">
+              <img
+                src="https://img.icons8.com/color/80/000000/circled-play.png"
+                alt="play"
+              />
+            </a>
+          ) : (
+            ""
+          )}
           <div className="card-blog-title">
             <span className="card-blog-label">
               <Link href="/blog?tag=news">

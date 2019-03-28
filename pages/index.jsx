@@ -34,14 +34,14 @@ function home() {
           {/* videos */}
           <VideoBox />
           <div className="grid-center p-t-30 p-b-50">
-            <Button type="link" target="/videos" text="Ke Videos" />
+            <Button type="link" target="/videos" text="Lihat Video" />
           </div>
           {/* end of videos */}
 
           {/* blog */}
           <BlogBox />
           <div className="grid-center p-t-30 p-b-50">
-            <Button type="link" target="/blog" text="Ke Blog" />
+            <Button type="link" target="/blog" text="Baca Blog" />
           </div>
           {/* end of blog */}
         </HomePage>

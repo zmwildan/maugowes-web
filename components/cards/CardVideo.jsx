@@ -1,5 +1,19 @@
 import Styled from "styled-components"
 
+const VideoCard = Styled.div`
+ .video-card-title {
+
+ } 
+
+ .video-card-background {
+
+ }
+`
+
 export default props => {
-  return <div>this is video haha</div>
+  return <VideoCard>
+    <div className="video-card-background">
+
+    </div>
+  </VideoCard>
 }
