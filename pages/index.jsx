@@ -6,6 +6,7 @@ import Slider from "../components/slider/index"
 import SliderItem from "../components/cards/CardHomeSlider"
 import MarketplaceBox from "../components/boxs/MarketplaceBox"
 import BlogBox from "../components/boxs/BlogBox"
+import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
 
 const HomePage = Styled.div`
@@ -29,6 +30,13 @@ function home() {
             <Button type="link" target="/marketplace" text="Ke Marketplace" />
           </div>
           {/* end of newest products */}
+
+          {/* videos */}
+          <VideoBox />
+          <div className="grid-center p-t-30 p-b-50">
+            <Button type="link" target="/videos" text="Ke Videos" />
+          </div>
+          {/* end of videos */}
 
           {/* blog */}
           <BlogBox />
