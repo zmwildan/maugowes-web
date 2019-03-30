@@ -1,8 +1,11 @@
 import Styled from "styled-components"
 import Card from "../cards/CardBlog"
 import { color_blue_main } from "../Const"
+import Loader from "../Loader"
+import Error from "../cards/CardError"
+import Button from "../buttons/index"
 
-const VideoBox = Styled.div`
+const VideoBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
   .video-box-title {
     border-bottom: 2px solid ${color_blue_main};
@@ -11,9 +14,10 @@ const VideoBox = Styled.div`
   }
 `
 
-export default props => {
+const VideoBox = props => {
+  const { results, status, nextPageToken, message } = props.data
   return (
-    <VideoBox noHeaderTitle={props.noHeaderTitle}>
+    <VideoBoxStyled noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
         <div className="grid-center">
           <h2 className="video-box-title">
@@ -22,12 +26,35 @@ export default props => {
         </div>
       ) : null}
 
-      <div className="grid">
-        <Card isVideo />
-        <Card isVideo />
-        <Card isVideo />
-        <Card isVideo />
-      </div>
-    </VideoBox>
+      {status ? (
+        results && results.length > 0 ? (
+          <div className="grid">
+            {results.map((n, key) => {
+              return <Card key={key} isVideo data={n} />
+            })}
+          </div>
+        ) : null
+      ) : (
+        <Loader />
+      )}
+
+      {status && status !== 200 ? <Error text={message} /> : null}
+
+      {props.loadmoreHandler && nextPageToken ? (
+        <div className="grid-center">
+          <Button
+            text="Video Berikutnya"
+            size="small"
+            onClick={() => props.loadmoreHandler()}
+          />
+        </div>
+      ) : null}
+    </VideoBoxStyled>
   )
 }
+
+VideoBox.defaultProps = {
+  data: {}
+}
+
+export default VideoBox

@@ -74,35 +74,49 @@ const CardBlogStyled = Styled.div`
 `
 
 export default props => {
+  const { data = {} } = props || {}
+  const linkUrl = props.isVideo
+    ? `https://www.youtube.com/watch?v=${data.id}`
+    : `/blog/1`
+  const linkTarget = props.isVideo ? "_blank" : ""
+  const linkTitle = props.isVideo ? "play audio" : "read blog"
   return (
     <CardBlogStyled className="col-4">
-      <Link href="/blog/detail?id=1" as="/blog/1">
+      <Link href={linkUrl} target={linkTarget} title={linkTitle}>
         <div
           className="card-blog"
           style={{
-            backgroundImage: `url('/static/images/dummies/blog-1.jpeg')`
+            backgroundImage: `url(${
+              data.thumbnails
+                ? data.thumbnails.high.url
+                : "/static/images/no-image.png"
+            })`
           }}>
           {props.isVideo ? (
-            <a className="btn-play-video" href="/video/1" title="play-audio">
+            <a
+              className="btn-play-video"
+              href={linkUrl}
+              target={linkTarget}
+              title={linkTitle}>
               <img
-                src="https://img.icons8.com/color/80/000000/circled-play.png"
-                alt="play"
+                src={"https://img.icons8.com/color/80/000000/circled-play.png"}
+                alt="play video"
               />
             </a>
           ) : (
             ""
           )}
           <div className="card-blog-title">
-            <span className="card-blog-label">
-              <Link href="/blog?tag=news">
-                <a href="/blog?tag=news">news</a>
-              </Link>
-            </span>
+            {data.label && data.label.length > 0 ? (
+              <span className="card-blog-label">
+                <Link href="/blog/tag/news">
+                  <a href="/blog/tag/news">news</a>
+                </Link>
+              </span>
+            ) : null}
             <h3>
               <Link href="/blog/detail?id=1">
-                <a href="/blog/detail?id=1">
-                  This is Title of the Post cukup panjang dan gila apa adanya
-                </a>
+                <a href="/blog/detail?id=1">{data.title}</a>
               </Link>
             </h3>
           </div>
