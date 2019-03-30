@@ -5,6 +5,7 @@
 const express = require("express")
 const next = require("next")
 const bodyParser = require("body-parser")
+const ApiRoutes = require("./routers/api")
 
 // config
 const PORT = process.env.PORT || 2019
@@ -23,10 +24,10 @@ nextApp.prepare().then(() => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
+  // api endpoints
+  app.use("/api", ApiRoutes)
+
   // all next stuff
-
-  
-
   app.get("*", (req, res) => {
     return handle(req, res) // for all the react stuff
   })
