@@ -77,11 +77,23 @@ export default props => {
             belanja pula.
           </p>
           <div className="footer-social-link text-black">
-            <span style={{marginRight: 20}}>Social:</span>
-            <span style={{marginTop: 5}}>
-              <a className="footer-social-link_a" href="https://youtube.com"><img src="https://img.icons8.com/ios-glyphs/15/000000/youtube-play.png" /></a>
-              <a className="footer-social-link_a" href="https://facebook.com"><img src="https://img.icons8.com/android/15/000000/facebook.png" /></a>
-              <a className="footer-social-link_a" href="https://twitter.com"><img src="https://img.icons8.com/android/15/000000/twitter.png" /></a>
+            <span style={{ marginRight: 20 }}>Social:</span>
+            <span style={{ marginTop: 5 }}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link_a"
+                href="https://www.youtube.com/channel/UCc0sgRlqAJCWejiiSIDJjdg">
+                <img src="https://img.icons8.com/ios-glyphs/15/000000/youtube-play.png" />
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link_a"
+                href="https://facebook.com/maugowes">
+                <img src="https://img.icons8.com/android/15/000000/facebook.png" />
+              </a>
+              {/* <a className="footer-social-link_a" href="https://twitter.com"><img src="https://img.icons8.com/android/15/000000/twitter.png" /></a> */}
             </span>
           </div>
         </div>
@@ -91,9 +103,15 @@ export default props => {
               <div className="footer-content-title">Informasi</div>
               <div className="footer-content-list">
                 <ul>
-                  <li><a href="/about">Tentang Kami</a></li>
-                  <li><a href="/terms-of-service">Syarat dan Ketentuan</a></li>
-                  <li><a href="/help">Bantuan</a></li>
+                  <li>
+                    <a href="/about">Tentang Kami</a>
+                  </li>
+                  <li>
+                    <a href="/terms-of-service">Syarat dan Ketentuan</a>
+                  </li>
+                  <li>
+                    <a href="/help">Bantuan</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -101,9 +119,15 @@ export default props => {
               <div className="footer-content-title">Fitur</div>
               <div className="footer-content-list">
                 <ul>
-                  <li><a href="/marketplace">Marketplace</a></li>
-                  <li><a href="/blog">Blog</a></li>
-                  <li><a href="/video">Video</a></li>
+                  <li>
+                    <a href="/marketplace">Marketplace</a>
+                  </li>
+                  <li>
+                    <a href="/blog">Blog</a>
+                  </li>
+                  <li>
+                    <a href="/video">Video</a>
+                  </li>
                 </ul>
               </div>
             </div>
