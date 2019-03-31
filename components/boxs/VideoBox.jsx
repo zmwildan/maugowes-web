@@ -41,10 +41,10 @@ const VideoBox = props => {
       {status && status !== 200 ? <Error text={message} /> : null}
 
       {props.loadmoreHandler && nextPageToken ? (
-        <div className="grid-center">
+        <div className="grid-center" style={{ marginBottom: 20 }}>
           <Button
             text="Video Berikutnya"
-            size="small"
+            size="large"
             onClick={() => props.loadmoreHandler()}
           />
         </div>
