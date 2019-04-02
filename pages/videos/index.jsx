@@ -1,4 +1,5 @@
 import Styled from "styled-components"
+import {connect} from "react-redux"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
@@ -11,18 +12,29 @@ const BlogStyled = Styled.div`
   
 `
 
-export default class VideosPage extends React.Component {
+class VideosPage extends React.Component {
   static async getInitialProps() {
     const videosResponse = await fetch(`${config[process.env.NODE_ENV].host}/api/videos`)
     const videos = await videosResponse.json()
     return { videos }
   }
 
-  loadmoreHandler() {}
+  state = {
+    isLoading: false
+  }
+
+  loadmoreHandler() {
+    if(!this.state.isLoading) {
+      console.log("load more content...")
+      this.setState({
+        isLoading: true
+      })
+    }
+  }
 
   render() {
     const { videos } = this.props
-    console.log("videos", videos)
+    console.log(this.props)
     return (
       <GlobalLayout>
         <DefaultLayout>
@@ -34,6 +46,7 @@ export default class VideosPage extends React.Component {
             />
             <VideoBox
               data={videos}
+              isLoading={this.state.isLoading}
               loadmoreHandler={() => this.loadmoreHandler()}
               noHeaderTitle
             />
@@ -43,3 +56,11 @@ export default class VideosPage extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    videosStore: state.Videos
+  }
+}
+
+export default connect(mapStateToProps)(VideosPage)

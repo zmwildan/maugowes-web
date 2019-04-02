@@ -1,10 +1,26 @@
-const { createStore, applyMiddleware, combineReducers } = require("redux")
+import { createStore, applyMiddleware, combineReducers } from "redux"
 
 // reducer
-const Video = require("../redux/videos/reducer")
+import Videos from "../redux/videos/reducer"
+import Blog from "../redux/blog/reducer"
 
 const Reducers = combineReducers({
-  Video
+  Videos,
+  Blog
 })
 
-export default createStore(Reducers, {})
+let Middlewares = applyMiddleware()
+
+if (process.env.NODE_ENV != 'production' && typeof window != 'undefined') { 
+  const {createLogger} = require('redux-logger')
+  const logger = createLogger({})
+  Middlewares = applyMiddleware(logger)
+}
+
+export function initializeStore(initialState = {}) {
+  return createStore(
+    Reducers,
+    initialState,
+    Middlewares
+  )
+}

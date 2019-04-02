@@ -6,6 +6,7 @@ const ButtonStyled = Styled.div`
 
   button, a {
     cursor: pointer;
+    opacity: ${props => props.isDisabled ? 0.8 : 1};
     border: none;
     transition: background .5s ease;
     text-decoration: none;
@@ -56,7 +57,7 @@ const ButtonStyled = Styled.div`
 
 const Button = props => {
   return (
-    <ButtonStyled {...props}>
+    <ButtonStyled {...props} disabled={props.isDisabled}>
       {props.type === "link" ? (
         <Link prefetch href={props.target}>
           <a href={props.target}>{props.text}</a>

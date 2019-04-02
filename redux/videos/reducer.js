@@ -1,3 +1,3 @@
-module.exports = (state = {}, action) {
+export default (state = {"new": {}}, action) => {
   return state
 }

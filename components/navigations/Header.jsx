@@ -1,6 +1,7 @@
 import React from "react"
 import Styled from "styled-components"
 import { color_gray_soft, color_black_main, color_blue_main } from "../Const"
+import Link from "next/link"
 import initialDropdown from "../../modules/dropdown"
 
 // components
@@ -230,9 +231,11 @@ class Header extends React.Component {
                         </div>
                       </Dropdown>
                     ) : (
-                      <a className="header-top-menu_link" href={n.link}>
-                        {n.name}
-                      </a>
+                      <Link prefetch href={n.link}>
+                        <a className="header-top-menu_link" href={n.link}>
+                          {n.name}
+                        </a>
+                      </Link>
                     )}
                   </li>
                 )

@@ -20,7 +20,6 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    console.log("loaded...")
     return (
       <html>
         <Head>

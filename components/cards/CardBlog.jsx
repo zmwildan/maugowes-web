@@ -78,11 +78,11 @@ export default props => {
   const linkUrl = props.isVideo
     ? `https://www.youtube.com/watch?v=${data.id}`
     : `/blog/1`
-  const linkTarget = props.isVideo ? "_blank" : ""
-  const linkTitle = props.isVideo ? "play audio" : "read blog"
+  const linkTarget = props.isVideo ? "_blank" : "_self"
+  const linkTitle = props.isVideo ? "play video" : "read blog"
   return (
     <CardBlogStyled className="col-4">
-      <Link href={linkUrl} target={linkTarget} title={linkTitle}>
+      <Link href={linkUrl}>
         <div
           className="card-blog"
           style={{
@@ -114,11 +114,13 @@ export default props => {
                 </Link>
               </span>
             ) : null}
-            <h3>
-              <Link href="/blog/detail?id=1">
-                <a href="/blog/detail?id=1">{data.title}</a>
-              </Link>
-            </h3>
+            {!props.isVideo ? (
+              <h3>
+                <Link href="/blog/detail?id=1">
+                  <a href="/blog/detail?id=1">{data.title}</a>
+                </Link>
+              </h3>
+            ) : null}
           </div>
         </div>
       </Link>
