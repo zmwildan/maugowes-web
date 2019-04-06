@@ -116,8 +116,8 @@ export default props => {
             ) : null}
             {!props.isVideo ? (
               <h3>
-                <Link href="/blog/detail?id=1">
-                  <a href="/blog/detail?id=1">{data.title}</a>
+                <Link href="/blog/detail/1">
+                  <a href="/blog/detail/1">{data.title || "Judul Postingan"}</a>
                 </Link>
               </h3>
             ) : null}

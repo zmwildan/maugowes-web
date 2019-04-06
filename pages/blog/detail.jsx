@@ -9,6 +9,7 @@ import {
   color_black_main,
   color_gray_soft
 } from "../../components/Const"
+import Disqus from "../../components/boxs/Disqus"
 
 const BlogDetailStyled = Styled.div`
   position: relative;
@@ -53,11 +54,12 @@ const BlogDetailStyled = Styled.div`
     margin: 20px 0;
     a {
       &:hover {
-        background: ${color_gray_soft};
+        background: #FFF;
+        border: 1px solid ${color_gray_soft};
       }
       cursor: pointer;
       padding: 5px 10px;
-      background: ${color_gray_medium};
+      background: ${color_gray_soft};
       color: ${color_black_main};
       text-decoration: none;
       margin-right: 10px;
@@ -66,7 +68,18 @@ const BlogDetailStyled = Styled.div`
 `
 
 export default class BlogDetail extends React.Component {
+  static async getInitialProps({ query }) {
+    return { id: query.id }
+  }
+
+  state = {}
+
+  componentDidMount() {
+    this.setState({ windowReady: true })
+  }
+
   render() {
+    const { id } = this.props
     return (
       <GlobalLayout>
         <DefaultLayout>
@@ -144,19 +157,30 @@ export default class BlogDetail extends React.Component {
               </div>
             </div>
             {/* list tag of post */}
-            <div className="grid-center blog-detail_tag">
-              <Link href="/blog/tag/tag-1">
-                <a>tag 1</a>
-              </Link>
+            <div className="grid-center">
+              <div className="col-7 blog-detail_tag">
+                <Link href="/blog/tag/tag-1">
+                  <a>tag 1</a>
+                </Link>
 
-              <Link href="/blog/tag/tag-1">
-                <a>tag 1</a>
-              </Link>
+                <Link href="/blog/tag/tag-1">
+                  <a>tag 1</a>
+                </Link>
+              </div>
             </div>
             {/* end of list tag of post */}
 
             {/* comment */}
-            <div className="blog-detail_comment grid-center">lala</div>
+            <div className="grid-center">
+              <div className="col-7 blog-detail_comment">
+                {this.state.windowReady ? (
+                  <Disqus
+                    url={`${window.location.origin}/blog/${id}`}
+                    identifier={`maugowes-${id}`}
+                  />
+                ) : null}
+              </div>
+            </div>
             {/* end of comment */}
           </BlogDetailStyled>
         </DefaultLayout>
