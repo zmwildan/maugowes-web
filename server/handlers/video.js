@@ -13,7 +13,8 @@ module.exports = {
   getListYoutubeVideos: function(req, res, next) {
     youtubeReq(
       "get",
-      `/youtube/v3/search?order=date&part=snippet&channelId=UCc0sgRlqAJCWejiiSIDJjdg&maxResults=6&key=${
+      `/youtube/v3/search?order=date&part=snippet&channelId=UCc0sgRlqAJCWejiiSIDJjdg&maxResults=${req
+        .query.maxResults || 6}&key=${
         process.env.GOOGLE_TOKEN
       }&type=video`,
       response => {
