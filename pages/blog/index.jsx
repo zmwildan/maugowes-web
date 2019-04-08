@@ -27,9 +27,8 @@ const Dummy = [
 class Blog extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
     reduxStore.dispatch(fetchBlog("new"))
-    console.log(reduxStore)
     reduxStore.dispatch(fetchBlog("new", Dummy))
-    return {}
+    return {reduxStore}
   }
 
   render() {

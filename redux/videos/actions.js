@@ -6,8 +6,10 @@ export const GET_VIDEOS = "GET_VIDEOS"
  * @param {object} params
  * @param {object} params.query query of request 
  */
-export function fetchVideos(filter="",params={}) {
+export function fetchVideos(filter="",data={}) {
   return {
-    type: GET_VIDEOS
+    type: GET_VIDEOS,
+    filter, 
+    data
   }
 }

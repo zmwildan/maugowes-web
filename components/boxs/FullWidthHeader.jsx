@@ -41,7 +41,6 @@ class FullWidthHeader extends React.Component {
   }
 
   spacerHeightSetter(){
-    console.log("handle set spacer height...")
     const HeaderEl = document.getElementById("full-width-header")
     const SpacerEl = document.getElementById("full-width-spacer")
     SpacerEl.style.height = `${HeaderEl.offsetHeight}px`

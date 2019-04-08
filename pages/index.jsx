@@ -1,4 +1,5 @@
 import Styled from "styled-components"
+import { connect } from "react-redux"
 
 import GlobalLayout from "../components/layouts/Global"
 import DefaultLayout from "../components/layouts/Default"
@@ -50,4 +51,10 @@ function home() {
   )
 }
 
-export default home
+const mapStateToProps = state => {
+  return {
+    videos: state.Videos
+  }
+}
+
+export default connect()(home)
