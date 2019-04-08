@@ -1,6 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
-import Card from "../cards/CardBlog"
+import Card from "../cards/CardVideo"
 import { color_blue_main } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
@@ -32,7 +32,7 @@ class VideoBox extends React.Component {
           results && results.length > 0 ? (
             <div className="grid">
               {results.map((n, key) => {
-                return <Card key={key} isVideo data={n} />
+                return <Card key={key} data={n} />
               })}
             </div>
           ) : null
