@@ -39,7 +39,7 @@ const GlobalLayoutStyled = Styled.div`
 
 
 const defaultMetadata = {
-  title: "Mau Gowes - Yuk Mari"
+  title: "Mau Gowes - Maaaauuu..."
 }
 
 export default class HomeLayout extends React.Component {
