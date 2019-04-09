@@ -7,7 +7,7 @@ import VideoBox from "../../components/boxs/VideoBox"
 
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
-import { fetchVideos } from "../../redux/videos/actions"
+import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
 
 const VideoStyled = Styled.div`
   
@@ -16,6 +16,7 @@ const VideoStyled = Styled.div`
 const StoreFilter = "list"
 
 class VideosPage extends React.Component {
+
   static async getInitialProps({ reduxStore }) {
 
     if (typeof window == "undefined") {
@@ -27,7 +28,7 @@ class VideosPage extends React.Component {
       reduxStore.dispatch(fetchVideos(StoreFilter, videos))
     }
    
-    return { reduxStore }
+    return {}
   }
 
   state = {
@@ -36,23 +37,27 @@ class VideosPage extends React.Component {
 
   async componentDidMount() {
     const videosState = this.props.videos.list || {}
-
     if(!videosState.status) {
-      this.props.reduxStore.dispatch(fetchVideos(StoreFilter))
+      this.props.dispatch(fetchVideos(StoreFilter))
       const videosResponse = await fetch(
         `${config[process.env.NODE_ENV].host}/api/videos`
       )
       const videos = await videosResponse.json()
-      this.props.reduxStore.dispatch(fetchVideos(StoreFilter, videos))
+      this.props.dispatch(fetchVideos(StoreFilter, videos))
     }
   }
 
-  loadmoreHandler() {
-    if (!this.state.isLoading) {
+  async loadmoreHandler() {
+    const videosState = this.props.videos[StoreFilter] || {}
+    if (!videosState.is_loading && videosState.nextPageToken) {
+      console.log("video", videosState)
       console.log("load more content...")
-      this.setState({
-        isLoading: true
-      })
+      this.props.dispatch(fetchMoreVideos(StoreFilter))
+      const videosResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${videosState.nextPageToken}`
+      )
+      const videos = await videosResponse.json()
+      this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
     }
   }
 
@@ -69,8 +74,7 @@ class VideosPage extends React.Component {
             />
             <VideoBox
               data={videos}
-              isLoading={this.state.isLoading}
-              loadmoreHandler={() => this.loadmoreHandler()}
+              loadmoreHandler={ () => this.loadmoreHandler()}
               noHeaderTitle
             />
           </VideoStyled>

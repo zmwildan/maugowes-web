@@ -44,7 +44,7 @@ class Home extends React.Component{
         `${config[process.env.NODE_ENV].host}/api/videos?maxResults=3`
       )
       const videos = await videosResponse.json()
-      this.props.reduxStore.dispatch(fetchVideos("new", videos))
+      this.props.reduxStore.dispatch(("new", videos))
     }
   }
 

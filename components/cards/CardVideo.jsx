@@ -6,8 +6,12 @@ import RelativeTime from "dayjs/plugin/relativeTime"
 Dayjs.extend(RelativeTime)
 
 const VideoCard = Styled.div`
-  border: 1px solid ${color_gray_soft};
+  border: 1px solid #FFF;
   margin-bottom: 25px;
+
+  &:hover {
+    border: 1px solid ${color_gray_soft};
+  }
  
  .video-card-meta {
   padding: 15px;
@@ -33,8 +37,13 @@ const VideoCard = Styled.div`
  .video-card-cover {
   position: relative;
   height: 200px;
-  background-size: cover;
+  background-size: 100%;
   background-position: center;
+  transition: background .5s ease;
+  background-repeat: no-repeat;
+  &:hover {
+    background-size: 400px;
+  }
   .btn-play-video {
     position: absolute;
     left: 50%;

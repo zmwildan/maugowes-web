@@ -17,7 +17,13 @@ const VideoBoxStyled = Styled.div`
 
 class VideoBox extends React.Component {
   render() {
-    const { results, status, nextPageToken, message } = this.props.data
+    const {
+      results,
+      status,
+      nextPageToken,
+      message,
+      is_loading
+    } = this.props.data
     return (
       <VideoBoxStyled noHeaderTitle={this.props.noHeaderTitle}>
         {!this.props.noHeaderTitle ? (
@@ -36,18 +42,18 @@ class VideoBox extends React.Component {
               })}
             </div>
           ) : null
-        ) : (
-          <Loader />
-        )}
+        ) : null}
+
+        {is_loading ? <Loader /> : null}
 
         {status && status !== 200 ? <Error text={message} /> : null}
 
-        {this.props.loadmoreHandler && nextPageToken ? (
+        {this.props.loadmoreHandler && nextPageToken && !is_loading ? (
           <div className="grid-center" style={{ margin: "20px 0 40px" }}>
             <Button
               type="button"
-              isDisabled={this.props.isLoading}
-              text={!this.props.isLoading ? "Video Berikutnya" : "Loading..."}
+              isDisabled={is_loading}
+              text={!is_loading ? "Video Berikutnya" : "Loading..."}
               size="large"
               onClick={() => this.props.loadmoreHandler()}
             />
