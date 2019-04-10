@@ -17,18 +17,18 @@ const StoreFilter = "list"
 const MaxResults = 7
 
 class VideosPage extends React.Component {
-
   static async getInitialProps({ reduxStore }) {
-
     if (typeof window == "undefined") {
       // only call in server side
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos`
+        `${
+          config[process.env.NODE_ENV].host
+        }/api/videos?maxResults=${MaxResults}`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos(StoreFilter, videos))
     }
-   
+
     return {}
   }
 
@@ -38,10 +38,12 @@ class VideosPage extends React.Component {
 
   async componentDidMount() {
     const videosState = this.props.videos.list || {}
-    if(!videosState.status) {
+    if (!videosState.status) {
       this.props.dispatch(fetchVideos(StoreFilter))
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?&maxResults=${MaxResults}`
+        `${
+          config[process.env.NODE_ENV].host
+        }/api/videos?maxResults=${MaxResults}`
       )
       const videos = await videosResponse.json()
       this.props.dispatch(fetchVideos(StoreFilter, videos))
@@ -55,7 +57,9 @@ class VideosPage extends React.Component {
       console.log("load more content...")
       this.props.dispatch(fetchMoreVideos(StoreFilter))
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${videosState.nextPageToken}&maxResults=${MaxResults}`
+        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${
+          videosState.nextPageToken
+        }&maxResults=${MaxResults}`
       )
       const videos = await videosResponse.json()
       this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
@@ -75,7 +79,7 @@ class VideosPage extends React.Component {
             />
             <VideoBox
               data={videos}
-              loadmoreHandler={ () => this.loadmoreHandler()}
+              loadmoreHandler={() => this.loadmoreHandler()}
               noHeaderTitle
             />
           </VideoStyled>

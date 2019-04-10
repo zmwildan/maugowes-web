@@ -7,7 +7,7 @@ Dayjs.extend(RelativeTime)
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 
   &:hover {
     border: 1px solid ${color_gray_soft};

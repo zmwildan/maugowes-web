@@ -1,7 +1,7 @@
 import React from "react"
 import Styled from "styled-components"
 import Card from "../cards/CardVideo"
-import { color_blue_main } from "../Const"
+import { color_blue_main, color_gray_dark } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
@@ -22,6 +22,7 @@ class VideoBox extends React.Component {
       status,
       nextPageToken,
       message,
+      stats,
       is_loading
     } = this.props.data
     return (
@@ -32,7 +33,9 @@ class VideoBox extends React.Component {
               {this.props.title || "Yang Baru di Video"}
             </h2>
           </div>
-        ) : null}
+        ) : stats ? <center style={{marginBottom: 50}}>
+          Menampilkan <strong>{results.length || 0}</strong> dari <strong>{stats.totalResults}</strong> video
+        </center> : null }
 
         {status ? (
           results && results.length > 0 ? (
