@@ -14,6 +14,7 @@ const VideoStyled = Styled.div`
 `
 
 const StoreFilter = "list"
+const MaxResults = 7
 
 class VideosPage extends React.Component {
 
@@ -40,7 +41,7 @@ class VideosPage extends React.Component {
     if(!videosState.status) {
       this.props.dispatch(fetchVideos(StoreFilter))
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos`
+        `${config[process.env.NODE_ENV].host}/api/videos?&maxResults=${MaxResults}`
       )
       const videos = await videosResponse.json()
       this.props.dispatch(fetchVideos(StoreFilter, videos))
@@ -54,7 +55,7 @@ class VideosPage extends React.Component {
       console.log("load more content...")
       this.props.dispatch(fetchMoreVideos(StoreFilter))
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${videosState.nextPageToken}`
+        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${videosState.nextPageToken}&maxResults=${MaxResults}`
       )
       const videos = await videosResponse.json()
       this.props.dispatch(fetchMoreVideos(StoreFilter, videos))

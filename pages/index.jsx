@@ -26,7 +26,7 @@ class Home extends React.Component{
     if (typeof window == "undefined") {
       // only call in server side
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=3`
+        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos("new", videos))
@@ -41,7 +41,7 @@ class Home extends React.Component{
     if(!videosState.status) {
       this.props.reduxStore.dispatch(fetchVideos("new"))
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=3`
+        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
       )
       const videos = await videosResponse.json()
       this.props.reduxStore.dispatch(("new", videos))

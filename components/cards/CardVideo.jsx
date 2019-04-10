@@ -12,9 +12,37 @@ const VideoCard = Styled.div`
   &:hover {
     border: 1px solid ${color_gray_soft};
   }
+
+  &.video-large {
+    height: 350px;
+
+    .video-card-cover {
+      width: 50%;
+      float: left;
+      height: 100%;
+      .btn-play-video {
+        margin-left: -50px;
+        margin-top: -50px;
+      }
+      .btn-play-video img {
+        width: 100px;
+      }
+    }
+    .video-card-meta {
+      width: calc(50% - 40px);
+      float: left;
+      .video-card-title {
+        height: 253px;
+        h2{
+          font-size: 30px;
+        }
+      }
+    }
+  }
+
  
  .video-card-meta {
-  padding: 15px;
+  padding: 15px 20px;
   .video-card-title {
     height: 100px;
     overflow: hidden;
@@ -37,6 +65,7 @@ const VideoCard = Styled.div`
  .video-card-cover {
   position: relative;
   height: 200px;
+  background-color: #000;
   background-size: 100%;
   background-position: center;
   transition: background .5s ease;
@@ -59,11 +88,11 @@ const VideoCard = Styled.div`
 `
 
 export default props => {
-  const { data = {} } = props || {}
+  const { data = {}, size } = props || {}
   const linkUrl = `https://www.youtube.com/watch?v=${data.id}`
   return (
-    <div className="col-4">
-      <VideoCard>
+    <div className={size === "large" ? "col-8" : "col-4"}>
+      <VideoCard className={size === "large" ? "video-large" : "video-default"}>
         <div
           className="video-card-cover"
           style={{ backgroundImage: `url(${data.thumbnails.high.url})` }}>
@@ -78,6 +107,7 @@ export default props => {
             />
           </a>
         </div>
+
         <div className="video-card-meta">
           <div className="video-card-title">
             <a href={linkUrl} target="_blank">

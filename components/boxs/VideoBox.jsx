@@ -38,7 +38,9 @@ class VideoBox extends React.Component {
           results && results.length > 0 ? (
             <div className="grid">
               {results.map((n, key) => {
-                return <Card key={key} data={n} />
+                let size = "default"
+                if (key === 0 || key % 5 === 0) size = "large"
+                return <Card size={size} key={key} data={n} />
               })}
             </div>
           ) : null
