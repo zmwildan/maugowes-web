@@ -3,11 +3,16 @@ const Router = express.Router()
 
 // handlers
 const VideoHandler = require("../handlers/video")
+const PostHandler = require("../handlers/post")
 
 // api endpoints
 
-// endpoint of /api/videos
+// endpoint of [GET] /api/videos
 Router.get("/videos", VideoHandler.getListYoutubeVideos)
+
+// collection endpoint of blog
+Router.get("/posts", PostHandler.getPosts)
+
 Router.get("*", (req, res, next) => {
   return res.json({
     status: 404,
