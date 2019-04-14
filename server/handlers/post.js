@@ -5,5 +5,10 @@ module.exports = {
     postModule.fetchPosts(req, res, result => {
       res.json(result)
     })
+  },
+  getPost: (req, res, next) => {
+    postModule.fetchPost(req, res, result => {
+      res.json(result)
+    })
   }
 }
