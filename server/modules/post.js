@@ -5,9 +5,9 @@ const postTransformer = require("../transformers/posts")
 module.exports = {
   /**
    * fetch posts list by some parameters
-   * @param {*} req 
-   * @param {*} res 
-   * @param {*} callback 
+   * @param {*} req
+   * @param {*} res
+   * @param {*} callback
    */
   fetchPosts(req, res, callback) {
     const { page, limit, tag } = req.query
@@ -36,7 +36,7 @@ module.exports = {
         .aggregate(aggregate)
         .skip(parseInt(page) || 0)
         .limit(parseInt(limit) || 6)
-        .toArray((err, result) => {
+        .toArray((err, results) => {
           // error from database
           if (err) {
             console.log(err)
@@ -46,15 +46,15 @@ module.exports = {
             })
           }
 
-          if (result.length > 0) {
+          if (results.length > 0) {
             // transform data
-            result.map((n, key) => {
+            results.map((n, key) => {
               n.author = n.author[0]
-              result[key] = postTransformer.post(n)
+              results[key] = postTransformer.post(n)
             })
 
             // success
-            callback({ status: 200, messages: "success", result })
+            callback({ status: 200, messages: "success", results })
           } else {
             callback({ status: 204, message: "no post available" })
           }
@@ -64,15 +64,15 @@ module.exports = {
 
   /**
    * fetch post detail by post id
-   * @param {*} req 
-   * @param {*} res 
-   * @param {*} callback 
+   * @param {*} req
+   * @param {*} res
+   * @param {*} callback
    */
   fetchPost(req, res, callback) {
-    const {id} = req.params
+    const { id } = req.params
     if (id.length != 24) {
-      if(req.no_count) return callback()
-      return callback({ status: 204, messages: "something wrong with mongo"})
+      if (req.no_count) return callback()
+      return callback({ status: 204, messages: "something wrong with mongo" })
     }
 
     mongo().then(db => {
@@ -102,26 +102,35 @@ module.exports = {
           // error from database
           if (err) {
             console.log(err)
-            return callback({ status: 500, messages: "something wrong with mongo"})
+            return callback({
+              status: 500,
+              messages: "something wrong with mongo"
+            })
           }
-  
+
           if (result.length < 1) {
-            if(req.no_count) return callback()
-            return callback({ status: 204, messages: "postingan tidak ditemukan"})
+            if (req.no_count) return callback()
+            return callback({
+              status: 204,
+              messages: "postingan tidak ditemukan"
+            })
           }
-  
+
           // transform result
           const author = result[0].author[0]
           result[0].author = author
-          result =  postTransformer.post(result[0])
-  
+          result = postTransformer.post(result[0])
+
           // update: increment views
-          if(!req.no_count)
+          if (!req.no_count)
             db.collection("posts").update(
               { _id: ObjectId(result._id) },
               { $set: { views: result.views + 1 } }
             )
-          return callback({ status: 200, messages: "success", result })
+          result.status = 200
+          result.message = "success"
+          console.log("result", result)
+          return callback(result)
         })
     })
   }

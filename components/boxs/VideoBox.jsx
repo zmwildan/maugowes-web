@@ -15,58 +15,59 @@ const VideoBoxStyled = Styled.div`
   }
 `
 
-class VideoBox extends React.Component {
-  render() {
-    const {
-      results,
-      status,
-      nextPageToken,
-      message,
-      stats,
-      is_loading
-    } = this.props.data
-    return (
-      <VideoBoxStyled noHeaderTitle={this.props.noHeaderTitle}>
-        {!this.props.noHeaderTitle ? (
-          <div className="grid-center">
-            <h2 className="video-box-title">
-              {this.props.title || "Yang Baru di Video"}
-            </h2>
+const VideoBox = props => {
+  const {
+    results,
+    status,
+    nextPageToken,
+    message,
+    stats,
+    is_loading
+  } = props.data
+  return (
+    <VideoBoxStyled noHeaderTitle={props.noHeaderTitle}>
+      {!props.noHeaderTitle ? (
+        <div className="grid-center">
+          <h2 className="video-box-title">
+            {props.title || "Yang Baru di Video"}
+          </h2>
+        </div>
+      ) : stats ? (
+        <center style={{ marginBottom: 50 }}>
+          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
+          <strong>{stats.totalResults}</strong> video
+        </center>
+      ) : null}
+
+      {status ? (
+        results && results.length > 0 ? (
+          <div className="grid">
+            {results.map((n, key) => {
+              let size = "default"
+              if (key === 0 || key % 5 === 0) size = "large"
+              return <Card size={size} key={key} data={n} />
+            })}
           </div>
-        ) : stats ? <center style={{marginBottom: 50}}>
-          Menampilkan <strong>{results.length || 0}</strong> dari <strong>{stats.totalResults}</strong> video
-        </center> : null }
+        ) : null
+      ) : null}
 
-        {status ? (
-          results && results.length > 0 ? (
-            <div className="grid">
-              {results.map((n, key) => {
-                let size = "default"
-                if (key === 0 || key % 5 === 0) size = "large"
-                return <Card size={size} key={key} data={n} />
-              })}
-            </div>
-          ) : null
-        ) : null}
+      {is_loading ? <Loader /> : null}
 
-        {is_loading ? <Loader /> : null}
+      {status && status !== 200 ? <Error text={message} /> : null}
 
-        {status && status !== 200 ? <Error text={message} /> : null}
-
-        {this.props.loadmoreHandler && nextPageToken && !is_loading ? (
-          <div className="grid-center" style={{ margin: "20px 0 40px" }}>
-            <Button
-              type="button"
-              isDisabled={is_loading}
-              text={!is_loading ? "Video Berikutnya" : "Loading..."}
-              size="large"
-              onClick={() => this.props.loadmoreHandler()}
-            />
-          </div>
-        ) : null}
-      </VideoBoxStyled>
-    )
-  }
+      {props.loadmoreHandler && nextPageToken && !is_loading ? (
+        <div className="grid-center" style={{ margin: "20px 0 40px" }}>
+          <Button
+            type="button"
+            isDisabled={is_loading}
+            text={!is_loading ? "Video Berikutnya" : "Loading..."}
+            size="large"
+            onClick={() => props.loadmoreHandler()}
+          />
+        </div>
+      ) : null}
+    </VideoBoxStyled>
+  )
 }
 
 VideoBox.defaultProps = {

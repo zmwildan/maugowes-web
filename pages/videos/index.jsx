@@ -32,10 +32,6 @@ class VideosPage extends React.Component {
     return {}
   }
 
-  state = {
-    isLoading: false
-  }
-
   async componentDidMount() {
     const videosState = this.props.videos.list || {}
     if (!videosState.status) {

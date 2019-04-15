@@ -8,32 +8,42 @@ import Pagination from "../../components/navigations/Pagination"
 
 import { connect } from "react-redux"
 import { fetchBlog } from "../../redux/blog/actions"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
 
 const BlogStyled = Styled.div`
 
 `
 
-const Dummy = [
-  {
-    id: 1,
-    title: "title 1"
-  },
-  {
-    id: 2,
-    title: "title 2"
-  }
-]
+const StoreFilter = "list"
+const MaxResults = 7
 
 class Blog extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
-    reduxStore.dispatch(fetchBlog("new"))
-    reduxStore.dispatch(fetchBlog("new", Dummy))
-    return {reduxStore}
+    if (typeof window == "undefined") {
+      //  only call in server side
+      const postsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/posts?limit=${MaxResults}`
+      )
+      const posts = await postsResponse.json()
+      reduxStore.dispatch(fetchBlog(StoreFilter, posts))
+    }
+
+    return {}
   }
 
+  componentDidMount() {}
+
+  loadmoreHandler() {}
+
   render() {
+    const blog = this.props.blog[StoreFilter] || {}
     return (
-      <GlobalLayout>
+      <GlobalLayout
+        metadata={{
+          title: "Blog - Mau Gowes",
+          description: "Baca postingan terupdate seputar dunia pergowesan"
+        }}>
         <DefaultLayout>
           <BlogStyled>
             <Header
@@ -41,12 +51,11 @@ class Blog extends React.Component {
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
               backgroundImage="/static/images/background/bg-bike-store.jpg"
             />
-            <BlogBox noHeaderTitle />
-            <div className="grid-center">
-              <div className="col">
-                <Pagination />
-              </div>
-            </div>
+            <BlogBox
+              noHeaderTitle
+              data={blog}
+              loadmoreHandler={() => this.loadmoreHandler}
+            />
           </BlogStyled>
         </DefaultLayout>
       </GlobalLayout>
@@ -54,4 +63,10 @@ class Blog extends React.Component {
   }
 }
 
-export default connect()(Blog)
+const mapStateToProps = state => {
+  return {
+    blog: state.Blog
+  }
+}
+
+export default connect(mapStateToProps)(Blog)

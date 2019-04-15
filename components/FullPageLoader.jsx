@@ -5,6 +5,7 @@ const FullPageLoader = Styled.div`
   top: 0;
   position: fixed;
   opacity: 0;
+  visibility: hidden;
   display:flex;
   align-items: center;
   justifiy-content: center;

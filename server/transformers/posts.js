@@ -1,7 +1,7 @@
 module.exports = {
   post: (n = []) => {
     return {
-      "_id": n._id,
+      "id": n._id,
       "title": n.title,
       "created_on": n.created_on,
       "updated_on": n.updated_on,

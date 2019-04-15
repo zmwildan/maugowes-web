@@ -22,23 +22,19 @@ const CardBlogStyled = Styled.div`
     cursor: pointer;
   }
 
-  .card-blog-title {
+  .card-blog-tags {
     .card-blog-label {
       transition: background .5s ease;
       padding: 5px 10px;
       font-size: 15px;
       background-color: #FFF;
-      &:hover{
-        background-color: ${color_blue_main};
-        a {
-          color: #FFF;
-        }
-      }
-      a {
-        color: ${color_black_main};
-        text-decoration: none;
-      }
+      color: ${color_black_main};
+      text-decoration: none;
+      display: inline-block;
     }
+  }
+
+  .card-blog-title {
     h3 {
       bottom: 0;
       a {
@@ -53,7 +49,7 @@ const CardBlogStyled = Styled.div`
 
 export default props => {
   const { data = {} } = props || {}
-  const linkUrl = `/blog/1`
+  const linkUrl = `/blog/${data.id}`
   return (
     <CardBlogStyled className="col-4">
       <Link href={linkUrl}>
@@ -69,20 +65,24 @@ export default props => {
             }}
           />
 
-          {/* label of post */}
-          <div className="card-blog-title">
-            {data.label && data.label.length > 0 ? (
-              <span className="card-blog-label">
-                <Link href="/blog/tag/news">
-                  <a href="/blog/tag/news">news</a>
-                </Link>
-              </span>
-            ) : null}
+          {/* tag of post */}
+          <div className="card-blog-tags">
+            {data.tags && data.tags.length > 0
+              ? data.tags.map((tag, key) => (
+                  <Link key={key} href={`/blog/tag/${tag}`}>
+                    <a className="card-blog-label" href={`/blog/tag/${tag}`}>
+                      {tag}
+                    </a>
+                  </Link>
+                ))
+              : null}
+          </div>
 
-            {/* title of post */}
+          {/* title if post */}
+          <div className="card-blog-title">
             <h3>
-              <Link href="/blog/detail/1">
-                <a href="/blog/detail/1">{data.title || "Judul Postingan"}</a>
+              <Link href={linkUrl}>
+                <a href={linkUrl}>{data.title || "..."}</a>
               </Link>
             </h3>
           </div>
