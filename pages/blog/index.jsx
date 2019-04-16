@@ -16,7 +16,7 @@ const BlogStyled = Styled.div`
 `
 
 const StoreFilter = "list"
-const MaxResults = 7
+const MaxResults = 6
 
 class Blog extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
@@ -32,9 +32,31 @@ class Blog extends React.Component {
     return {}
   }
 
-  componentDidMount() {}
+  async componentDidMount() {
+    const blogState = this.props.blog[StoreFilter] || {}
+    if (!blogState.status) {
+      this.props.dispatch(fetchBlog(StoreFilter))
+      const postsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/posts?limit=${MaxResults}`
+      )
+      const posts = await postsResponse.json()
+      this.props.dispatch(fetchBlog(StoreFilter, posts))
+    }
+  }
 
-  loadmoreHandler() {}
+  async loadmoreHandler() {
+    const blogState = this.props.blog[StoreFilter] || {}
+    if (!blogState.is_loading && blogState.status == 200) {
+      this.props.dispatch(fetchMoreVideos(StoreFilter))
+      const videosResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${
+          videosState.nextPageToken
+        }&maxResults=${MaxResults}`
+      )
+      const videos = await videosResponse.json()
+      this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
+    }
+  }
 
   render() {
     const blog = this.props.blog[StoreFilter] || {}

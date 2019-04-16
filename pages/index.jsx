@@ -14,6 +14,7 @@ import Button from "../components/buttons/index"
 import config from "../config/index"
 import fetch from "isomorphic-unfetch"
 import { fetchVideos } from "../redux/videos/actions"
+import { fetchBlog } from "../redux/blog/actions"
 
 const HomePage = Styled.div`
 
@@ -25,21 +26,30 @@ class Home extends React.Component{
 
     if (typeof window == "undefined") {
       // only call in server side
+
+      // request videos list
       const videosResponse = await fetch(
         `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos("new", videos))
+
+      // request news list
+      const postsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/posts?limit=3`
+      )
+      const posts = await postsResponse.json()
+      reduxStore.dispatch(fetchBlog("new", posts))
     }
    
-    return { reduxStore }
+    return {}
   }
 
   async componentDidMount() {
     const videosState = this.props.videos.new || {}
 
     if(!videosState.status) {
-      this.props.reduxStore.dispatch(fetchVideos("new"))
+      this.props.dispatch(fetchVideos("new"))
       const videosResponse = await fetch(
         `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
       )
@@ -74,7 +84,7 @@ class Home extends React.Component{
             {/* end of videos */}
   
             {/* blog */}
-            <BlogBox />
+            <BlogBox data={this.props.blog.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/blog" text="Baca Blog" />
             </div>
@@ -88,7 +98,8 @@ class Home extends React.Component{
 
 const mapStateToProps = state => {
   return {
-    videos: state.Videos
+    videos: state.Videos,
+    blog: state.Blog
   }
 }
 

@@ -24,19 +24,25 @@ const CardBlogStyled = Styled.div`
 
   .card-blog-tags {
     .card-blog-label {
+      padding: 15px 0;
+      margin-right: 15px;
       transition: background .5s ease;
-      padding: 5px 10px;
       font-size: 15px;
       background-color: #FFF;
-      color: ${color_black_main};
+      color: ${color_gray_dark};
       text-decoration: none;
       display: inline-block;
+      font-weight: 300;
     }
   }
 
   .card-blog-title {
+    height: 63px;
+    overflow: hidden;
     h3 {
       bottom: 0;
+      margin: 0;
+      font-size: 1.5em;
       a {
         color: ${color_black_main};
         text-decoration: none;
@@ -85,6 +91,11 @@ export default props => {
                 <a href={linkUrl}>{data.title || "..."}</a>
               </Link>
             </h3>
+          </div>
+
+          {/* truncated content */}
+          <div className="card-blog-content">
+                {data.truncatedContent}
           </div>
         </React.Fragment>
       </Link>
