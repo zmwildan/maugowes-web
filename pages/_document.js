@@ -1,6 +1,7 @@
 import Document, { Head, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
 import FullLoader from "../components/FullPageLoader"
+import Toast from "../components/Toast"
 
 export default class MyDocument extends Document {
   // ref: https://github.com/zeit/next.js/issues/816
@@ -31,6 +32,7 @@ export default class MyDocument extends Document {
           <Main />
           <FullLoader />
           <NextScript />
+          <Toast />
         </body>
       </html>
     )
