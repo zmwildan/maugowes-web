@@ -23,7 +23,7 @@ export default () => {
   return (
     <ToastStyled
       id="mg-toast">
-      sample text
+      sample text yuk
     </ToastStyled>
   )
 }

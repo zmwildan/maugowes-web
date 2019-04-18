@@ -28,7 +28,7 @@ class SuperPage extends React.Component {
 
   render() {
     return (
-      <GlobalLayout>
+      <GlobalLayout metadata={{title: "Login Super Page"}}>
         <DefaultLayout>
           <SuperPageStyled>
             <div className="grid-center">
