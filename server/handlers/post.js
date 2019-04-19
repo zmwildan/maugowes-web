@@ -10,5 +10,11 @@ module.exports = {
     postModule.fetchPost(req, res, result => {
       res.json(result)
     })
+  },
+  createPost: (req, res, next) => {
+    res.json({})
+  },
+  updatePost: (req, res, next) => {
+    res.json({})
   }
 }

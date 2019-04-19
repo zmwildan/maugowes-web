@@ -1,6 +1,7 @@
 const mongo = require("./mongodb")
 const { ObjectId } = require("mongodb")
 const postTransformer = require("../transformers/posts")
+const cloudinary = require("./cloudinary")
 
 module.exports = {
   /**
@@ -132,6 +133,88 @@ module.exports = {
           console.log("result", result)
           return callback(result)
         })
+    })
+  },
+
+  /**
+   * create post
+   */
+  createPost(req, res, callback) {
+    const { title, content, tags = "", draft = false, video = "" } = req.body
+    const { image } = req.files || {}
+    const currentTime = Math.round(new Date().getTime() / 1000)
+    const user_id = req.session.id
+
+    // not upload main image
+    if (!image) {
+      return callback({
+        status: 203,
+        messages: "image is required, please upload"
+      })
+    }
+
+    // upload image
+    const filename = file.encName(image)
+    const upload_path = `oopsreview/${new Date().getFullYear()}/${filename}`
+
+    cloudinary.upload(image.path, upload_path, (err, result) => {
+      if (err) {
+        console.log("cloudinary error", err)
+        res.send(
+          203,
+          response(203, "Terjadi Masalah Ketika Upload di Cloudinary")
+        )
+      } else {
+        // normalize tags
+        let postdata = {
+          title,
+          content,
+          image: result.secure_url,
+          // ref: https://stackoverflow.com/a/39704153/2780875
+          tags: tags.replace(/\s*,\s*/g, ","),
+          comments: 0,
+          views: 0,
+          created_on: currentTime,
+          updated_on: currentTime,
+          draft: Boolean(draft == "true" || draft == true),
+          user_id: ObjectId(user_id),
+          video
+        }
+
+        mongo().then(db => {
+          // check is same title available
+          db.collection("posts")
+            .aggregate([
+              {
+                $match: { title }
+              },
+              {
+                // select from specific key: https://stackoverflow.com/a/45738049/2780875
+                $project: {
+                  _id: 1
+                }
+              }
+            ])
+            .toArray((err, results) => {
+              if (err) {
+                console.log(err)
+                callback({
+                  status: 500,
+                  message: "something wrong with mongo"
+                })
+              }
+
+              if (results.length > 0) {
+                // post available
+                res.send(400, response(400, "Failed to post, duplicated title"))
+              } else {
+                // insert to mongodb
+                db.collection("posts").insert(postdata)
+                res.send(201, response(201, "Post Created"))
+              }
+            })
+        })
+      }
     })
   }
 }

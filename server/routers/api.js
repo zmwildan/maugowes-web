@@ -13,6 +13,8 @@ Router.get("/videos", VideoHandler.getListYoutubeVideos)
 // collection endpoint of blog
 Router.get("/posts", PostHandler.getPosts)
 Router.get("/post/:id", PostHandler.getPost)
+Router.post("/posts", PostHandler.createPost)
+Router.put("/posts/:id", PostHandler.updatePost)
 
 Router.get("*", (req, res, next) => {
   return res.json({
