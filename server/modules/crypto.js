@@ -1,12 +1,12 @@
-import {enc, AES, MD5} from "crypto-js"
+const { enc, AES, MD5 } = require("crypto-js")
 
-const KEY = 'maugowes-web'
+const KEY = "maugowes-web"
 
 /**
  * @description function to encrypt password
  * @param {string} string
  */
-export function encString(plaintext = "") {
+module.exports.encString = (plaintext = "") => {
   const enc = AES.encrypt(plaintext, KEY).toString()
   // console.log("enc plain", plaintext)
   // console.log("enc result", enc)
@@ -15,19 +15,19 @@ export function encString(plaintext = "") {
 
 /**
  * @description function to decrypt script
- * @param {string} ciphertext 
+ * @param {string} ciphertext
  */
-export function decString(ciphertext = "") {
+module.exports.decString = (ciphertext = "") => {
   const dec = AES.decrypt(ciphertext, KEY).toString(enc.Utf8)
   // console.log("dec", dec)
-  return dec 
+  return dec
 }
 
 /**
  * @description function to hash password with md5
  * @param {string} password as plain text
  */
-export function hashPassword(password = "") {
+module.exports.hashPassword = (password = "") => {
   const hash = MD5(password).toString()
   // console.log("hash", hash)
   return hash

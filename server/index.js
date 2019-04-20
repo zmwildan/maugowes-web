@@ -3,6 +3,7 @@
 
 // modules
 const express = require("express")
+const session = require("cookie-session")
 const next = require("next")
 const bodyParser = require("body-parser")
 const ApiRoutes = require("./routers/api")
@@ -10,6 +11,16 @@ const ApiRoutes = require("./routers/api")
 // config
 const PORT = process.env.PORT || 2019
 const NODE_ENV = process.env.NODE_ENV || "development"
+var SESSION_CONF = {
+  name: "maugowes",
+  keys: [process.env.APP_KEY || "maugowes", "maugowes.com"],
+  maxAge: 12 * 30 * 24 * 60 * 60 * 1000
+}
+
+// if (process.env.NODE_ENV === "production") {
+//   app.set("trust proxy", 1) // trust first proxy
+//   SESSION_CONF.cookie.secure = true // serve secure cookies
+// }
 
 // next app config
 const nextApp = next({ dev: NODE_ENV !== "production" })
@@ -21,8 +32,10 @@ nextApp.prepare().then(() => {
   const app = express()
 
   // app config
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(session(SESSION_CONF))
+  // app.use(cookieParser())
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
 
   // api endpoints
   app.use("/api", ApiRoutes)

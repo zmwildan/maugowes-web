@@ -2,6 +2,7 @@ const mongo = require("./mongodb")
 const { ObjectId } = require("mongodb")
 const postTransformer = require("../transformers/posts")
 const cloudinary = require("./cloudinary")
+const file = require("./file")
 
 module.exports = {
   /**
@@ -50,6 +51,7 @@ module.exports = {
           if (results.length > 0) {
             // transform data
             results.map((n, key) => {
+              console.log("n", n)
               n.author = n.author[0]
               results[key] = postTransformer.post(n)
             })
@@ -143,7 +145,7 @@ module.exports = {
     const { title, content, tags = "", draft = false, video = "" } = req.body
     const { image } = req.files || {}
     const currentTime = Math.round(new Date().getTime() / 1000)
-    const user_id = req.session.id
+    const user_id = req.session.auth.id
 
     // not upload main image
     if (!image) {
@@ -155,15 +157,15 @@ module.exports = {
 
     // upload image
     const filename = file.encName(image)
-    const upload_path = `oopsreview/${new Date().getFullYear()}/${filename}`
+    const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
 
     cloudinary.upload(image.path, upload_path, (err, result) => {
       if (err) {
         console.log("cloudinary error", err)
-        res.send(
-          203,
-          response(203, "Terjadi Masalah Ketika Upload di Cloudinary")
-        )
+        return callback({
+          status: 203,
+          message: "Terjadi Masalah Ketika Upload di Cloudinary"
+        })
       } else {
         // normalize tags
         let postdata = {
@@ -180,6 +182,8 @@ module.exports = {
           user_id: ObjectId(user_id),
           video
         }
+
+        console.log("create new post", postdata)
 
         mongo().then(db => {
           // check is same title available
@@ -198,7 +202,7 @@ module.exports = {
             .toArray((err, results) => {
               if (err) {
                 console.log(err)
-                callback({
+                return callback({
                   status: 500,
                   message: "something wrong with mongo"
                 })
@@ -206,11 +210,17 @@ module.exports = {
 
               if (results.length > 0) {
                 // post available
-                res.send(400, response(400, "Failed to post, duplicated title"))
+                return callback({
+                  status: 400,
+                  message: "Failed to post, duplicated title"
+                })
               } else {
                 // insert to mongodb
                 db.collection("posts").insert(postdata)
-                res.send(201, response(201, "Post Created"))
+                return callback({
+                  status: 201,
+                  message: "Post Created"
+                })
               }
             })
         })
