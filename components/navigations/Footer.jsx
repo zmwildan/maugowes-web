@@ -90,6 +90,13 @@ export default props => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
+                href="https://instagram.com/maugowes">
+                <img src="https://img.icons8.com/ios-glyphs/15/000000/instagram.png" />
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link_a"
                 href="https://facebook.com/maugowes">
                 <img src="https://img.icons8.com/android/15/000000/facebook.png" />
               </a>
