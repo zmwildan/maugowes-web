@@ -1,5 +1,6 @@
-const { truncate, stripTags } = require("string-manager")
+const { truncate, stripTags,  } = require("string-manager")
 const { generateCustomUrl } = require("../modules/cloudinary")
+const userTransformer = require("../transformers/user")
 
 module.exports = {
   post: (n = []) => {
@@ -13,11 +14,12 @@ module.exports = {
       "truncatedContent": truncate(pureContent, 100, "..."),
       "views": n.views,
       "tags": n.tags.split(","),
+      "link": `/blog`,
       "image": {
         "original": n.image,
         "600": generateCustomUrl(n.image, 'w_600,c_scale')
       },
-      "author": n.author
+      "author": userTransformer(n.author)
     }
   }
 }

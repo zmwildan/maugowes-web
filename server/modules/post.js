@@ -1,8 +1,8 @@
 const mongo = require("./mongodb")
-const { ObjectId } = require("mongodb")
 const postTransformer = require("../transformers/posts")
 const cloudinary = require("./cloudinary")
 const file = require("./file")
+const { ObjectId } = require("mongodb")
 
 module.exports = {
   /**
@@ -51,7 +51,6 @@ module.exports = {
           if (results.length > 0) {
             // transform data
             results.map((n, key) => {
-              console.log("n", n)
               n.author = n.author[0]
               results[key] = postTransformer.post(n)
             })
@@ -226,5 +225,61 @@ module.exports = {
         })
       }
     })
+  },
+
+  /**
+   * update post
+   */
+  updatePost(req, res, callback) {
+    let { id } = req.params
+    const { title, content, tags = "", draft = false, video = "" } = req.body
+    const { image } = req.files || {}
+    const currentTime = Math.round(new Date().getTime() / 1000)
+
+    id = ObjectId(id)
+
+    let postdata = {
+      title,
+      content,
+      // ref: https://stackoverflow.com/a/39704153/2780875
+      tags: tags.replace(/\s*,\s*/g, ","),
+      updated_on: currentTime,
+      draft: Boolean(draft == "true" || draft == true),
+      video
+    }
+
+    if (image) {
+      // upload new image to cloudinary
+      const filename = file.encName(image)
+      const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
+      cloudinary.upload(image.path, upload_path, (err, result) => {
+        if (err) {
+          console.log("cloudinary error", err)
+          return callback({
+            status: 201,
+            message: "Terjadi masalah ketika upload di Cloudinary"
+          })
+        } else {
+          postdata.image = result.secure_url
+          // update mongo data
+          mongo().then(db => {
+            db.collection("posts").update({ _id: id }, { $set: postdata })
+            return callback({
+              status: 200,
+              message: "sukses update data"
+            })
+          })
+        }
+      })
+    } else {
+      // update mongo data
+      mongo().then(db => {
+        db.collection("posts").update({ _id: id }, { $set: postdata })
+        return callback({
+          status: 200,
+          message: "sukses update data"
+        })
+      })
+    }
   }
 }

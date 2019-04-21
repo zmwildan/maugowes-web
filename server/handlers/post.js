@@ -17,6 +17,8 @@ module.exports = {
     })
   },
   updatePost: (req, res, next) => {
-    res.json({})
+    postModule.updatePost(req, res, result => {
+      res.json(result)
+    })
   }
 }

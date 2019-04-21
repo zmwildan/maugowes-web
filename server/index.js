@@ -39,6 +39,7 @@ nextApp.prepare().then(() => {
 
   // api endpoints
   app.use("/api", ApiRoutes)
+  app.use("/media", express.static(`${__dirname}/${process.env.MEDIA_DIR}`))
 
   // all next stuff
   app.get("*", (req, res) => {
