@@ -3,6 +3,7 @@ import Styled from "styled-components"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Link from "next/link"
+import { toCamelCase } from "string-manager"
 import {
   color_gray_dark,
   color_gray_medium,
@@ -10,6 +11,17 @@ import {
   color_gray_soft
 } from "../../components/Const"
 import Disqus from "../../components/boxs/Disqus"
+import Loader from "../../components/Loader"
+
+import { connect } from "react-redux"
+import { fetchBlog } from "../../redux/blog/actions"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
+
+function getId(title) {
+  let titleArr = title.split("-")
+  return titleArr[titleArr.length - 1]
+}
 
 const BlogDetailStyled = Styled.div`
   position: relative;
@@ -38,8 +50,12 @@ const BlogDetailStyled = Styled.div`
     font-size: 14px;
   }
   .blog-detail_main-image {
-    max-width: 100%;
     margin-top: 50px;
+    margin-bottom: 10px;
+    text-align: center;
+    img {
+      max-width: 100%;
+    }
   }
   .blog-detail_content {
     line-height: 2.5;
@@ -67,124 +83,125 @@ const BlogDetailStyled = Styled.div`
   }
 `
 
-export default class BlogDetail extends React.Component {
-  static async getInitialProps({ query }) {
+class BlogDetail extends React.Component {
+  state = {}
+
+  static async getInitialProps({ reduxStore, res, query }) {
+    if (typeof window == "undefined") {
+      const id = getId(query.id)
+      //  only call in server side
+      const postsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/post/${id}`
+      )
+      const posts = await postsResponse.json()
+      reduxStore.dispatch(fetchBlog(id, posts))
+    }
+
     return { id: query.id }
   }
 
-  state = {}
-
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ windowReady: true })
+    // const id = getId(this.props.id)
+    // const blogState = this.props.blog[id] || {}
+    // if (!blogState.status) {
+    //   this.props.dispatch(fetchBlog(id))
+    //   const postsResponse = await fetch(
+    //     `${config[process.env.NODE_ENV].host}/api/posts/${id}`
+    //   )
+    //   const posts = await postsResponse.json()
+    //   this.props.dispatch(fetchBlog(id, posts))
+    // }
   }
 
   render() {
-    const { id } = this.props
+    const id = getId(this.props.id)
+    const data = this.props.blog[id] || {}
+    console.log("data", data)
     return (
       <GlobalLayout>
         <DefaultLayout>
           <BlogDetailStyled className="blog-detail">
-            <div className="grid-center">
-              <div className="col-7">
-                <h1>Lorem Ipsum Semi Dolo Akse Hokya - Hokya Ready To Go</h1>
+            {!data.status ? (
+              <Loader />
+            ) : data.status === 200 ? (
+              <React.Fragment>
+                <div className="grid-center">
+                  <div className="col-7">
+                    <h1>{data.title}</h1>
 
-                <Link href="/author?username=yussan">
-                  <div className="blog-detail_author">
-                    <img
-                      className="blog-detail_author_avatar"
-                      src="/static/images/dummies/avatar-1.jpeg"
-                      alt="avatar"
+                    <Link href="/author?username=yussan">
+                      <div className="blog-detail_author">
+                        <img
+                          className="blog-detail_author_avatar"
+                          src={data.author.avatar}
+                          alt={`${data.author.username} avatar`}
+                        />
+                        <div className="blog-detail_author_name">
+                          {toCamelCase(data.author.fullname)}
+                        </div>
+                        <div className="blog-detail_author_level">
+                          alias {data.author.username} sebagai Penulis
+                        </div>
+                      </div>
+                    </Link>
+
+                    <div className="blog-detail_main-image">
+                      <img
+                        src={data.image.original}
+                        alt={data.title}
+                      />
+                    </div>
+                    <article
+                      className="blog-detail_content"
+                      dangerouslySetInnerHTML={{ __html: data.content }}
                     />
-                    <div className="blog-detail_author_name">Yusuf A. H</div>
-                    <div className="blog-detail_author_level">Author</div>
                   </div>
-                </Link>
+                </div>
 
-                <img
-                  className="blog-detail_main-image"
-                  src="/static/images/dummies/blog-2.jpeg"
-                  alt="main image"
-                />
-                <article className="blog-detail_content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Quisque venenatis rhoncus erat, at commodo nisi pharetra
-                    eget. Pellentesque tincidunt, nunc eget dictum auctor, ipsum
-                    erat maximus metus, at posuere dolor augue vitae dui.
-                    Curabitur tincidunt sollicitudin mauris sit amet tristique.
-                    Suspendisse id maximus justo, eget egestas leo. Phasellus
-                    facilisis blandit euismod. Praesent nulla lectus, mattis nec
-                    magna quis, dictum aliquet mauris. Maecenas nibh elit,
-                    posuere eu elit commodo, vulputate eleifend tellus. Morbi a
-                    augue quis nulla hendrerit vehicula. Maecenas tempor sapien
-                    eget hendrerit sollicitudin. Vestibulum in eros est. Nulla
-                    non sem aliquam, pretium mi luctus, convallis eros. Sed eu
-                    metus vel massa blandit molestie ac a neque. Nam luctus
-                    facilisis ligula, pellentesque faucibus nulla porttitor in.
-                    <img
-                      src="/static/images/dummies/product-1.jpg"
-                      alt="dummy image"
-                    />
-                    <br />
-                    Nunc at varius tortor, eget consequat lorem. Morbi egestas
-                    est lorem, et sodales justo rutrum sed. Donec felis turpis,
-                    faucibus id ante vitae, sodales efficitur diam. Cras
-                    porttitor, sem ac aliquam cursus, leo tellus tempor urna,
-                    sit amet tempus sem risus eget est. Mauris commodo sit amet
-                    purus eu maximus. Duis nunc elit, finibus et condimentum
-                    tempor, suscipit eget lorem. Proin ac egestas orci.
-                    <br />
-                    <img
-                      src="/static/images/dummies/blog-1.jpeg"
-                      alt="dummy small image"
-                    />
-                    Quisque vel urna fringilla, tempor erat vitae, malesuada
-                    sapien. Duis ullamcorper turpis non blandit cursus. Quisque
-                    efficitur mauris nisl, eu cursus est maximus in. Nunc
-                    interdum ex elit, a tempus nibh interdum nec. Nunc consequat
-                    tellus vel lacus porta cursus nec ut ante. Nunc erat ante,
-                    rutrum non elementum eget, hendrerit eget eros. Donec nec
-                    hendrerit elit. Nunc ut porttitor arcu. Nulla vitae
-                    elementum sapien. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Aliquam sit amet enim id sem imperdiet
-                    blandit et id leo. Suspendisse potenti. Vivamus eget libero
-                    tortor. Quisque non condimentum urna. Pellentesque habitant
-                    morbi tristique senectus et netus et malesuada fames ac
-                    turpis egestas. Cras ultrices pellentesque erat, non pretium
-                    elit dictum non.
-                  </p>
-                </article>
-              </div>
-            </div>
-            {/* list tag of post */}
-            <div className="grid-center">
-              <div className="col-7 blog-detail_tag">
-                <Link href="/blog/tag/tag-1">
-                  <a>tag 1</a>
-                </Link>
-
-                <Link href="/blog/tag/tag-1">
-                  <a>tag 1</a>
-                </Link>
-              </div>
-            </div>
-            {/* end of list tag of post */}
-
-            {/* comment */}
-            <div className="grid-center">
-              <div className="col-7 blog-detail_comment">
-                {this.state.windowReady ? (
-                  <Disqus
-                    url={`${window.location.origin}/blog/${id}`}
-                    identifier={`maugowes-${id}`}
-                  />
+                {/* list tag of post */}
+                {data.tags && data.tags.length > 0 ? (
+                  <div className="grid-center">
+                    <div className="col-7 blog-detail_tag">
+                      {data.tags.map((n, key) => {
+                        return (
+                          <Link key={key} href={`/blog/tag/${n}`}>
+                            <a href={`/blog/tag/${n}`}>{n}</a>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
                 ) : null}
-              </div>
-            </div>
-            {/* end of comment */}
+                {/* end of list tag of post */}
+
+                {/* comment */}
+                <div className="grid-center">
+                  <div className="col-7 blog-detail_comment">
+                    {this.state.windowReady ? (
+                      <Disqus
+                        url={`${window.location.origin}/blog/${id}`}
+                        identifier={`maugowes-${id}`}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+                {/* end of comment */}
+              </React.Fragment>
+            ) : (
+              <Loader text={data.messages} />
+            )}
           </BlogDetailStyled>
         </DefaultLayout>
       </GlobalLayout>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    blog: state.Blog
+  }
+}
+
+export default connect(mapStateToProps)(BlogDetail)

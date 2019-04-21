@@ -12,7 +12,7 @@ export default props => {
   return (
     <LoaderStyled className="grid-center">
       <div>
-        Fetching data....
+        {props.text || "Fetching data...."}
       </div>
     </LoaderStyled>
   )

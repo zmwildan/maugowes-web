@@ -60,11 +60,11 @@ const CardBlogStyled = Styled.div`
 
 export default props => {
   const { data = {} } = props || {}
-  const linkUrl = `/blog/${data.id}`
+  const linkUrl = data.link
   return (
     <CardBlogStyled className="col-4">
       <Link href={linkUrl}>
-        <React.Fragment>
+        <a href={linkUrl}>
           <div
             className="card-blog-cover"
             style={{
@@ -73,37 +73,37 @@ export default props => {
               })`
             }}
           />
-
-          {/* tag of post */}
-          <div className="card-blog-tags">
-            {data.tags && data.tags.length > 0
-              ? data.tags.map((tag, key) => (
-                  <Link key={key} href={`/blog/tag/${tag}`}>
-                    <a className="card-blog-label" href={`/blog/tag/${tag}`}>
-                      {tag}
-                    </a>
-                  </Link>
-                ))
-              : null}
-          </div>
-
-          {/* title if post */}
-          <div className="card-blog-title">
-            <h3>
-              <Link href={linkUrl}>
-                <a href={linkUrl}>{data.title || "..."}</a>
-              </Link>
-            </h3>
-          </div>
-
-          {/* truncated content */}
-          <div className="card-blog-content">{data.truncatedContent}</div>
-          <br />
-          <div className="card-blog-date">
-            Diposting {Dayjs(data.created_on * 1000).fromNow()}
-          </div>
-        </React.Fragment>
+        </a>
       </Link>
+
+      {/* tag of post */}
+      <div className="card-blog-tags">
+        {data.tags && data.tags.length > 0
+          ? data.tags.map((tag, key) => (
+              <Link key={key} href={`/blog/tag/${tag}`}>
+                <a className="card-blog-label" href={`/blog/tag/${tag}`}>
+                  {tag}
+                </a>
+              </Link>
+            ))
+          : null}
+      </div>
+
+      {/* title if post */}
+      <div className="card-blog-title">
+        <h3>
+          <Link href={linkUrl}>
+            <a href={linkUrl}>{data.title || "..."}</a>
+          </Link>
+        </h3>
+      </div>
+
+      {/* truncated content */}
+      <div className="card-blog-content">{data.truncatedContent}</div>
+      <br />
+      <div className="card-blog-date">
+        Diposting {Dayjs(data.created_on * 1000).fromNow()}
+      </div>
     </CardBlogStyled>
   )
 }

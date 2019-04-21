@@ -74,7 +74,7 @@ module.exports = {
     const { id } = req.params
     if (id.length != 24) {
       if (req.no_count) return callback()
-      return callback({ status: 204, messages: "something wrong with mongo" })
+      return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
     mongo().then(db => {
