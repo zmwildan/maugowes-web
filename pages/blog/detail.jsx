@@ -75,6 +75,9 @@ const BlogDetailStyled = Styled.div`
       max-width: 100%;
       display: block;
     }
+    a{
+      word-break: break-all;
+    }
   }
   .blog-detail_tag {
     display: block;
@@ -84,6 +87,7 @@ const BlogDetailStyled = Styled.div`
         background: #FFF;
         border: 1px solid ${color_gray_soft};
       }
+      line-height: 2.5;
       cursor: pointer;
       padding: 5px 10px;
       background: ${color_gray_soft};
@@ -157,7 +161,23 @@ class BlogDetail extends React.Component {
               <React.Fragment>
                 <div className="grid-center">
                   <div className="col-7">
+                    
                     <h1>{data.title}</h1>
+
+                    {/* list tag of post */}
+                    {data.tags && data.tags.length > 0 ? (
+                      <div className="blog-detail_tag">
+                        {data.tags.map((n, key) => {
+                          return (
+                            <Link key={key} href={`/blog/tag/${n}`}>
+                              <a href={`/blog/tag/${n}`}>{n}</a>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+                    {/* end of list tag of post */}
+
 
                     <Link href="/author?username=yussan">
                       <div className="blog-detail_author">
@@ -191,22 +211,6 @@ class BlogDetail extends React.Component {
                     />
                   </div>
                 </div>
-
-                {/* list tag of post */}
-                {data.tags && data.tags.length > 0 ? (
-                  <div className="grid-center">
-                    <div className="col-7 blog-detail_tag">
-                      {data.tags.map((n, key) => {
-                        return (
-                          <Link key={key} href={`/blog/tag/${n}`}>
-                            <a href={`/blog/tag/${n}`}>{n}</a>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ) : null}
-                {/* end of list tag of post */}
 
                 {/* comment */}
                 <div className="grid-center">

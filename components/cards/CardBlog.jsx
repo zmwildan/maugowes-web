@@ -24,6 +24,8 @@ const CardBlogStyled = Styled.div`
   }
 
   .card-blog-tags {
+    overflow-y: hidden;
+    height: 50px;
     .card-blog-label {
       padding: 15px 0;
       margin-right: 15px;
