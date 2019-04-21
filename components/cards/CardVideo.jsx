@@ -1,9 +1,6 @@
 import Styled from "styled-components"
 import { color_gray_soft, color_black_main, color_gray_dark } from "../Const"
-import Dayjs from "dayjs"
-import RelativeTime from "dayjs/plugin/relativeTime"
-
-Dayjs.extend(RelativeTime)
+import Dayjs from "../../modules/dayjs"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
@@ -115,7 +112,7 @@ export default props => {
             </a>
           </div>
           <div className="video-card-date">
-            Posted {Dayjs(data.publishedDate).fromNow()}
+            Diposting {Dayjs(data.publishedDate).fromNow()}
           </div>
         </div>
       </VideoCard>

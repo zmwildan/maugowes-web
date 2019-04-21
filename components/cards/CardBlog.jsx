@@ -1,4 +1,5 @@
 import React from "react"
+import Dayjs from "../../modules/dayjs"
 import Styled from "styled-components"
 import {
   color_gray_dark,
@@ -49,7 +50,11 @@ const CardBlogStyled = Styled.div`
         font-weight: 500;
       }
     }
+  }
 
+  .card-blog-date {
+    font-size: 14px;
+    color: ${color_gray_dark};
   }
 `
 
@@ -64,9 +69,7 @@ export default props => {
             className="card-blog-cover"
             style={{
               backgroundImage: `url(${
-                data.thumbnails
-                  ? data.thumbnails.high.url
-                  : "/static/images/no-image.png"
+                data.image ? data.image["600"] : "/static/images/no-image.png"
               })`
             }}
           />
@@ -94,8 +97,10 @@ export default props => {
           </div>
 
           {/* truncated content */}
-          <div className="card-blog-content">
-                {data.truncatedContent}
+          <div className="card-blog-content">{data.truncatedContent}</div>
+          <br />
+          <div className="card-blog-date">
+            Diposting {Dayjs(data.created_on * 1000).fromNow()}
           </div>
         </React.Fragment>
       </Link>
