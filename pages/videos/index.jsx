@@ -65,7 +65,12 @@ class VideosPage extends React.Component {
   render() {
     const videos = this.props.videos[StoreFilter] || {}
     return (
-      <GlobalLayout>
+      <GlobalLayout
+        metadata={{
+          title: "Video - Mau Gowes",
+          description: "Video - video terbaru dari channel Youtube Mau Gowes",
+          keywords:"video maugowes,youtube maugowes,gowes,sepeda"
+        }}>
         <DefaultLayout>
           <VideoStyled>
             <Header

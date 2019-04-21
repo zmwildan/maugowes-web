@@ -99,14 +99,14 @@ const AvailableMenu = [
     name: "Blog",
     link: "/blog"
   },
-  {
-    name: "Marketplace",
-    link: "/marketplace"
-  },
-  {
-    name: "Rangking Goweser",
-    link: "/rangking"
-  }
+  // {
+  //   name: "Marketplace",
+  //   link: "/marketplace"
+  // },
+  // {
+  //   name: "Rangking Goweser",
+  //   link: "/rangking"
+  // }
 ]
 
 const AvailableSellCategories = [
@@ -135,10 +135,10 @@ class Header extends React.Component {
     initialDropdown()
 
     // set category weight same as category link
-    const CatDropDown = document.getElementById("dropdown-categories")
-    const BtnDropDown = document.getElementById("button-categories")
+    // const CatDropDown = document.getElementById("dropdown-categories")
+    // const BtnDropDown = document.getElementById("button-categories")
 
-    CatDropDown.style.width = `calc(${BtnDropDown.offsetWidth}px - 40px)`
+    // CatDropDown.style.width = `calc(${BtnDropDown.offsetWidth}px - 40px)`
   }
 
   render = () => {
@@ -153,7 +153,7 @@ class Header extends React.Component {
         </div>
 
         <div className="grid-noGuttter header-top-menu">
-          <div
+          {/* <div
             className="col-3_xs-6 header-top-menu_group header-top-menu_group_left"
             id="button-categories">
             <Dropdown>
@@ -166,7 +166,6 @@ class Header extends React.Component {
                   size="10"
                 />
               </button>
-              {/* categories of selling */}
               <div
                 className="dropdown-content header-categories-list-dropdown"
                 id="dropdown-categories"
@@ -193,9 +192,8 @@ class Header extends React.Component {
                   )
                 })}
               </div>
-              {/* categories of selling */}
             </Dropdown>
-          </div>
+          </div> */}
           <div className="col-3_xs-6">
             <ul className="header-top-menu_group">
               {AvailableMenu.map((n, key) => {

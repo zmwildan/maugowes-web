@@ -93,6 +93,13 @@ export default props => {
                 href="https://facebook.com/maugowes">
                 <img src="https://img.icons8.com/android/15/000000/facebook.png" />
               </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link_a"
+                href="https://twitter.com/maugowes">
+                <img src="https://img.icons8.com/android/15/000000/twitter.png" />
+              </a>
               {/* <a className="footer-social-link_a" href="https://twitter.com"><img src="https://img.icons8.com/android/15/000000/twitter.png" /></a> */}
             </span>
           </div>
@@ -104,13 +111,13 @@ export default props => {
               <div className="footer-content-list">
                 <ul>
                   <li>
-                    <a href="/about">Tentang Kami</a>
+                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Tentang-Kami-5cbc7e530ad6da31c52524dd">Tentang Kami</a>
                   </li>
                   <li>
-                    <a href="/terms-of-service">Syarat dan Ketentuan</a>
+                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Syarat-dan-Ketentuan-5cbc7e620ad6da31c52524de">Syarat dan Ketentuan</a>
                   </li>
                   <li>
-                    <a href="/help">Bantuan</a>
+                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Bantuan-5cbc7e6a0ad6da31c52524df">Bantuan</a>
                   </li>
                 </ul>
               </div>
@@ -119,9 +126,9 @@ export default props => {
               <div className="footer-content-title">Fitur</div>
               <div className="footer-content-list">
                 <ul>
-                  <li>
+                  {/* <li>
                     <a href="/marketplace">Marketplace</a>
-                  </li>
+                  </li> */}
                   <li>
                     <a href="/blog">Blog</a>
                   </li>

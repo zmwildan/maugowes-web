@@ -239,14 +239,14 @@ module.exports = {
     id = ObjectId(id)
 
     let postdata = {
-      title,
-      content,
-      // ref: https://stackoverflow.com/a/39704153/2780875
-      tags: tags.replace(/\s*,\s*/g, ","),
       updated_on: currentTime,
       draft: Boolean(draft == "true" || draft == true),
-      video
     }
+
+    if(title) postdata.title = title
+    if(content) postdata.content = content
+    if(tags) postdata.tags = tags 
+    if(video) postdata.video = video
 
     if (image) {
       // upload new image to cloudinary

@@ -5,7 +5,7 @@ import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
 
-const BlogBox = Styled.div`
+const BlogBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
   .blog-box-title {
     border-bottom: 2px solid ${color_blue_main};
@@ -14,10 +14,11 @@ const BlogBox = Styled.div`
   }
 `
 
-export default props => {
+const BlogBox = props => {
   const { results, status, message, stats, is_loading } = props.data
+
   return (
-    <BlogBox noHeaderTitle={props.noHeaderTitle}>
+    <BlogBoxStyled noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
         <div className="grid-center">
           <h2 className="blog-box-title">
@@ -42,17 +43,29 @@ export default props => {
 
       {status && status !== 200 ? <Error text={message} /> : null}
 
-      {props.loadmoreHandler && !is_loading && status === 200 ? (
+      {props.loadmoreHandler &&
+      !is_loading &&
+      status === 200 &&
+      results &&
+      results.length >= props.maxResults ? (
         <div className="grid-center" style={{ margin: "20px 0 40px" }}>
           <Button
             type="button"
             isDisabled={is_loading}
             text={!is_loading ? "Postingan Berikutnya" : "Loading..."}
             size="large"
-            onClick={() => props.loadmoreHandler()}
+            onClick={() => {
+              props.loadmoreHandler()
+            }}
           />
         </div>
       ) : null}
-    </BlogBox>
+    </BlogBoxStyled>
   )
 }
+
+BlogBox.defaultProps = {
+  maxResults: 3
+}
+
+export default BlogBox

@@ -39,6 +39,17 @@ const BlogDetailStyled = Styled.div`
     border-radius: 50%;
     float: left !important;
   }
+  .blog-detail_video {
+    width: 100%;
+    margin: 50px 0 30px;
+    padding: 50px 0;
+    background: #000;
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+  }
   .blog-detail_author_name {
     padding-top: 6px;
     padding-left: 60px;
@@ -118,8 +129,26 @@ class BlogDetail extends React.Component {
     const id = getId(this.props.id)
     const data = this.props.blog[id] || {}
     console.log("data", data)
+
+    let metadata = {}
+
+    if (data && data.status === 200) {
+      metadata = {
+        title: data.title,
+        description: data.truncatedContent,
+        image: data.image.original,
+        keywords: data.tags.toString()
+      }
+    } else {
+      metadata = {
+        title: "Postingan tidak ditemukan",
+        description:
+          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus."
+      }
+    }
+
     return (
-      <GlobalLayout>
+      <GlobalLayout metadata={metadata}>
         <DefaultLayout>
           <BlogDetailStyled className="blog-detail">
             {!data.status ? (
@@ -146,12 +175,16 @@ class BlogDetail extends React.Component {
                       </div>
                     </Link>
 
-                    <div className="blog-detail_main-image">
-                      <img
-                        src={data.image.original}
-                        alt={data.title}
-                      />
-                    </div>
+                    {data.video ? (
+                      <div className="blog-detail_video">
+                        <iframe src={data.video} />
+                      </div>
+                    ) : (
+                      <div className="blog-detail_main-image">
+                        <img src={data.image.original} alt={data.title} />
+                      </div>
+                    )}
+
                     <article
                       className="blog-detail_content"
                       dangerouslySetInnerHTML={{ __html: data.content }}

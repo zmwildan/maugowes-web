@@ -6,7 +6,7 @@ import Header from "../../components/boxs/FullWidthHeader"
 import BlogBox from "../../components/boxs/BlogBox"
 
 import { connect } from "react-redux"
-import { fetchBlog } from "../../redux/blog/actions"
+import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 
@@ -18,6 +18,10 @@ const StoreFilter = "list"
 const MaxResults = 6
 
 class Blog extends React.Component {
+  state = {
+    page: 1
+  }
+
   static async getInitialProps({ reduxStore, req }) {
     if (typeof window == "undefined") {
       //  only call in server side
@@ -43,17 +47,25 @@ class Blog extends React.Component {
     }
   }
 
-  async loadmoreHandler() {
+  loadmoreHandler() {
     const blogState = this.props.blog[StoreFilter] || {}
     if (!blogState.is_loading && blogState.status == 200) {
-      this.props.dispatch(fetchMoreVideos(StoreFilter))
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${
-          videosState.nextPageToken
-        }&maxResults=${MaxResults}`
+      this.setState(
+        {
+          page: this.state.page + 1
+        },
+        async () => {
+          this.props.dispatch(fetchMoreBlog(StoreFilter))
+          const postsResponse = await fetch(
+            `${
+              config[process.env.NODE_ENV].host
+            }/api/posts?limit=${MaxResults}&page=${this.state.page}
+        `
+          )
+          const posts = await postsResponse.json()
+          this.props.dispatch(fetchMoreBlog(StoreFilter, posts))
+        }
       )
-      const videos = await videosResponse.json()
-      this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
     }
   }
 
@@ -74,8 +86,9 @@ class Blog extends React.Component {
             />
             <BlogBox
               noHeaderTitle
+              maxResults={MaxResults}
               data={blog}
-              loadmoreHandler={() => this.loadmoreHandler}
+              loadmoreHandler={() => this.loadmoreHandler()}
             />
           </BlogStyled>
         </DefaultLayout>

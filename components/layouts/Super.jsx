@@ -35,7 +35,7 @@ class SuperLayout extends React.Component {
           <div className="col-2">
             <div className="super-sidebar">
               <div className="super-sidebar-child">
-                <strong>Blog</strong>  
+                <strong>Blog</strong>
                 <ul>
                   <li>
                     <Link href="/super/blog">
@@ -51,7 +51,7 @@ class SuperLayout extends React.Component {
               </div>
 
               <div className="super-sidebar-child">
-                <strong>Akun</strong>  
+                <strong>Akun</strong>
                 <ul>
                   <li>
                     <Link href="/super/blog">

@@ -39,12 +39,18 @@ const GlobalLayoutStyled = Styled.div`
 
 const defaultMetadata = {
   title: "Mau Gowes - Maaaauuu...",
-  description: "Mau gowes yuk main disini dulu agar lebih termotivasi"
+  description: "Mau gowes yuk main disini dulu agar lebih termotivasi",
+  image:
+    "https://res.cloudinary.com/dhjkktmal/image/upload/v1555855650/maugowes/2019/mau_gowes.png",
+  keywords:
+    "mau gowes,bersepeda,cycling,bicycle,sepeda,roadbike,mtb,folding bike,bike to work",
+  url: "https://maugowes.com",
+  type: "blog"
 }
 
 export default class HomeLayout extends React.Component {
   render = () => {
-    const { children, metadata = defaultMetadata, script = [] } = this.props
+    const { children, metadata = defaultMetadata, scripts = [] } = this.props
 
     return (
       <React.Fragment>
@@ -144,12 +150,47 @@ export default class HomeLayout extends React.Component {
 
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
+          <meta name="keywords" content={metadata.keywords} />
 
-          {script.length > 0
-            ? script.map((n, key) => {
+          {/* open graph */}
+          <meta property="og:title" content={metadata.title} />
+          <meta property="og:type" content={metadata.type} />
+          <meta property="og:url" content={metadata.url} />
+          <meta property="og:image" content={metadata.image} />
+          <meta property="og:description" content={metadata.description} />
+
+          {/* twitter card */}
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" content="@maugowes" />
+          <meta name="twitter:title" content={metadata.title} />
+          <meta name="twitter:description" content={metadata.description} />
+          <meta name="twitter:image" content={metadata.image} />
+
+          {scripts.length > 0
+            ? scripts.map((n, key) => {
                 return <script src={n.src} key={key} />
               })
             : null}
+
+          {process.env.NODE_ENV === "production" ? (
+            <React.Fragment>
+              <script
+                async
+                src="https://www.googletagmanager.com/gtag/js?id=UA-138742898-1"
+              />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'UA-138742898-1');
+            `
+                }}
+              />
+            </React.Fragment>
+          ) : null}
         </Head>
 
         <GlobalLayoutStyled>{children}</GlobalLayoutStyled>
