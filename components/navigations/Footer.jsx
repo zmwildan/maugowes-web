@@ -118,13 +118,31 @@ export default props => {
               <div className="footer-content-list">
                 <ul>
                   <li>
-                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Tentang-Kami-5cbc7e530ad6da31c52524dd">Tentang Kami</a>
+                    <a
+                      target="_blank"
+                      noreferer="true"
+                      noopener="true"
+                      href="https://maugowes.com/blog/Tentang-Kami-5cbc7e530ad6da31c52524dd">
+                      Tentang Kami
+                    </a>
                   </li>
                   <li>
-                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Syarat-dan-Ketentuan-5cbc7e620ad6da31c52524de">Syarat dan Ketentuan</a>
+                    <a
+                      target="_blank"
+                      noreferer="true"
+                      noopener="true"
+                      href="https://maugowes.com/blog/Syarat-dan-Ketentuan-5cbc7e620ad6da31c52524de">
+                      Syarat dan Ketentuan
+                    </a>
                   </li>
                   <li>
-                    <a target="_blank" noreferer noopener href="https://maugowes.com/blog/Bantuan-5cbc7e6a0ad6da31c52524df">Bantuan</a>
+                    <a
+                      target="_blank"
+                      noreferer="true"
+                      noopener="true"
+                      href="https://maugowes.com/blog/Bantuan-5cbc7e6a0ad6da31c52524df">
+                      Bantuan
+                    </a>
                   </li>
                 </ul>
               </div>

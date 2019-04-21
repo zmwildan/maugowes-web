@@ -21,6 +21,13 @@ module.exports = {
           localField: "user_id",
           foreignField: "_id",
           as: "author"
+        },
+      },
+      {
+        // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
+        $sort: {
+          // order by created_on desc
+          created_on: -1
         }
       }
     ]
@@ -82,7 +89,7 @@ module.exports = {
       db.collection("posts")
         .aggregate([
           {
-            $match: { _id: ObjectId(id) }
+            $match: { _id: ObjectId(id) },
           },
           {
             $lookup: {
@@ -90,21 +97,6 @@ module.exports = {
               localField: "user_id",
               foreignField: "_id",
               as: "author"
-            }
-          },
-          {
-            $lookup: {
-              from: "apps",
-              localField: "app_id",
-              foreignField: "_id",
-              as: "app"
-            }
-          },
-          {
-            // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
-            $sort: {
-              // order by created_on desc
-              created_on: -1
             }
           }
         ])
@@ -139,7 +131,6 @@ module.exports = {
             )
           result.status = 200
           result.message = "success"
-          console.log("result", result)
           return callback(result)
         })
     })
