@@ -103,7 +103,7 @@ module.exports = {
           {
             // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
             $sort: {
-              created_on: -1
+              created_on: 1
             }
           }
         ])
