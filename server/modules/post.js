@@ -78,6 +78,7 @@ module.exports = {
     }
 
     mongo().then(db => {
+      // list post and order by created_on
       db.collection("posts")
         .aggregate([
           {
@@ -97,6 +98,12 @@ module.exports = {
               localField: "app_id",
               foreignField: "_id",
               as: "app"
+            }
+          },
+          {
+            // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
+            $sort: {
+              created_on: -1
             }
           }
         ])
