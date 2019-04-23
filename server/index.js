@@ -7,6 +7,7 @@ const session = require("cookie-session")
 const next = require("next")
 const bodyParser = require("body-parser")
 const ApiRoutes = require("./routers/api")
+const FeedRoutes = require("./routers/feed")
 const SitemapRoutes = require("./routers/sitemap")
 
 // config
@@ -41,8 +42,12 @@ nextApp.prepare().then(() => {
   // api endpoints
   app.use("/api", ApiRoutes)
 
-  // sitemap route
-app.use("/sitemap", SitemapRoutes)
+  // sitemap routes
+  app.use("/sitemap", SitemapRoutes)
+  
+  // feed routes
+  app.use("/feed", FeedRoutes)
+
   // static routes
   app.use("/media", express.static(`${__dirname}/${process.env.MEDIA_DIR}`))
 
