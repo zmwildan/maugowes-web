@@ -7,6 +7,7 @@ const session = require("cookie-session")
 const next = require("next")
 const bodyParser = require("body-parser")
 const ApiRoutes = require("./routers/api")
+const SitemapRoutes = require("./routers/sitemap")
 
 // config
 const PORT = process.env.PORT || 2019
@@ -39,6 +40,10 @@ nextApp.prepare().then(() => {
 
   // api endpoints
   app.use("/api", ApiRoutes)
+
+  // sitemap route
+app.use("/sitemap", SitemapRoutes)
+  // static routes
   app.use("/media", express.static(`${__dirname}/${process.env.MEDIA_DIR}`))
 
   // all next stuff
