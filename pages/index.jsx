@@ -10,6 +10,7 @@ import DefaultLayout from "../components/layouts/Default"
 import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
+import BannerBox from "../components/boxs/BannerHomeBox"
 
 import config from "../config/index"
 import fetch from "isomorphic-unfetch"
@@ -82,6 +83,10 @@ class Home extends React.Component{
               <Button type="link" target="/videos" text="Lihat Video" />
             </div>
             {/* end of videos */}
+
+            {/* banner of youtube and bike shop */}
+            <BannerBox />
+            {/* end of banner of youtube and bike shop */}
   
             {/* blog */}
             <BlogBox data={this.props.blog.new || {}} />

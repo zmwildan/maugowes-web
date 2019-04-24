@@ -1,3 +1,4 @@
+export const color_white_main = "#FFFFFF"
 export const color_gray_soft = "#eeeeee"
 export const color_gray_medium = "#ccc"
 export const color_gray_dark = "#999"
