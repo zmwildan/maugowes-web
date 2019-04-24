@@ -98,7 +98,7 @@ const AvailableMenu = [
   {
     name: "Blog",
     link: "/blog"
-  },
+  }
   // {
   //   name: "Marketplace",
   //   link: "/marketplace"
@@ -229,11 +229,9 @@ class Header extends React.Component {
                         </div>
                       </Dropdown>
                     ) : (
-                      <Link prefetch href={n.link}>
-                        <a className="header-top-menu_link" href={n.link}>
-                          {n.name}
-                        </a>
-                      </Link>
+                      <a className="header-top-menu_link" href={n.link}>
+                        {n.name}
+                      </a>
                     )}
                   </li>
                 )

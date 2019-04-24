@@ -158,7 +158,7 @@ export default props => {
                     <a href="/blog">Blog</a>
                   </li>
                   <li>
-                    <a href="/video">Video</a>
+                    <a href="/videos">Video</a>
                   </li>
                 </ul>
               </div>

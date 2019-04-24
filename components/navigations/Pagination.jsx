@@ -35,17 +35,17 @@ export default props => {
       <div className="col">
         <ul>
           <li className="active">
-            <Link prefetch href="/marketplace">
+            <Link  href="/marketplace">
               <span>1</span>
             </Link>
           </li>
           <li>
-            <Link prefetch href="/marketplace">
+            <Link  href="/marketplace">
               <span>2</span>
             </Link>
           </li>
           <li>
-            <Link prefetch href="/marketplace">
+            <Link  href="/marketplace">
               <span>3</span>
             </Link>
           </li>

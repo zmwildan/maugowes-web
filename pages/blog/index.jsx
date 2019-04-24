@@ -9,6 +9,7 @@ import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
+import { objToQuery } from "string-manager"
 
 const BlogStyled = Styled.div`
 
@@ -22,30 +23,41 @@ class Blog extends React.Component {
     page: 1
   }
 
-  static async getInitialProps({ reduxStore, req }) {
+  static async getInitialProps({ reduxStore, req, query }) {
     if (typeof window == "undefined") {
       //  only call in server side
+      let reqQuery = {
+        limit: MaxResults
+      }
+      if (query.tag) reqQuery.tag = query.tag
       const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/posts?limit=${MaxResults}`
+        `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(reqQuery)}`
       )
       const posts = await postsResponse.json()
       reduxStore.dispatch(fetchBlog(StoreFilter, posts))
     }
 
-    return {}
-  }
-
-  async componentDidMount() {
-    const blogState = this.props.blog[StoreFilter] || {}
-    if (!blogState.status) {
-      this.props.dispatch(fetchBlog(StoreFilter))
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/posts?limit=${MaxResults}`
-      )
-      const posts = await postsResponse.json()
-      this.props.dispatch(fetchBlog(StoreFilter, posts))
+    return {
+      tag: query.tag || ""
     }
   }
+
+  // async componentDidMount() {
+  //   console.log("tag", this.props.tag)
+  //   const blogState = this.props.blog[StoreFilter] || {}
+  //   if (!blogState.status) {
+  //     this.props.dispatch(fetchBlog(StoreFilter))
+  //     let reqQuery = {
+  //       limit: MaxResults
+  //     }
+  //     if (this.props.query) reqQuery.tag = this.props.query
+  //     const postsResponse = await fetch(
+  //       `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(reqQuery)}`
+  //     )
+  //     const posts = await postsResponse.json()
+  //     this.props.dispatch(fetchBlog(StoreFilter, posts))
+  //   }
+  // }
 
   loadmoreHandler() {
     const blogState = this.props.blog[StoreFilter] || {}
@@ -56,10 +68,15 @@ class Blog extends React.Component {
         },
         async () => {
           this.props.dispatch(fetchMoreBlog(StoreFilter))
+          let reqQuery = {
+            limit: MaxResults,
+            page: this.state.page
+          }
+          if (this.props.query) reqQuery.tag = this.props.query
           const postsResponse = await fetch(
-            `${
-              config[process.env.NODE_ENV].host
-            }/api/posts?limit=${MaxResults}&page=${this.state.page}
+            `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(
+              reqQuery
+            )}
         `
           )
           const posts = await postsResponse.json()
@@ -71,16 +88,20 @@ class Blog extends React.Component {
 
   render() {
     const blog = this.props.blog[StoreFilter] || {}
+    let title = "Blog - Mau Gowes"
+    if (this.props.tag) {
+      title = `Postingan Dengan Tag "${this.props.tag}"`
+    }
     return (
       <GlobalLayout
         metadata={{
-          title: "Blog - Mau Gowes",
+          title,
           description: "Baca postingan terupdate seputar dunia pergowesan"
         }}>
         <DefaultLayout>
           <BlogStyled>
             <Header
-              title="Mau Gowes Blog"
+              title={title}
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
               backgroundImage="/static/images/background/bg-bike-store.jpg"
             />
