@@ -30,6 +30,7 @@ class Blog extends React.Component {
         limit: MaxResults
       }
       if (query.tag) reqQuery.tag = query.tag
+      if (query.username) reqQuery.username = query.username
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(reqQuery)}`
       )
@@ -38,7 +39,8 @@ class Blog extends React.Component {
     }
 
     return {
-      tag: query.tag || ""
+      tag: query.tag || "",
+      username: query.username
     }
   }
 
@@ -91,7 +93,10 @@ class Blog extends React.Component {
     let title = "Blog - Mau Gowes"
     if (this.props.tag) {
       title = `Postingan Dengan Tag "${this.props.tag}"`
+    } else if (this.props.username) {
+      title = `Postingan dari "${this.props.username}"`
     }
+
     return (
       <GlobalLayout
         metadata={{

@@ -12,7 +12,7 @@ module.exports = {
    * @param {*} callback
    */
   fetchPosts(req, res, callback) {
-    const { page, limit, tag } = req.query
+    const { page, limit, tag, username } = req.query
 
     let aggregate = [
       {
@@ -33,9 +33,17 @@ module.exports = {
     ]
 
     // custom aggregate
+    // post by tag
     if (tag) {
       aggregate.push({
         $match: { tags: { $regex: ".*" + tag + ".*" } }
+      })
+    }
+
+    // filter post by author username
+    if (username) {
+      aggregate.push({
+        $match: { "author.username": username }
       })
     }
 
