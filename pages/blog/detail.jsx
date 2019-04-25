@@ -17,6 +17,7 @@ import { connect } from "react-redux"
 import { fetchBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
+import BlogBox from "../../components/boxs/BlogBox"
 
 function getId(title) {
   let titleArr = title.split("-")
@@ -131,12 +132,23 @@ class BlogDetail extends React.Component {
     //   const posts = await postsResponse.json()
     //   this.props.dispatch(fetchBlog(id, posts))
     // }
+
+    // get related post
+    const blogRelatedState = this.props.blog.related || {}
+    if (!blogRelatedState.status) {
+      this.props.dispatch(fetchBlog("related"))
+      const postsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}/api/posts?limit=3`
+      )
+      const posts = await postsResponse.json()
+      this.props.dispatch(fetchBlog("related", posts))
+    }
   }
 
   render() {
     const id = getId(this.props.id)
     const data = this.props.blog[id] || {}
-    console.log("data", data)
+    const related = this.props.blog.related || {}
 
     let metadata = {}
 
@@ -183,7 +195,7 @@ class BlogDetail extends React.Component {
 
                     <a
                       className="link-blog-detail_author"
-                      href="/author?username=yussan">
+                      href="/author/yussan">
                       <div className="blog-detail_author">
                         <img
                           className="blog-detail_author_avatar"
@@ -215,6 +227,16 @@ class BlogDetail extends React.Component {
                     />
                   </div>
                 </div>
+
+                {/* blog box */}
+                <div className="blog-detail_related">
+                  <BlogBox
+                    style={{ margin: "20px 0" }}
+                    noHeaderTitle
+                    data={related}
+                  />
+                </div>
+                {/* end of blog box */}
 
                 {/* comment */}
                 <div className="grid-center">

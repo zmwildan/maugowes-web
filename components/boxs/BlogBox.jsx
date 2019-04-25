@@ -18,7 +18,9 @@ const BlogBox = props => {
   const { results, status, message, stats, is_loading } = props.data
 
   return (
-    <BlogBoxStyled noHeaderTitle={props.noHeaderTitle}>
+    <BlogBoxStyled
+      style={props.style || {}}
+      noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
         <div className="grid-center">
           <h2 className="blog-box-title">
