@@ -58,25 +58,25 @@ module.exports = {
       db.collection("posts")
         .aggregate(countAggregate)
         .toArray((err, count) => {
-          if (count[0] && count[0].total > 0) {
-            return mongo().then(db => {
-              return (
-                db
-                  .collection("posts")
-                  .aggregate(aggregate)
-                  // ref: https://stackoverflow.com/a/18430949/2780875
-                  .skip(page ? parseInt((page - 1) * limit) : 0)
-                  .limit(limit ? parseInt(limit) : 6)
-                  .toArray((err, results) => {
-                    // error from database
-                    if (err) {
-                      console.log(err)
-                      return callback({
-                        status: 500,
-                        messages: "something wrong with mongo"
-                      })
-                    }
+          return mongo().then(db => {
+            return (
+              db
+                .collection("posts")
+                .aggregate(aggregate)
+                // ref: https://stackoverflow.com/a/18430949/2780875
+                .skip(page ? parseInt((page - 1) * limit) : 0)
+                .limit(limit ? parseInt(limit) : 6)
+                .toArray((err, results) => {
+                  // error from database
+                  if (err) {
+                    console.log(err)
+                    return callback({
+                      status: 500,
+                      messages: "something wrong with mongo"
+                    })
+                  }
 
+                  if (results && results.length > 0) {
                     // transform data
                     results.map((n, key) => {
                       n.author = n.author[0]
@@ -90,12 +90,16 @@ module.exports = {
                       results,
                       total: count[0].total
                     })
-                  })
-              )
-            })
-          } else {
-            return callback({ status: 204, message: "no post available" })
-          }
+                  } else {
+                    return callback({
+                      status: 204,
+                      message: "no post available",
+                      total: count[0].total
+                    })
+                  }
+                })
+            )
+          })
         })
     })
   },
