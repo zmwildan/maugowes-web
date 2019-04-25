@@ -21,7 +21,7 @@ module.exports = {
           localField: "user_id",
           foreignField: "_id",
           as: "author"
-        },
+        }
       },
       {
         // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
@@ -49,39 +49,59 @@ module.exports = {
 
     // execute mongodb
     return mongo().then(db => {
+      let countAggregate = Object.assign([], aggregate)
+      // get post count
+      countAggregate.push({
+        $count: "total"
+      })
+
       db.collection("posts")
-        .aggregate(aggregate)
-        // ref: https://stackoverflow.com/a/18430949/2780875
-        .skip(page ? parseInt((page - 1) * limit) : 0)
-        .limit(limit ? parseInt(limit) : 6)
-        .toArray((err, results) => {
-          // error from database
-          if (err) {
-            console.log(err)
-            return callback({
-              status: 500,
-              messages: "something wrong with mongo"
-            })
-          }
+        .aggregate(countAggregate)
+        .toArray((err, count) => {
+          if (count[0] && count[0].total > 0) {
+            return mongo().then(db => {
+              return (
+                db
+                  .collection("posts")
+                  .aggregate(aggregate)
+                  // ref: https://stackoverflow.com/a/18430949/2780875
+                  .skip(page ? parseInt((page - 1) * limit) : 0)
+                  .limit(limit ? parseInt(limit) : 6)
+                  .toArray((err, results) => {
+                    // error from database
+                    if (err) {
+                      console.log(err)
+                      return callback({
+                        status: 500,
+                        messages: "something wrong with mongo"
+                      })
+                    }
 
-          if (results.length > 0) {
-            // transform data
-            results.map((n, key) => {
-              n.author = n.author[0]
-              results[key] = postTransformer.post(n)
-            })
+                    // transform data
+                    results.map((n, key) => {
+                      n.author = n.author[0]
+                      results[key] = postTransformer.post(n)
+                    })
 
-            // success
-            callback({ status: 200, messages: "success", results })
+                    // success
+                    callback({
+                      status: 200,
+                      messages: "success",
+                      results,
+                      total: count[0].total
+                    })
+                  })
+              )
+            })
           } else {
-            callback({ status: 204, message: "no post available" })
+            return callback({ status: 204, message: "no post available" })
           }
         })
     })
   },
 
   /**
-   * fetch post detail by post id
+   *  fetch post detail by post id
    * @param {*} req
    * @param {*} res
    * @param {*} callback
@@ -98,7 +118,7 @@ module.exports = {
       db.collection("posts")
         .aggregate([
           {
-            $match: { _id: ObjectId(id) },
+            $match: { _id: ObjectId(id) }
           },
           {
             $lookup: {
@@ -246,13 +266,13 @@ module.exports = {
 
     let postdata = {
       updated_on: currentTime,
-      draft: Boolean(draft == "true" || draft == true),
+      draft: Boolean(draft == "true" || draft == true)
     }
 
-    if(title) postdata.title = title
-    if(content) postdata.content = content
-    if(tags) postdata.tags = tags 
-    if(video) postdata.video = video
+    if (title) postdata.title = title
+    if (content) postdata.content = content
+    if (tags) postdata.tags = tags
+    if (video) postdata.video = video
 
     if (image) {
       // upload new image to cloudinary
