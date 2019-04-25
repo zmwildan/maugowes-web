@@ -30,12 +30,13 @@ const CardBlogStyled = Styled.div`
       padding: 15px 0;
       margin-right: 15px;
       transition: background .5s ease;
-      font-size: 15px;
+      font-size: 13px;
       background-color: #FFF;
-      color: ${color_gray_dark};
+      color: ${color_blue_main};
+      font-weight: bold;
+      text-transform: uppercase;
       text-decoration: none;
       display: inline-block;
-      font-weight: 300;
     }
   }
 
@@ -48,8 +49,8 @@ const CardBlogStyled = Styled.div`
       font-size: 1.5em;
       a {
         color: ${color_black_main};
+        font-weight: bold;
         text-decoration: none;
-        font-weight: 500;
       }
     }
   }

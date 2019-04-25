@@ -43,8 +43,9 @@ module.exports = {
     return mongo().then(db => {
       db.collection("posts")
         .aggregate(aggregate)
-        .skip(parseInt(page) || 0)
-        .limit(parseInt(limit) || 6)
+        // ref: https://stackoverflow.com/a/18430949/2780875
+        .skip(page ? parseInt((page - 1) * limit) : 0)
+        .limit(limit ? parseInt(limit) : 6)
         .toArray((err, results) => {
           // error from database
           if (err) {
@@ -157,7 +158,7 @@ module.exports = {
     const filename = file.encName(image)
     const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
 
-    cloudinary.upload(image.path, upload_path, (err, result) => {
+    return cloudinary.upload(image.path, upload_path, (err, result) => {
       if (err) {
         console.log("cloudinary error", err)
         return callback({
@@ -181,9 +182,7 @@ module.exports = {
           video
         }
 
-        console.log("create new post", postdata)
-
-        mongo().then(db => {
+        return mongo().then(db => {
           // check is same title available
           db.collection("posts")
             .aggregate([
@@ -251,7 +250,7 @@ module.exports = {
       // upload new image to cloudinary
       const filename = file.encName(image)
       const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
-      cloudinary.upload(image.path, upload_path, (err, result) => {
+      return cloudinary.upload(image.path, upload_path, (err, result) => {
         if (err) {
           console.log("cloudinary error", err)
           return callback({
@@ -261,7 +260,7 @@ module.exports = {
         } else {
           postdata.image = result.secure_url
           // update mongo data
-          mongo().then(db => {
+          return mongo().then(db => {
             db.collection("posts").update({ _id: id }, { $set: postdata })
             return callback({
               status: 200,
@@ -272,7 +271,7 @@ module.exports = {
       })
     } else {
       // update mongo data
-      mongo().then(db => {
+      return mongo().then(db => {
         db.collection("posts").update({ _id: id }, { $set: postdata })
         return callback({
           status: 200,
