@@ -50,7 +50,6 @@ const CardProductStyled = Styled.div`
 const CardProduct = props => {
   return (
     <CardProductStyled className="col-3">
-      <Link  href="/product/1">
         <div className="card-product">
           <span className="label">Bekas</span>
           <div className="card-product-cover" style={{backgroundImage: `url(/static/images/dummies/product-1.jpg)`}} />
@@ -64,7 +63,6 @@ const CardProduct = props => {
             Rp 700.000,-
           </div>
         </div>
-      </Link>
     </CardProductStyled>
   )
 }

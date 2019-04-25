@@ -64,29 +64,28 @@ export default props => {
   const { data = {} } = props || {}
   const linkUrl = data.link
   return (
-    <CardBlogStyled className="col-4">
-      <Link href={linkUrl}>
-        <a href={linkUrl}>
-          <div
-            className="card-blog-cover"
-            style={{
-              backgroundImage: `url(${
-                data.image ? data.image["600"] : "/static/images/no-image.png"
-              })`
-            }}
-          />
-        </a>
-      </Link>
+    <CardBlogStyled className="col-4_xs-12_md-6">
+      <a href={linkUrl}>
+        <div
+          className="card-blog-cover"
+          style={{
+            backgroundImage: `url(${
+              data.image ? data.image["600"] : "/static/images/no-image.png"
+            })`
+          }}
+        />
+      </a>
 
       {/* tag of post */}
       <div className="card-blog-tags">
         {data.tags && data.tags.length > 0
           ? data.tags.map((tag, key) => (
-              <Link key={key} href={`/blog/tag/${tag}`}>
-                <a className="card-blog-label" href={`/blog/tag/${tag}`}>
-                  {tag}
-                </a>
-              </Link>
+              <a
+                key={key}
+                className="card-blog-label"
+                href={`/blog/tag/${tag}`}>
+                {tag}
+              </a>
             ))
           : null}
       </div>
@@ -94,9 +93,7 @@ export default props => {
       {/* title if post */}
       <div className="card-blog-title">
         <h3>
-          <Link href={linkUrl}>
-            <a href={linkUrl}>{data.title || "..."}</a>
-          </Link>
+          <a href={linkUrl}>{data.title || "..."}</a>
         </h3>
       </div>
 

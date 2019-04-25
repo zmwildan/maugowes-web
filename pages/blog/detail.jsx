@@ -50,6 +50,10 @@ const BlogDetailStyled = Styled.div`
       border: none;
     }
   }
+  .link-blog-detail_author {
+    text-decoration: none;
+    color: ${color_gray_dark};
+  }
   .blog-detail_author_name {
     padding-top: 6px;
     padding-left: 60px;
@@ -91,7 +95,7 @@ const BlogDetailStyled = Styled.div`
       cursor: pointer;
       padding: 5px 10px;
       background: ${color_gray_soft};
-      color: ${color_black_main};
+      color: ${color_gray_dark};
       text-decoration: none;
       margin-right: 10px;
     }
@@ -160,8 +164,7 @@ class BlogDetail extends React.Component {
             ) : data.status === 200 ? (
               <React.Fragment>
                 <div className="grid-center">
-                  <div className="col-7">
-                    
+                  <div className="col-7_xs-12">
                     <h1>{data.title}</h1>
 
                     {/* list tag of post */}
@@ -169,17 +172,18 @@ class BlogDetail extends React.Component {
                       <div className="blog-detail_tag">
                         {data.tags.map((n, key) => {
                           return (
-                            <Link key={key} href={`/blog/tag/${n}`}>
-                              <a href={`/blog/tag/${n}`}>{n}</a>
-                            </Link>
+                            <a key={key} href={`/blog/tag/${n}`}>
+                              {n}
+                            </a>
                           )
                         })}
                       </div>
                     ) : null}
                     {/* end of list tag of post */}
 
-
-                    <Link href="/author?username=yussan">
+                    <a
+                      className="link-blog-detail_author"
+                      href="/author?username=yussan">
                       <div className="blog-detail_author">
                         <img
                           className="blog-detail_author_avatar"
@@ -193,7 +197,7 @@ class BlogDetail extends React.Component {
                           alias {data.author.username} sebagai Penulis
                         </div>
                       </div>
-                    </Link>
+                    </a>
 
                     {data.video ? (
                       <div className="blog-detail_video">

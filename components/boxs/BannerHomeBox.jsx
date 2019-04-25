@@ -47,7 +47,7 @@ class BannerHomeBox extends React.Component {
   render() {
     return (
       <BannerHomeBoxStyled className="grid">
-        <div className="col-6 banner-home banner-home_left">
+        <div className="col-6_xs-12_md-6 banner-home banner-home_left">
           <div className="banner-home_content">
             <img
               src="/static/images/banner-maugowes-youtube.png"
@@ -67,7 +67,7 @@ class BannerHomeBox extends React.Component {
             </div>
           </div>
         </div>
-        <div className="col-6 banner-home banner-home_right">
+        <div className="col-6_xs-12_md-6 banner-home banner-home_right">
           <div className="banner-home_content">
             <img
               src="/static/images/banner-maugowes-bike-shop.png"

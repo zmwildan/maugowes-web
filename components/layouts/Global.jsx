@@ -19,6 +19,8 @@ const GlobalLayoutStyled = Styled.div`
     width: 1150px;
     margin: 0 auto;
   }
+
+  // responsive container
   .align-center {
     text-align: center;
   }
@@ -34,6 +36,20 @@ const GlobalLayoutStyled = Styled.div`
   }
   .text-black {
     color: ${color_black_main};
+  }
+
+  // responsive section
+  // gridlex _xs
+  @media (max-width: 36em) {
+    .container {
+      width: 100%;
+    }
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    .container {
+      width: 100%;
+    }
   }
 `
 

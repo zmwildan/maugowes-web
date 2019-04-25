@@ -38,14 +38,10 @@ class SuperLayout extends React.Component {
                 <strong>Blog</strong>
                 <ul>
                   <li>
-                    <Link href="/super/blog">
-                      <a href="/super/blog">+Tambah Post</a>
-                    </Link>
+                    <a href="/super/blog">+Tambah Post</a>
                   </li>
                   <li>
-                    <Link href="/super/blog">
-                      <a href="/super/blog">Blog</a>
-                    </Link>
+                    <a href="/super/blog">Blog</a>
                   </li>
                 </ul>
               </div>
@@ -54,9 +50,7 @@ class SuperLayout extends React.Component {
                 <strong>Akun</strong>
                 <ul>
                   <li>
-                    <Link href="/super/blog">
-                      <a href="/super/blog">Keluar</a>
-                    </Link>
+                    <a href="/super/blog">Keluar</a>
                   </li>
                 </ul>
               </div>

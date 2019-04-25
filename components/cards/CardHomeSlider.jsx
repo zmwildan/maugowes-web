@@ -43,10 +43,10 @@ export default props => {
   return SliderContent.map((n, key) => (
     <CardHomeSlidderStyled className="grid" key={key}>
       <div
-        className="col-8_sm-6 slider-item-left"
+        className="col-8_xs-6 slider-item-left"
         style={{ backgroundImage: `url(${n.cover_image})` }}
       />
-      <div className="col-4_sm-6">
+      <div className="col-4_xs-6">
         <div className="slider-item-right">
           <div>
             <h2>{n.title}</h2>

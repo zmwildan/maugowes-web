@@ -59,9 +59,7 @@ const Button = props => {
   return (
     <ButtonStyled {...props} disabled={props.isDisabled}>
       {props.type === "link" ? (
-        <Link  href={props.target}>
           <a href={props.target}>{props.text}</a>
-        </Link>
       ) : (
         <button type="button" onClick={() => props.onClick}>
           {props.text}

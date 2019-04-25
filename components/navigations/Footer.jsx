@@ -69,7 +69,7 @@ export default props => {
   return (
     <React.Fragment>
       <Footer className="grid">
-        <div className="col-4 footer-left">
+        <div className="col-4_xs-12 footer-left">
           <img src="/static/images/logo.png" alt="Logo Mau Gowes" />
           <p>
             Mau Gowes - Adalah platform online yang dibuat untuk kamu para
@@ -111,7 +111,7 @@ export default props => {
             </span>
           </div>
         </div>
-        <div className="col-8 footer-right">
+        <div className="col-8_xs-12 footer-right">
           <div className="grid">
             <div className="col footer-content">
               <div className="footer-content-title">Informasi</div>

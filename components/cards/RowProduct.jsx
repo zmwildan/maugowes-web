@@ -49,16 +49,12 @@ export default props => {
   return (
     <RowProduct className="grid">
       <div className="col-3 row-product-left">
-        <Link href="/product/1">
-          <img src="/static/images/dummies/product-1.jpg" alt="product image" />
-        </Link>
+        <img src="/static/images/dummies/product-1.jpg" alt="product image" />
       </div>
       <div className="col-9 row-product-right">
         <div>
           <React.Fragment>
-            <Link href="/product/1">
-              <h2>Stem Zipp Course SL</h2>
-            </Link>
+            <h2>Stem Zipp Course SL</h2>
             <div className="row-product-right_price">Rp800.000</div>
             <div className="row-product-right_rating">
               <img src="https://img.icons8.com/color/20/000000/filled-star.png" />

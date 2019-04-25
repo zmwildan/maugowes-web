@@ -88,7 +88,7 @@ export default props => {
   const { data = {}, size } = props || {}
   const linkUrl = `https://www.youtube.com/watch?v=${data.id}`
   return (
-    <div className={size === "large" ? "col-8" : "col-4"}>
+    <div className={size === "large" ? "col-8_xs-12_md-12" : "col-4_xs-12_md-6"}>
       <VideoCard className={size === "large" ? "video-large" : "video-default"}>
         <div
           className="video-card-cover"

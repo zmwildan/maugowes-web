@@ -35,19 +35,13 @@ export default props => {
       <div className="col">
         <ul>
           <li className="active">
-            <Link  href="/marketplace">
-              <span>1</span>
-            </Link>
+            <span>1</span>
           </li>
           <li>
-            <Link  href="/marketplace">
-              <span>2</span>
-            </Link>
+            <span>2</span>
           </li>
           <li>
-            <Link  href="/marketplace">
-              <span>3</span>
-            </Link>
+            <span>3</span>
           </li>
         </ul>
       </div>
