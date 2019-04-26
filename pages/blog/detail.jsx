@@ -240,7 +240,7 @@ class BlogDetail extends React.Component {
 
                 {/* comment */}
                 <div className="grid-center">
-                  <div className="col-7 blog-detail_comment">
+                  <div className="col-7_xs-12 blog-detail_comment">
                     {this.state.windowReady ? (
                       <Disqus
                         url={`${window.location.origin}/blog/${id}`}

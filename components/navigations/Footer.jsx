@@ -51,6 +51,19 @@ const Footer = Styled.div`
       }
     }
   }
+
+  // gridlex _xs
+  @media (max-width: 36em) {
+    .footer-social-link {
+      margin-bottom: 20px;
+    }
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    .footer-social-link {
+      margin-bottom: 20px;
+    }
+  }
 `
 
 const FooterPoweredBy = Styled.div`
