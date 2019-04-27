@@ -1,7 +1,12 @@
 import React from "react"
 import Styled from "styled-components"
-import { color_gray_soft, color_black_main, color_blue_main } from "../Const"
-import Link from "next/link"
+import {
+  color_gray_soft,
+  color_gray_dark,
+  color_black_main,
+  color_blue_main
+} from "../Const"
+// import Link from "next/link"
 import initialDropdown from "../../modules/dropdown"
 
 // components
@@ -81,6 +86,11 @@ const HeaderStyled = Styled.header`
       li {
         list-style: none;
         padding: 0 20px;
+        &.active {
+          a {
+            color: ${color_gray_dark};
+          }
+        }
       }
     }
   }
@@ -93,10 +103,12 @@ const HeaderStyled = Styled.header`
 const AvailableMenu = [
   {
     name: "Video",
+    pathname: "videos",
     link: "/videos"
   },
   {
     name: "Blog",
+    pathname: "blog",
     link: "/blog"
   }
   // {
@@ -131,8 +143,15 @@ const AvailableSellCategories = [
 ]
 
 class Header extends React.Component {
+  state = {
+    pathname: ""
+  }
+
   componentDidMount = () => {
     initialDropdown()
+
+    const pathArr = window.location.pathname.split("/")
+    this.setState({ pathname: pathArr[1] })
 
     // set category weight same as category link
     // const CatDropDown = document.getElementById("dropdown-categories")
@@ -142,6 +161,8 @@ class Header extends React.Component {
   }
 
   render = () => {
+    const { pathname } = this.state
+
     return (
       <HeaderStyled>
         <div className="grid-center header-logo">
@@ -198,7 +219,9 @@ class Header extends React.Component {
             <ul className="header-top-menu_group">
               {AvailableMenu.map((n, key) => {
                 return (
-                  <li key={key}>
+                  <li
+                    className={n.pathname == pathname ? "active" : ""}
+                    key={key}>
                     {n.child ? (
                       <Dropdown>
                         <button
