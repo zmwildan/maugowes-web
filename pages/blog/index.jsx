@@ -74,7 +74,7 @@ class Blog extends React.Component {
             limit: MaxResults,
             page: this.state.page
           }
-          if (this.props.query) reqQuery.tag = this.props.query
+          if (this.props.query.tag) reqQuery.tag = this.props.query.tag
           const postsResponse = await fetch(
             `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(
               reqQuery
@@ -121,6 +121,10 @@ class Blog extends React.Component {
       </GlobalLayout>
     )
   }
+}
+
+Blog.defaultProps = {
+  query: {}
 }
 
 const mapStateToProps = state => {
