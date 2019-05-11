@@ -14,15 +14,15 @@ module.exports = () => {
   return new Promise((resolve, reject) => {
     mongoClient.connect(url, (err, client) => {
       if (err) {
-        debugMongo("[error] to connect mongo")
+        debugMongo("[mongodb error] to connect mongo")
         debugMongo(err, "mongo")
       } else {
         debugMongo("[success] connected mongo server")
         const db = client.db(MONGO_DB)
-        resolve(db)
+        resolve({db, client})
       }
     })
   }).catch(e => {
-    debugMongo(e)
+    debugMongo("[mongodb error]", e)
   })
 }

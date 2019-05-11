@@ -20,7 +20,7 @@ module.exports = {
     }
 
     // request is validator
-    if(video_type === "youtube") {
+    if (video_type === "youtube") {
       // get video Youtube by id
       youtubeReq(
         "get",
@@ -35,7 +35,6 @@ module.exports = {
         messages: "tipe video tidak disupport"
       })
     }
-
   },
 
   /**
@@ -62,7 +61,7 @@ module.exports = {
       }
     ]
 
-    return mongo().then(db => {
+    return mongo().then(({ db, client }) => {
       // get count of videos
       db.collection("videos")
         .aggregate(countAggregate)
@@ -82,6 +81,9 @@ module.exports = {
                 })
               }
 
+              // close connection to mongo server
+              client.close()
+
               // return results as json response
               if (results && results.length > 0) {
                 return callback({
@@ -91,7 +93,7 @@ module.exports = {
                   total: count && count[0] ? count[0].total : 0
                 })
               } else {
-                //   no video found
+                // no video found
                 return callback({
                   status: 204,
                   message: "no videos available",

@@ -48,7 +48,7 @@ module.exports = {
     }
 
     // execute mongodb
-    return mongo().then(db => {
+    return mongo().then(({db, client}) => {
       let countAggregate = Object.assign([], aggregate)
       // get post count
       countAggregate.push({
@@ -58,7 +58,7 @@ module.exports = {
       db.collection("posts")
         .aggregate(countAggregate)
         .toArray((err, count) => {
-          return mongo().then(db => {
+          return mongo().then(({db, client}) => {
             return (
               db
                 .collection("posts")
@@ -76,6 +76,9 @@ module.exports = {
                     })
                   }
 
+                  // close connection to mongo server
+                  client.close()
+
                   if (results && results.length > 0) {
                     // transform data
                     results.map((n, key) => {
@@ -84,7 +87,7 @@ module.exports = {
                     })
 
                     // success
-                    callback({
+                    return callback({
                       status: 200,
                       messages: "success",
                       results,
@@ -117,7 +120,7 @@ module.exports = {
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
-    mongo().then(db => {
+    mongo().then(({db, client}) => {
       // list post and order by created_on
       db.collection("posts")
         .aggregate([
@@ -142,6 +145,9 @@ module.exports = {
               messages: "something wrong with mongo"
             })
           }
+
+          // close connection to mongo server
+          client.close()
 
           if (result.length < 1) {
             if (req.no_count) return callback()
@@ -214,7 +220,7 @@ module.exports = {
           video
         }
 
-        return mongo().then(db => {
+        return mongo().then(({db, client}) => {
           // check is same title available
           db.collection("posts")
             .aggregate([
@@ -292,7 +298,7 @@ module.exports = {
         } else {
           postdata.image = result.secure_url
           // update mongo data
-          return mongo().then(db => {
+          return mongo().then(({db, client}) => {
             db.collection("posts").update({ _id: id }, { $set: postdata })
             return callback({
               status: 200,
@@ -303,7 +309,7 @@ module.exports = {
       })
     } else {
       // update mongo data
-      return mongo().then(db => {
+      return mongo().then(({db, client}) => {
         db.collection("posts").update({ _id: id }, { $set: postdata })
         return callback({
           status: 200,

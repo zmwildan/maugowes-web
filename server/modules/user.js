@@ -6,7 +6,7 @@ module.exports = {
     const { email, password } = req.body
     const passHash = hashPassword(password)
     console.log(email, passHash)
-    mongo().then(db => {
+    mongo().then(({db, client}) => {
       db.collection("users")
         .find({ email, password: passHash })
         .toArray((err, result) => {
