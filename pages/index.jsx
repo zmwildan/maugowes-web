@@ -30,7 +30,7 @@ class Home extends React.Component{
 
       // request videos list
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
+        `${config[process.env.NODE_ENV].host}/api/videos-db?limit=7`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos("new", videos))
@@ -77,11 +77,11 @@ class Home extends React.Component{
     this.props.dispatch(fetchBlog("new_review", newReviewRes))
 
     // req new utak atik
-    const newUtakAtikReq = await fetch(
-      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=utak%20atik`
+    const newCaraCaraReq = await fetch(
+      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=cara%20cara`
     )
-    const newUtakAtikRes = await newUtakAtikReq.json()
-    this.props.dispatch(fetchBlog("new_utak_atik", newUtakAtikRes))
+    const newCaraCaraRes = await newCaraCaraReq.json()
+    this.props.dispatch(fetchBlog("new_cara_cara", newCaraCaraRes))
 
 
   }
@@ -130,9 +130,9 @@ class Home extends React.Component{
             {/* end of part or accessories review */}
 
             {/* utak atik */}
-            <BlogBox title="Yang Baru di Utak Atik" data={this.props.blog.new_utak_atik || {}} />
+            <BlogBox title="Yang Baru di Cara - Cara" data={this.props.blog.new_cara_cara || {}} />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/utak%20atik" text="Baca Utak Atik" />
+              <Button type="link" target="/blog/tag/cara%20cara" text="Baca Cara Cara" />
             </div>
             {/* utak atik */}
 

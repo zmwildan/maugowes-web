@@ -7,6 +7,7 @@ import VideoBox from "../../components/boxs/VideoBox"
 
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
+import { objToQuery } from "string-manager"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
 
 const VideoStyled = Styled.div`
@@ -17,13 +18,17 @@ const StoreFilter = "list"
 const MaxResults = 7
 
 class VideosPage extends React.Component {
+  state = {
+    page: 1
+  }
+
   static async getInitialProps({ reduxStore }) {
     if (typeof window == "undefined") {
       // only call in server side
       const videosResponse = await fetch(
         `${
           config[process.env.NODE_ENV].host
-        }/api/videos?maxResults=${MaxResults}`
+        }/api/videos-db?limit=${MaxResults}`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos(StoreFilter, videos))
@@ -32,33 +37,41 @@ class VideosPage extends React.Component {
     return {}
   }
 
-  async componentDidMount() {
-    const videosState = this.props.videos.list || {}
-    if (!videosState.status) {
-      this.props.dispatch(fetchVideos(StoreFilter))
-      const videosResponse = await fetch(
-        `${
-          config[process.env.NODE_ENV].host
-        }/api/videos?maxResults=${MaxResults}`
-      )
-      const videos = await videosResponse.json()
-      this.props.dispatch(fetchVideos(StoreFilter, videos))
-    }
-  }
+  // async componentDidMount() {
+  //   const videosState = this.props.videos.list || {}
+  //   if (!videosState.status) {
+  //     this.props.dispatch(fetchVideos(StoreFilter))
+  //     const videosResponse = await fetch(
+  //       `${config[process.env.NODE_ENV].host}/api/videos-db?limit=${MaxResults}`
+  //     )
+  //     const videos = await videosResponse.json()
+  //     this.props.dispatch(fetchVideos(StoreFilter, videos))
+  //   }
+  // }
 
-  async loadmoreHandler() {
-    const videosState = this.props.videos[StoreFilter] || {}
-    if (!videosState.is_loading && videosState.nextPageToken) {
-      console.log("video", videosState)
-      console.log("load more content...")
-      this.props.dispatch(fetchMoreVideos(StoreFilter))
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?nextPageToken=${
-          videosState.nextPageToken
-        }&maxResults=${MaxResults}`
+  loadmoreHandler() {
+    const videosState = this.props.videos.list || {}
+    if (!videosState.is_loading && videosState.status == 200) {
+      this.setState(
+        {
+          page: this.state.page + 1
+        },
+        async () => {
+          this.props.dispatch(fetchVideos(StoreFilter))
+          let reqQuery = {
+            limit: MaxResults,
+            page: this.state.page
+          }
+          const videoResponse = await fetch(
+            `${config[process.env.NODE_ENV].host}/api/videos-db?${objToQuery(
+              reqQuery
+            )}
+        `
+          )
+          const videos = await videoResponse.json()
+          this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
+        }
       )
-      const videos = await videosResponse.json()
-      this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
     }
   }
 
@@ -69,7 +82,7 @@ class VideosPage extends React.Component {
         metadata={{
           title: "Video - Mau Gowes",
           description: "Video - video terbaru dari channel Youtube Mau Gowes",
-          keywords:"video maugowes,youtube maugowes,gowes,sepeda"
+          keywords: "video maugowes,youtube maugowes,gowes,sepeda"
         }}>
         <DefaultLayout>
           <VideoStyled>
@@ -81,6 +94,7 @@ class VideosPage extends React.Component {
             <VideoBox
               data={videos}
               loadmoreHandler={() => this.loadmoreHandler()}
+              maxResults={MaxResults}
               noHeaderTitle
             />
           </VideoStyled>

@@ -14,6 +14,8 @@ const AuthMiddleware = require("../middlewares/authMiddleware")
 
 // endpoint of [GET] /api/videos
 Router.get("/videos", VideoHandler.getListYoutubeVideos)
+Router.get("/videos-db", VideoHandler.getListFromDb)
+Router.post("/videos-db", FormDataMiddleware, VideoHandler.addToDB)
 
 // collection endpoint of blog
 Router.get("/posts", PostHandler.getPosts)

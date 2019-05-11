@@ -1,8 +1,22 @@
 const youtubeReq = require("../modules/youtubeRequest")
+const videoModules = require("../modules/videos")
 const youtubeTransformer = require("../transformers/youtube")
 const StringManager = require("string-manager")
 
 module.exports = {
+
+  addToDB: function(req, res, next) {
+    videoModules.addVideo(req, res, result => {
+      res.json(result)
+    })
+  },
+
+  getListFromDb: function(req, res, next) {
+    videoModules.fetchVideos(req, res, result => {
+      res.json(result)
+    })
+  },
+
   getList: function(req, res, next) {
     return res.json({
       status: 200

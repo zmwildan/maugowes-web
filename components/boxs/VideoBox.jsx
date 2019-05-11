@@ -16,14 +16,7 @@ const VideoBoxStyled = Styled.div`
 `
 
 const VideoBox = props => {
-  const {
-    results,
-    status,
-    nextPageToken,
-    message,
-    stats,
-    is_loading
-  } = props.data
+  const { results, status, message, stats, is_loading } = props.data
   return (
     <VideoBoxStyled noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
@@ -55,7 +48,11 @@ const VideoBox = props => {
 
       {status && status !== 200 ? <Error text={message} /> : null}
 
-      {props.loadmoreHandler && nextPageToken && !is_loading ? (
+      {props.loadmoreHandler &&
+      !is_loading &&
+      status === 200 &&
+      results &&
+      results.length >= props.maxResults ? (
         <div className="grid-center" style={{ margin: "20px 0 40px" }}>
           <Button
             type="button"
