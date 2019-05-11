@@ -125,14 +125,14 @@ class Home extends React.Component{
             {/* part or accessories review */}
             <BlogBox title="Yang Baru di Review Part atau Aksesoris" data={this.props.blog.new_review || {}} />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/review" text="Baca Review Part / Aksesories" />
+              <Button type="link" target="/blog/tag/review%20lain" text="Baca Review Part / Aksesories" />
             </div>
             {/* end of part or accessories review */}
 
             {/* utak atik */}
             <BlogBox title="Yang Baru di Utak Atik" data={this.props.blog.new_utak_atik || {}} />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/review" text="Baca Utak Atik" />
+              <Button type="link" target="/blog/tag/utak%20atik" text="Baca Utak Atik" />
             </div>
             {/* utak atik */}
 
