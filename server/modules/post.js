@@ -88,13 +88,13 @@ module.exports = {
                       status: 200,
                       messages: "success",
                       results,
-                      total: count[0].total
+                      total: count && count[0] ? count[0].total : 0
                     })
                   } else {
                     return callback({
                       status: 204,
                       message: "no post available",
-                      total: count[0].total
+                      total: count && count[0] ? count[0].total : 0
                     })
                   }
                 })

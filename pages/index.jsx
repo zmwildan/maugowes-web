@@ -57,6 +57,33 @@ class Home extends React.Component{
       const videos = await videosResponse.json()
       this.props.reduxStore.dispatch(("new", videos))
     }
+
+    this.props.dispatch(fetchBlog("new_bike_review"))
+    this.props.dispatch(fetchBlog("new_review"))
+    this.props.dispatch(fetchBlog("new_utak_atik"))
+
+    // req new bike review
+    const newBikeReviewReq = await fetch(
+      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=review%20sepeda`
+    )
+    const newBikeReviewRes = await newBikeReviewReq.json()
+    this.props.dispatch(fetchBlog("new_bike_review", newBikeReviewRes))
+
+    // req new review
+    const newReviewReq = await fetch(
+      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=review%20lain`
+    )
+    const newReviewRes = await newReviewReq.json()
+    this.props.dispatch(fetchBlog("new_review", newReviewRes))
+
+    // req new utak atik
+    const newUtakAtikReq = await fetch(
+      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=utak%20atik`
+    )
+    const newUtakAtikRes = await newUtakAtikReq.json()
+    this.props.dispatch(fetchBlog("new_utak_atik", newUtakAtikRes))
+
+
   }
 
   render() {
@@ -94,6 +121,27 @@ class Home extends React.Component{
               <Button type="link" target="/blog" text="Baca Blog" />
             </div>
             {/* end of blog */}
+
+            {/* part or accessories review */}
+            <BlogBox title="Yang Baru di Review Part atau Aksesoris" data={this.props.blog.new_review || {}} />
+            <div className="grid-center p-t-30 p-b-50">
+              <Button type="link" target="/blog/tag/review" text="Baca Review Part / Aksesories" />
+            </div>
+            {/* end of part or accessories review */}
+
+            {/* utak atik */}
+            <BlogBox title="Yang Baru di Utak Atik" data={this.props.blog.new_utak_atik || {}} />
+            <div className="grid-center p-t-30 p-b-50">
+              <Button type="link" target="/blog/tag/review" text="Baca Utak Atik" />
+            </div>
+            {/* utak atik */}
+
+            {/* bicycle review */}
+            <BlogBox title="Yang Baru di Review Sepeda" data={this.props.blog.new_bike_review || {}} />
+            <div className="grid-center p-t-30 p-b-50">
+              <Button type="link" target="/blog/tag/review%20sepeda" text="Baca Review Sepeda" />
+            </div>
+            {/* bicycle review */}
           </HomePage>
         </DefaultLayout>
       </GlobalLayout>
