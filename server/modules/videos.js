@@ -1,6 +1,7 @@
 const mongo = require("./mongodb")
 const { ObjectId } = require("mongodb")
 const youtubeReq = require("../modules/youtubeRequest")
+const videoTransformer = require("../transformers/youtube")
 
 module.exports = {
   /**
@@ -24,9 +25,31 @@ module.exports = {
       // get video Youtube by id
       youtubeReq(
         "get",
-        `/youtube/v3/videos?id=${video_id}&part=snippet`,
+        `/youtube/v3/videos?id=${video_id}&part=snippet&key=${
+          process.env.GOOGLE_TOKEN
+        }`,
         response => {
-          return callback(response)
+          // return callback(response.items.length)
+          if(response.items && response.items.length > 0) {
+            const videodata = videoTransformer.transformer(response.items[0])
+            // insert to the database
+            mongo().then(({db, client}) => {
+              const currentTime = Math.round(new Date().getTime() / 1000)
+              videodata.created_on = currentTime
+              videodata.updated_on = currentTime
+              db.collection("videos").insert(videodata)
+              client.close()
+              return callback({
+                status: 201,
+                messages: "video berhasil ditambahkan"
+              })
+            })
+          } else {
+            return callback({
+              status: 204,
+              messages: "video tidak ditemukan"
+            })
+          } 
         }
       )
     } else {

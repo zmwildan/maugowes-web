@@ -16,16 +16,20 @@ module.exports = {
       nextResponse.stats = response.pageInfo
       nextResponse.results = []
       response.items.map((n, key) => {
-        nextResponse.results.push({
-          id: n.id.videoId,
-          title: n.snippet.title,
-          thumbnails: n.snippet.thumbnails,
-          publishedDate: n.snippet.publishedAt,
-          description: n.snippet.description
-        })
+        nextResponse.results.push(this.transformer(n))
       })
     }
 
     return nextResponse
+  },
+
+  transformer: n => {
+    return {
+      id: n.id || n.id.videoId,
+      title: n.snippet.title,
+      thumbnails: n.snippet.thumbnails,
+      publishedDate: n.snippet.publishedAt,
+      description: n.snippet.description
+    }
   }
 }
