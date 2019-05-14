@@ -26,16 +26,24 @@ class Blog extends React.Component {
   static async getInitialProps({ reduxStore, req, query }) {
     if (typeof window == "undefined") {
       //  only call in server side
+      const { endpoint, type } = fetchBlog()["CALL_API"]
       let reqQuery = {
+        page: 1,
         limit: MaxResults
       }
       if (query.tag) reqQuery.tag = query.tag
       if (query.username) reqQuery.username = query.username
+
       const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(reqQuery)}`
+        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(reqQuery)}`
       )
       const posts = await postsResponse.json()
-      reduxStore.dispatch(fetchBlog(StoreFilter, posts))
+      
+      reduxStore.dispatch({
+        type,
+        filter: StoreFilter, 
+        data: posts
+      })
     }
 
     return {
@@ -43,23 +51,6 @@ class Blog extends React.Component {
       username: query.username
     }
   }
-
-  // async componentDidMount() {
-  //   console.log("tag", this.props.tag)
-  //   const blogState = this.props.blog[StoreFilter] || {}
-  //   if (!blogState.status) {
-  //     this.props.dispatch(fetchBlog(StoreFilter))
-  //     let reqQuery = {
-  //       limit: MaxResults
-  //     }
-  //     if (this.props.query) reqQuery.tag = this.props.query
-  //     const postsResponse = await fetch(
-  //       `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(reqQuery)}`
-  //     )
-  //     const posts = await postsResponse.json()
-  //     this.props.dispatch(fetchBlog(StoreFilter, posts))
-  //   }
-  // }
 
   loadmoreHandler() {
     const blogState = this.props.blog[StoreFilter] || {}
@@ -69,20 +60,13 @@ class Blog extends React.Component {
           page: this.state.page + 1
         },
         async () => {
-          this.props.dispatch(fetchMoreBlog(StoreFilter))
           let reqQuery = {
             limit: MaxResults,
             page: this.state.page
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
-          const postsResponse = await fetch(
-            `${config[process.env.NODE_ENV].host}/api/posts?${objToQuery(
-              reqQuery
-            )}
-        `
-          )
-          const posts = await postsResponse.json()
-          this.props.dispatch(fetchMoreBlog(StoreFilter, posts))
+
+          return this.props.dispatch(fetchMoreBlog(StoreFilter, reqQuery))
         }
       )
     }

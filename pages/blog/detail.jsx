@@ -14,7 +14,7 @@ import Disqus from "../../components/boxs/Disqus"
 import Loader from "../../components/Loader"
 
 import { connect } from "react-redux"
-import { fetchBlog } from "../../redux/blog/actions"
+import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import BlogBox from "../../components/boxs/BlogBox"
@@ -109,12 +109,17 @@ class BlogDetail extends React.Component {
   static async getInitialProps({ reduxStore, res, query }) {
     if (typeof window == "undefined") {
       const id = getId(query.id)
+      const { type, endpoint } = fetchBlogDetail(id)["CALL_API"]
       //  only call in server side
       const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/post/${id}`
+        `${config[process.env.NODE_ENV].host}${endpoint}`
       )
       const posts = await postsResponse.json()
-      reduxStore.dispatch(fetchBlog(id, posts))
+      reduxStore.dispatch({
+        type,
+        filter: id,
+        data: posts
+      })
     }
 
     return { id: query.id }
@@ -122,26 +127,11 @@ class BlogDetail extends React.Component {
 
   async componentDidMount() {
     this.setState({ windowReady: true })
-    // const id = getId(this.props.id)
-    // const blogState = this.props.blog[id] || {}
-    // if (!blogState.status) {
-    //   this.props.dispatch(fetchBlog(id))
-    //   const postsResponse = await fetch(
-    //     `${config[process.env.NODE_ENV].host}/api/posts/${id}`
-    //   )
-    //   const posts = await postsResponse.json()
-    //   this.props.dispatch(fetchBlog(id, posts))
-    // }
-
+  
     // get related post
     const blogRelatedState = this.props.blog.related || {}
     if (!blogRelatedState.status) {
-      this.props.dispatch(fetchBlog("related"))
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/posts?limit=3`
-      )
-      const posts = await postsResponse.json()
-      this.props.dispatch(fetchBlog("related", posts))
+      return this.props.dispatch(fetchBlog("related", { limit: 3, page: 1 }))
     }
   }
 

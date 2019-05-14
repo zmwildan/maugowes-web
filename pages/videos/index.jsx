@@ -7,15 +7,7 @@ import VideoBox from "../../components/boxs/VideoBox"
 
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
-import { objToQuery } from "string-manager"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
-import sealMiddleware from "seal-middleware"
-import getConfig from "next/config"
-
-const { publicRuntimeConfig } = getConfig()
-const { API_KEY } = publicRuntimeConfig
-
-const seal = new sealMiddleware(API_KEY, 5000)
 
 const VideoStyled = Styled.div`
   
@@ -31,34 +23,27 @@ class VideosPage extends React.Component {
 
   static async getInitialProps({ reduxStore }) {
     if (typeof window == "undefined") {
+      const { endpoint, type } = fetchVideos()["CALL_API"]
+
       // only call in server side
       const videosResponse = await fetch(
         `${
           config[process.env.NODE_ENV].host
-        }/api/videos-db/${seal.generateSeal()}?limit=${MaxResults}`
+        }${endpoint}?page=1&limit=${MaxResults}`
       )
+
       const videos = await videosResponse.json()
-      reduxStore.dispatch(fetchVideos(StoreFilter, videos))
+      console.log("videos", videos.results.length)
+
+      reduxStore.dispatch({
+        type,
+        filter: StoreFilter,
+        data: videos
+      })
     }
 
     return {}
   }
-
-  componentDidMount() {
-    console.log(API_KEY)
-  }
-
-  // async componentDidMount() {
-  //   const videosState = this.props.videos.list || {}
-  //   if (!videosState.status) {
-  //     this.props.dispatch(fetchVideos(StoreFilter))
-  //     const videosResponse = await fetch(
-  //       `${config[process.env.NODE_ENV].host}/api/videos-db?limit=${MaxResults}`
-  //     )
-  //     const videos = await videosResponse.json()
-  //     this.props.dispatch(fetchVideos(StoreFilter, videos))
-  //   }
-  // }
 
   loadmoreHandler() {
     const videosState = this.props.videos.list || {}
@@ -67,20 +52,13 @@ class VideosPage extends React.Component {
         {
           page: this.state.page + 1
         },
-        async () => {
-          this.props.dispatch(fetchVideos(StoreFilter))
+        () => {
           let reqQuery = {
             limit: MaxResults,
             page: this.state.page
           }
-          const videoResponse = await fetch(
-            `${
-              config[process.env.NODE_ENV].host
-            }/api/videos-db/${seal.generateSeal()}?${objToQuery(reqQuery)}
-        `
-          )
-          const videos = await videoResponse.json()
-          this.props.dispatch(fetchMoreVideos(StoreFilter, videos))
+
+          this.props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
         }
       )
     }

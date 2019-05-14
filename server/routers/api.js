@@ -19,8 +19,8 @@ Router.get("/videos-db/:seal", SealMiddleware, VideoHandler.getListFromDb)
 Router.post("/videos-db", FormDataMiddleware, VideoHandler.addToDB)
 
 // collection endpoint of blog
-Router.get("/posts", PostHandler.getPosts)
-Router.get("/post/:id", PostHandler.getPost)
+Router.get("/posts/:seal", SealMiddleware, PostHandler.getPosts)
+Router.get("/post/:id/:seal", SealMiddleware, PostHandler.getPost)
 Router.post(
   "/posts",
   AuthMiddleware,
