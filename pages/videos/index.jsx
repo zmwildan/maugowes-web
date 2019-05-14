@@ -9,6 +9,13 @@ import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import { objToQuery } from "string-manager"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
+import sealMiddleware from "seal-middleware"
+import getConfig from "next/config"
+
+const { publicRuntimeConfig } = getConfig()
+const { API_KEY } = publicRuntimeConfig
+
+const seal = new sealMiddleware(API_KEY, 5000)
 
 const VideoStyled = Styled.div`
   
@@ -28,13 +35,17 @@ class VideosPage extends React.Component {
       const videosResponse = await fetch(
         `${
           config[process.env.NODE_ENV].host
-        }/api/videos-db?limit=${MaxResults}`
+        }/api/videos-db/${seal.generateSeal()}?limit=${MaxResults}`
       )
       const videos = await videosResponse.json()
       reduxStore.dispatch(fetchVideos(StoreFilter, videos))
     }
 
     return {}
+  }
+
+  componentDidMount() {
+    console.log(API_KEY)
   }
 
   // async componentDidMount() {
@@ -63,9 +74,9 @@ class VideosPage extends React.Component {
             page: this.state.page
           }
           const videoResponse = await fetch(
-            `${config[process.env.NODE_ENV].host}/api/videos-db?${objToQuery(
-              reqQuery
-            )}
+            `${
+              config[process.env.NODE_ENV].host
+            }/api/videos-db/${seal.generateSeal()}?${objToQuery(reqQuery)}
         `
           )
           const videos = await videoResponse.json()

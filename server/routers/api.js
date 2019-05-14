@@ -9,12 +9,13 @@ const AuthHandler = require("../handlers/auth")
 // middlewares
 const FormDataMiddleware = require("../middlewares/formDataMiddleware")
 const AuthMiddleware = require("../middlewares/authMiddleware")
+const SealMiddleware = require("../middlewares/sealMiddleware")
 
 // api endpoints
 
 // endpoint of [GET] /api/videos
-Router.get("/videos", VideoHandler.getListYoutubeVideos)
-Router.get("/videos-db", VideoHandler.getListFromDb)
+// Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)
+Router.get("/videos-db/:seal", SealMiddleware, VideoHandler.getListFromDb)
 Router.post("/videos-db", FormDataMiddleware, VideoHandler.addToDB)
 
 // collection endpoint of blog
