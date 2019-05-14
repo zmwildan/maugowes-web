@@ -2,6 +2,8 @@ import React from "react"
 import Styled from "styled-components"
 import Button from "../buttons/index"
 
+import toast from "../../modules/toast"
+
 const CardHomeSlidderStyled = Styled.div`
   width: 100%;
   height: 450px;
@@ -50,7 +52,11 @@ export default props => {
         <div className="slider-item-right">
           <div>
             <h2>{n.title}</h2>
-            <Button size="medium" text={n.link_text} />
+            <Button
+              onClick={() => toast(true, "Sistem Sedang Tahap Pengembangan", "warning")}
+              size="medium"
+              text={n.link_text}
+            />
           </div>
         </div>
       </div>

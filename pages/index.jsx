@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 
 import GlobalLayout from "../components/layouts/Global"
 import DefaultLayout from "../components/layouts/Default"
-// import Slider from "../components/slider/index"
-// import SliderItem from "../components/cards/CardHomeSlider"
+import Slider from "../components/slider/index"
+import SliderItem from "../components/cards/CardHomeSlider"
 // import MarketplaceBox from "../components/boxs/MarketplaceBox"
 import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
@@ -21,69 +21,58 @@ const HomePage = Styled.div`
 
 `
 
-class Home extends React.Component{
-
+class Home extends React.Component {
   static async getInitialProps({ reduxStore }) {
-
     if (typeof window == "undefined") {
       // only call in server side
 
       // request videos list
       const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos-db?limit=7`
+        `${config[process.env.NODE_ENV].host}${
+          fetchVideos()["CALL_API"].endpoint
+        }limit=5`
       )
       const videos = await videosResponse.json()
-      reduxStore.dispatch(fetchVideos("new", videos))
+      reduxStore.dispatch({
+        type: fetchVideos()["CALL_API"].type,
+        filter: "new",
+        data: videos
+      })
 
       // request news list
       const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/posts?limit=3`
+        `${config[process.env.NODE_ENV].host}${
+          fetchBlog()["CALL_API"].endpoint
+        }limit=6`
       )
       const posts = await postsResponse.json()
-      reduxStore.dispatch(fetchBlog("new", posts))
+      reduxStore.dispatch({
+        type: fetchBlog()["CALL_API"].type,
+        filter: "new",
+        data: posts
+      })
     }
-   
+
     return {}
   }
 
   async componentDidMount() {
-    const videosState = this.props.videos.new || {}
+    // const videosState = this.props.videos.new || {}
 
-    if(!videosState.status) {
-      this.props.dispatch(fetchVideos("new"))
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}/api/videos?maxResults=5`
-      )
-      const videos = await videosResponse.json()
-      this.props.reduxStore.dispatch(("new", videos))
-    }
-
-    this.props.dispatch(fetchBlog("new_bike_review"))
-    this.props.dispatch(fetchBlog("new_review"))
-    this.props.dispatch(fetchBlog("new_utak_atik"))
+    // if(!videosState.status) {
+    //   this.props.dispatch(fetchVideos("new", {maxResults: 5}))
+    // }
 
     // req new bike review
-    const newBikeReviewReq = await fetch(
-      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=review%20sepeda`
+    this.props.dispatch(
+      fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })
     )
-    const newBikeReviewRes = await newBikeReviewReq.json()
-    this.props.dispatch(fetchBlog("new_bike_review", newBikeReviewRes))
-
-    // req new review
-    const newReviewReq = await fetch(
-      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=review%20lain`
+    this.props.dispatch(
+      fetchBlog("new_review", { limit: 3, tag: "review lain" })
     )
-    const newReviewRes = await newReviewReq.json()
-    this.props.dispatch(fetchBlog("new_review", newReviewRes))
-
-    // req new utak atik
-    const newCaraCaraReq = await fetch(
-      `${config[process.env.NODE_ENV].host}/api/posts?limit=3&tag=cara%20cara`
+    this.props.dispatch(
+      fetchBlog("new_cara_cara", { limit: 3, tag: "cara cara" })
     )
-    const newCaraCaraRes = await newCaraCaraReq.json()
-    this.props.dispatch(fetchBlog("new_cara_cara", newCaraCaraRes))
-
-
   }
 
   render() {
@@ -92,18 +81,18 @@ class Home extends React.Component{
         <DefaultLayout>
           <HomePage>
             {/* slider of featured */}
-            {/* <Slider speed={10000} className="grid">
+            <Slider speed={10000} className="grid">
               <SliderItem />
-            </Slider> */}
+            </Slider>
             {/* slider of featured */}
-  
+
             {/* newest products */}
             {/* <MarketplaceBox title="Produk Baru Siap COD" />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/marketplace" text="Ke Marketplace" />
             </div> */}
             {/* end of newest products */}
-  
+
             {/* videos */}
             <VideoBox data={this.props.videos.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
@@ -114,7 +103,7 @@ class Home extends React.Component{
             {/* banner of youtube and bike shop */}
             <BannerBox />
             {/* end of banner of youtube and bike shop */}
-  
+
             {/* blog */}
             <BlogBox data={this.props.blog.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
@@ -123,23 +112,44 @@ class Home extends React.Component{
             {/* end of blog */}
 
             {/* part or accessories review */}
-            <BlogBox title="Yang Baru di Review Part atau Aksesoris" data={this.props.blog.new_review || {}} />
+            <BlogBox
+              title="Yang Baru di Review Part atau Aksesoris"
+              data={this.props.blog.new_review || {}}
+            />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/review%20lain" text="Baca Review Part / Aksesories" />
+              <Button
+                type="link"
+                target="/blog/tag/review%20lain"
+                text="Baca Review Part / Aksesories"
+              />
             </div>
             {/* end of part or accessories review */}
 
             {/* utak atik */}
-            <BlogBox title="Yang Baru di Cara - Cara" data={this.props.blog.new_cara_cara || {}} />
+            <BlogBox
+              title="Yang Baru di Cara - Cara"
+              data={this.props.blog.new_cara_cara || {}}
+            />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/cara%20cara" text="Baca Cara Cara" />
+              <Button
+                type="link"
+                target="/blog/tag/cara%20cara"
+                text="Baca Cara Cara"
+              />
             </div>
             {/* utak atik */}
 
             {/* bicycle review */}
-            <BlogBox title="Yang Baru di Review Sepeda" data={this.props.blog.new_bike_review || {}} />
+            <BlogBox
+              title="Yang Baru di Review Sepeda"
+              data={this.props.blog.new_bike_review || {}}
+            />
             <div className="grid-center p-t-30 p-b-50">
-              <Button type="link" target="/blog/tag/review%20sepeda" text="Baca Review Sepeda" />
+              <Button
+                type="link"
+                target="/blog/tag/review%20sepeda"
+                text="Baca Review Sepeda"
+              />
             </div>
             {/* bicycle review */}
           </HomePage>
