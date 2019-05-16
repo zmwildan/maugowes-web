@@ -4,7 +4,11 @@ export default function dropdown() {
 
   // close all button if html click
   window.onclick = function(event) {
-    if (event.target.className.indexOf("no-close") < 0) {
+    if (
+      event.target &&
+      typeof event.target.className == "string" &&
+      event.target.className.indexOf("no-close") < 0
+    ) {
       if (!event.target.matches(".dropdown-btn")) {
         var target = event.target
         var parent = target.parentNode

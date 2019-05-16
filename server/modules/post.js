@@ -147,8 +147,7 @@ module.exports = {
           }
 
           // close connection to mongo server
-          client.close()
-
+         
           if (result.length < 1) {
             if (req.no_count) return callback()
             return callback({
@@ -163,11 +162,15 @@ module.exports = {
           result = postTransformer.post(result[0])
 
           // update: increment views
-          if (!req.no_count)
-            db.collection("posts").update(
-              { _id: ObjectId(result._id) },
+          if (!req.no_count) {
+            db.collection("posts").updateOne(
+              { _id: ObjectId(result.id) },
               { $set: { views: result.views + 1 } }
             )
+            client.close()
+          } else {
+            client.close()
+          }
           result.status = 200
           result.message = "success"
           return callback(result)

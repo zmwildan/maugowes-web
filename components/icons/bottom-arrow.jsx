@@ -1,3 +1,6 @@
-export default ({size, className}) => (
-  <img className={className} src={ `https://img.icons8.com/ios/${size || 50}/000000/expand-arrow.png`} />
+export default ({ size, className }) => (
+  <img
+    className={className}
+    src={`https://img.icons8.com/ios/${size || 50}/000000/expand-arrow.png`}
+  />
 )

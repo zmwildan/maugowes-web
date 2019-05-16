@@ -10,7 +10,8 @@ import {
   color_black_main,
   color_gray_soft
 } from "../../components/Const"
-import Disqus from "../../components/boxs/Disqus"
+import DisqusBox from "../../components/boxs/Disqus"
+import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 
 import { connect } from "react-redux"
@@ -18,6 +19,9 @@ import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import BlogBox from "../../components/boxs/BlogBox"
+import ShareIcon from "../../components/icons/Share"
+import CommentIcon from "../../components/icons/Comment"
+import EyeIcon from "../../components/icons/Eye"
 
 function getId(title) {
   let titleArr = title.split("-")
@@ -101,6 +105,21 @@ const BlogDetailStyled = Styled.div`
       margin-right: 10px;
     }
   }
+  .blog-detail_meta {
+    margin-top: 20px;
+    color: ${color_gray_dark};
+    svg {
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .blog-detail_meta_item {
+      margin-right: 16px;
+      a {
+        color: ${color_gray_dark};
+        text-decoration: none;
+      }
+    }
+  }
 `
 
 class BlogDetail extends React.Component {
@@ -127,7 +146,7 @@ class BlogDetail extends React.Component {
 
   async componentDidMount() {
     this.setState({ windowReady: true })
-  
+
     // get related post
     const blogRelatedState = this.props.blog.related || {}
     if (!blogRelatedState.status) {
@@ -183,6 +202,7 @@ class BlogDetail extends React.Component {
                     ) : null}
                     {/* end of list tag of post */}
 
+                    {/* author */}
                     <a
                       className="link-blog-detail_author"
                       href="/author/yussan">
@@ -200,6 +220,48 @@ class BlogDetail extends React.Component {
                         </div>
                       </div>
                     </a>
+                    {/* end of author */}
+
+                    {/* post meta */}
+                    <div className="blog-detail_meta">
+                      <span className="blog-detail_meta_item">
+                        <EyeIcon width="30" height="30" />
+                        <span>{data.views}</span>
+                      </span>
+
+                      <span className="blog-detail_meta_item">
+                        <a
+                          onClick={() => {
+                            document
+                              .getElementById("comment-box")
+                              .scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"
+                              })
+                          }}
+                          href="javascript:;">
+                          <CommentIcon width="30" height="30" />
+                          <span>0</span>
+                        </a>
+                      </span>
+
+                      <span className="blog-detail_meta_item">
+                        <a
+                          onClick={() => {
+                            document
+                              .getElementById("share-box")
+                              .scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"
+                              })
+                          }}
+                          href="javascript:;">
+                          <ShareIcon width="25" height="25" />
+                          <span>Share</span>
+                        </a>
+                      </span>
+                    </div>
+                    {/* end of post meta */}
 
                     {data.video ? (
                       <div className="blog-detail_video">
@@ -218,21 +280,30 @@ class BlogDetail extends React.Component {
                   </div>
                 </div>
 
+                {/* share box */}
+                <div className="grid-center" id="share-box">
+                  <div className="col-7_xs-12">
+                    <ShareBox url={`https://maugowes.com${data.link}`} />
+                  </div>
+                </div>
+                {/* end of share box */}
+
                 {/* blog box */}
                 <div className="blog-detail_related">
                   <BlogBox
                     style={{ margin: "20px 0" }}
                     noHeaderTitle
+                    noStats
                     data={related}
                   />
                 </div>
                 {/* end of blog box */}
 
                 {/* comment */}
-                <div className="grid-center">
+                <div className="grid-center" id="comment-box">
                   <div className="col-7_xs-12 blog-detail_comment">
                     {this.state.windowReady ? (
-                      <Disqus
+                      <DisqusBox
                         url={`${window.location.origin}/blog/${id}`}
                         identifier={`maugowes-${id}`}
                       />
