@@ -16,7 +16,7 @@ const VideoBoxStyled = Styled.div`
 `
 
 const VideoBox = props => {
-  const { results, status, message, stats, is_loading } = props.data
+  const { results, status, message, total, is_loading } = props.data
   return (
     <VideoBoxStyled noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
@@ -25,10 +25,10 @@ const VideoBox = props => {
             {props.title || "Yang Baru di Video"}
           </h2>
         </div>
-      ) : stats ? (
+      ) : total ? (
         <center style={{ marginBottom: 50 }}>
           Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{stats.totalResults}</strong> video
+          <strong>{total}</strong> video
         </center>
       ) : null}
 
