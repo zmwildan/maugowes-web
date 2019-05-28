@@ -37,6 +37,9 @@ Router.put(
 // collection endpoint of auth
 Router.post("/login", FormDataMiddleware, AuthHandler.login)
 
+// testers
+Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)
+
 Router.get("*", (req, res, next) => {
   return res.json({
     status: 404,

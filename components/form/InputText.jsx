@@ -22,6 +22,7 @@ const InputTextStyled = Styled.div`
 `
 
 export default class InputText extends React.Component {
+  
   componentDidMount() {
     validate(this.props)
   }

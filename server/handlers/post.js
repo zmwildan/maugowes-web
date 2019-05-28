@@ -1,4 +1,5 @@
 const postModule = require("../modules/post")
+const sebangsaModule = require("../modules/sebangsa")
 
 module.exports = {
   getPosts: (req, res, next) => {
@@ -20,5 +21,12 @@ module.exports = {
     postModule.updatePost(req, res, result => {
       res.json(result)
     })
-  }
+  },
+  // sebangsaPostTest: (req, res, next) => {
+  //   sebangsaModule.postToSebangsa({
+  //     post: "ready to go.."
+  //   }, () => {
+  //     res.end("posted.")
+  //   })
+  // }
 }

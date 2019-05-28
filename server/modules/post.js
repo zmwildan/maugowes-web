@@ -1,6 +1,7 @@
 const mongo = require("./mongodb")
 const postTransformer = require("../transformers/posts")
 const cloudinary = require("./cloudinary")
+const sebangsa = require("./sebangsa")
 const file = require("./file")
 const { ObjectId } = require("mongodb")
 
@@ -255,6 +256,12 @@ module.exports = {
               } else {
                 // insert to mongodb
                 db.collection("posts").insert(postdata)
+
+                // get lattest id of post
+
+                // post to sebangsa
+                sebangsa.postToSebangsa()
+
                 return callback({
                   status: 201,
                   message: "Post Created"
