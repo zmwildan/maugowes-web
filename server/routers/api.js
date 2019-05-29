@@ -38,7 +38,7 @@ Router.put(
 Router.post("/login", FormDataMiddleware, AuthHandler.login)
 
 // testers
-Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)
+// Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)
 
 Router.get("*", (req, res, next) => {
   return res.json({

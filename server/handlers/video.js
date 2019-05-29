@@ -1,18 +1,43 @@
-const videoModules = require("../modules/videos")
+const videoModule = require("../modules/videos")
+const sebangsaModule = require("../modules/sebangsa")
 
 module.exports = {
-
   addToDB: function(req, res, next) {
-    videoModules.addVideo(req, res, result => {
+    videoModule.addVideo(req, res, result => {
       // get lattest data of video
-      
-      res.json(result)
+      return videoModule.fetchVideos(
+        {
+          query: {
+            limit: 1,
+            page: 1
+          }
+        },
+        res,
+        videos => {
+          const video = videos.results[0]
+          const post = `video baru di @maugowes ${
+            video.title
+          } https://youtube.com/watch?v=${
+            video.id
+          } #maugowes #sepeda #roadbike #mtb #foldingbike #gowes #bicycle #cycling`
+          
+          return sebangsaModule.postToSebangsa(
+            {
+              post
+            },
+            () => {
+              res.json(result)
+            }
+          )
+          
+        }
+      )
     })
   },
 
   getListFromDb: function(req, res, next) {
-    videoModules.fetchVideos(req, res, result => {
+    videoModule.fetchVideos(req, res, result => {
       res.json(result)
     })
-  },
+  }
 }
