@@ -116,7 +116,7 @@ module.exports = {
    */
   fetchPost(req, res, callback) {
     const { id } = req.params
-    if (id.length != 24) {
+    if (id && id.length != 24) {
       if (req.no_count) return callback()
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }

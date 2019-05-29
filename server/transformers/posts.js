@@ -11,7 +11,7 @@ module.exports = {
       created_on: n.created_on,
       updated_on: n.updated_on,
       content: n.content,
-      truncatedContent: truncate(pureContent, 100, "..."),
+      truncatedContent: truncate(pureContent, 200, "..."),
       views: n.views,
       tags: n.tags.split(","),
       video: n.video,
