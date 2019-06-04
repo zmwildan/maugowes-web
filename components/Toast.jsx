@@ -1,9 +1,9 @@
 import Styled from "styled-components"
-import { color_red_main, color_gray_dark } from "./Const"
 import Toast from "../modules/toast"
+import { color_black_main } from "./Const"
 
 const ToastStyled = Styled.div`
-  background-color: ${color_gray_dark};
+  background-color: ${color_black_main};
   position: fixed;
   color: #FFF;
   width: 300px;

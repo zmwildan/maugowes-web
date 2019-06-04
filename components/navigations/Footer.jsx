@@ -14,6 +14,10 @@ const Footer = Styled.div`
   [class*=col-] {
     padding: 0;
   }
+  .footer-left-logo {
+    width: 200px;
+    max-width: 100%;
+  }
   a {
     color: ${color_black_main};
     text-decoration: none;
@@ -83,7 +87,7 @@ export default props => {
     <React.Fragment>
       <Footer className="grid">
         <div className="col-4_xs-12 footer-left">
-          <img src="/static/images/logo.png" alt="Logo Mau Gowes" />
+          <img className="footer-left-logo" src="/static/images/logo-2.png" alt="Logo Mau Gowes" />
           <p>
             Mau Gowes - Adalah platform online yang dibuat untuk kamu para
             pecinta sepeda. Disini kamu bisa dapat konten menarik dan sekalian

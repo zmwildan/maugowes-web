@@ -16,7 +16,11 @@ import IconBottomArrow from "../icons/bottom-arrow"
 const HeaderStyled = Styled.header`
   .header-logo {
     text-align: center;
-    padding: 20px 0; 
+    padding: 50px 0;
+    .header-logo-img {
+      width: 250px;
+      max-width: 100%;
+    }
   }
 
   .header-top-menu {
@@ -168,7 +172,7 @@ class Header extends React.Component {
         <div className="grid-center header-logo">
           <div className="col">
             <a href="/">
-              <img src="/static/images/logo.png" alt="logo Mau Gowes" />
+              <img className="header-logo-img" src="/static/images/logo-2.png" alt="logo Mau Gowes" />
             </a>
           </div>
         </div>
