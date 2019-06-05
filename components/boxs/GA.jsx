@@ -6,7 +6,6 @@ const GAStyled = Styled.div`
         display: block;
         width: 100%;
         margin: 50px 0;
-        background: green;
         text-align: center;
     }
 `
