@@ -97,7 +97,6 @@ export default class SidebarMarketplace extends React.Component {
   }
 
   scrollHandler() {
-    console.log(window.pageYOffset)
     if(window.pageYOffset >= 710 ) {
       if(this.state.sidebarFixed === false) {
         this.setState({

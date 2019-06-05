@@ -33,7 +33,6 @@ class VideosPage extends React.Component {
       )
 
       const videos = await videosResponse.json()
-      console.log("videos", videos.results.length)
 
       reduxStore.dispatch({
         type,
