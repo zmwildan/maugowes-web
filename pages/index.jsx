@@ -1,7 +1,12 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
+import config from "../config/index"
+import fetch from "isomorphic-unfetch"
+import { fetchVideos } from "../redux/videos/actions"
+import { fetchBlog } from "../redux/blog/actions"
 
+// components
 import GlobalLayout from "../components/layouts/Global"
 import DefaultLayout from "../components/layouts/Default"
 import Slider from "../components/slider/index"
@@ -11,11 +16,7 @@ import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
 import BannerBox from "../components/boxs/BannerHomeBox"
-
-import config from "../config/index"
-import fetch from "isomorphic-unfetch"
-import { fetchVideos } from "../redux/videos/actions"
-import { fetchBlog } from "../redux/blog/actions"
+import GA from "../components/boxs/GA"
 
 const HomePage = Styled.div`
 
@@ -85,6 +86,10 @@ class Home extends React.Component {
               <SliderItem />
             </Slider>
             {/* slider of featured */}
+
+            {/* google adsense */}
+            <GA />
+            {/* end of google adsense */}
 
             {/* newest products */}
             {/* <MarketplaceBox title="Produk Baru Siap COD" />

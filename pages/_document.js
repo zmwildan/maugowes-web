@@ -49,7 +49,6 @@ export default class MyDocument extends Document {
               />
             </React.Fragment>
           ) : null}
-          />
         </body>
       </html>
     )
