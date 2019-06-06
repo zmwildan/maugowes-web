@@ -33,7 +33,7 @@ export default class MyDocument extends Document {
           <FullLoader />
           <NextScript />
           <Toast />
-          {process.env.NODE_ENV != "production" ? (
+          {process.env.NODE_ENV == "production" ? (
             <React.Fragment>
               <script
                 async
