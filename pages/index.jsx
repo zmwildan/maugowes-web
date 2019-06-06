@@ -16,7 +16,6 @@ import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
 import BannerBox from "../components/boxs/BannerHomeBox"
-import GA from "../components/boxs/GA"
 
 const HomePage = Styled.div`
 
@@ -86,10 +85,6 @@ class Home extends React.Component {
               <SliderItem />
             </Slider>
             {/* slider of featured */}
-
-            {/* google adsense */}
-            <GA />
-            {/* end of google adsense */}
 
             {/* newest products */}
             {/* <MarketplaceBox title="Produk Baru Siap COD" />
