@@ -8,7 +8,9 @@ import {
   color_gray_dark,
   color_gray_medium,
   color_black_main,
-  color_gray_soft
+  color_gray_soft,
+  color_blue_main,
+  color_white_main
 } from "../../components/Const"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
@@ -86,6 +88,12 @@ const BlogDetailStyled = Styled.div`
     }
     a{
       word-break: break-all;
+    }
+    h2 {
+      background: ${color_blue_main};
+      color: ${color_white_main};
+      padding: 0 10px;
+      line-height: 2;
     }
   }
   .blog-detail_tag {

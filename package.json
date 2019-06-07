@@ -33,7 +33,8 @@
   "scripts": {
     "start": "nodemon --exec 'node -r dotenv/config' ./server/index.js",
     "dev": "next",
-    "build": "next build"
+    "build": "NODE_ENV=production next build",
+    "test:live": "yarn build && nodemon --exec 'node -r dotenv/config' ./server/index.js"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.0",
