@@ -49,6 +49,7 @@ nextApp.prepare().then(() => {
 
   // static routes
   app.use("/media", express.static(`${__dirname}/${process.env.MEDIA_DIR}`))
+  app.use("/ads.txt", express.static(`${__dirname}/../static/ads.txt`))
 
   // all next stuff
   app.get("*", (req, res) => {
