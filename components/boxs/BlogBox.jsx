@@ -16,14 +16,7 @@ const BlogBoxStyled = Styled.div`
 `
 
 const BlogBox = props => {
-  const {
-    results,
-    status,
-    message,
-    stats,
-    is_loading,
-    total,
-  } = props.data
+  const { results, status, message, stats, is_loading, total } = props.data
 
   return (
     <BlogBoxStyled
@@ -75,7 +68,9 @@ const BlogBox = props => {
           />
         </div>
       ) : null}
-      <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
+      {!props.hideAds ? (
+        <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
+      ) : null}
     </BlogBoxStyled>
   )
 }

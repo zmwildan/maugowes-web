@@ -303,6 +303,7 @@ class BlogDetail extends React.Component {
                 {/* blog box */}
                 <div className="blog-detail_related">
                   <BlogBox
+                    hideAds
                     style={{ margin: "20px 0" }}
                     noHeaderTitle
                     noStats

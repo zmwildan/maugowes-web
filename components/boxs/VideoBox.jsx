@@ -64,7 +64,7 @@ const VideoBox = props => {
           />
         </div>
       ) : null}
-      <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
+      {!props.hideAds ? <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" /> : null}
     </VideoBoxStyled>
   )
 }

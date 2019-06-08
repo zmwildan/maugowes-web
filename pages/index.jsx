@@ -97,7 +97,7 @@ class Home extends React.Component {
             {/* end of newest products */}
 
             {/* videos */}
-            <VideoBox data={this.props.videos.new || {}} />
+            <VideoBox hideAds data={this.props.videos.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/videos" text="Lihat Video" />
             </div>
@@ -114,7 +114,7 @@ class Home extends React.Component {
             />
 
             {/* blog */}
-            <BlogBox data={this.props.blog.new || {}} />
+            <BlogBox hideAds data={this.props.blog.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/blog" text="Baca Blog" />
             </div>
@@ -122,6 +122,7 @@ class Home extends React.Component {
 
             {/* part or accessories review */}
             <BlogBox
+              hideAds
               title="Yang Baru di Review Part atau Aksesoris"
               data={this.props.blog.new_review || {}}
             />
@@ -136,6 +137,7 @@ class Home extends React.Component {
 
             {/* utak atik */}
             <BlogBox
+              hideAds
               title="Yang Baru di Cara - Cara"
               data={this.props.blog.new_cara_cara || {}}
             />
@@ -150,6 +152,7 @@ class Home extends React.Component {
 
             {/* bicycle review */}
             <BlogBox
+              hideAds
               title="Yang Baru di Review Sepeda"
               data={this.props.blog.new_bike_review || {}}
             />
