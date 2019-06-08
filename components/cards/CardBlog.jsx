@@ -24,6 +24,7 @@ const CardBlogStyled = Styled.div`
   }
 
   .card-blog-tags {
+    text-align: left;
     overflow-y: hidden;
     height: 50px;
     .card-blog-label {
@@ -47,6 +48,7 @@ const CardBlogStyled = Styled.div`
       bottom: 0;
       margin: 0;
       font-size: 1.5em;
+      text-align: left;
       a {
         color: ${color_black_main};
         font-weight: bold;
@@ -55,9 +57,14 @@ const CardBlogStyled = Styled.div`
     }
   }
 
+  .card-blog-content {
+    text-align: left;
+  }
+
   .card-blog-date {
     font-size: 14px;
     color: ${color_gray_dark};
+    text-align: left;
   }
 `
 

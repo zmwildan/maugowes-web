@@ -26,7 +26,6 @@ var SESSION_CONF = {
 
 // next app config
 const nextApp = next({ dev: NODE_ENV !== "production" })
-// const handle = nextApp.getRequestHandler()
 const nextRoutes = require("./routers/next")
 const handle = nextRoutes.getRequestHandler(nextApp)
 
