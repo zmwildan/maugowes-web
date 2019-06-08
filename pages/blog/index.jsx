@@ -4,6 +4,7 @@ import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import BlogBox from "../../components/boxs/BlogBox"
+import GA from "../../components/boxs/GA"
 
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
@@ -94,6 +95,7 @@ class Blog extends React.Component {
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
               backgroundImage="/static/images/background/bg-bike-store.jpg"
             />
+            <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
             <BlogBox
               noHeaderTitle
               maxResults={MaxResults}

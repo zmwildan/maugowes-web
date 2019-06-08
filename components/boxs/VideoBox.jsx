@@ -5,6 +5,7 @@ import { color_blue_main, color_gray_dark } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
+import GA from "../boxs/GA"
 
 const VideoBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
@@ -63,6 +64,7 @@ const VideoBox = props => {
           />
         </div>
       ) : null}
+      <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
     </VideoBoxStyled>
   )
 }

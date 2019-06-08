@@ -4,6 +4,7 @@ import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import VideoBox from "../../components/boxs/VideoBox"
+import GA from "../../components/boxs/GA"
 
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
@@ -79,6 +80,7 @@ class VideosPage extends React.Component {
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
               backgroundImage="/static/images/background/bg-bike-store.jpg"
             />
+            <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
             <VideoBox
               data={videos}
               loadmoreHandler={() => this.loadmoreHandler()}

@@ -30,9 +30,9 @@ class GA extends React.Component {
   render() {
     return (
       <GAStyled
-        style={this.props.style || {}}
-        isDummy={process.env.NODE_ENV != "production"}>
+      isDummy={process.env.NODE_ENV != "production"}>
         <ins
+          style={this.props.style || {}}
           className="adsbygoogle"
           data-ad-client={this.props.adClient}
           data-ad-slot={this.props.adSlot}

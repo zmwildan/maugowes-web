@@ -4,6 +4,7 @@ import { color_blue_main } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
+import GA from "../../components/boxs/GA"
 
 const BlogBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
@@ -74,6 +75,7 @@ const BlogBox = props => {
           />
         </div>
       ) : null}
+      <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
     </BlogBoxStyled>
   )
 }

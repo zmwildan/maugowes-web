@@ -2,7 +2,7 @@ import React from "react"
 import Styled from "styled-components"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
-import Link from "next/link"
+// import Link from "next/link"
 import { toCamelCase } from "string-manager"
 import {
   color_gray_dark,
@@ -15,6 +15,7 @@ import {
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
+import GA from "../../components/boxs/GA"
 
 import { connect } from "react-redux"
 import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
@@ -192,6 +193,7 @@ class BlogDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
+                <GA style={{marginBottom: 0}} adClient="ca-pub-4468477322781117" adSlot="4316048838" />
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <h1>{data.title}</h1>
@@ -287,6 +289,8 @@ class BlogDetail extends React.Component {
                     />
                   </div>
                 </div>
+
+                <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
 
                 {/* share box */}
                 <div className="grid-center" id="share-box">
