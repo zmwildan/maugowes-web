@@ -12,6 +12,7 @@ import DefaultLayout from "../components/layouts/Default"
 import Slider from "../components/slider/index"
 import SliderItem from "../components/cards/CardHomeSlider"
 // import MarketplaceBox from "../components/boxs/MarketplaceBox"
+import GA from "../components/boxs/GA"
 import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
@@ -86,6 +87,8 @@ class Home extends React.Component {
             </Slider>
             {/* slider of featured */}
 
+            <GA adClient="ca-pub-4468477322781117" adSlot="2131764851" />
+
             {/* newest products */}
             {/* <MarketplaceBox title="Produk Baru Siap COD" />
             <div className="grid-center p-t-30 p-b-50">
@@ -103,6 +106,12 @@ class Home extends React.Component {
             {/* banner of youtube and bike shop */}
             <BannerBox />
             {/* end of banner of youtube and bike shop */}
+
+            <GA
+              style={{ marginTop: 30 }}
+              adClient="ca-pub-4468477322781117"
+              adSlot="2131764851"
+            />
 
             {/* blog */}
             <BlogBox data={this.props.blog.new || {}} />

@@ -11,7 +11,7 @@ export default props => {
     <DefaultLayout>
       <div className="container">
         <Header />
-        <div className="children">{props.children}</div>
+        {props.children}
         <Footer />
       </div>
     </DefaultLayout>

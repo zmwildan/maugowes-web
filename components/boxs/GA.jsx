@@ -7,28 +7,40 @@ const GAStyled = Styled.div`
         width: 100%;
         margin: 50px 0;
         text-align: center;
+        height: ${props => (props.isDummy ? "150px" : "auto")};
+        background: ${props => (props.isDummy ? "lightgray" : "white")};
     }
 `
 
 class GA extends React.Component {
-  componentDidMount() {}
+  componentDidMount() {
+    // call google ads script
+    // render new Google Ads
+    if (process.env.NODE_ENV === "production") {
+      if (this.props.timeout) {
+        setTimeout(() => {
+          ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+        }, this.props.timeout)
+      } else {
+        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+      }
+    }
+  }
 
   render() {
-    if (process.env.NODE_ENV === "production" || this.props.isDummy) {
-      return (
-        <GAStyled>
-          <ins
-            className="adsbygoogle"
-            data-ad-client="ca-pub-4468477322781117"
-            data-ad-slot="2131764851"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-        </GAStyled>
-      )
-    } else {
-      return null
-    }
+    return (
+      <GAStyled
+        style={this.props.style || {}}
+        isDummy={process.env.NODE_ENV != "production"}>
+        <ins
+          className="adsbygoogle"
+          data-ad-client={this.props.adClient}
+          data-ad-slot={this.props.adSlot}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </GAStyled>
+    )
   }
 }
 
