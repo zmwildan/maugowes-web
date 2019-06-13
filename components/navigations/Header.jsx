@@ -6,10 +6,10 @@ import {
   color_black_main,
   color_blue_main
 } from "../Const"
-// import Link from "next/link"
 import initialDropdown from "../../modules/dropdown"
 
 // components
+import Link from "next/link"
 import Dropdown from "../dropdown/index"
 import IconBottomArrow from "../icons/bottom-arrow"
 
@@ -242,13 +242,15 @@ class Header extends React.Component {
                             {n.child.map((m, key) => {
                               return (
                                 <li key={key}>
-                                  <a href={{ pathname: m.link }}>
-                                    {m.name}{" "}
-                                    <IconBottomArrow
-                                      className="header-top-menu_link_icon"
-                                      size="10"
-                                    />
-                                  </a>
+                                  <Link href={m.link } prefetch>
+                                    <a href={ m.link }>
+                                      {m.name}{" "}
+                                      <IconBottomArrow
+                                        className="header-top-menu_link_icon"
+                                        size="10"
+                                      />
+                                    </a>
+                                  </Link>
                                 </li>
                               )
                             })}
@@ -256,9 +258,11 @@ class Header extends React.Component {
                         </div>
                       </Dropdown>
                     ) : (
-                      <a className="header-top-menu_link" href={n.link}>
-                        {n.name}
-                      </a>
+                      <Link href={n.link} prefetch>
+                        <a className="header-top-menu_link" href={n.link}>
+                          {n.name}
+                        </a>
+                      </Link>
                     )}
                   </li>
                 )

@@ -9,6 +9,7 @@ import GA from "../../components/boxs/GA"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
+import { objToQuery } from "string-manager/dist/modules/httpquery"
 
 const VideoStyled = Styled.div`
   
@@ -22,15 +23,16 @@ class VideosPage extends React.Component {
     page: 1
   }
 
-  static async getInitialProps({ reduxStore }) {
+  static async getInitialProps({ reduxStore, query }) {
     if (typeof window == "undefined") {
       const { endpoint, type } = fetchVideos()["CALL_API"]
+      const reqQuery = requestQueryGenerator(query)
 
       // only call in server side
       const videosResponse = await fetch(
-        `${
-          config[process.env.NODE_ENV].host
-        }${endpoint}?page=1&limit=${MaxResults}`
+        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
+          reqQuery
+        )}`
       )
 
       const videos = await videosResponse.json()
@@ -42,7 +44,17 @@ class VideosPage extends React.Component {
       })
     }
 
-    return {}
+    return {
+      query
+    }
+  }
+
+  componentDidMount() {
+    const videos = this.props.videos[StoreFilter] || {}
+    if (!videos.status && !videos.loading) {
+      const query = requestQueryGenerator()
+      this.props.dispatch(fetchVideos(StoreFilter, query))
+    }
   }
 
   loadmoreHandler() {
@@ -92,6 +104,15 @@ class VideosPage extends React.Component {
       </GlobalLayout>
     )
   }
+}
+
+function requestQueryGenerator(query = {}) {
+  let reqQuery = {
+    page: 1,
+    limit: MaxResults
+  }
+
+  return reqQuery
 }
 
 const mapStateToProps = state => {

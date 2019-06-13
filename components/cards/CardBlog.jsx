@@ -101,7 +101,9 @@ export default props => {
       {/* title if post */}
       <div className="card-blog-title">
         <h3>
-          <a href={linkUrl}>{data.title || "..."}</a>
+          <Link href={linkUrl} prefetch>
+            <a href={linkUrl}>{data.title || "..."}</a>
+          </Link>
         </h3>
       </div>
 

@@ -24,16 +24,11 @@ class Blog extends React.Component {
     page: 1
   }
 
-  static async getInitialProps({ reduxStore, req, query }) {
+  static async getInitialProps({ reduxStore, query }) {
     if (typeof window == "undefined") {
       //  only call in server side
       const { endpoint, type } = fetchBlog()["CALL_API"]
-      let reqQuery = {
-        page: 1,
-        limit: MaxResults
-      }
-      if (query.tag) reqQuery.tag = query.tag
-      if (query.username) reqQuery.username = query.username
+      const reqQuery = requestQueryGenerator(query)
 
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(reqQuery)}`
@@ -49,7 +44,16 @@ class Blog extends React.Component {
 
     return {
       tag: query.tag || "",
-      username: query.username
+      username: query.username,
+      query
+    }
+  }
+
+  componentDidMount() {
+    const blogState = this.props.blog[StoreFilter] || {}
+    if (!blogState.status && !blogState.is_loading ) { 
+      const reqQuery = requestQueryGenerator(this.props.query)
+      this.props.dispatch(fetchBlog(StoreFilter, reqQuery))
     }
   }
 
@@ -113,6 +117,18 @@ const mapStateToProps = state => {
   return {
     blog: state.Blog
   }
+}
+
+function requestQueryGenerator(query = {}) {
+  let reqQuery = {
+    page: 1,
+    limit: MaxResults
+  }
+
+  if (query.tag) reqQuery.tag = query.tag
+  if (query.username) reqQuery.username = query.username
+
+  return reqQuery
 }
 
 export default connect(mapStateToProps)(Blog)

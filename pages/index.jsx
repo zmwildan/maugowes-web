@@ -5,6 +5,7 @@ import config from "../config/index"
 import fetch from "isomorphic-unfetch"
 import { fetchVideos } from "../redux/videos/actions"
 import { fetchBlog } from "../redux/blog/actions"
+import dynamic from "next/dynamic"
 
 // components
 import GlobalLayout from "../components/layouts/Global"
@@ -17,6 +18,10 @@ import BlogBox from "../components/boxs/BlogBox"
 import VideoBox from "../components/boxs/VideoBox"
 import Button from "../components/buttons/index"
 import BannerBox from "../components/boxs/BannerHomeBox"
+
+// ref: https://github.com/zeit/next.js/#dynamic-import
+// const BlogBox = dynamic(() => import("../components/boxs/BlogBox"))
+// const VideoBox = dynamic(() => import("../components/boxs/VideoBox"))
 
 const HomePage = Styled.div`
 
