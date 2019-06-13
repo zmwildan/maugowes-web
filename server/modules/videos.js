@@ -33,7 +33,7 @@ module.exports = {
           if(response.items && response.items.length > 0) {
             const videodata = videoTransformer.transformer(response.items[0])
             // insert to the database
-            mongo().then(({db, client}) => {
+            mongo(({db, client}) => {
               const currentTime = Math.round(new Date().getTime() / 1000)
               videodata.created_on = currentTime
               videodata.updated_on = currentTime
@@ -84,7 +84,7 @@ module.exports = {
       }
     ]
 
-    return mongo().then(({ db, client }) => {
+    return mongo(({ db, client }) => {
       // get count of videos
       db.collection("videos")
         .aggregate(countAggregate)

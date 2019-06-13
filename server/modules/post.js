@@ -49,7 +49,7 @@ module.exports = {
     }
 
     // execute mongodb
-    return mongo().then(({db, client}) => {
+    return mongo(({db, client}) => {
       let countAggregate = Object.assign([], aggregate)
       // get post count
       countAggregate.push({
@@ -59,7 +59,8 @@ module.exports = {
       db.collection("posts")
         .aggregate(countAggregate)
         .toArray((err, count) => {
-          return mongo().then(({db, client}) => {
+          client.close()
+          return mongo(({db, client}) => {
             return (
               db
                 .collection("posts")
@@ -121,7 +122,7 @@ module.exports = {
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
-    mongo().then(({db, client}) => {
+    mongo(({db, client}) => {
       // list post and order by created_on
       db.collection("posts")
         .aggregate([
@@ -224,7 +225,7 @@ module.exports = {
           video
         }
 
-        return mongo().then(({db, client}) => {
+        return mongo(({db, client}) => {
           // check is same title available
           db.collection("posts")
             .aggregate([
@@ -308,7 +309,7 @@ module.exports = {
         } else {
           postdata.image = result.secure_url
           // update mongo data
-          return mongo().then(({db, client}) => {
+          return mongo(({db, client}) => {
             db.collection("posts").update({ _id: id }, { $set: postdata })
             return callback({
               status: 200,
@@ -319,7 +320,7 @@ module.exports = {
       })
     } else {
       // update mongo data
-      return mongo().then(({db, client}) => {
+      return mongo(({db, client}) => {
         db.collection("posts").update({ _id: id }, { $set: postdata })
         return callback({
           status: 200,
