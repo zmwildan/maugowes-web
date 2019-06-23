@@ -1,7 +1,7 @@
 const mongo = require("./mongodb")
 const postTransformer = require("../transformers/posts")
 const cloudinary = require("./cloudinary")
-const sebangsa = require("./sebangsa")
+// const sebangsa = require("./sebangsa")
 const file = require("./file")
 const { ObjectId } = require("mongodb")
 
@@ -261,7 +261,7 @@ module.exports = {
                 // get lattest id of post
 
                 // post to sebangsa
-                sebangsa.postToSebangsa()
+                // sebangsa.postToSebangsa()
 
                 return callback({
                   status: 201,

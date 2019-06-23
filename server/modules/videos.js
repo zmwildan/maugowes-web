@@ -1,5 +1,4 @@
 const mongo = require("./mongodb")
-const { ObjectId } = require("mongodb")
 const youtubeReq = require("../modules/youtubeRequest")
 const videoTransformer = require("../transformers/youtube")
 
