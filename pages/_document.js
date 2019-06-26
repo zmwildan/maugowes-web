@@ -25,6 +25,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <meta property="fb:pages" content="250248599190287" />
           {/* Step 5: Output the styles in the head  */}
           {this.props.styleTags}
         </Head>
@@ -33,22 +34,6 @@ export default class MyDocument extends Document {
           <FullLoader />
           <NextScript />
           <Toast />
-          {process.env.NODE_ENV == "sproduction" ? (
-            <React.Fragment>
-              <script
-                async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-              />
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `(adsbygoogle = window.adsbygoogle || []).push({
-                  "google_ad_client": "ca-pub-4468477322781117",
-                  "enable_page_level_ads": true
-            });`
-                }}
-              />
-            </React.Fragment>
-          ) : null}
         </body>
       </html>
     )
