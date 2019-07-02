@@ -29,12 +29,15 @@ module.exports = {
             result[0].id = result[0]._id
             delete result[0]._id
             req.session.auth = result[0]
-            return callback({
-              status: 200,
-              message: `Login sukses, selamat datang kembali ${
-                result[0].fullname
-              }`
-            })
+
+            let response = result[0]
+
+            response.status = 200
+            response.message = `Login sukses, selamat datang kembali ${
+              result[0].fullname
+            }`
+
+            return callback(response)
           }
         })
     })

@@ -6,7 +6,7 @@ import { color_gray_dark, color_gray_medium } from "../Const"
 const SuperStyled = Styled.div`
   .super-sidebar-child {
     border-bottom: 1px solid ${color_gray_medium};
-    padding: 10px 5px;
+    padding: 30px 5px;
     margin: 0 0 5px;
     strong {
       display: block;

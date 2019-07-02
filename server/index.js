@@ -9,6 +9,8 @@ const bodyParser = require("body-parser")
 const ApiRoutes = require("./routers/api")
 const FeedRoutes = require("./routers/feed")
 const SitemapRoutes = require("./routers/sitemap")
+const AuthMiddleware = require("./middlewares/authMiddleware")
+const AuthMiddlewareFront = require("./middlewares/authMiddlewareFront")
 
 // config
 const PORT = process.env.PORT || 2019
@@ -43,7 +45,7 @@ nextApp.prepare().then(() => {
 
   // sitemap routes
   app.use("/sitemap", SitemapRoutes)
-  
+
   // feed routes
   app.use("/feed", FeedRoutes)
 
@@ -52,6 +54,12 @@ nextApp.prepare().then(() => {
   app.use("/ads.txt", express.static(`${__dirname}/../static/ads.txt`))
 
   // all next stuff
+  app.get("/super", AuthMiddlewareFront, (req, res) => {
+    return handle(req, res)
+  })
+  app.get("/super/*", AuthMiddlewareFront, (req, res) => {
+    return handle(req, res)
+  })
   app.get("*", (req, res) => {
     return handle(req, res) // for all the react stuff
   })

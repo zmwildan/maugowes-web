@@ -1,14 +1,15 @@
 import React from "react"
 import Styled from "styled-components"
 import { validate } from "../../modules/validator"
-import { color_red_main } from "../Const"
+import { color_red_main, color_gray_medium, color_blue_main } from "../Const"
 
 const InputTextStyled = Styled.div`
   text-align: left;
+  margin-bottom: 20px;
   &.error {
     color: ${color_red_main};
     input {
-      border: 1px solid ${color_red_main};
+      border-bottom: 2px solid ${color_red_main} !important;
     }
   }
   .validation-message {
@@ -16,13 +17,18 @@ const InputTextStyled = Styled.div`
   }
   input {
     width: calc(100% - 20px);
-    padding: 10px 15px;
+    padding: 10px 0;
     font-size: 15px;
+    border: none;
+    border-bottom: 2px solid ${color_gray_medium};
+    outline: 0;
+    &:focus {
+      border-bottom: 2px solid ${color_blue_main};
+    }
   }
 `
 
 export default class InputText extends React.Component {
-  
   componentDidMount() {
     validate(this.props)
   }
