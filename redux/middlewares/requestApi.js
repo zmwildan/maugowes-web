@@ -8,14 +8,10 @@ export default store => next => async action => {
   if (!action[CALL_API]) {
     return next(action)
   } else {
-    const {
-      method = "GET",
-      endpoint,
-      formdata = {},
-      options = {},
-      filter,
-      type
-    } = action[CALL_API]
+    let { formdata = {} } = action[CALL_API]
+    const { method = "GET", endpoint, options = {}, filter, type } = action[
+      CALL_API
+    ]
 
     // set to loading in state, only on client side
     next({
@@ -28,7 +24,11 @@ export default store => next => async action => {
     console.log("API REQUEST :", method, requestUrl)
     const methodNormalize = method.toLowerCase()
 
+    if (typeof formdata != "undefined") formdata = formdataGenerator(formdata)
+
     return await superagent[methodNormalize](requestUrl)
+      .set("Accept", "application/json")
+      .send(formdata)
       .then(response => {
         console.log("api called...")
         // console.log("API RESPONSE : ", response.body)
@@ -40,4 +40,15 @@ export default store => next => async action => {
       })
       .catch(err => console.log("redux error : ", err))
   }
+}
+
+// formdata generator
+function formdataGenerator(params) {
+  let formdata = new FormData()
+  // return params
+  Object.keys(params).map(n => {
+    formdata.append(n, params[n])
+  })
+
+  return formdata
 }

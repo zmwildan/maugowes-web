@@ -6,6 +6,8 @@ import { color_gray_medium } from "../../components/Const"
 import InputText from "../../components/form/InputText"
 import Submit from "../../components/form/Submit"
 import Toast from "../../modules/toast"
+import { connect } from "react-redux"
+import { login } from "../../redux/auth/actions"
 
 const SuperPageStyled = Styled.div`
   .super-login-wrapper {
@@ -24,11 +26,31 @@ class SuperPage extends React.Component {
 
   handleLogin() {
     console.log("check validator...")
+    this.props.dispatch(
+      login({
+        email: this.state.username,
+        password: this.state.password
+      })
+    )
+  }
+
+  componentWillReceiveProps(np) {
+    if (np.auth.status && np.auth.status != this.props.auth.status) {
+      // toast for success and error login
+      Toast(true, np.auth.message, np.auth.status == 200 ? "success" : "error")
+      // if login success reload after 1 second
+      if (np.auth.status == 200) {
+        setTimeout(() => {
+          location.reload()
+        }, 1000)
+      }
+    }
   }
 
   render() {
+    const { is_loading } = this.props.auth
     return (
-      <GlobalLayout metadata={{title: "Login Super Page"}}>
+      <GlobalLayout metadata={{ title: "Login Super Page" }}>
         <DefaultLayout>
           <SuperPageStyled>
             <div className="grid-center">
@@ -58,6 +80,7 @@ class SuperPage extends React.Component {
                   <br />
                   <Submit
                     onClick={() => this.handleLogin()}
+                    loading={is_loading || this.props.auth.status == 200}
                     text="Login"
                     requiredInputs={["username", "password"]}
                     setState={(ns, cb) => this.setState(ns, cb)}
@@ -72,4 +95,8 @@ class SuperPage extends React.Component {
   }
 }
 
-export default SuperPage
+export default connect(state => {
+  return {
+    auth: state.Auth
+  }
+})(SuperPage)

@@ -89,7 +89,8 @@ export default class SidebarMarketplace extends React.Component {
   }
 
   componentDidMount() {
-    const sidebarWidth = document.getElementById("sidebar-marketplace").clientWidth - 20
+    const sidebarWidth =
+      document.getElementById("sidebar-marketplace").clientWidth - 20
     this.setState({ sidebarWidth }, () => {
       // scroll listener
       document.addEventListener("scroll", this.scrollHandler)
@@ -97,14 +98,14 @@ export default class SidebarMarketplace extends React.Component {
   }
 
   scrollHandler() {
-    if(window.pageYOffset >= 710 ) {
-      if(this.state.sidebarFixed === false) {
+    if (window.pageYOffset >= 710) {
+      if (this.state.sidebarFixed === false) {
         this.setState({
           sidebarFixed: true
         })
       }
-    } else{
-      if(this.state.sidebarFixed === true) {
+    } else {
+      if (this.state.sidebarFixed === true) {
         this.setState({
           sidebarFixed: false
         })

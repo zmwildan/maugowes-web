@@ -1,8 +1,8 @@
 import React from "react"
 import Styled from "styled-components"
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
-import SuperLayout from "../../components/layouts/Super"
+import GlobalLayout from "../../../components/layouts/Global"
+import DefaultLayout from "../../../components/layouts/Default"
+import SuperLayout from "../../../components/layouts/Super"
 
 const BlogPageStyled = Styled.div`
 
@@ -14,7 +14,7 @@ class BlogPage extends React.Component {
       <GlobalLayout metadata={{ title: "Login Super Page" }}>
         <DefaultLayout>
           <SuperLayout>
-            <BlogPageStyled>this is blog page...</BlogPageStyled>
+            <BlogPageStyled className="p-t-b-30">this is blog page...</BlogPageStyled>
           </SuperLayout>
         </DefaultLayout>
       </GlobalLayout>

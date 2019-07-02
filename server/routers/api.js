@@ -36,6 +36,7 @@ Router.put(
 
 // collection endpoint of auth
 Router.post("/login", FormDataMiddleware, AuthHandler.login)
+Router.post("/logout", AuthHandler.logout)
 
 // testers
 // Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)

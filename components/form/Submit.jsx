@@ -1,6 +1,10 @@
 import React from "react"
 import Button from "../buttons/index"
-import { validator, validationSeter, validationChecker } from "../../modules/validator"
+import {
+  validator,
+  validationSeter,
+  validationChecker
+} from "../../modules/validator"
 import Toast from "../../modules/toast"
 
 export default class Submit extends React.Component {

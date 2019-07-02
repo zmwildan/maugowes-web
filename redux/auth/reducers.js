@@ -3,8 +3,8 @@ import { LOGIN } from "./actions"
 export default (state = {}, action) => {
   switch (action.type) {
     case LOGIN:
-      if (action.json) {
-        state = action.json
+      if (action.data && action.data.status) {
+        state = action.data
         state.is_loading = false
       } else {
         state.is_loading = true

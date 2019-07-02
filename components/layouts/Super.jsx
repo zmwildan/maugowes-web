@@ -1,10 +1,15 @@
 import React from "react"
 import Styled from "styled-components"
-import Link from "next/link"
+// import Link from "next/link"
+import { logout } from "../../redux/auth/actions"
+import { connect } from "react-redux"
 import { color_gray_dark, color_gray_medium } from "../Const"
 
 const SuperStyled = Styled.div`
   .super-sidebar-child {
+    &:last-child {
+      border-bottom: none;
+    }
     border-bottom: 1px solid ${color_gray_medium};
     padding: 30px 5px;
     margin: 0 0 5px;
@@ -28,6 +33,7 @@ const SuperStyled = Styled.div`
 `
 
 class SuperLayout extends React.Component {
+
   render() {
     return (
       <SuperStyled>
@@ -50,7 +56,14 @@ class SuperLayout extends React.Component {
                 <strong>Akun</strong>
                 <ul>
                   <li>
-                    <a href="/super/blog">Keluar</a>
+                    <a
+                      onClick={() => {
+                        this.props.dispatch(logout())
+                        setTimeout(() => location.reload(), 2000)
+                      }}
+                      href="javascript:;">
+                      Keluar
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -63,4 +76,6 @@ class SuperLayout extends React.Component {
   }
 }
 
-export default SuperLayout
+export default connect(state => {
+  return { auth: state.Auth }
+})(SuperLayout)

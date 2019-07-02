@@ -3,13 +3,15 @@ import { createStore, applyMiddleware, combineReducers } from "redux"
 // reducer
 import Videos from "../redux/videos/reducer"
 import Blog from "../redux/blog/reducer"
+import Auth from "../redux/auth/reducers"
 
 // middlewares
 import apiMiddleware from "../redux/middlewares/requestApi"
 
 const Reducers = combineReducers({
   Videos,
-  Blog
+  Blog,
+  Auth
 })
 
 let Middlewares = applyMiddleware(apiMiddleware)
