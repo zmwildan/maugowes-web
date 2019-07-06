@@ -33,7 +33,6 @@ const SuperStyled = Styled.div`
 `
 
 class SuperLayout extends React.Component {
-
   render() {
     return (
       <SuperStyled>
@@ -44,7 +43,7 @@ class SuperLayout extends React.Component {
                 <strong>Blog</strong>
                 <ul>
                   <li>
-                    <a href="/super/blog">+Tambah Post</a>
+                    <a href="/super/blog/create">+Tambah Post</a>
                   </li>
                   <li>
                     <a href="/super/blog">Blog</a>

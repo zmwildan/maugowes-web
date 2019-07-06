@@ -1,16 +1,17 @@
 import React from "react"
 import Styled from "styled-components"
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
-import Header from "../../components/boxs/FullWidthHeader"
-import BlogBox from "../../components/boxs/BlogBox"
-import GA from "../../components/boxs/GA"
-
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import { objToQuery } from "string-manager"
+
+// components
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
+import Header from "../../components/boxs/FullWidthHeader"
+import BlogBox from "../../components/boxs/BlogBox"
+import GA from "../../components/boxs/GA"
 
 const BlogStyled = Styled.div`
 

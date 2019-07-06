@@ -3,18 +3,24 @@ import Styled from "styled-components"
 import GlobalLayout from "../../../components/layouts/Global"
 import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
+import PageHeader from "../../../components/boxs/PageHeader"
+import Editor from "../../../components/form/Editor"
 
-const BlogPageStyled = Styled.div`
+const BlogCreateStyled = Styled.div`
 
 `
 
 class BlogPage extends React.Component {
   render() {
+    const title = "Blog Create"
     return (
-      <GlobalLayout metadata={{ title: "Login Super Page" }}>
+      <GlobalLayout metadata={{ title }}>
         <DefaultLayout>
           <SuperLayout>
-            <BlogPageStyled className="p-t-b-30">this is blog page...</BlogPageStyled>
+            <BlogCreateStyled className="p-t-b-30">
+              <PageHeader title={title} />
+              <Editor />
+            </BlogCreateStyled>
           </SuperLayout>
         </DefaultLayout>
       </GlobalLayout>
