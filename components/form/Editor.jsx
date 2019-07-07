@@ -1,5 +1,10 @@
 import React from "react"
-import { EditorState, ContentState, convertToRaw, convertFromHTML } from "draft-js"
+import {
+  EditorState,
+  ContentState,
+  convertToRaw,
+  convertFromHTML
+} from "draft-js"
 import { Editor } from "react-draft-wysiwyg"
 import draftToHtml from "draftjs-to-html"
 import Styled from "styled-components"
@@ -11,25 +16,26 @@ const EditorKIStyled = Styled.div`
   .ki-editor {
     max-height: 500px;
     border-bottom: 2px solid #969696;
+    margin-bottom: 20px;
   }
 `
 
 class EditorKI extends React.Component {
   state = {
-    editorState: EditorState.createEmpty(), 
+    editorState: EditorState.createEmpty(),
     ready: false
   }
 
   componentDidMount = () => {
     require("react-draft-wysiwyg/dist/react-draft-wysiwyg.css")
     setTimeout(() => {
-      this.setState({ready: true}, () => {
+      this.setState({ ready: true }, () => {
         // console.log("value", this.props.value)
-        if(this.props.value) {
+        if (this.props.value) {
           this.setState({
-            editorState: EditorState.createWithContent(ContentState.createFromBlockArray(
-              htmlToDraft(this.props.value)
-            ))
+            editorState: EditorState.createWithContent(
+              ContentState.createFromBlockArray(htmlToDraft(this.props.value))
+            )
           })
         }
       })
@@ -40,7 +46,11 @@ class EditorKI extends React.Component {
     this.setState({
       editorState
     })
-    this.props.setState({[this.props.name]: draftToHtml(convertToRaw(editorState.getCurrentContent()))})
+    this.props.setState({
+      [this.props.name]: draftToHtml(
+        convertToRaw(editorState.getCurrentContent())
+      )
+    })
   }
 
   render = () => {
@@ -49,18 +59,20 @@ class EditorKI extends React.Component {
       <EditorKIStyled className={`form-child`}>
         <label htmlFor={this.props.id || this.props.name}>
           {this.props.label}{" "}
-          {this.props.required ? <span className="text-red">*</span> : null}
+          {this.props.required && this.props.label ? (
+            <span className="text-red">*</span>
+          ) : null}
         </label>
-        {
-          this.state.ready ?
+        {this.state.ready ? (
           <Editor
             editorState={editorState}
             wrapperClassName="ki-editor-wrapper"
             editorClassName="ki-editor"
             onEditorStateChange={this.onEditorStateChange}
           />
-          : <Loading />
-        }
+        ) : (
+          <Loading />
+        )}
         {/* <textarea
           style={{display: "none"}}
           disabled
