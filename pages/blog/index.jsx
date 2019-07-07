@@ -114,13 +114,7 @@ class Blog extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    blog: state.Blog
-  }
-}
-
-function requestQueryGenerator(query = {}) {
+export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
     limit: MaxResults
@@ -132,4 +126,8 @@ function requestQueryGenerator(query = {}) {
   return reqQuery
 }
 
-export default connect(mapStateToProps)(Blog)
+export default connect(state => {
+  return {
+    blog: state.Blog
+  }
+})(Blog)

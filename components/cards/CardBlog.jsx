@@ -4,7 +4,6 @@ import Styled from "styled-components"
 import {
   color_gray_dark,
   color_black_main,
-  color_blue_dark,
   color_blue_main
 } from "../Const"
 import Link from "next/link"

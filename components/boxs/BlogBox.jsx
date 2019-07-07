@@ -62,9 +62,7 @@ const BlogBox = props => {
             isDisabled={is_loading}
             text={!is_loading ? "Postingan Berikutnya" : "Loading..."}
             size="large"
-            onClick={() => {
-              props.loadmoreHandler()
-            }}
+            onClick={() => props.loadmoreHandler()}
           />
         </div>
       ) : null}

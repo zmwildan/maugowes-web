@@ -1,6 +1,8 @@
 const routes = require('next-routes')
 
 module.exports = routes()
+.add("super_post_create", "/super/blog/create", "/super/blog/form")
+.add("super_post_edit", "/super/blog/edit/:id", "/super/blog/form")
 .add("product_detail", "/product/:id", "product")
 .add("blog_detail", "/blog/:id", "blog/detail")
 .add("blog_by_tag", "/blog/tag/:tag", "blog/index")
