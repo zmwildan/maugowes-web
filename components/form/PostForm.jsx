@@ -6,6 +6,7 @@ import InputTag from "./InputTag"
 import Editor from "./Editor"
 import Submit from "./Submit"
 import FormStyled from "./FormStyled"
+import Toast from "../../modules/toast"
 
 class BlogPage extends React.Component {
   state = {}
@@ -14,18 +15,52 @@ class BlogPage extends React.Component {
     const {} = this.state
   }
 
+  componentDidMount() {
+    
+    if (this.props.isEdit) {
+      const { blogData } = this.props
+      this.setState({
+        title: blogData.title,
+        content: blogData.content,
+        tags: blogData.tags,
+        video: blogData.video
+      })
+    }
+  }
+
+  submitHandler() {
+
+    if(!this.state.content) 
+      return Toast(true, "Konten wajib diisi", "error")
+
+    if(!this.props.isEdit && !this.state.image) 
+      return Toast(true, "Wajib upload gambar", "error")
+
+    let formdata = {
+      title: this.state.title,
+      content: this.state.content,
+      tags: this.state.tags && this.state.tags.length > 0 ? this.state.tags.toString() : "blog"
+    }
+
+    if(this.state.video) formdata.video = this.state.video 
+    if(this.state.image) formdata.image = this.state.image
+
+    console.log("submit data", formdata)
+
+  }
+
   render() {
     const is_loading = false
     return (
       <FormStyled method="post" action="javascript:;">
         <InputFile
-          label="Poster Kompetisi"
-          name="poster"
-          id="input-poster"
-          value={this.state.poster || ""}
-          validate={this.state.poster_validate || {}}
+          label="Gambar Utama"
+          name="image"
+          id="input-image"
+          value={this.state.image || ""}
+          validate={this.state.image_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
-          required
+          required={!this.props.isEdit}
         />
         <InputText
           label="Video"
@@ -50,6 +85,7 @@ class BlogPage extends React.Component {
           label="content"
           name="content"
           setState={(n, cb) => this.setState(n, cb)}
+          value={this.state.content}
           required
         />
         <InputTag
@@ -61,10 +97,10 @@ class BlogPage extends React.Component {
         />
         <br />
         <Submit
-          onClick={() => {}}
+          onClick={() => this.submitHandler()}
           loading={is_loading}
           text="Simpan Post"
-          requiredInputs={["title", "content"]}
+          requiredInputs={["title"]}
           setState={(n, cb) => this.setState(n, cb)}
         />
       </FormStyled>
