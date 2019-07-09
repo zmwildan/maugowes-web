@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../../redux/blog/actions"
 import config from "../../../config/index"
 import { objToQuery } from "string-manager"
+import fetch from "isomorphic-unfetch"
 
 // components
 import GlobalLayout from "../../../components/layouts/Global"
@@ -12,7 +13,6 @@ import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import BlogBox from "../../../components/super/boxs/BlogBox"
-import Button from "../../../components/buttons/index"
 
 const BlogPageStyled = Styled.div`
 

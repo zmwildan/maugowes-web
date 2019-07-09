@@ -1,5 +1,6 @@
 export const GET_BLOG = "GET_BLOG"
 export const GET_MORE_BLOG = "GET_MORE_BLOG"
+export const SUBMIT_FORM = "SUBMIT_FORM"
 
 import { CALL_API } from "../middlewares/requestApi"
 
@@ -50,6 +51,48 @@ export function fetchMoreBlog(filter = "new", query = {}) {
       type: GET_MORE_BLOG,
       filter,
       endpoint: `/api/posts/${seal.generateSeal()}?${objToQuery(query)}`
+    }
+  }
+}
+
+
+/**
+ * @description function to update post
+ * @param {string} formdata.title title of post
+ * @param {string} formdata.video title of vifeo embed url (optional)
+ * @param {string} formdata.tags tags of post
+ * @param {object} formdata.image image of post (optional)
+ * @param {string} formdata.content content of post
+ * @param {number} post_id id of post
+ */
+export function updatePost(formdata={}, post_id) {
+  return {
+    [CALL_API]: {
+      formdata,
+      method: "PUT",
+      endpoint: `/api/posts/${post_id}`,
+      filter: "submit_post",
+      type: SUBMIT_FORM
+    }
+  }
+}
+
+/**
+ * @description function to create post
+ * @param {string} formdata.title title of post
+ * @param {string} formdata.video title of vifeo embed url (optional)
+ * @param {string} formdata.tags tags of post
+ * @param {object} formdata.image image of post (optional)
+ * @param {string} formdata.content content of post
+ */
+export function createPost(formdata={}) {
+  return {
+    [CALL_API]: {
+      formdata,
+      method: "POST",
+      endpoint: `/api/posts`,
+      filter: "submit_post",
+      type: SUBMIT_FORM
     }
   }
 }

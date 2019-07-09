@@ -1,14 +1,11 @@
-import { GET_BLOG, GET_MORE_BLOG } from "./actions"
+import { GET_BLOG, GET_MORE_BLOG, SUBMIT_FORM } from "./actions"
+import { receiveDataByFilter } from "../modules/reducerHandler"
 
 export default (state = { new: {} }, action) => {
   switch (action.type) {
     case GET_BLOG:
-      if (action.data) {
-        state[action.filter] = action.data
-      } else {
-        state[action.filter] = { is_loading: true }
-      }
-      return Object.assign({}, state)
+    case SUBMIT_FORM:
+      return receiveDataByFilter(state, action)
 
     case GET_MORE_BLOG:
       if (action.data && action.data.status) {

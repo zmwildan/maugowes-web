@@ -14,25 +14,27 @@ module.exports = {
   },
   createPost: (req, res, next) => {
     postModule.createPost(req, res, result => {
-      // get latest created post
-      return postModule.fetchPosts(
-        { query: { page: 1, limit: 1 }, params: {} },
-        res,
-        posts => {
-          const { title, link, truncatedContent } = posts.results[0]
-          const post = `${title} https://maugowes.com${link} ${truncatedContent}`
+      return res.json(result)
 
-          // post to sebangsa
-          return sebangsaModule.postToSebangsa(
-            {
-              post
-            },
-            () => {
-              res.json(result)
-            }
-          )
-        }
-      )
+      // get latest created post
+      // return postModule.fetchPosts(
+      //   { query: { page: 1, limit: 1 }, params: {} },
+      //   res,
+      //   posts => {
+      //     const { title, link, truncatedContent } = posts.results[0]
+      //     const post = `${title} https://maugowes.com${link} ${truncatedContent}`
+
+      //     // post to sebangsa
+      //     return sebangsaModule.postToSebangsa(
+      //       {
+      //         post
+      //       },
+      //       () => {
+      //         res.json(result)
+      //       }
+      //     )
+      //   }
+      // )
     })
   },
   updatePost: (req, res, next) => {

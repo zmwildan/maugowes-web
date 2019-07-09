@@ -3,6 +3,8 @@ import Styled from "styled-components"
 import { fetchBlogDetail } from "../../../redux/blog/actions"
 import { connect } from "react-redux"
 import config from "../../../config/index"
+import fetch from "isomorphic-unfetch"
+
 
 // components
 import GlobalLayout from "../../../components/layouts/Global"
@@ -43,6 +45,7 @@ class BlogPage extends React.Component {
     const { id } = this.props
     const title = id ? "Update Post" : "Create Post"
     const blogData = this.props.blog[id] || {}
+    const formResponse = this.props.blog.submit_post || {}
     const { is_loading } = blogData
     return (
       <GlobalLayout metadata={{ title }}>
@@ -56,6 +59,7 @@ class BlogPage extends React.Component {
                 <PostForm
                   dispatch={this.props.dispatch}
                   blogData={blogData}
+                  formResponse={formResponse}
                   isEdit={blogData && blogData.id}
                 />
               )}
