@@ -20,7 +20,8 @@ module.exports = {
         original: n.image,
         "600": generateCustomUrl(n.image, "w_600,c_scale")
       },
-      author: userTransformer(n.author)
+      author: userTransformer(n.author),
+      draft: n.draft || false
     }
   }
 }

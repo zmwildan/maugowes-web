@@ -56,6 +56,11 @@ class BlogPage extends React.Component {
     if (this.state.video) formdata.video = this.state.video
     if (this.state.image) formdata.image = this.state.image
 
+    // is draft post or not
+    if (draft) formdata.draft = true
+    else formdata.draft = false
+
+    // action to submit post
     if (this.props.isEdit) {
       this.props.dispatch(updatePost(formdata, this.props.blogData.id))
     } else {
