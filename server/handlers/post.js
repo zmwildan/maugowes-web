@@ -1,5 +1,5 @@
 const postModule = require("../modules/post")
-const sebangsaModule = require("../modules/sebangsa")
+// const sebangsaModule = require("../modules/sebangsa")
 
 module.exports = {
   getPosts: (req, res, next) => {
