@@ -58,7 +58,7 @@ module.exports = {
     // not show certain id 
     if(notId) {
       aggregate.push({
-        $match: { "_id": { $not: { $eq: notId } } }
+        $match: { "_id": { $not: { $eq: ObjectId(notId) } } }
       })
     }
 

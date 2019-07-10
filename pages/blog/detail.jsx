@@ -159,7 +159,13 @@ class BlogDetail extends React.Component {
     // get related post
     const blogRelatedState = this.props.blog.related || {}
     if (!blogRelatedState.status) {
-      return this.props.dispatch(fetchBlog("related", { limit: 3, page: 1 }))
+      return this.props.dispatch(
+        fetchBlog("related", {
+          limit: 3,
+          page: 1,
+          notId: getId(this.props.id)
+        })
+      )
     }
   }
 
@@ -193,7 +199,11 @@ class BlogDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
-                <GA style={{marginBottom: 0}} adClient="ca-pub-4468477322781117" adSlot="4316048838" />
+                <GA
+                  style={{ marginBottom: 0 }}
+                  adClient="ca-pub-4468477322781117"
+                  adSlot="4316048838"
+                />
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <h1>{data.title}</h1>
