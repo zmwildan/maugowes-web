@@ -3,7 +3,6 @@ import Styled from "styled-components"
 import { color_gray_dark, color_gray_medium } from "../Const"
 
 const TableWrapperStyled = Styled.div`
-  padding: 5px 10px;
   font-size: 12px;
   .table-row {
     padding: 12px 0;
