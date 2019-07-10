@@ -118,9 +118,19 @@ class BlogPage extends React.Component {
         />
         <br />
         <Submit
+          style={{display: "inline", marginRight: 10}}
           onClick={() => this.submitHandler()}
           loading={is_loading || status == 200 || status == 201}
           text="Simpan Post"
+          requiredInputs={["title"]}
+          setState={(n, cb) => this.setState(n, cb)}
+        />
+        <Submit
+          color="white"
+          style={{display: "inline", marginRight: 10}}
+          onClick={() => this.submitHandler(true)}
+          loading={is_loading || status == 200 || status == 201}
+          text="Simpan Draft"
           requiredInputs={["title"]}
           setState={(n, cb) => this.setState(n, cb)}
         />

@@ -32,6 +32,7 @@ export default class Submit extends React.Component {
     let { style, className } = this.props
     return (
       <Button
+        color={this.props.color}
         onClick={() => this.handleClick()}
         className={`${className} ${this.props.loading ? "loading" : ""}`}
         disabled={this.props.disabled || this.props.loading}

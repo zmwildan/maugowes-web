@@ -117,7 +117,7 @@ class Blog extends React.Component {
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
-    limit: MaxResults
+    limit: MaxResults,
   }
 
   if (query.tag) reqQuery.tag = query.tag

@@ -13,7 +13,7 @@ module.exports = {
    * @param {*} callback
    */
   fetchPosts(req, res, callback) {
-    const { page, limit, tag, username } = req.query
+    const { page, limit, tag, username, showDraft, notId } = req.query
 
     let aggregate = [
       {
@@ -45,6 +45,20 @@ module.exports = {
     if (username) {
       aggregate.push({
         $match: { "author.username": username }
+      })
+    }
+
+    // show or hide draft, by default is hide draft post
+    if (!showDraft) {
+      aggregate.push({
+        $match: { "draft": { $not: { $eq: true } } }
+      })
+    }
+
+    // not show certain id 
+    if(notId) {
+      aggregate.push({
+        $match: { "_id": { $not: { $eq: notId } } }
       })
     }
 

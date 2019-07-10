@@ -2,9 +2,18 @@ import React from "react"
 
 // components
 import Button from "../../buttons/index"
-import Table from "../../tables/TableWrapper"
-import BlogRow from "../../tables/rows/BlogRow"
+import Table from "../tables/TableWrapper"
+import BlogRow from "../tables/rows/BlogRow"
 import Loader from "../../Loader"
+
+function generateStats(results, total) {
+  return (
+    <React.Fragment>
+      Menampilkan <strong>{results.length || 0}</strong> dari{" "}
+      <strong>{total}</strong> post
+    </React.Fragment>
+  )
+}
 
 const SuperBlogBox = props => {
   const { results, status, message, stats, is_loading, total } = props.data
@@ -12,10 +21,15 @@ const SuperBlogBox = props => {
   return (
     <React.Fragment>
       {results && results.length && total && !props.noStats ? (
-        <center style={{ marginBottom: 50 }}>
-          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> post
-        </center>
+        props.isSuper ? (
+          <div style={{ marginBottom: 35 }}>
+            {generateStats(results, total)}
+          </div>
+        ) : (
+          <center style={{ marginBottom: 50 }}>
+            {generateStats(results, total)}
+          </center>
+        )
       ) : null}
 
       <Table>

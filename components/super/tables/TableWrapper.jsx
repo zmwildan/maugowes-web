@@ -1,6 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
-import { color_gray_dark, color_gray_medium } from "../Const"
+import { color_gray_dark, color_gray_medium } from "../../Const"
 
 const TableWrapperStyled = Styled.div`
   font-size: 12px;

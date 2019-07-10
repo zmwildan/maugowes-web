@@ -30,6 +30,7 @@ class BlogPage extends React.Component {
       //  only call in server side
       const { endpoint, type } = fetchBlog()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)
+      reqQuery.showDraft = true
 
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
@@ -56,6 +57,7 @@ class BlogPage extends React.Component {
     const blogState = this.props.blog[StoreFilter] || {}
     if (!blogState.status && !blogState.is_loading) {
       const reqQuery = requestQueryGenerator(this.props.query)
+      reqQuery.showDraft = true
       this.props.dispatch(fetchBlog(StoreFilter, reqQuery))
     }
   }
@@ -70,7 +72,8 @@ class BlogPage extends React.Component {
         async () => {
           let reqQuery = {
             limit: MaxResults,
-            page: this.state.page
+            page: this.state.page,
+            showDraft: true
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
 
@@ -82,10 +85,7 @@ class BlogPage extends React.Component {
 
   render() {
     const blogState = this.props.blog[StoreFilter] || {}
-    const { is_loading } = blogState
-
-    console.log("blog state", blogState)
-
+    // const { is_loading } = blogState
     return (
       <GlobalLayout metadata={{ title: "Blog Management" }}>
         <DefaultLayout>
@@ -96,6 +96,7 @@ class BlogPage extends React.Component {
                 data={blogState}
                 maxResults={MaxResults}
                 loadmoreHandler={() => this.loadmoreHandler()}
+                isSuper
               />
             </BlogPageStyled>
           </SuperLayout>
