@@ -14,9 +14,7 @@ class Videos extends React.Component {
     return { id }
   }
 
-  componentDidMount() {
-  
-  }
+  componentDidMount() {}
 
   render() {
     const { id } = this.props
@@ -27,7 +25,11 @@ class Videos extends React.Component {
           <SuperLayout>
             <div className="p-t-b-30">
               <PageHeader title={title} />
-              <VideoForm formResponse={{}} isEdit={typeof id != "undefined"} />
+              <VideoForm
+                formResponse={this.props.videos.submit_video || {}}
+                isEdit={typeof id != "undefined"}
+                dispatch={this.props.dispatch}
+              />
             </div>
           </SuperLayout>
         </DefaultLayout>
@@ -36,4 +38,10 @@ class Videos extends React.Component {
   }
 }
 
-export default connect()(Videos)
+export default connect(
+  state => {
+    return {
+      videos: state.Videos
+    }
+  }  
+)(Videos)

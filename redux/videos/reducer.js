@@ -1,4 +1,4 @@
-import { GET_VIDEOS, GET_MORE_VIDEOS } from "./actions"
+import { GET_VIDEOS, GET_MORE_VIDEOS, SUBMIT_VIDEO } from "./actions"
 import { receiveDataByFilter } from "../modules/reducerHandler"
 
 export default (state = { new: {} }, action) => {
@@ -6,6 +6,7 @@ export default (state = { new: {} }, action) => {
 
   switch (action.type) {
     case GET_VIDEOS:
+    case SUBMIT_VIDEO:
       return receiveDataByFilter(state, action)
 
     case GET_MORE_VIDEOS:

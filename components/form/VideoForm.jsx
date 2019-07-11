@@ -7,6 +7,7 @@ import Select from "./Select"
 import Submit from "./Submit"
 import FormStyled from "./FormStyled"
 import Toast from "../../modules/toast"
+import { addVideo } from "../../redux/videos/actions"
 
 const VideoFormStyled = Styled(FormStyled)`
   iframe {
@@ -24,6 +25,19 @@ class VideoForm extends React.Component {
     const { video_id, video_type } = this.state
     let formdata = { video_id, video_type }
     console.log("submit formdata", formdata)
+    this.props.dispatch(addVideo(formdata))
+  }
+
+  componentWillReceiveProps(np) {
+    const { formResponse } = np
+    if(formResponse.status != this.props.formResponse.status) {
+      if (formResponse.status == 200 || formResponse.status == 201) {
+        if(formResponse.messages) Toast(true, formResponse.messages, "success")
+        location.href = "/super/videos"
+      } else {
+        if(formResponse.messages) Toast(true, formResponse.messages, "error")
+      }
+    }
   }
 
   // componentDidMount() {
@@ -31,7 +45,9 @@ class VideoForm extends React.Component {
   //   }
   // }
 
-  componentWillReceiveProps(np) {}
+  // componentWillReceiveProps(np) {
+
+  // }
 
   render() {
     const { is_loading, status } = this.props.formResponse
