@@ -52,6 +52,18 @@ class SuperLayout extends React.Component {
               </div>
 
               <div className="super-sidebar-child">
+                <strong>Videos</strong>
+                <ul>
+                  <li>
+                    <a href="/super/videos/create">+Tambah Video</a>
+                  </li>
+                  <li>
+                    <a href="/super/videos">Videos</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="super-sidebar-child">
                 <strong>Akun</strong>
                 <ul>
                   <li>

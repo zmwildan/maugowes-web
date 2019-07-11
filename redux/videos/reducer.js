@@ -1,16 +1,12 @@
 import { GET_VIDEOS, GET_MORE_VIDEOS } from "./actions"
+import { receiveDataByFilter } from "../modules/reducerHandler"
 
 export default (state = { new: {} }, action) => {
   if (!state[action.filter]) state[action.filter] = {}
 
   switch (action.type) {
     case GET_VIDEOS:
-      if (action.data && action.data.status) {
-        state[action.filter] = action.data
-      } else {
-        state[action.filter].is_loading = true
-      }
-      return Object.assign({}, state)
+      return receiveDataByFilter(state, action)
 
     case GET_MORE_VIDEOS:
       if (action.data && action.data.status) {

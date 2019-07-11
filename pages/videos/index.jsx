@@ -106,7 +106,7 @@ class VideosPage extends React.Component {
   }
 }
 
-function requestQueryGenerator(query = {}) {
+export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
     limit: MaxResults

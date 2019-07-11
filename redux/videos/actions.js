@@ -1,5 +1,6 @@
 export const GET_VIDEOS = "GET_VIDEOS"
 export const GET_MORE_VIDEOS = "GET_MORE_VIDEOS"
+export const SUBMIT_VIDEO = "SUBMIT_VIDEO"
 
 import { CALL_API } from "../middlewares/requestApi"
 
@@ -41,6 +42,41 @@ export function fetchMoreVideos(filter = "", query = {}) {
       type: GET_MORE_VIDEOS,
       filter,
       endpoint: `/api/videos-db/${seal.generateSeal()}?${objToQuery(query)}`
+    }
+  }
+}
+
+/**
+ * @description function to add new video
+ * @param {string} formdata.video_type
+ * @param {string} formdata.video_id
+ */
+export function addVideo(formdata={}) {
+  return {
+    [CALL_API] : {
+      type: SUBMIT_VIDEO,
+      filter: "submit_video",
+      method: "POST",
+      endpoint: `/api/videos-db`,
+      formdata
+    }
+  }
+}
+
+/**
+ * @description function to update video
+ * @param {string} formdata.video_type
+ * @param {string} formdata.video_id
+ * @param {string} id
+ */
+export function updateVideo(formdata={}, id) {
+  return {
+    [CALL_API] : {
+      type: SUBMIT_VIDEO,
+      filter: "submit_video",
+      method: "PUT",
+      endpoint: `/api/videos-db/${id}`,
+      formdata
     }
   }
 }

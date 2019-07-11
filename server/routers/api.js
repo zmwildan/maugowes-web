@@ -15,6 +15,7 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 
 // endpoint of [GET] /api/videos
 // Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)
+Router.get("/videos-db/:id/:seal", SealMiddleware, VideoHandler.getDetailFromDb)
 Router.get("/videos-db/:seal", SealMiddleware, VideoHandler.getListFromDb)
 Router.post("/videos-db", FormDataMiddleware, VideoHandler.addToDB)
 

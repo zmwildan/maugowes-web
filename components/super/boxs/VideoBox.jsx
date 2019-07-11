@@ -1,12 +1,19 @@
-import React from "react"
-
 // components
 import Button from "../../buttons/index"
 import Table from "../tables/TableWrapper"
-import BlogRow from "../tables/rows/BlogRow"
+import VideoRow from "../tables/rows/VideoRow"
 import Loader from "../../Loader"
 
-const SuperBlogBox = props => {
+function generateStats(results, total) {
+  return (
+    <React.Fragment>
+      Menampilkan <strong>{results.length || 0}</strong> dari{" "}
+      <strong>{total}</strong> post
+    </React.Fragment>
+  )
+}
+
+export default props => {
   const { results, status, message, stats, is_loading, total } = props.data
 
   return (
@@ -14,14 +21,14 @@ const SuperBlogBox = props => {
       {results && results.length && total && !props.noStats ? (
         <React.Fragment>
           Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> post
+          <strong>{total}</strong> videos
         </React.Fragment>
       ) : null}
 
       <Table>
         {status
           ? results && results.length > 0
-            ? results.map((n, key) => <BlogRow key={key} data={n} />)
+            ? results.map((n, key) => <VideoRow key={key} data={n} />)
             : null
           : null}
       </Table>
@@ -48,5 +55,3 @@ const SuperBlogBox = props => {
     </React.Fragment>
   )
 }
-
-export default SuperBlogBox

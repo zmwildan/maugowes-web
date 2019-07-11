@@ -38,6 +38,12 @@ module.exports = {
     })
   },
 
+  getDetailFromDb: function(req, res, next) {
+    videoModule.fetchVideoDetail(req, res, result => {
+      res.json(result)
+    })
+  },
+
   getListFromDb: function(req, res, next) {
     videoModule.fetchVideos(req, res, result => {
       res.json(result)

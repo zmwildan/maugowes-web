@@ -3,9 +3,9 @@ import Styled from "styled-components"
 import { requestQueryGenerator } from "../../blog/index"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../../redux/blog/actions"
-import config from "../../../config/index"
-import { objToQuery } from "string-manager"
-import fetch from "isomorphic-unfetch"
+// import config from "../../../config/index"
+// import { objToQuery } from "string-manager"
+// import fetch from "isomorphic-unfetch"
 
 // components
 import GlobalLayout from "../../../components/layouts/Global"
@@ -26,25 +26,25 @@ class BlogPage extends React.Component {
   }
 
   static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      //  only call in server side
-      const { endpoint, type } = fetchBlog()["CALL_API"]
-      const reqQuery = requestQueryGenerator(query)
-      reqQuery.showDraft = true
+    // if (typeof window == "undefined") {
+    //   //  only call in server side
+    //   const { endpoint, type } = fetchBlog()["CALL_API"]
+    //   const reqQuery = requestQueryGenerator(query)
+    //   reqQuery.showDraft = true
 
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
-          reqQuery
-        )}`
-      )
-      const posts = await postsResponse.json()
+    //   const postsResponse = await fetch(
+    //     `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
+    //       reqQuery
+    //     )}`
+    //   )
+    //   const posts = await postsResponse.json()
 
-      reduxStore.dispatch({
-        type,
-        filter: StoreFilter,
-        data: posts
-      })
-    }
+    //   reduxStore.dispatch({
+    //     type,
+    //     filter: StoreFilter,
+    //     data: posts
+    //   })
+    // }
 
     return {
       tag: query.tag || "",

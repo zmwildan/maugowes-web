@@ -1,6 +1,7 @@
 const mongo = require("./mongodb")
 const youtubeReq = require("../modules/youtubeRequest")
 const videoTransformer = require("../transformers/youtube")
+const { ObjectId } = require("mongodb")
 
 module.exports = {
   /**
@@ -29,10 +30,10 @@ module.exports = {
         }`,
         response => {
           // return callback(response.items.length)
-          if(response.items && response.items.length > 0) {
+          if (response.items && response.items.length > 0) {
             const videodata = videoTransformer.transformer(response.items[0])
             // insert to the database
-            mongo(({db, client}) => {
+            mongo(({ db, client }) => {
               const currentTime = Math.round(new Date().getTime() / 1000)
               videodata.created_on = currentTime
               videodata.updated_on = currentTime
@@ -48,7 +49,7 @@ module.exports = {
               status: 204,
               messages: "video tidak ditemukan"
             })
-          } 
+          }
         }
       )
     } else {
@@ -123,6 +124,62 @@ module.exports = {
                 })
               }
             })
+        })
+    })
+  },
+
+  /**
+   * fetch video detail by video id
+   * @param {number} req.params.id id of video in db
+   */
+  fetchVideoDetail(req, res, callback) {
+    const { id } = req.params
+    if (id && id.length != 24) {
+      return callback({ status: 204, messages: "Video tidak ditemukan" })
+    }
+
+    mongo(({ db, client }) => {
+      // list post and order by created_on
+      db.collection("videos")
+        .aggregate([
+          {
+            $match: { _id: ObjectId(id) }
+          }
+          // ,
+          // {
+          //   $lookup: {
+          //     from: "users",
+          //     localField: "user_id",
+          //     foreignField: "_id",
+          //     as: "author"
+          //   }
+          // }
+        ])
+        .toArray((err, result) => {
+          // error from database
+          if (err) {
+            console.log(err)
+            return callback({
+              status: 500,
+              messages: "something wrong with mongo"
+            })
+          }
+
+          // close connection to mongo server
+
+          if (result.length < 1) {
+            if (req.no_count) return callback()
+            return callback({
+              status: 204,
+              messages: "Video tidak ditemukan"
+            })
+          }
+
+          client.close()
+
+          result.status = 200
+          result.message = "success"
+          return callback(result)
         })
     })
   }

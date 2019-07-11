@@ -3,7 +3,7 @@ import Styled from "styled-components"
 import Dayjs from "../../../../modules/dayjs"
 import { color_gray_dark, color_gray_soft } from "../../../Const"
 
-const BlogRowStyled = Styled.div`
+export const BlogRowStyled = Styled.div`
   a {
     font-weight: bold;
   }
@@ -12,7 +12,7 @@ const BlogRowStyled = Styled.div`
   }
 `
 
-const BlogRow = props => {
+export default props => {
   const { data } = props
   return (
     <BlogRowStyled className="table-row">
@@ -30,5 +30,3 @@ const BlogRow = props => {
     </BlogRowStyled>
   )
 }
-
-export default BlogRow
