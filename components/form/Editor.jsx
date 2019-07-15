@@ -3,7 +3,7 @@ import {
   EditorState,
   ContentState,
   convertToRaw,
-  convertFromHTML
+  // convertFromHTML
 } from "draft-js"
 import { Editor } from "react-draft-wysiwyg"
 import draftToHtml from "draftjs-to-html"
