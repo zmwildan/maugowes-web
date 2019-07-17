@@ -1,6 +1,7 @@
 const mongo = require("./mongodb")
 const youtubeReq = require("../modules/youtubeRequest")
 const videoTransformer = require("../transformers/youtube")
+const videoDbTransformer = require("../transformers/videos")
 const { ObjectId } = require("mongodb")
 
 module.exports = {
@@ -109,6 +110,12 @@ module.exports = {
 
               // return results as json response
               if (results && results.length > 0) {
+
+                // transform data
+                results.map((n, key) => {
+                  n = videoDbTransformer.video(n)
+                })
+
                 return callback({
                   status: 200,
                   messages: "success",
