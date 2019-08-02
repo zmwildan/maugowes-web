@@ -2,7 +2,7 @@ import React from "react"
 import Styled from "styled-components"
 import { color_gray_medium, color_gray_dark, color_black_main } from "../Const"
 
-const Footer = Styled.div`
+export const Footer = Styled.div`
   padding: 80px 0;
   border-top: 1px solid ${color_gray_medium};
   border-bottom: 1px solid ${color_gray_medium};
