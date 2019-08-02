@@ -25,10 +25,10 @@ export default props => {
           className="thanks-box--item"
           target="_blank"
           rel="noreferer noopener"
-          href="https://m.do.co/c/e4eacf5d20a5">
+          href="https://www.domainesia.com/?aff=585">
           <img
             src="https://res.cloudinary.com/dhjkktmal/image/upload/v1561894898/kompetisi-id/referral/domainesia.png"
-            alt="Thanks Digital Ocean"
+            alt="Terimakasih Domainesia"
           />
         </a>
         <a
@@ -36,10 +36,10 @@ export default props => {
           className="thanks-box--item"
           target="_blank"
           rel="noreferer noopener"
-          href="https://www.domainesia.com/?aff=585">
+          href="https://m.do.co/c/e4eacf5d20a5">
           <img
             src="https://res.cloudinary.com/dhjkktmal/image/upload/v1561894898/kompetisi-id/referral/digitalocean.png"
-            alt="Thanks Domainesia"
+            alt="Terimakasih Digital Ocean"
           />
         </a>
       </div>
