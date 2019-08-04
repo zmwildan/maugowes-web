@@ -21,6 +21,12 @@ var SESSION_CONF = {
   maxAge: 12 * 30 * 24 * 60 * 60 * 1000
 }
 
+if(NODE_ENV === "production") {
+  // ref: https://expressjs.com/en/advanced/best-practice-performance.html#use-gzip-compression
+  const compression = require("compression")
+  app.use(compression())
+}
+
 // if (process.env.NODE_ENV === "production") {
 //   app.set("trust proxy", 1) // trust first proxy
 //   SESSION_CONF.cookie.secure = true // serve secure cookies
