@@ -194,7 +194,8 @@ class BlogDetail extends React.Component {
           wordcount: data.content.length,
           publisher: {
             "@type": "Organization",
-            name: "Mau Gowes"
+            name: "Mau Gowes",
+            logo: "https://maugowes.com/static/icons/icon-512x512.png"
           },
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
