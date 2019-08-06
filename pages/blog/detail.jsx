@@ -12,7 +12,7 @@ import {
   color_blue_main,
   color_white_main
 } from "../../components/Const"
-import DayJs from "dayjs"
+// import DayJs from "dayjs"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
@@ -189,8 +189,6 @@ class BlogDetail extends React.Component {
           headline: data.title,
           alternativeHeadline: data.title,
           image: data.image.original,
-          // "award": "Best article ever written",
-          editor: "Mau Gowes Team",
           genre: "cycling,bicycle,sepeda,gowes",
           keywords: data.tags.toString(),
           wordcount: data.content.length,
