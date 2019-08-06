@@ -192,7 +192,10 @@ class BlogDetail extends React.Component {
           genre: "cycling,bicycle,sepeda,gowes",
           keywords: data.tags.toString(),
           wordcount: data.content.length,
-          publisher: "Mau Gowes",
+          publisher: {
+            "@type": "Organisation",
+            name: "Mau Gowes"
+          },
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
           dateCreated: new Date(data.created_on * 1000).toISOString(),
