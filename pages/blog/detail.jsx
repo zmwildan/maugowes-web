@@ -196,11 +196,10 @@ class BlogDetail extends React.Component {
           wordcount: data.content.length,
           publisher: "Mau Gowes",
           url: `https://maugowes.com${data.link}`,
-          datePublished: DayJs(data.created_on * 1000).format("YYYY-DD-MM"),
-          dateCreated: DayJs(data.created_on * 1000).format("YYYY-DD-MM"),
-          dateModified: DayJs(data.updated_on * 1000).format("YYYY-DD-MM"),
+          datePublished: new Date(data.created_on * 1000).toISOString(),
+          dateCreated: new Date(data.created_on * 1000).toISOString(),
+          dateModified: new Date(data.updated_on * 1000).toISOString(),
           description: data.truncatedContent,
-          articleBody: data.content,
           author: {
             "@type": "Person",
             name: data.author.username
