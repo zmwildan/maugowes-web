@@ -195,7 +195,12 @@ class BlogDetail extends React.Component {
           publisher: {
             "@type": "Organization",
             name: "Mau Gowes",
-            logo: "https://maugowes.com/static/icons/icon-512x512.png"
+            logo: {
+              "@type": "ImageObject",
+              url: "https://maugowes.com/static/icons/icon-512x512.png",
+              height: "500",
+              width: "500"
+            }
           },
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
