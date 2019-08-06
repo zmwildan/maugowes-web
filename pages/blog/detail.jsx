@@ -193,7 +193,7 @@ class BlogDetail extends React.Component {
           keywords: data.tags.toString(),
           wordcount: data.content.length,
           publisher: {
-            "@type": "Organisation",
+            "@type": "Organization",
             name: "Mau Gowes"
           },
           url: `https://maugowes.com${data.link}`,
