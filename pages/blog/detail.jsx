@@ -6,12 +6,13 @@ import DefaultLayout from "../../components/layouts/Default"
 import { toCamelCase } from "string-manager"
 import {
   color_gray_dark,
-  color_gray_medium,
-  color_black_main,
+  // color_gray_medium,
+  // color_black_main,
   color_gray_soft,
   color_blue_main,
   color_white_main
 } from "../../components/Const"
+import DayJs from "dayjs"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
@@ -181,7 +182,30 @@ class BlogDetail extends React.Component {
         title: data.title,
         description: data.truncatedContent,
         image: data.image.original,
-        keywords: data.tags.toString()
+        keywords: data.tags.toString(),
+        jsonld: {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: data.title,
+          alternativeHeadline: data.title,
+          image: data.image.original,
+          // "award": "Best article ever written",
+          editor: "Mau Gowes Team",
+          genre: "cycling,bicycle,sepeda,gowes",
+          keywords: data.tags.toString(),
+          wordcount: data.content.length,
+          publisher: "Mau Gowes",
+          url: `https://maugowes.com${data.link}`,
+          datePublished: DayJs(data.created_on * 1000).format("YYYY-DD-MM"),
+          dateCreated: DayJs(data.created_on * 1000).format("YYYY-DD-MM"),
+          dateModified: DayJs(data.updated_on * 1000).format("YYYY-DD-MM"),
+          description: data.truncatedContent,
+          articleBody: data.content,
+          author: {
+            "@type": "Person",
+            name: data.author.username
+          }
+        }
       }
     } else {
       metadata = {

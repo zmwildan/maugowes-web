@@ -121,6 +121,15 @@ export default class HomeLayout extends React.Component {
           <meta name="twitter:description" content={metadata.description} />
           <meta name="twitter:image" content={metadata.image} />
 
+          {typeof metadata.jsonld == "object" ? (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(metadata.jsonld)
+              }}
+            />
+          ) : null}
+
           {scripts.length > 0
             ? scripts.map((n, key) => {
                 return <script src={n.src} key={key} />
