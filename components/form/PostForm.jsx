@@ -33,7 +33,7 @@ class BlogPage extends React.Component {
   componentWillReceiveProps(np) {
     const { formResponse } = np
     console.log("response", formResponse)
-    if (formResponse.status == 200) {
+    if (formResponse.status == 200 || formResponse.status == 201) {
       location.href = "/super/blog"
     }
   }
