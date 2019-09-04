@@ -58,6 +58,7 @@ const BlogBox = props => {
       results.length >= props.maxResults ? (
         <div className="grid-center" style={{ margin: "20px 0 40px" }}>
           <Button
+            btnId="btn-load-more-blog"
             type="button"
             isDisabled={is_loading}
             text={!is_loading ? "Postingan Berikutnya" : "Loading..."}

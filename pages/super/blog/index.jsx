@@ -26,26 +26,6 @@ class BlogPage extends React.Component {
   }
 
   static async getInitialProps({ reduxStore, query }) {
-    // if (typeof window == "undefined") {
-    //   //  only call in server side
-    //   const { endpoint, type } = fetchBlog()["CALL_API"]
-    //   const reqQuery = requestQueryGenerator(query)
-    //   reqQuery.showDraft = true
-
-    //   const postsResponse = await fetch(
-    //     `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
-    //       reqQuery
-    //     )}`
-    //   )
-    //   const posts = await postsResponse.json()
-
-    //   reduxStore.dispatch({
-    //     type,
-    //     filter: StoreFilter,
-    //     data: posts
-    //   })
-    // }
-
     return {
       tag: query.tag || "",
       username: query.username,
