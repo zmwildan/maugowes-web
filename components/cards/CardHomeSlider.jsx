@@ -22,6 +22,25 @@ const CardHomeSlidderStyled = Styled.div`
   .slider-item-left {
     background-size: cover;
   }
+
+  // gridlex _xs
+  @media (max-width: 36em) {
+    height: 350px;
+    .slider-item-right {
+      h2 {
+        font-size: 1.5em
+      }
+    }
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    height: 350px;
+    .slider-item-right {
+      h2 {
+        font-size: 1.5em
+      }
+    }
+  }
 `
 
 const SliderContent = [
