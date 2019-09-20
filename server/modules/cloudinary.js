@@ -27,7 +27,7 @@ module.exports.upload = (file, target, callback) => {
     file,
     { use_filename: true, public_id: target },
     (err, result) => {
-      if (err) console.log("Cloudinary error", e)
+      if (err) console.error("Cloudinary error", e)
       callback(err, result)
     }
   )

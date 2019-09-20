@@ -10,7 +10,6 @@ class Disqus extends React.Component {
       this.page.url = this.props.url // Replace PAGE_URL with your page's canonical URL variable
       this.page.identifier = this.props.identifier // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     }
-    console.log("render disqus", this.props.url, this.props.identifier)
     if (!window.DISQUS) {
       /**
        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.

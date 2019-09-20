@@ -5,14 +5,13 @@ module.exports = {
   login: (req, res, callback) => {
     const { email, password } = req.body
     const passHash = hashPassword(password)
-    console.log(email, passHash)
     mongo(({db, client}) => {
       db.collection("users")
         .find({ email, password: passHash })
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.log(err)
+            console.err(err)
             return callback({
               status: 500,
               message: "something wrong with mongo"
@@ -25,7 +24,7 @@ module.exports = {
             })
           } else {
             // login success and save userdata to session
-            console.log("logged in success, save userdata to session")
+            console.err("logged in success, save userdata to session")
             result[0].id = result[0]._id
             delete result[0]._id
             req.session.auth = result[0]

@@ -8,7 +8,6 @@ module.exports.videosFeed = (req, res) => {
     res.set("Content-Type", "text/xml")
     let content = ``
     json.results.map(n => {
-      console.log("n", n)
       content += `
             <item>
                 <title>${n.title}</title>

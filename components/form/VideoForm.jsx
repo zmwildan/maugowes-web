@@ -24,7 +24,6 @@ class VideoForm extends React.Component {
   submitHandler() {
     const { video_id, video_type } = this.state
     let formdata = { video_id, video_type }
-    console.log("submit formdata", formdata)
     this.props.dispatch(addVideo(formdata))
   }
 
@@ -52,7 +51,6 @@ class VideoForm extends React.Component {
   render() {
     const { is_loading, status } = this.props.formResponse
     const { video_type, video_id } = this.state
-    console.log(video_id, video_type)
     return (
       <VideoFormStyled method="post" action="javascript:;">
         <Select

@@ -21,7 +21,6 @@ export default store => next => async action => {
 
     // start to request to api and store response to state
     const requestUrl = `${config[process.env.NODE_ENV].host}${endpoint}`
-    console.log("API REQUEST :", method, requestUrl)
     const methodNormalize = method.toLowerCase()
 
     if (typeof formdata != "undefined") formdata = formdataGenerator(formdata)
@@ -30,15 +29,13 @@ export default store => next => async action => {
       .set("Accept", "application/json")
       .send(formdata)
       .then(response => {
-        console.log("api called...")
-        // console.log("API RESPONSE : ", response.body)
         return next({
           type,
           filter,
           data: response.body
         })
       })
-      .catch(err => console.log("redux error : ", err))
+      .catch(err => console.error("redux error : ", err))
   }
 }
 

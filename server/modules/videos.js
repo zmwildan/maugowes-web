@@ -98,7 +98,7 @@ module.exports = {
             .toArray((err, results) => {
               // error from database
               if (err) {
-                console.log(err)
+                console.err(err)
                 return callback({
                   status: 500,
                   messages: "something wrong with mongo"
@@ -165,7 +165,7 @@ module.exports = {
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.log(err)
+            console.err(err)
             return callback({
               status: 500,
               messages: "something wrong with mongo"

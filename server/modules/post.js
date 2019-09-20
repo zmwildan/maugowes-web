@@ -85,7 +85,7 @@ module.exports = {
                 .toArray((err, results) => {
                   // error from database
                   if (err) {
-                    console.log(err)
+                    console.err(err)
                     return callback({
                       status: 500,
                       messages: "something wrong with mongo"
@@ -155,7 +155,7 @@ module.exports = {
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.log(err)
+            console.err(err)
             return callback({
               status: 500,
               messages: "something wrong with mongo"
@@ -217,7 +217,7 @@ module.exports = {
 
     return cloudinary.upload(image.path, upload_path, (err, result) => {
       if (err) {
-        console.log("cloudinary error", err)
+        console.err("cloudinary error", err)
         return callback({
           status: 203,
           message: "Terjadi Masalah Ketika Upload di Cloudinary"
@@ -255,7 +255,7 @@ module.exports = {
             ])
             .toArray((err, results) => {
               if (err) {
-                console.log(err)
+                console.err(err)
                 return callback({
                   status: 500,
                   message: "something wrong with mongo"
@@ -315,7 +315,7 @@ module.exports = {
       const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
       return cloudinary.upload(image.path, upload_path, (err, result) => {
         if (err) {
-          console.log("cloudinary error", err)
+          console.err("cloudinary error", err)
           return callback({
             status: 201,
             message: "Terjadi masalah ketika upload di Cloudinary"

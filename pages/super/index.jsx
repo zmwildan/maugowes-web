@@ -25,7 +25,6 @@ class SuperPage extends React.Component {
   state = {}
 
   handleLogin() {
-    console.log("check validator...")
     this.props.dispatch(
       login({
         email: this.state.username,

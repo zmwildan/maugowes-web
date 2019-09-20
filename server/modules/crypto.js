@@ -8,8 +8,6 @@ const KEY = "maugowes-web"
  */
 module.exports.encString = (plaintext = "") => {
   const enc = AES.encrypt(plaintext, KEY).toString()
-  // console.log("enc plain", plaintext)
-  // console.log("enc result", enc)
   return enc
 }
 
@@ -19,7 +17,6 @@ module.exports.encString = (plaintext = "") => {
  */
 module.exports.decString = (ciphertext = "") => {
   const dec = AES.decrypt(ciphertext, KEY).toString(enc.Utf8)
-  // console.log("dec", dec)
   return dec
 }
 
@@ -29,6 +26,5 @@ module.exports.decString = (ciphertext = "") => {
  */
 module.exports.hashPassword = (password = "") => {
   const hash = MD5(password).toString()
-  // console.log("hash", hash)
   return hash
 }
