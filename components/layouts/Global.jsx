@@ -28,6 +28,9 @@ const GlobalLayoutStyled = Styled.div`
     padding: 0;
     margin: 0;
   }
+  .m-t-50 {
+    margin-top: 50px;
+  }
   .p-t-b-30 {
     padding: 30px 0;
   }

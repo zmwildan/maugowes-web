@@ -2,12 +2,9 @@ import React from "react"
 import Styled from "styled-components"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
-// import Link from "next/link"
 import { toCamelCase } from "string-manager"
 import {
   color_gray_dark,
-  // color_gray_medium,
-  // color_black_main,
   color_gray_soft,
   color_blue_main,
   color_white_main

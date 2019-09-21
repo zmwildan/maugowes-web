@@ -86,17 +86,22 @@ const VideoCard = Styled.div`
 
 export default props => {
   const { data = {}, size } = props || {}
-  const linkUrl = `https://www.youtube.com/watch?v=${data.id}`
   return (
-    <div className={size === "large" ? "col-8_xs-12_md-12" : "col-4_xs-12_md-6"}>
+    <div
+      className={
+        size === "large"
+          ? "col-8_md-12_xs-12"
+          : size === "supersmall"
+          ? "col-3_md-4_xs-6"
+          : "col-4_md-6_xs-12"
+      }>
       <VideoCard className={size === "large" ? "video-large" : "video-default"}>
         <div
           className="video-card-cover"
           style={{ backgroundImage: `url(${data.thumbnails.high.url})` }}>
           <a
             className="btn-play-video"
-            href={linkUrl}
-            target="_blank"
+            href={data.link}
             title="play video">
             <img
               src={"/static/images/icons/white-play-button.png"}
@@ -107,7 +112,7 @@ export default props => {
 
         <div className="video-card-meta">
           <div className="video-card-title">
-            <a href={linkUrl} target="_blank">
+            <a href={data.link}>
               <h2>{data.title}</h2>
             </a>
           </div>

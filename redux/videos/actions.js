@@ -14,6 +14,21 @@ const { API_KEY } = publicRuntimeConfig
 const seal = new sealMiddleware(API_KEY, 60000)
 
 /**
+ * function to fetch video detail from api 
+ * @param {string} filter  
+ * @param {number} video_id 
+ */
+export function fetchVideoDetail(video_id) {
+  return {
+    [CALL_API]: {
+      type: GET_VIDEOS,
+      filter: video_id,
+      endpoint: `/api/videos-db/${video_id}/${seal.generateSeal()}`
+    }
+  }
+}
+
+/**
  * function to fetch videos list from api
  * @param {string} filter , filter of store
  * @param {object} params

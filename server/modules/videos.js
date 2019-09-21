@@ -183,7 +183,7 @@ module.exports = {
           }
 
           client.close()
-
+          result = result[0]
           result.status = 200
           result.message = "success"
           return callback(result)
