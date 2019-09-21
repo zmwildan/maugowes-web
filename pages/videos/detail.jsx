@@ -132,7 +132,7 @@ class VideoDetail extends React.Component {
                 width: "500"
               }
             },
-            url: `https://maugowes.com${data.link}`,
+            url: `https://maugowes.com/videos/${this.props.id}`,
             datePublished: new Date(data.publishedDate).toISOString(),
             dateCreated: new Date(data.publishedDate).toISOString(),
             dateModified: new Date(data.publishedDate).toISOString(),
@@ -181,7 +181,7 @@ class VideoDetail extends React.Component {
 
                 <div className="grid" id="share-box">
                   <div className="col-12">
-                    <ShareBox url={`https://maugowes.com${data.link}`} />
+                    <ShareBox url={`https://maugowes.com/videos/${this.props.id}`} />
                   </div>
                 </div>
 
@@ -199,7 +199,7 @@ class VideoDetail extends React.Component {
                   <div className="col-7_xs-12 blog-detail_comment">
                     {this.state.windowReady ? (
                       <DisqusBox
-                        url={`${window.location.origin}/video/${this.props.id}`}
+                        url={`${window.location.origin}/videos/${this.props.id}`}
                         identifier={`maugowes-video-${id}`}
                       />
                     ) : null}
