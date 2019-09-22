@@ -63,7 +63,6 @@ function getId(title) {
 }
 
 class VideoDetail extends React.Component {
-
   static async getInitialProps({ reduxStore, res, query }) {
     if (typeof window == "undefined") {
       const id = getId(query.id)
@@ -101,48 +100,48 @@ class VideoDetail extends React.Component {
   }
 
   render() {
-    const id  = getId(this.props.id)
+    const id = getId(this.props.id)
     const data = this.props.videos[id] || {}
     const relatedData = this.props.videos.related || {}
 
     let metadata = {}
 
-    if(data && data.status == 200) {
+    if (data && data.status == 200) {
       metadata = {
-          title: data.title,
-          description: data.description,
+        title: data.title,
+        description: data.description,
+        image: data.thumbnails.high,
+        keywords: "video,maugowes,youtube",
+        jsonld: {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: data.title,
+          alternativeHeadline: data.title,
           image: data.thumbnails.high,
+          genre: "cycling,bicycle,sepeda,gowes",
           keywords: "video,maugowes,youtube",
-          jsonld: {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: data.title,
-            alternativeHeadline: data.title,
-            image: data.thumbnails.high,
-            genre: "cycling,bicycle,sepeda,gowes",
-            keywords: "video,maugowes,youtube",
-            wordcount: data.description.length,
-            publisher: {
-              "@type": "Organization",
-              name: "Mau Gowes",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://maugowes.com/static/icons/icon-512x512.png",
-                height: "500",
-                width: "500"
-              }
-            },
-            url: `https://maugowes.com/videos/${this.props.id}`,
-            datePublished: new Date(data.publishedDate).toISOString(),
-            dateCreated: new Date(data.publishedDate).toISOString(),
-            dateModified: new Date(data.publishedDate).toISOString(),
-            description: data.description,
-            author: {
-              "@type": "Organization",
-              name: "Mau Gowes"
+          wordcount: data.description.length,
+          publisher: {
+            "@type": "Organization",
+            name: "Mau Gowes",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://maugowes.com/static/icons/icon-512x512.png",
+              height: "500",
+              width: "500"
             }
+          },
+          url: `https://maugowes.com/videos/${this.props.id}`,
+          datePublished: new Date(data.publishedDate).toISOString(),
+          dateCreated: new Date(data.publishedDate).toISOString(),
+          dateModified: new Date(data.publishedDate).toISOString(),
+          description: data.description,
+          author: {
+            "@type": "Organization",
+            name: "Mau Gowes"
           }
         }
+      }
     } else {
       metadata = {
         title: "Video tidak ditemukan",
@@ -164,26 +163,45 @@ class VideoDetail extends React.Component {
                   adClient="ca-pub-4468477322781117"
                   adSlot="2754181340"
                 />
-                <div className="video-title">
-                  <h1>{data.title}</h1>
-                </div>
-                <div className="video-player">
-                  <iframe
-                    src={`https://youtube.com/embed/${data.id}`}
-                    frameBorder={0}
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                <p style={{lineHeight: 1.5, wordBreak: "break-all"}}>
-                  {data.description}
-                </p>
 
-                <div className="grid" id="share-box">
-                  <div className="col-12">
-                    <ShareBox url={`https://maugowes.com/videos/${this.props.id}`} />
+                {/* video detail */}
+                <div className="grid-center">
+                  <div className="col-7_xs-12">
+                    <div className="video-title">
+                      <h1>{data.title}</h1>
+                    </div>
                   </div>
                 </div>
+
+                <div className="grid-center" style={{ background: "#000" }}>
+                  <div className="col-10_xs-12">
+                    <div className="video-player">
+                      <iframe
+                        src={`https://youtube.com/embed/${data.id}`}
+                        frameBorder={0}
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid-center">
+                  <div className="col-7_xs-12">
+                    <p style={{ lineHeight: 1.8, wordBreak: "break-all" }}>
+                      {data.description}
+                    </p>
+
+                    <div className="grid" id="share-box">
+                      <div className="col-12">
+                        <ShareBox
+                          url={`https://maugowes.com/videos/${this.props.id}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* end of video detail */}
 
                 <VideoSSBox title="Video Lainnya" data={relatedData} />
 
