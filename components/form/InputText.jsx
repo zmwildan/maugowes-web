@@ -71,7 +71,7 @@ export default class InputText extends React.Component {
     } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
     return (
-      <InputTextStyled className={`form-child ${!is_valid ? "error" : ""}`}>
+      <InputTextStyled style={this.props.containerStyle} className={`form-child ${!is_valid ? "error" : ""}`}>
         {label ? (
           <label htmlFor={this.props.id || name}>
             {label}{" "}
@@ -107,5 +107,7 @@ InputText.defaultProps = {
   required: false,
   autoFocus: false,
   autoComplete: "off",
+  containerStyle: {},
+  validate: {},
   placeholder: ""
 }

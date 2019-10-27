@@ -18,7 +18,20 @@ const SendCompetitionStyled = Styled.div`
 class SendEvent extends React.Component {
   state = {}
 
-  submitHandler() {}
+  submitHandler() {
+    let params = {
+      email: this.state.email,
+      title: this.state.title,
+      link: this.state.link,
+      note: this.state.note
+    }
+
+    if(this.state.poster) params.poster = this.state.poster
+    if(this.state.address) params.address = this.state.address
+    if(this.state.coords) params.coords = this.state.coords
+
+    console.log("params", params)
+  }
 
   render() {
     const metadata = {
@@ -42,6 +55,15 @@ class SendEvent extends React.Component {
               <div className="col-6 super-login-wrapper">
                 <FormStyled>
                   <InputText
+                    placeholder="Email kamu (untuk pemberitahuan status event ini)"
+                    type="email"
+                    value={this.state.email || ""}
+                    required={true}
+                    validate={this.state.email_validate || {}}
+                    setState={(ns, cb) => this.setState(ns, cb)}
+                    name="email"
+                  />
+                  <InputText
                     placeholder="Judul Event Sepeda"
                     type="text"
                     value={this.state.title || ""}
@@ -50,8 +72,10 @@ class SendEvent extends React.Component {
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="title"
                   />
-                  <InputLocation 
+                  <InputLocation
+                    name="location"
                     label="Lokasi Start / Meetpoint Gowes"
+                    setState={(n, cb) => this.setState(n, cb)}
                   />
                   <InputText
                     placeholder="Link website / sosial media"
@@ -61,15 +85,6 @@ class SendEvent extends React.Component {
                     validate={this.state.link_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="link"
-                  />
-                  <InputText
-                    placeholder="Email kamu (untuk pemberitahuan status event ini)"
-                    type="email"
-                    value={this.state.email || ""}
-                    required={true}
-                    validate={this.state.email_validate || {}}
-                    setState={(ns, cb) => this.setState(ns, cb)}
-                    name="email"
                   />
                   <InputText
                     placeholder="Catatan untuk peserta"
