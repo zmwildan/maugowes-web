@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
-import VideoBox from "../../components/boxs/VideoBox"
+import VideosBox from "../../components/boxs/VideosBox"
 import GA from "../../components/boxs/GA"
 
 import config from "../../config/index"
@@ -90,10 +90,10 @@ class VideosPage extends React.Component {
             <Header
               title="Mau Gowes Video"
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
-              backgroundImage="/static/images/background/bg-bike-store.jpg"
+              backgroundImage="https://images.unsplash.com/photo-1495295482929-5403d732f147?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
             />
             <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
-            <VideoBox
+            <VideosBox
               data={videos}
               loadmoreHandler={() => this.loadmoreHandler()}
               maxResults={MaxResults}

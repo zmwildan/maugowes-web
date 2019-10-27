@@ -12,7 +12,7 @@ import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import PostForm from "../../../components/form/PostForm"
-import Loader from "../../../components/Loader"
+// import Loader from "../../../components/Loader"
 
 const BlogCreateStyled = Styled.div`
 

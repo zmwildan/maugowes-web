@@ -1,13 +1,13 @@
 import React from "react"
 import Styled from "styled-components"
 import Card from "../cards/CardVideo"
-import { color_blue_main, color_gray_dark } from "../Const"
+import { color_blue_main } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
-import GA from "../boxs/GA"
+import GA from "./GA"
 
-const VideoBoxStyled = Styled.div`
+const VideosBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
   .video-box-title {
     border-bottom: 2px solid ${color_blue_main};
@@ -16,10 +16,10 @@ const VideoBoxStyled = Styled.div`
   }
 `
 
-const VideoBox = props => {
+const VideosBox = props => {
   const { results, status, message, total, is_loading } = props.data
   return (
-    <VideoBoxStyled noHeaderTitle={props.noHeaderTitle}>
+    <VideosBoxStyled noHeaderTitle={props.noHeaderTitle}>
       {!props.noHeaderTitle ? (
         <div className="grid-center">
           <h2 className="video-box-title">
@@ -64,13 +64,15 @@ const VideoBox = props => {
           />
         </div>
       ) : null}
-      {!props.hideAds ? <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" /> : null}
-    </VideoBoxStyled>
+      {!props.hideAds ? (
+        <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
+      ) : null}
+    </VideosBoxStyled>
   )
 }
 
-VideoBox.defaultProps = {
+VideosBox.defaultProps = {
   data: {}
 }
 
-export default VideoBox
+export default VideosBox

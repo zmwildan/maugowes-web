@@ -5,7 +5,6 @@ import config from "../config/index"
 import fetch from "isomorphic-unfetch"
 import { fetchVideos } from "../redux/videos/actions"
 import { fetchBlog } from "../redux/blog/actions"
-import dynamic from "next/dynamic"
 
 // components
 import GlobalLayout from "../components/layouts/Global"
@@ -15,13 +14,9 @@ import SliderItem from "../components/cards/CardHomeSlider"
 // import MarketplaceBox from "../components/boxs/MarketplaceBox"
 import GA from "../components/boxs/GA"
 import BlogBox from "../components/boxs/BlogBox"
-import VideoBox from "../components/boxs/VideoBox"
+import VideosBox from "../components/boxs/VideosBox"
 import Button from "../components/buttons/index"
 import BannerBox from "../components/boxs/BannerHomeBox"
-
-// ref: https://github.com/zeit/next.js/#dynamic-import
-// const BlogBox = dynamic(() => import("../components/boxs/BlogBox"))
-// const VideoBox = dynamic(() => import("../components/boxs/VideoBox"))
 
 const HomePage = Styled.div`
 
@@ -102,7 +97,7 @@ class Home extends React.Component {
             {/* end of newest products */}
 
             {/* videos */}
-            <VideoBox hideAds data={this.props.videos.new || {}} />
+            <VideosBox hideAds data={this.props.videos.new || {}} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/videos" text="Lihat Video" />
             </div>

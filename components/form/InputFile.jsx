@@ -55,7 +55,7 @@ export default class InputFile extends Component {
         className={`form-child ${!is_valid ? "error" : ""}`}>
         {label ? (
           <label htmlFor={this.props.id || name}>
-            {label} {required ? <span className="text-red">*</span> : null}
+            {label} {required ? "(wajib)" : "(opsional)"}
           </label>
         ) : null}
         {this.state.image_preview || preview ? (

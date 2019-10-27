@@ -45,22 +45,21 @@ const CardHomeSlidderStyled = Styled.div`
 
 const SliderContent = [
   {
-    title: "Mau Jual / Beli Sepeda Bekas",
-    cover_image:
-      "https://images.unsplash.com/photo-1468436385273-8abca6dfd8d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=994&q=80",
-    link_target: "/marketplace",
-    link_text: "Cek Disini"
+    title: "Punya Event Sepeda ?",
+    cover_image: "https://images.unsplash.com/photo-1558009525-29a300db7b7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
+    link_target: "/events",
+    link_text: "Sebarkan Disini"
   },
-  {
-    title: "Pamer Kegiatan Gowes Kamu Disini",
-    cover_image:
-      "https://images.unsplash.com/photo-1529148598219-967881aed3c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-    link_target: "/galleries",
-    link_text: "Lanjutkan"
-  }
+  // {
+  //   title: "Pamer Kegiatan Gowes Kamu Disini",
+  //   cover_image:
+  //     "https://images.unsplash.com/photo-1529148598219-967881aed3c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+  //   link_target: "/galleries",
+  //   link_text: "Lanjutkan"
+  // }
 ]
 
-export default props => {
+export default () => {
   return SliderContent.map((n, key) => (
     <CardHomeSlidderStyled className="grid" key={key}>
       <div
@@ -72,7 +71,7 @@ export default props => {
           <div>
             <h2>{n.title}</h2>
             <Button
-              onClick={() => toast(true, "Sistem Sedang Tahap Pengembangan", "warning")}
+              onClick={() => location.href = n.link_target}
               size="medium"
               text={n.link_text}
             />

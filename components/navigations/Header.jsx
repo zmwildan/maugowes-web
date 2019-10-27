@@ -106,7 +106,7 @@ const HeaderStyled = Styled.header`
 
 const AvailableMenu = [
   {
-    name: "Video",
+    name: "Videos",
     pathname: "videos",
     link: "/videos"
   },
@@ -119,32 +119,28 @@ const AvailableMenu = [
   //   name: "Marketplace",
   //   link: "/marketplace"
   // },
-  // {
-  //   name: "Rangking Goweser",
-  //   link: "/rangking"
-  // }
 ]
 
-const AvailableSellCategories = [
-  {
-    name: "Roadbike",
-    link: "/categories/roadbike",
-    child: [
-      { name: "accesories", link: "/categories/roadbike/accesories" },
-      { name: "part", link: "/categories/roadbike/part" },
-      { name: "frameset", link: "/categories/roadbike/frameset" }
-    ]
-  },
-  {
-    name: "MTB",
-    link: "/categories/mtb",
-    child: [
-      { name: "accesories", link: "/categories/roadbike/mtb" },
-      { name: "part", link: "/categories/mtb/part" },
-      { name: "frameset", link: "/categories/mtb/frameset" }
-    ]
-  }
-]
+// const AvailableSellCategories = [
+//   {
+//     name: "Roadbike",
+//     link: "/categories/roadbike",
+//     child: [
+//       { name: "accesories", link: "/categories/roadbike/accesories" },
+//       { name: "part", link: "/categories/roadbike/part" },
+//       { name: "frameset", link: "/categories/roadbike/frameset" }
+//     ]
+//   },
+//   {
+//     name: "MTB",
+//     link: "/categories/mtb",
+//     child: [
+//       { name: "accesories", link: "/categories/roadbike/mtb" },
+//       { name: "part", link: "/categories/mtb/part" },
+//       { name: "frameset", link: "/categories/mtb/frameset" }
+//     ]
+//   }
+// ]
 
 class Header extends React.Component {
   state = {
@@ -172,7 +168,11 @@ class Header extends React.Component {
         <div className="grid-center header-logo">
           <div className="col">
             <a href="/">
-              <img className="header-logo-img" src="/static/images/logo-2.png" alt="logo Mau Gowes" />
+              <img
+                className="header-logo-img"
+                src="/static/images/logo-2.png"
+                alt="logo Mau Gowes"
+              />
             </a>
           </div>
         </div>
@@ -242,8 +242,8 @@ class Header extends React.Component {
                             {n.child.map((m, key) => {
                               return (
                                 <li key={key}>
-                                  <Link href={m.link } prefetch>
-                                    <a href={ m.link }>
+                                  <Link href={m.link} prefetch>
+                                    <a href={m.link}>
                                       {m.name}{" "}
                                       <IconBottomArrow
                                         className="header-top-menu_link_icon"

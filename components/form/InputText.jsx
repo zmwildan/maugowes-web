@@ -87,7 +87,7 @@ export default class InputText extends React.Component {
           value={value}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
-          placeholder={this.props.placeholder}
+          placeholder={`${this.props.placeholder} (${this.props.required ? "wajib" : "opsional"})`}
         />
         {max ? (
           <small className="validation-message">

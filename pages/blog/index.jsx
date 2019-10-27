@@ -98,7 +98,7 @@ class Blog extends React.Component {
             <Header
               title={title}
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
-              backgroundImage="/static/images/background/bg-bike-store.jpg"
+              backgroundImage="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
             />
             <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
             <BlogBox
