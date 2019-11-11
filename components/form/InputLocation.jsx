@@ -4,8 +4,15 @@ import Styled from "styled-components"
 import InputText from "./InputText"
 import { pushScript, pushStyle } from "../../modules/dom"
 
+// default focus coordinat if user not give location access
+// monas Jakarta
+const DEFAULT_LOCATION = {
+  lat: -6.1754,
+  lng: 106.8272
+}
+
 let MyMap = null
-let Marker
+let MarkerLayer
 
 const InputLocation = Styled.div`
 margin-bottom: 20px;
@@ -46,79 +53,93 @@ class LocationPicker extends React.Component {
         // get location status
         this.setState({ locationStatus: result.state })
         if (result.state == "granted") {
-          navigator.geolocation.getCurrentPosition(this.savePositionToState)
+          navigator.geolocation.getCurrentPosition(position => this.savePositionToState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }))
         } else if (result.state == "prompt") {
-          navigator.geolocation.getCurrentPosition(this.savePositionToState)
+          
+          navigator.geolocation.getCurrentPosition(position => this.savePositionToState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }), () => {
+            // location denied
+            this.savePositionToState(DEFAULT_LOCATION)
+          })
         } else if (result.state == "denied") {
           Toast(
             true,
             "Kamu tidak memberikan akses lokasi untuk Mau Gowes",
             "error"
           )
+          this.savePositionToState(DEFAULT_LOCATION)
         }
       })
     } else {
       Toast(true, "Browser Anda Tidak Support Geo Location", "error")
+      // save position on old browser
+      this.savePositionToState(DEFAULT_LOCATION)
     }
   }
 
-  renderMap(position) {
-    console.log("postition", position)
+  renderMap({ lat, lng }) {
+    console.log("rendering map", { lat, lng })
 
     // only render map one time
     if (!MyMap) {
       // ref: https://leafletjs.com/
       // set lat, lng and zoom
       // map focus and zoom
-      MyMap = L.map("render-map").setView(
-        [position.coords.latitude, position.coords.longitude],
-        15
-      )
+      MyMap = L.map("render-map", {
+        scrollWheelZoom: false
+      }).setView([lat, lng], 17)
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(MyMap)
 
-      // map marker
-      Marker = L.marker([
-        position.coords.latitude,
-        position.coords.longitude
-      ]).addTo(MyMap)
-      // .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-      // .openPopup();
+      // render marker
+      this.renderMarker({ lat, lng })
 
-      // map click event
+      // click event listener
       MyMap.on("click", e => {
-        this.setState({
-          coords: {
-            lat: e.latlng.lat,
-            lng: e.latlng.lng
-          }
-        })
+        const lat = e.latlng.lat
+        const lng = e.latlng.lng
 
-        // delete old marker
-        MyMap.removeLayer(Marker)
-        Marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(MyMap)
+        this.setState(
+          {
+            coords: {
+              lat,
+              lng
+            }
+          },
+          () => {
+            // render marker
+            this.renderMarker({ lat, lng })
+          }
+        )
       })
+      
     } else {
-      this.setState({
-        locationStatus: "Browser Anda Tidak Support Geo Location"
-      })
+      MyMap.setView([lat, lng])
     }
   }
 
-  savePositionToState(position) {
+  renderMarker({lat, lng}) {
+    if (MarkerLayer) MyMap.removeLayer(MarkerLayer)
+
+    return MarkerLayer = L.marker([lat, lng]).addTo(MyMap)
+  }
+
+  savePositionToState(coords) {
     this.setState(
       {
-        coords: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
+        coords
       },
       () => {
-        this.props.setState({ coords: this.state.coords })
-        setTimeout(() => this.renderMap(position), 1500)
+        this.props.setState({ coords })
+        setTimeout(() => this.renderMap(coords), 1500)
       }
     )
   }
@@ -126,7 +147,7 @@ class LocationPicker extends React.Component {
   render() {
     const { locationStatus } = this.state
     return (
-      <InputLocation className="location-picker">
+      <InputLocation className="location-picker form-child">
         <label htmlFor="render" style={{ marginBottom: 10, display: "block" }}>
           {this.props.label}
         </label>
@@ -143,13 +164,8 @@ class LocationPicker extends React.Component {
           }}
         />
 
-        {locationStatus == "granted" ? (
-          <div id="render-map" />
-        ) : locationStatus == "denied" ? (
-          <small>:( Kamu tidak memberikan akses lokasi untuk Mau Gowes</small>
-        ) : (
-          <small>{locationStatus || "Mendapatkan posisi...."}</small>
-        )}
+        <div id="render-map" />
+        
       </InputLocation>
     )
   }

@@ -9,6 +9,7 @@ import GA from "../../components/boxs/GA"
 import InputText from "../../components/form/InputText"
 import InputFile from "../../components/form/InputFile"
 import InputLocation from "../../components/form/InputLocation"
+import InputDateTime from "../../components/form/InputDateTime"
 import Submit from "../../components/form/Submit"
 import FormStyled from "../../components/form/FormStyled"
 
@@ -16,19 +17,22 @@ const SendCompetitionStyled = Styled.div`
 `
 
 class SendEvent extends React.Component {
-  state = {}
+  state = {
+    event_time: new Date()
+  }
 
   submitHandler() {
     let params = {
       email: this.state.email,
       title: this.state.title,
       link: this.state.link,
-      note: this.state.note
+      event_time: typeof this.state.event_time == "number" ? this.state.event_time : this.state.event_time.getTime()
     }
 
     if(this.state.poster) params.poster = this.state.poster
     if(this.state.address) params.address = this.state.address
     if(this.state.coords) params.coords = this.state.coords
+    if(this.state.note) params.note = this.state.note
 
     console.log("params", params)
   }
@@ -54,23 +58,33 @@ class SendEvent extends React.Component {
             <div className="grid-center">
               <div className="col-6 super-login-wrapper">
                 <FormStyled>
+                  <h2>Data Kamu (kami akan menjaga kerahasiaan data ini)</h2>
                   <InputText
-                    placeholder="Email kamu (untuk pemberitahuan status event ini)"
+                    label="Email kamu (untuk pemberitahuan status event ini)"
                     type="email"
                     value={this.state.email || ""}
-                    required={true}
                     validate={this.state.email_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="email"
+                    required
                   />
+
+                  <h2>Tentang Event Gowes</h2>
                   <InputText
-                    placeholder="Judul Event Sepeda"
+                    label="Judul Event Gowes"
                     type="text"
                     value={this.state.title || ""}
-                    required={true}
                     validate={this.state.title_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="title"
+                    required
+                  />
+                  <InputDateTime 
+                    label="Waktu Event Gowes"
+                    name="event_time"
+                    defaultValue={this.state.event_time}
+                    setState={(ns, cb) => this.setState(ns, cb)}
+                    required
                   />
                   <InputLocation
                     name="location"
@@ -78,16 +92,16 @@ class SendEvent extends React.Component {
                     setState={(n, cb) => this.setState(n, cb)}
                   />
                   <InputText
-                    placeholder="Link website / sosial media"
+                    label="Link website / sosial media"
                     type="url"
                     value={this.state.link || ""}
-                    required={true}
                     validate={this.state.link_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="link"
+                    required
                   />
                   <InputText
-                    placeholder="Catatan untuk peserta"
+                    label="Catatan untuk peserta"
                     type="text"
                     value={this.state.note || ""}
                     validate={this.state.note_validate || {}}

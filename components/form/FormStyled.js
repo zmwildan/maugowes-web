@@ -4,7 +4,6 @@ export default Styled.form`
   .form-child {
     margin-bottom: 50px;
     label {
-      font-size: 12px;
       display: block;
       font-weight: bold;
       margin-bottom: 10px;

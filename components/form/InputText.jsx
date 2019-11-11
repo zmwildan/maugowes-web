@@ -71,7 +71,9 @@ export default class InputText extends React.Component {
     } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
     return (
-      <InputTextStyled style={this.props.containerStyle} className={`form-child ${!is_valid ? "error" : ""}`}>
+      <InputTextStyled
+        style={this.props.containerStyle}
+        className={`form-child ${!is_valid ? "error" : ""}`}>
         {label ? (
           <label htmlFor={this.props.id || name}>
             {label}{" "}
@@ -87,7 +89,7 @@ export default class InputText extends React.Component {
           value={value}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
-          placeholder={`${this.props.placeholder} (${this.props.required ? "wajib" : "opsional"})`}
+          placeholder={this.props.placeholder}
         />
         {max ? (
           <small className="validation-message">
