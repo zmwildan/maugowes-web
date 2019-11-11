@@ -1,5 +1,4 @@
 const videoModule = require("../modules/videos")
-// const sebangsaModule = require("../modules/sebangsa")
 
 module.exports = {
   addToDB: function(req, res, next) {

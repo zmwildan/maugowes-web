@@ -13,6 +13,9 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 
 // api endpoints
 
+// events 
+// Router.get("/events/:seal", SealMiddleware, (req, res) => { oper)
+
 // endpoint of [GET] /api/videos
 // Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)
 Router.get("/videos-db/:id/:seal", SealMiddleware, VideoHandler.getDetailFromDb)

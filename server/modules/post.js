@@ -1,7 +1,6 @@
 const mongo = require("./mongodb")
 const postTransformer = require("../transformers/posts")
 const cloudinary = require("./cloudinary")
-// const sebangsa = require("./sebangsa")
 const file = require("./file")
 const { ObjectId } = require("mongodb")
 
@@ -51,19 +50,19 @@ module.exports = {
     // show or hide draft, by default is hide draft post
     if (!showDraft) {
       aggregate.push({
-        $match: { "draft": { $not: { $eq: true } } }
+        $match: { draft: { $not: { $eq: true } } }
       })
     }
 
-    // not show certain id 
-    if(notId) {
+    // not show certain id
+    if (notId) {
       aggregate.push({
-        $match: { "_id": { $not: { $eq: ObjectId(notId) } } }
+        $match: { _id: { $not: { $eq: ObjectId(notId) } } }
       })
     }
 
     // execute mongodb
-    return mongo(({db, client}) => {
+    return mongo(({ db, client }) => {
       let countAggregate = Object.assign([], aggregate)
       // get post count
       countAggregate.push({
@@ -74,7 +73,7 @@ module.exports = {
         .aggregate(countAggregate)
         .toArray((err, count) => {
           client.close()
-          return mongo(({db, client}) => {
+          return mongo(({ db, client }) => {
             return (
               db
                 .collection("posts")
@@ -136,7 +135,7 @@ module.exports = {
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
-    mongo(({db, client}) => {
+    mongo(({ db, client }) => {
       // list post and order by created_on
       db.collection("posts")
         .aggregate([
@@ -163,7 +162,7 @@ module.exports = {
           }
 
           // close connection to mongo server
-         
+
           if (result.length < 1) {
             if (req.no_count) return callback()
             return callback({
@@ -239,7 +238,7 @@ module.exports = {
           video
         }
 
-        return mongo(({db, client}) => {
+        return mongo(({ db, client }) => {
           // check is same title available
           db.collection("posts")
             .aggregate([
@@ -323,7 +322,7 @@ module.exports = {
         } else {
           postdata.image = result.secure_url
           // update mongo data
-          return mongo(({db, client}) => {
+          return mongo(({ db, client }) => {
             db.collection("posts").update({ _id: id }, { $set: postdata })
             return callback({
               status: 200,
@@ -334,7 +333,7 @@ module.exports = {
       })
     } else {
       // update mongo data
-      return mongo(({db, client}) => {
+      return mongo(({ db, client }) => {
         db.collection("posts").update({ _id: id }, { $set: postdata })
         return callback({
           status: 200,

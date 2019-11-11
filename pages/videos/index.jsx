@@ -24,6 +24,7 @@ class VideosPage extends React.Component {
   }
 
   static async getInitialProps({ reduxStore, query }) {
+
     if (typeof window == "undefined") {
       const { endpoint, type } = fetchVideos()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)

@@ -24,6 +24,7 @@ const HomePage = Styled.div`
 
 class Home extends React.Component {
   static async getInitialProps({ reduxStore }) {
+
     if (typeof window == "undefined") {
       // only call in server side
 
