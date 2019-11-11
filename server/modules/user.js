@@ -24,7 +24,7 @@ module.exports = {
             })
           } else {
             // login success and save userdata to session
-            console.err("logged in success, save userdata to session")
+            console.log("logged in success, save userdata to session")
             result[0].id = result[0]._id
             delete result[0]._id
             req.session.auth = result[0]
