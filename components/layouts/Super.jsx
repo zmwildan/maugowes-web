@@ -64,6 +64,15 @@ class SuperLayout extends React.Component {
               </div>
 
               <div className="super-sidebar-child">
+                <strong>Events</strong>
+                <ul>
+                  <li>
+                    <a href="/super/events">Events</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="super-sidebar-child">
                 <strong>Akun</strong>
                 <ul>
                   <li>
