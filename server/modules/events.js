@@ -1,5 +1,4 @@
-const mongo = require("mongodb")
-const { ObjectId } = require("mongodb")
+const mongo = require("./mongodb")
 const cloudinary = require("./cloudinary")
 const file = require("./file")
 
@@ -24,7 +23,7 @@ module.exports = {
    * @param {string} req.files.poster
    */
   addEvent(req, res, callback) {
-    const { email, title, link, location_address, location_coordinates, note } = req.body
+    const { email, title, link, location_address, location_coordinate = {}, note, start_time } = req.body
     const { poster } = req.files
 
     // params insert into db
@@ -32,9 +31,11 @@ module.exports = {
       email,
       title,
       link,
+      start_time,
       location_address,
-      location_coordinates,
-      note
+      location_coordinate,
+      note,
+      status: "waiting"
     }
 
     // upload poster process
@@ -43,33 +44,63 @@ module.exports = {
       const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
 
       // start upload to cloudinary
-      return cloudinary.upload(image.path, upload_path, (err, result) => {
+      return cloudinary.upload(poster.path, upload_path, (err, result) => {
         if (err) {
           console.err("cloudinary upload error", err)
         } else {
           // insert into database
-          console.log("cloudinary upload success")
           params.poster = result.secure_url
-          return this.insertIntoEvent(params)
+          return this.insertIntoEvent(params, callback)
         }
       })
     } else {
-      params.poster = {
-        
-      }
-      return this.insertIntoEvent(params)
+      // default poster
+      params.poster = "https://res.cloudinary.com/dhjkktmal/image/upload/v1574004879/maugowes/2019/61836828_294185834796563_491780751893725184_o.png"
+      return this.insertIntoEvent(params, callback)
     }
-
   },
 
-  insertIntoEvent(params = {}) {
+  insertIntoEvent(params = {}, callback = () => {}) {
+    return mongo(({ db, client }) => {
+      // check is same title available
+      db.collection("events")
+        .aggregate([
+          {
+            $match: { title: params.title }
+          },
+          {
+            // select from specific key: https://stackoverflow.com/a/45738049/2780875
+            $project: {
+              _id: 1
+            }
+          }
+        ])
+        .toArray((err, results) => {
+          if (err) {
+            console.err(err)
+            return callback({
+              status: 500,
+              message: "something wrong with mongo"
+            })
+          }
 
+          if (results.length > 0) {
+            // post available
+            return callback({
+              status: 400,
+              message: "Gagal kirim, event judul yang sama telah ada"
+            })
+          } else {
+            // insert to mongodb
+            db.collection("events").insert(params)
+
+            return callback({
+              status: 201,
+              message: "Terimakasih, event telah terkirim dan segera diproses oleh moderator."
+            })
+          }
+        })
+    })
   },
 
-  /**
-   * functino to edit event 
-   */
-  editEvent(req, res, callback) {
-
-  }
 }

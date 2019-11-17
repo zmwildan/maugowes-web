@@ -5,6 +5,7 @@ const Router = express.Router()
 const VideoHandler = require("../handlers/video")
 const PostHandler = require("../handlers/post")
 const AuthHandler = require("../handlers/auth")
+const EventHandler = require("../handlers/events")
 
 // middlewares
 const FormDataMiddleware = require("../middlewares/formDataMiddleware")
@@ -14,7 +15,7 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 // api endpoints
 
 // events 
-// Router.get("/events/:seal", SealMiddleware, (req, res) => { oper)
+Router.post("/event/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)
 
 // endpoint of [GET] /api/videos
 // Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)

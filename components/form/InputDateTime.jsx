@@ -259,7 +259,7 @@ class InputDateTime extends React.Component {
         className={`form-child`}>
         {label ? (
           <label htmlFor={id || name}>
-            {label} {this.props.required ? "(wajib)" : "(opsional)"}
+            {label} {this.props.required ? "*" : ""}
           </label>
         ) : null}
         <DateTime

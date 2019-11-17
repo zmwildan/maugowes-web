@@ -271,11 +271,6 @@ module.exports = {
                 // insert to mongodb
                 db.collection("posts").insert(postdata)
 
-                // get lattest id of post
-
-                // post to sebangsa
-                // sebangsa.postToSebangsa()
-
                 return callback({
                   status: 201,
                   message: "Post Created"
