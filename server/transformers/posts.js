@@ -3,7 +3,7 @@ const { generateCustomUrl } = require("../modules/cloudinary")
 const userTransformer = require("../transformers/user")
 
 module.exports = {
-  post: (n = []) => {
+  post: (n = {}) => {
     const pureContent = stripTags(n.content)
     return {
       id: n._id,

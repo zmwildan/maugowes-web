@@ -10,7 +10,7 @@
 - query :
   - page : default 1
   - limit : default 7
-  - status : default "accept" || "all"
+  - status : one of : default "accept" || "reject | "waiting" | "all"
 
 **Response**
 ```
@@ -41,7 +41,7 @@
   - title : string (required)
   - start_time : number / epochtime (required)
   - location_name : string
-  - location_coordinate : string / json string
+  - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lon": 110.3670518}'
   - link : string
   - note : string
   - poster : file object
@@ -49,7 +49,8 @@
 **Response**
 ```
 {
-  
+    "status": 201,
+    "message": "Terimakasih, event telah terkirim dan segera diproses oleh moderator."
 }
 ```
 
@@ -59,7 +60,7 @@
 - method : POST
 - endpoint : /api/events/:seal/:event_id
 - formdata : 
-  - status : "accept" | "decline"
+  - status : "accept" | "reject"
 
 **Response**
 ```

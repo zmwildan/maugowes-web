@@ -15,7 +15,9 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 // api endpoints
 
 // events 
-Router.post("/event/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)
+Router.post("/events/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)
+Router.get("/events/:seal/:id", SealMiddleware, EventHandler.fetchEventDetail)
+Router.get("/events/:seal", SealMiddleware, EventHandler.fetchEvents)
 
 // endpoint of [GET] /api/videos
 // Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)

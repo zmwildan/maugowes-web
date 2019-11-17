@@ -64,7 +64,7 @@ module.exports = {
     // execute mongodb
     return mongo(({ db, client }) => {
       let countAggregate = Object.assign([], aggregate)
-      // get post count
+      // get post total count
       countAggregate.push({
         $count: "total"
       })
