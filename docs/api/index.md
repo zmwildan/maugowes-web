@@ -15,7 +15,31 @@
 **Response**
 ```
 {
-
+    "status": 200,
+    "messages": "success",
+    "results": [
+        {
+            "id": "5dd1d2b89b1df5086578c3d1",
+            "email": "yussan@mailiantor.com",
+            "title": "judul event kedua",
+            "link": "https://link.com",
+            "start_time": "1574004162",
+            "location": {
+                "address": "location address",
+                "coordinate": {
+                    "lat": -7.7829162,
+                    "lon": 110.3670518
+                }
+            },
+            "note": "this is note",
+            "status": "waiting",
+            "poster": {
+                "600": "https://res.cloudinary.com/dhjkktmal/image/upload/w_600,c_scale/maugowes/2019/41b7351aaeb545faf1d48d282eaa3100.jpg.jpg",
+                "original": "https://res.cloudinary.com/dhjkktmal/image/upload/v1574005171/maugowes/2019/41b7351aaeb545faf1d48d282eaa3100.jpg.jpg"
+            }
+        }
+    ],
+    "total": 1
 }
 ```
 
@@ -28,7 +52,25 @@
 **Response**
 ```
 {
-
+    "id": "5dd1d2b89b1df5086578c3d1",
+    "email": "yussan@mailiantor.com",
+    "title": "judul event kedua",
+    "link": "https://link.com",
+    "start_time": "1574004162",
+    "location": {
+        "address": "location address",
+        "coordinate": {
+            "lat": -7.7829162,
+            "lon": 110.3670518
+        }
+    },
+    "note": "this is note",
+    "status": 200,
+    "poster": {
+        "600": "https://res.cloudinary.com/dhjkktmal/image/upload/w_600,c_scale/maugowes/2019/41b7351aaeb545faf1d48d282eaa3100.jpg.jpg",
+        "original": "https://res.cloudinary.com/dhjkktmal/image/upload/v1574005171/maugowes/2019/41b7351aaeb545faf1d48d282eaa3100.jpg.jpg"
+    },
+    "message": "success"
 }
 ```
 
