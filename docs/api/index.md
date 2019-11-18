@@ -100,14 +100,16 @@
 
 **Request**
 - method : POST
-- endpoint : /api/events/:seal/:event_id
+- endpoint : /api/events/action/:seal/:event_id
 - formdata : 
   - status : "accept" | "reject"
+  - note : string will sent to event creator
 
 **Response**
 ```
 {
-  
+    "status": 200,
+    "message": "Update status success"
 }
 ```
 

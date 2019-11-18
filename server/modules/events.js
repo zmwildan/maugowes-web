@@ -14,18 +14,17 @@ module.exports = {
     const { id } = req.params
 
     if (id && id.length != 24) {
-      if (req.no_count) return callback()
       return callback({ status: 204, messages: "Event tidak ditemukan" })
     }
 
     let aggregate = [
       {
         $match: { _id: ObjectId(id) }
-      },
+      }
     ]
 
     // open new connection
-    mongo(({db, client}) => {
+    mongo(({ db, client }) => {
       db.collection("events")
         .aggregate(aggregate)
         .toArray((err, results) => {
@@ -42,17 +41,16 @@ module.exports = {
           client.close()
 
           if (results && results.length > 0) {
-
             const response = eventTransformer.event(results[0])
-            response.status = 200 
+            response.status = 200
             response.message = "success"
-            
+
             // success
             return callback(response)
           } else {
             return callback({
               status: 204,
-              message: "Event tidak tersedia",
+              message: "Event tidak tersedia"
             })
           }
         })
@@ -60,7 +58,7 @@ module.exports = {
   },
 
   /**
-   * function to add new event 
+   * function to add new event
    * @param {string} req.body.email
    * @param {string} req.body.title
    * @param {string} req.body.link
@@ -70,7 +68,15 @@ module.exports = {
    * @param {string} req.files.poster
    */
   addEvent(req, res, callback) {
-    const { email, title, link, location_address, location_coordinate = {}, note, start_time } = req.body
+    const {
+      email,
+      title,
+      link,
+      location_address,
+      location_coordinate = {},
+      note,
+      start_time
+    } = req.body
     const { poster } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
 
@@ -84,7 +90,7 @@ module.exports = {
       location_coordinate,
       note,
       status: "waiting",
-      created_on: currentTime,
+      created_on: currentTime
     }
 
     // upload poster process
@@ -104,17 +110,18 @@ module.exports = {
       })
     } else {
       // default poster
-      params.poster = "https://res.cloudinary.com/dhjkktmal/image/upload/v1574004879/maugowes/2019/61836828_294185834796563_491780751893725184_o.png"
+      params.poster =
+        "https://res.cloudinary.com/dhjkktmal/image/upload/v1574004879/maugowes/2019/61836828_294185834796563_491780751893725184_o.png"
       return this.insertIntoEvent(params, callback)
     }
   },
 
   /**
    * function to get event
-   * @param {*} req.query.status one if waiting, accept (default), reject, all 
-   * @param {*} req.query.page , default 1 
-   * @param {*} req.query.limit , default 7
-   * @param {*} callback 
+   * @param {string} req.query.status one if waiting, accept (default), reject, all
+   * @param {number} req.query.page , default 1
+   * @param {number} req.query.limit , default 7
+   * @param {function} callback
    */
   fetchEvents(req, res, callback) {
     const { page = 1, limit = 7, status = "waiting" } = req.query
@@ -135,7 +142,7 @@ module.exports = {
       })
     }
 
-    mongo(({db, client}) => {
+    mongo(({ db, client }) => {
       let countAggregate = Object.assign([], aggregate)
       // get events total count
       countAggregate.push({
@@ -149,7 +156,7 @@ module.exports = {
           client.close()
 
           // open new connection
-          mongo(({db, client}) => {
+          mongo(({ db, client }) => {
             db.collection("events")
               .aggregate(aggregate)
               .skip(parseInt((page - 1) * limit))
@@ -168,7 +175,6 @@ module.exports = {
                 client.close()
 
                 if (results && results.length > 0) {
-                  
                   // transform to standart response
                   results.map((n, key) => {
                     results[key] = eventTransformer.event(n)
@@ -190,6 +196,67 @@ module.exports = {
                 }
               })
           })
+        })
+    })
+  },
+
+  /**
+   * function to set status events
+   * @param {number} req.params.id id of event
+   * @param {string} req.body.note note send to event creator, default is "no reason"
+   * @param {status} req.body.status one of "accept" or "reject" , default is "reject"
+   * @param {function} callback
+   */
+  actionEvent(req, res, callback) {
+    let { id } = req.params
+    const { status } = req.body
+
+    if (id && id.length != 24) {
+      return callback({ status: 204, messages: "Event tidak ditemukan" })
+    }
+
+    id = ObjectId(id)
+
+    let aggregate = [
+      {
+        $match: { _id: id }
+      }
+    ]
+
+    // check is available data on database
+    mongo(({ db, client }) => {
+      db.collection("events")
+        .aggregate(aggregate)
+        .toArray((err, results) => {
+          // error from database
+          if (err) {
+            console.err(err)
+            return callback({
+              status: 500,
+              messages: "something wrong with mongo"
+            })
+          }
+
+          if (results && results.length > 0) {
+            // update data
+            const postdata = {
+              updated_on: Math.round(new Date().getTime() / 1000),
+              status
+            }
+            // update data on db
+            db.collection("events").update({ _id: id }, { $set: postdata })
+
+            // success
+            return callback({
+              status: 200,
+              message: "Update status success"
+            })
+          } else {
+            return callback({
+              status: 204,
+              message: "Event tidak tersedia"
+            })
+          }
         })
     })
   },
@@ -230,11 +297,11 @@ module.exports = {
 
             return callback({
               status: 201,
-              message: "Terimakasih, event telah terkirim dan segera diproses oleh moderator."
+              message:
+                "Terimakasih, event telah terkirim dan segera diproses oleh moderator."
             })
           }
         })
     })
-  },
-
+  }
 }

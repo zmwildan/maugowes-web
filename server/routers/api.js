@@ -18,6 +18,7 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 Router.post("/events/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)
 Router.get("/events/:seal/:id", SealMiddleware, EventHandler.fetchEventDetail)
 Router.get("/events/:seal", SealMiddleware, EventHandler.fetchEvents)
+Router.post("/events/action/:seal/:id", SealMiddleware, FormDataMiddleware, EventHandler.actionEvent)
 
 // endpoint of [GET] /api/videos
 // Router.get("/videos/:seal", SealMiddleware, VideoHandler.getListYoutubeVideos)
@@ -48,7 +49,7 @@ Router.post("/logout", AuthHandler.logout)
 // testers
 // Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)
 
-Router.get("*", (req, res, next) => {
+Router.use("*", (req, res, next) => {
   return res.json({
     status: 404,
     message: "request not available"
