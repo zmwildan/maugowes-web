@@ -115,7 +115,7 @@ export default props => {
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://facebook.com/maugowes">
-                <img src="https://img.icons8.com/android/15/000000/facebook.png" />
+                <img src="https://img.icons8.com/color/48/000000/facebook.png" />
               </a>
               <a
                 target="_blank"
