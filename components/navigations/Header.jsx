@@ -172,13 +172,15 @@ class Header extends React.Component {
       <HeaderStyled>
         <div className="grid-center header-logo">
           <div className="col">
-            <a href="/">
-              <img
-                className="header-logo-img"
-                src="/static/images/logo-2.png"
-                alt="logo Mau Gowes"
-              />
-            </a>
+            <Link href="/" prefetch>
+              <a href="/">
+                <img
+                  className="header-logo-img"
+                  src="/static/images/logo-2.png"
+                  alt="logo Mau Gowes"
+                />
+              </a>
+            </Link>
           </div>
         </div>
 

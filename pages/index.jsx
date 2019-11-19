@@ -83,9 +83,9 @@ class Home extends React.Component {
         <DefaultLayout>
           <HomePage>
             {/* slider of featured */}
-            {/* <Slider speed={10000} className="grid">
+            <Slider speed={10000} className="grid">
               <SliderItem />
-            </Slider> */}
+            </Slider>
             {/* slider of featured */}
 
             <GA adClient="ca-pub-4468477322781117" adSlot="2131764851" />
