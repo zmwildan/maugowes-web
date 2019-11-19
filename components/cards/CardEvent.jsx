@@ -1,12 +1,12 @@
 // import Dayjs from "../../modules/dayjs"
-import Styled from "styled-components"
+import Styled from 'styled-components'
 import {
   color_gray_dark,
   color_black_main,
   color_blue_main,
   color_red_main,
   color_white_main
-} from "../Const"
+} from '../Const'
 // import Link from "next/link"
 
 const CardEventStyled = Styled.div`
@@ -83,8 +83,9 @@ margin-bottom: 30px;
 `
 
 const CardEvent = props => {
-  const linkUrl = "/event/judul-event-mjhsdf89734"
-
+  const linkUrl = '/event/judul-event-mjhsdf89734'
+  const { data } = props
+  console.log(data)
   return (
     <CardEventStyled className="col-4_xs-12_md-6">
       <a
@@ -94,7 +95,7 @@ const CardEvent = props => {
         <div
           className="card-event-cover"
           style={{
-            backgroundImage: `url(https://coda.newjobs.com/api/imagesproxy/ms/cms/content30/images/grad1a.jpg)`
+            backgroundImage: `url(${data.poster[600]})`
           }}>
           <div className="label label-red">TELAH BERAKHIR</div>
         </div>
@@ -102,21 +103,19 @@ const CardEvent = props => {
 
       <div className="card-event-time">
         <span className="card-event-label">
-          27 Agustus 2019 05:00 <br /> di Lapangan Dengung, Sleman, DIY
+          27 Agustus 2019 05:00 <br /> {data.location.address}
         </span>
       </div>
 
       <div className="card-event-title">
         <h3>
           <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-            Gowes Bareng DWDW Rapapha
+            {data.title}
           </a>
         </h3>
       </div>
 
-      <div className="card-event-content">
-        Mengajak siapapun untuk ikutan gowes bareng, gratis loh
-      </div>
+      <div className="card-event-content">{data.note}</div>
 
       <div className="card-event-category">Gowes Bareng</div>
     </CardEventStyled>

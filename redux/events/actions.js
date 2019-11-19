@@ -46,7 +46,7 @@ export function fetchEvents(filter = "", query = {}) {
     [CALL_API]: {
       type: GET_EVENTS,
       filter,
-      endpoint: `/api/videos-db/${seal.generateSeal()}?${objToQuery(query)}`
+      endpoint: `/api/events/${seal.generateSeal()}?${objToQuery(query)}`
     }
   }
 }
@@ -63,7 +63,7 @@ export function fetchMoreEvents(filter = "", query = {}) {
     [CALL_API]: {
       type: GET_MORE_EVENTS,
       filter,
-      endpoint: `/api/videos-db/${seal.generateSeal()}?${objToQuery(query)}`
+      endpoint: `/api/events/${seal.generateSeal()}?${objToQuery(query)}`
     }
   }
 }
