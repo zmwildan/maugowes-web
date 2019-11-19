@@ -124,7 +124,7 @@ module.exports = {
    * @param {function} callback
    */
   fetchEvents(req, res, callback) {
-    const { page = 1, limit = 7, status = "waiting" } = req.query
+    const { page = 1, limit = 7, status = "accept" } = req.query
 
     let aggregate = [
       {

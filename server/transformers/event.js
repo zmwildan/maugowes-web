@@ -1,4 +1,5 @@
 const { generateCustomUrl } = require("../modules/cloudinary")
+const { toSlug } = require('string-manager')
 
 module.exports = {
 
@@ -9,8 +10,11 @@ module.exports = {
       id: n._id,
       email: n.email,
       title: n.title,
-      link: n.link,
+      event_link: n.link,
+      link: `/events/${toSlug(n.title)}-${n._id}`,
       start_time: n.start_time,
+      created_on: n.created_on || 0,
+      updated_on: n.updated_on || 0,
       location: {
         address: n.location_address || null,
         coordinate: n.location_coordinate
