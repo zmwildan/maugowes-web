@@ -28,7 +28,7 @@ export default ({ url }) => (
         )
       }}>
       <img
-        src="https://img.icons8.com/color/48/000000/facebook.png"
+        src="/static/images/facebook-48.png"
         alt="share ke Facebook"
       />
     </a>
@@ -46,7 +46,7 @@ export default ({ url }) => (
         )
       }}>
       <img
-        src="https://img.icons8.com/color/48/000000/twitter.png"
+        src="/static/images/twitter-48.png"
         alt="share ke Twitter"
       />
     </a>
@@ -65,29 +65,10 @@ export default ({ url }) => (
       }}>
       <img
         style={{ width: 48 }}
-        src="https://img.icons8.com/color/48/000000/linkedin.png"
+        src="/static/images/linkedin-48.png"
         alt="share ke Linkedin"
       />
     </a>
     {/* end of linkedin share */}
-
-    {/* sebangsa share */}
-    <a
-      className="box-share-link"
-      href="javascript:;"
-      onClick={() => {
-        window.open(
-          `https://sebangsa.com/post/create?text=${url}`,
-          "Share Mau Gowes ke Sebangsa",
-          "width=600,height=400"
-        )
-      }}>
-      <img
-        style={{ width: 48 }}
-        src="https://sebangsanetwork.com/wp-content/uploads/2018/08/logo-green.svg"
-        alt="share ke Sebangsa"
-      />
-    </a>
-    {/* end of sebangsa share */}
   </ShareBoxStyled>
 )
