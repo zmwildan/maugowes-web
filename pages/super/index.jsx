@@ -53,7 +53,7 @@ class SuperPage extends React.Component {
         <DefaultLayout>
           <SuperPageStyled>
             <div className="grid-center">
-              <div className="col-4 super-login-wrapper">
+              <div className="col-4_sm-12_xs-12 super-login-wrapper">
                 <h1>Super Page</h1>
                 <p>Pastikan untuk menjaga keamanan di Mau Gowes</p>
                 <br />

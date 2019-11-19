@@ -32,7 +32,10 @@ export const Footer = Styled.div`
       align-items: center;
       justify-content: center;
       .footer-social-link_a {
-        margin-right: 20px;
+        margin-right: 10px;
+        img {
+          width: 35px;
+        }
       }
     }
   }
@@ -101,30 +104,29 @@ export default props => {
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://www.youtube.com/channel/UCc0sgRlqAJCWejiiSIDJjdg">
-                <img src="https://img.icons8.com/ios-glyphs/15/000000/youtube-play.png" />
+                <img src="/static/images/youtube-48.png" />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://instagram.com/maugowes">
-                <img src="https://img.icons8.com/ios-glyphs/15/000000/instagram.png" />
+                <img src="/static/images/instagram-48.png" />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://facebook.com/maugowes">
-                <img src="https://img.icons8.com/color/48/000000/facebook.png" />
+                <img src="/static/images/facebook-48.png" />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://twitter.com/maugowes">
-                <img src="https://img.icons8.com/android/15/000000/twitter.png" />
+                <img src="/static/images/twitter-48.png" />
               </a>
-              {/* <a className="footer-social-link_a" href="https://twitter.com"><img src="https://img.icons8.com/android/15/000000/twitter.png" /></a> */}
             </span>
           </div>
         </div>
