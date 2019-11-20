@@ -25,12 +25,12 @@ const seal = new sealMiddleware(API_KEY, 60000)
  * @param {string} filter  
  * @param {number} event_id 
  */
-export function fetchVideoDetail(event_id) {
+export function fetchEventDetail(event_id) {
   return {
     [CALL_API]: {
       type: GET_EVENTS,
       filter: event_id,
-      endpoint: `/api/videos-db/${event_id}/${seal.generateSeal()}`
+      endpoint: `/api/events/${event_id}/${seal.generateSeal()}`
     }
   }
 }

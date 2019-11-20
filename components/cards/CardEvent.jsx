@@ -88,10 +88,7 @@ const CardEvent = props => {
   console.log(data)
   return (
     <CardEventStyled className="col-4_xs-12_md-6">
-      <a
-        href="/event/judul-event-mjhsdf89734"
-        target="_blank"
-        rel="noopener noreferrer">
+      <a href={data.link} rel="noopener noreferrer">
         <div
           className="card-event-cover"
           style={{
@@ -109,7 +106,7 @@ const CardEvent = props => {
 
       <div className="card-event-title">
         <h3>
-          <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+          <a href={data.link} target="_blank" rel="noopener noreferrer">
             {data.title}
           </a>
         </h3>

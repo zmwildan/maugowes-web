@@ -16,7 +16,7 @@ const SealMiddleware = require("../middlewares/sealMiddleware")
 
 // events 
 Router.post("/events/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)
-Router.get("/events/:seal/:id", SealMiddleware, EventHandler.fetchEventDetail)
+Router.get("/events/:id/:seal", SealMiddleware, EventHandler.fetchEventDetail)
 Router.get("/events/:seal", SealMiddleware, EventHandler.fetchEvents)
 Router.post("/events/action/:seal/:id", SealMiddleware, FormDataMiddleware, EventHandler.actionEvent)
 
