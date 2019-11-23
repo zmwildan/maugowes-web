@@ -1,5 +1,6 @@
 // import Dayjs from "../../modules/dayjs"
 import Styled from 'styled-components'
+import Link from 'next/link'
 import {
   color_gray_dark,
   color_black_main,
@@ -88,7 +89,7 @@ const CardEvent = props => {
   console.log(data)
   return (
     <CardEventStyled className="col-4_xs-12_md-6">
-      <a href={data.link} rel="noopener noreferrer">
+      <Link href={data.link} rel="noopener noreferrer">
         <div
           className="card-event-cover"
           style={{
@@ -96,7 +97,7 @@ const CardEvent = props => {
           }}>
           <div className="label label-red">TELAH BERAKHIR</div>
         </div>
-      </a>
+      </Link>
 
       <div className="card-event-time">
         <span className="card-event-label">
