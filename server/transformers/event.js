@@ -22,7 +22,7 @@ module.exports = {
           : null
       },
       note: n.note,
-      status: n.status,
+      event_status: n.status,
       poster: {
         original: n.poster,
         "600": generateCustomUrl(n.poster, "w_600,c_scale")
