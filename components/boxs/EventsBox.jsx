@@ -30,10 +30,12 @@ const EventsBox = props => {
     <EventsBoxStyled>
       {!props.noHeaderTitle ? (
         <div className="grid-center">
-          <h2 className="events-box-title">{'Yang Baru di Events'}</h2>
+          <h2 className="video-box-title">
+            {props.title || 'Yang Baru di Events'}
+          </h2>
         </div>
-      ) : (
-        <center className="events-box-meta" style={{ marginBottom: 50 }}>
+      ) : total ? (
+        <center style={{ marginBottom: 50 }}>
           Menampilkan <strong>{results.length || 0}</strong> dari{' '}
           <strong>{total}</strong> events
           <br />
@@ -46,7 +48,7 @@ const EventsBox = props => {
             </a>
           </Link>
         </center>
-      )}
+      ) : null}
 
       {status ? (
         results && results.length > 0 ? (

@@ -19,11 +19,11 @@ import { connect } from 'react-redux'
 import { fetchEventDetail } from '../../redux/events/actions'
 import config from '../../config/index'
 import fetch from 'isomorphic-unfetch'
-import BlogBox from '../../components/boxs/BlogBox'
 import ShareIcon from '../../components/icons/Share'
 import CommentIcon from '../../components/icons/Comment'
 import EyeIcon from '../../components/icons/Eye'
 import { BlogDetailStyled } from '../blog/detail'
+import InputLocation from '../../components/form/InputLocation'
 
 function getId(title) {
   let titleArr = title.split('-')
@@ -88,7 +88,7 @@ class EventDetail extends React.Component {
             }
           },
           url: `https://maugowes.com${data.link}`,
-          // datePublished: new Date(data.created_on * 1000).toISOString(),
+          datePublished: new Date(data.created_on * 1000).toISOString(),
           dateCreated: new Date(data.created_on * 1000).toISOString(),
           dateModified: new Date(data.updated_on * 1000).toISOString()
           // description: data.truncatedContent,
@@ -170,6 +170,13 @@ class EventDetail extends React.Component {
                     <article
                       className="blog-detail_content"
                       dangerouslySetInnerHTML={{ __html: data.note }}
+                    />
+                    <InputLocation
+                      name="location"
+                      label="Lokasi Start / Meetpoint Gowes"
+                      setState={(n, cb) => this.setState(n, cb)}
+                      readOnly
+                      coordinate={data.location.coordinate}
                     />
                   </div>
                 </div>
