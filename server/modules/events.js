@@ -209,7 +209,7 @@ module.exports = {
    */
   actionEvent(req, res, callback) {
     let { id } = req.params
-    const { status } = req.body
+    const { status, note } = req.body
 
     if (id && id.length != 24) {
       return callback({ status: 204, messages: "Event tidak ditemukan" })
@@ -241,7 +241,8 @@ module.exports = {
             // update data
             const postdata = {
               updated_on: Math.round(new Date().getTime() / 1000),
-              status
+              status,
+              sender_note: note || "",
             }
             // update data on db
             db.collection("events").update({ _id: id }, { $set: postdata })
