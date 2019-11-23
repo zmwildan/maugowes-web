@@ -1,4 +1,4 @@
-import Styled from "styled-components"
+import Styled from 'styled-components'
 import {
   color_blue_main,
   color_blue_dark,
@@ -6,8 +6,8 @@ import {
   color_white_main,
   // color_gray_dark,
   color_gray_medium
-} from "../Const"
-import Link from "next/link"
+} from '../Const'
+import Link from 'next/link'
 
 const ButtonStyled = Styled.div`
 
@@ -19,7 +19,7 @@ const ButtonStyled = Styled.div`
     font-weight: bold;
     padding: ${props => {
       switch (props.size) {
-        case "small":
+        case 'small':
           return `10px 15px;`
         default:
           return `15px 25px;`
@@ -27,7 +27,7 @@ const ButtonStyled = Styled.div`
     }};
     font-size: ${props => {
       switch (props.size) {
-        case "small":
+        case 'small':
           return `14px;`
         default:
           return `15px;`
@@ -36,9 +36,9 @@ const ButtonStyled = Styled.div`
     text-transform: uppercase;
     background-color: ${props => {
       switch (props.color) {
-        case "white":
+        case 'white':
           return `${color_white_main} !important;`
-        case "black":
+        case 'black':
           return `${color_black_main} !important;`
         default:
           return `${color_blue_main} !important;`
@@ -46,15 +46,17 @@ const ButtonStyled = Styled.div`
     }};
     border: ${props => {
       switch (props.color) {
-        case "white":
+        case 'white':
+          return `1px solid ${color_black_main} !important;`
+        case 'black':
           return `1px solid ${color_black_main} !important;`
         default:
-          return `none;`
+          return `1px solid ${color_blue_main} !important;`
       }
     }}
     color: ${props => {
       switch (props.color) {
-        case "white":
+        case 'white':
           return `${color_black_main} !important;`
         default:
           return `#FFF;`
@@ -63,7 +65,7 @@ const ButtonStyled = Styled.div`
     &:hover {
       background-color: ${props => {
         switch (props.color) {
-          case "white":
+          case 'white':
             return `${color_gray_medium} !important;`
           default:
             return `${color_blue_dark} !important;`
@@ -76,8 +78,8 @@ const ButtonStyled = Styled.div`
 const Button = props => {
   return (
     <ButtonStyled {...props} disabled={props.isDisabled}>
-      {props.type === "link" ? (
-        <Link id={props.btnId || "id of button"} href={props.target} prefetch>
+      {props.type === 'link' ? (
+        <Link id={props.btnId || 'id of button'} href={props.target} prefetch>
           <a href={props.target}>{props.text}</a>
         </Link>
       ) : (
@@ -90,9 +92,9 @@ const Button = props => {
 }
 
 Button.defaultProps = {
-  type: "button",
-  target: "",
-  btnId: "btn-id",
+  type: 'button',
+  target: '',
+  btnId: 'btn-id',
   onClick: () => {}
 }
 
