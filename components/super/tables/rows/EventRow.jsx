@@ -1,5 +1,6 @@
 import Styled from 'styled-components'
 import DayJs from '../../../../modules/dayjs'
+import Link from 'next/router'
 import { BlogRowStyled } from './BlogRow'
 import {
   color_blue_main,
@@ -36,10 +37,10 @@ export default props => {
   const { data } = props
   return (
     <EventRowStyled className="table-row" status={data.status}>
-      {data.title}
+      <a href={`/super/events/detail/${data.id}`}>{data.title}</a>
       <span className={`label-${data.status}`}>{data.status}</span>
       <br />
-      Dipost {DayJs(data.start_time * 1000).fromNow()}
+      Dipost {DayJs(data.created_on * 1000).fromNow()}
     </EventRowStyled>
   )
 }
