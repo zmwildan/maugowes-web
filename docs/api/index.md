@@ -28,7 +28,7 @@
                 "address": "location address",
                 "coordinate": {
                     "lat": -7.7829162,
-                    "lon": 110.3670518
+                    "lng": 110.3670518
                 }
             },
             "note": "this is note",
@@ -61,7 +61,7 @@
         "address": "location address",
         "coordinate": {
             "lat": -7.7829162,
-            "lon": 110.3670518
+            "lng": 110.3670518
         }
     },
     "note": "this is note",
@@ -83,7 +83,7 @@
   - title : string (required)
   - start_time : number / epochtime (required)
   - location_name : string
-  - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lon": 110.3670518}'
+  - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lng": 110.3670518}'
   - link : string
   - note : string
   - poster : file object
