@@ -8,6 +8,7 @@ import { setStatus } from '../../../redux/events/actions'
 import InputLocation from '../../form/InputLocation'
 import DayJs from '../../../modules/dayjs'
 import Button from '../../buttons'
+import Label from '../../labels'
 const EventDetailStyle = Style.div`
 	.text-bold{
 		font-weight: bold;
@@ -18,9 +19,9 @@ const EventDetailStyle = Style.div`
 `
 class EventDetail extends React.Component {
   componentDidUpdate(prevProps) {
-    const { formResponse } = this.props
+    const { formResponse, eventData } = this.props
     if (formResponse.status === 200 || formResponse.status === 201) {
-      location.href = '/super/events'
+      location.href = `/super/events/detail/${eventData.id}`
     }
   }
   handleClick = status => {
@@ -39,7 +40,6 @@ class EventDetail extends React.Component {
   }
   render() {
     const { eventData } = this.props
-    console.log(eventData)
     return (
       <EventDetailStyle>
         <div className="grid">
@@ -48,7 +48,9 @@ class EventDetail extends React.Component {
         </div>
         <div className="grid">
           <div className="col-3 text-bold">Status</div>
-          <div className="col-9">{eventData.event_status}</div>
+          <div className="col-9">
+            <Label status={eventData.event_status} />
+          </div>
         </div>
         <div className="grid">
           <div className="col-3 text-bold">Note</div>
