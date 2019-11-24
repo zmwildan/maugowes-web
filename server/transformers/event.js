@@ -22,6 +22,7 @@ module.exports = {
           : null
       },
       note: n.note,
+      sender_note: n.sender_note || "",
       event_status: n.status,
       poster: {
         original: n.poster,
