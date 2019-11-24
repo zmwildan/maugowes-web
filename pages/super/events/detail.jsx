@@ -43,6 +43,7 @@ class DetailPage extends React.Component {
     const { id } = this.props
     const title = 'Event Detail'
     const eventData = this.props.events[id] || {}
+    const formResponse = this.props.events.submit_post || {}
     const { is_loading } = eventData
     return (
       <GlobalLayout metadata={{ title }}>
@@ -55,6 +56,7 @@ class DetailPage extends React.Component {
               ) : (
                 <EventDetail
                   dispatch={this.props.dispatch}
+                  formResponse={formResponse}
                   eventData={eventData}
                 />
               )}

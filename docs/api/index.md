@@ -1,10 +1,11 @@
-# Api Documentations 
+# Api Documentations
 
-## Events 
+## Events
 
 #### List All Events
 
 **Request**
+
 - method : GET
 - endpoint : /api/events/:seal
 - query :
@@ -13,6 +14,7 @@
   - status : one of : default "accept" || "reject | "waiting" | "all"
 
 **Response**
+
 ```
 {
     "status": 200,
@@ -46,10 +48,12 @@
 #### Events Detail
 
 **Request**
+
 - method : GET
 - endpoint : /api/events/:seal/:id
 
 **Response**
+
 ```
 {
     "id": "5dd1d2b89b1df5086578c3d1",
@@ -75,10 +79,12 @@
 ```
 
 #### Create Event
+
 **Request**
+
 - method : POST
 - endpoint : /api/events/:seal/:event_id
-- formdata : 
+- formdata :
   - email : string (required)
   - title : string (required)
   - start_time : number / epochtime (required)
@@ -89,6 +95,7 @@
   - poster : file object
 
 **Response**
+
 ```
 {
     "status": 201,
@@ -99,13 +106,15 @@
 #### Event Action (Admin Only)
 
 **Request**
+
 - method : POST
 - endpoint : /api/events/action/:seal/:event_id
-- formdata : 
-  - status : "accept" | "reject"
+- formdata :
+  - status : "accept" | "reject" \*required
   - note : string will sent to event creator
 
 **Response**
+
 ```
 {
     "status": 200,
@@ -114,13 +123,16 @@
 ```
 
 #### Delete Event (Admin Only)
+
 **Request**
+
 - method : DELETE
 - endpoint : /api/events/:seal/:event_id
 
 **Response**
+
 ```
 {
-  
+
 }
 ```

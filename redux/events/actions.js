@@ -62,7 +62,7 @@ export function fetchMoreEvents(filter = '', query = {}) {
 }
 
 /**
- * @description function to create post
+ * @description function to create event
  * @param {string} formdata.email eo email
  * @param {string} formdata.title title of event
  * @param {number || epochtime} formdata.start_time start time of event
@@ -78,6 +78,23 @@ export function createEvent(formdata = {}) {
       formdata,
       method: 'POST',
       endpoint: `/api/events/${seal.generateSeal()}`,
+      filter: 'submit_post',
+      type: SUBMIT_FORM
+    }
+  }
+}
+
+/**
+ * @description function to change status of event
+ * @param {string} formdata.status event status (accept || reject)
+ * @param {string} formdata.note note status (only send if reject)
+ */
+export function setStatus(event_id, formdata = {}) {
+  return {
+    [CALL_API]: {
+      formdata,
+      method: 'POST',
+      endpoint: `/api/events/action/${seal.generateSeal()}/${event_id}`,
       filter: 'submit_post',
       type: SUBMIT_FORM
     }
