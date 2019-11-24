@@ -1,17 +1,21 @@
-import React from "react"
-import Styled from "styled-components"
-
+import React from 'react'
+import Styled from 'styled-components'
+import { connect } from 'react-redux'
 // components
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
-import Header from "../../components/boxs/FullWidthHeader"
-import GA from "../../components/boxs/GA"
-import InputText from "../../components/form/InputText"
-import InputFile from "../../components/form/InputFile"
-import InputLocation from "../../components/form/InputLocation"
-import InputDateTime from "../../components/form/InputDateTime"
-import Submit from "../../components/form/Submit"
-import FormStyled from "../../components/form/FormStyled"
+import GlobalLayout from '../../components/layouts/Global'
+import DefaultLayout from '../../components/layouts/Default'
+import Header from '../../components/boxs/FullWidthHeader'
+import GA from '../../components/boxs/GA'
+import InputText from '../../components/form/InputText'
+import InputFile from '../../components/form/InputFile'
+import InputLocation from '../../components/form/InputLocation'
+import InputDateTime from '../../components/form/InputDateTime'
+import Submit from '../../components/form/Submit'
+import FormStyled from '../../components/form/FormStyled'
+//action
+import { createEvent } from '../../redux/events/actions'
+//modules
+import Toast from '../../modules/toast'
 
 const SendCompetitionStyled = Styled.div`
 `
@@ -22,26 +26,37 @@ class SendEvent extends React.Component {
   }
 
   submitHandler() {
+    if (!this.state.email) return Toast(true, 'Email wajib diisi', 'error')
+    if (!this.state.title)
+      return Toast(true, 'Judul event wajib diisi', 'error')
+    if (!this.state.event_time)
+      return Toast(true, 'Waktu event wajib diisi', 'error')
+
     let params = {
       email: this.state.email,
       title: this.state.title,
       link: this.state.link,
-      event_time: typeof this.state.event_time == "number" ? this.state.event_time : this.state.event_time.getTime()
+      start_time:
+        typeof this.state.event_time == 'number'
+          ? this.state.event_time
+          : this.state.event_time.getTime()
     }
 
-    if(this.state.poster) params.poster = this.state.poster
-    if(this.state.address) params.address = this.state.address
-    if(this.state.coords) params.coords = this.state.coords
-    if(this.state.note) params.note = this.state.note
+    if (this.state.poster) params.poster = this.state.poster
+    if (this.state.address) params.location_name = this.state.address
+    if (this.state.coords)
+      params.location_coordinate = JSON.stringify(this.state.coords)
+    if (this.state.note) params.note = this.state.note
 
-    console.log("params", params)
+    console.log('params', params)
+    this.props.dispatch(createEvent(params))
   }
 
   render() {
     const metadata = {
-      title: "Kirim Events - Mau Gowes",
+      title: 'Kirim Events - Mau Gowes',
       description:
-        "Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator"
+        'Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator'
     }
     return (
       <GlobalLayout metadata={metadata}>
@@ -62,7 +77,7 @@ class SendEvent extends React.Component {
                   <InputText
                     label="Email kamu (untuk pemberitahuan status event ini)"
                     type="email"
-                    value={this.state.email || ""}
+                    value={this.state.email || ''}
                     validate={this.state.email_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="email"
@@ -73,13 +88,13 @@ class SendEvent extends React.Component {
                   <InputText
                     label="Judul Event Gowes"
                     type="text"
-                    value={this.state.title || ""}
+                    value={this.state.title || ''}
                     validate={this.state.title_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="title"
                     required
                   />
-                  <InputDateTime 
+                  <InputDateTime
                     label="Waktu Event Gowes"
                     name="event_time"
                     defaultValue={this.state.event_time}
@@ -94,7 +109,7 @@ class SendEvent extends React.Component {
                   <InputText
                     label="Link website / sosial media"
                     type="url"
-                    value={this.state.link || ""}
+                    value={this.state.link || ''}
                     validate={this.state.link_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="link"
@@ -103,7 +118,7 @@ class SendEvent extends React.Component {
                   <InputText
                     label="Catatan untuk peserta"
                     type="text"
-                    value={this.state.note || ""}
+                    value={this.state.note || ''}
                     validate={this.state.note_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="note"
@@ -112,7 +127,7 @@ class SendEvent extends React.Component {
                     label="Poster"
                     name="poster"
                     id="input-poster"
-                    value={this.state.poster || ""}
+                    value={this.state.poster || ''}
                     validate={this.state.poster_validate || {}}
                     setState={(n, cb) => this.setState(n, cb)}
                   />
@@ -120,7 +135,7 @@ class SendEvent extends React.Component {
                     onClick={() => this.submitHandler()}
                     loading={false}
                     text="Kirim Event"
-                    requiredInputs={["title", "link", "email"]}
+                    requiredInputs={['title', 'link', 'email']}
                     setState={(ns, cb) => this.setState(ns, cb)}
                   />
                 </FormStyled>
@@ -136,4 +151,8 @@ class SendEvent extends React.Component {
   }
 }
 
-export default SendEvent
+export default connect(state => {
+  return {
+    events: state.Events
+  }
+})(SendEvent)

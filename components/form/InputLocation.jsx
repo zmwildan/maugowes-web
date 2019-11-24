@@ -50,7 +50,7 @@ class LocationPicker extends React.Component {
         () =>
           this.renderMap({
             lat: coordinate.lat,
-            lng: coordinate.lon,
+            lng: coordinate.lng || coordinate.lon,
             readOnly
           }),
         1000
