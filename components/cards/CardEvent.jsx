@@ -12,7 +12,7 @@ import {
 
 const CardEventStyled = Styled.div`
 padding: 0 20px;
-margin-bottom: 30px;
+margin-bottom: 50px;
 
 .label {
   &.label-red {
