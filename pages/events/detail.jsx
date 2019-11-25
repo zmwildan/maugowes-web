@@ -169,8 +169,26 @@ class EventDetail extends React.Component {
 
                     <article
                       className="blog-detail_content"
-                      dangerouslySetInnerHTML={{ __html: data.note }}
-                    />
+                      style={{ padding: '40px 0 50px' }}>
+                      {data.note ? (
+                        <p>
+                          <strong>Catatan : </strong>
+                          <br />
+                          {data.note}
+                        </p>
+                      ) : null}
+                      {data.event_link ? (
+                        <p>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={data.event_link}>
+                            Pelajari Selengkapnya
+                          </a>
+                        </p>
+                      ) : null}
+                    </article>
+
                     <InputLocation
                       name="location"
                       label="Lokasi Start / Meetpoint Gowes"
