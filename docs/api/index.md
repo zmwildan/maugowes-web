@@ -88,7 +88,7 @@
   - email : string (required)
   - title : string (required)
   - start_time : number / epochtime (required)
-  - location_name : string
+  - location_address : string
   - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lng": 110.3670518}'
   - link : string
   - note : string

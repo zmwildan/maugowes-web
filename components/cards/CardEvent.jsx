@@ -9,7 +9,7 @@ import {
   color_white_main
 } from '../Const'
 // import Link from "next/link"
-
+import DayJs from '../../modules/dayjs'
 const CardEventStyled = Styled.div`
 padding: 0 20px;
 margin-bottom: 50px;
@@ -86,7 +86,6 @@ margin-bottom: 50px;
 const CardEvent = props => {
   const linkUrl = '/event/judul-event-mjhsdf89734'
   const { data } = props
-  console.log(data)
   return (
     <CardEventStyled className="col-4_xs-12_md-6">
       <Link href={data.link} rel="noopener noreferrer">
@@ -95,13 +94,16 @@ const CardEvent = props => {
           style={{
             backgroundImage: `url(${data.poster[600]})`
           }}>
-          <div className="label label-red">TELAH BERAKHIR</div>
+          {data.is_ended ? (
+            <div className="label label-red">TELAH BERAKHIR</div>
+          ) : null}
         </div>
       </Link>
 
       <div className="card-event-time">
         <span className="card-event-label">
-          27 Agustus 2019 05:00 <br /> {data.location.address}
+          {DayJs(data.start_time).format('DD MMMM YYYY HH:mm')} <br />{' '}
+          {data.location.address}
         </span>
       </div>
 

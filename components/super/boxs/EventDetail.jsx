@@ -61,7 +61,7 @@ class EventDetail extends React.Component {
         <div className="grid">
           <div className="col-3 text-bold">Event Date</div>
           <div className="col-9">
-            {DayJs(eventData.start_time * 1000).format('DD MMMM YYYY HH:mm')}
+            {DayJs(eventData.start_time).format('DD MMMM YYYY HH:mm')}
           </div>
         </div>
         <div className="grid">
