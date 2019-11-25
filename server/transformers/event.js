@@ -4,8 +4,6 @@ const { toSlug } = require('string-manager')
 module.exports = {
 
   event: (n = {}) => {
-
-
     return {
       id: n._id,
       email: n.email,

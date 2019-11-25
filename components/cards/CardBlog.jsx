@@ -6,7 +6,7 @@ import { color_gray_dark, color_black_main, color_blue_main } from "../Const"
 const CardBlogStyled = Styled.div`
 
   padding: 0 20px;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 
   .card-blog-cover {
     position: relative;
@@ -52,7 +52,10 @@ const CardBlogStyled = Styled.div`
   }
 
   .card-blog-content {
+    margin-top: 10px;
     text-align: left;
+    line-height: 1.5;
+    color: ${color_gray_dark};
   }
 
   .card-blog-date {
