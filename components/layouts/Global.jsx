@@ -1,11 +1,16 @@
 import Head from "next/head"
 import React from "react"
 import Styled from "styled-components"
-import { color_black_main } from "../Const"
+import { color_black_main, color_blue_main } from "../Const"
 
 const GlobalLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
   color: ${color_black_main};
+
+  a {
+    text-decoration: none;
+    color: ${color_blue_main};
+  }
 
   // form components global style
   select {

@@ -1,15 +1,15 @@
 import React from 'react'
-import Styled from 'styled-components'
+// import Styled from 'styled-components'
 import GlobalLayout from '../../components/layouts/Global'
 import DefaultLayout from '../../components/layouts/Default'
-import { toCamelCase } from 'string-manager'
-import {
-  color_gray_dark,
-  color_gray_soft,
-  color_blue_main,
-  color_white_main
-} from '../../components/Const'
-// import DayJs from "dayjs"
+// import { toCamelCase } from 'string-manager'
+// import {
+//   color_gray_dark,
+//   color_gray_soft,
+//   color_blue_main,
+//   color_white_main
+// } from '../../components/Const'
+import DayJs from "dayjs"
 import DisqusBox from '../../components/boxs/Disqus'
 import ShareBox from '../../components/boxs/Share'
 import Loader from '../../components/Loader'
@@ -75,7 +75,7 @@ class EventDetail extends React.Component {
           alternativeHeadline: data.title,
           image: data.poster.original,
           genre: 'cycling,bicycle,sepeda,gowes',
-          // keywords: data.tags.toString(),
+          keywords: 'gowes bareng,info gobar,info gowes',
           wordcount: data.note.length,
           publisher: {
             '@type': 'Organization',
@@ -90,19 +90,19 @@ class EventDetail extends React.Component {
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
           dateCreated: new Date(data.created_on * 1000).toISOString(),
-          dateModified: new Date(data.updated_on * 1000).toISOString()
+          dateModified: new Date(data.updated_on * 1000).toISOString(),
           // description: data.truncatedContent,
-          // author: {
-          //   '@type': 'Person',
-          //   name: data.author.username
-          // }
+          author: {
+            '@type': 'Organization',
+            name: "Mau Gowes"
+          }
         }
       }
     } else {
       metadata = {
-        title: 'Postingan tidak ditemukan',
+        title: 'Event tidak ditemukan',
         description:
-          'Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.'
+          'Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.'
       }
     }
 
@@ -170,6 +170,9 @@ class EventDetail extends React.Component {
                     <article
                       className="blog-detail_content"
                       style={{ padding: '40px 0 50px' }}>
+                      <p>
+                        <strong>Waktu : </strong>{DayJs(data.start_time).format('DD MMMM YYYY HH:mm')}
+                      </p>
                       {data.note ? (
                         <p>
                           <strong>Catatan : </strong>
