@@ -24,6 +24,7 @@ import CommentIcon from '../../components/icons/Comment'
 import EyeIcon from '../../components/icons/Eye'
 import { BlogDetailStyled } from '../blog/detail'
 import InputLocation from '../../components/form/InputLocation'
+import Label from '../../components/labels'
 
 function getId(title) {
   let titleArr = title.split('-')
@@ -105,6 +106,7 @@ class EventDetail extends React.Component {
           'Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.'
       }
     }
+    console.log(data)
 
     return (
       <GlobalLayout metadata={metadata}>
@@ -121,8 +123,10 @@ class EventDetail extends React.Component {
                 />
                 <div className="grid-center">
                   <div className="col-7_xs-12">
-                    <h1>{data.title}</h1>
-
+                    <h1>
+                      {data.title} {data.is_ended ? '[Telah Berakhir]' : null}
+                    </h1>
+                    <Label status={'ended_event'} text={'Telah berakhir'} />
                     {/* post meta */}
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
@@ -185,6 +189,13 @@ class EventDetail extends React.Component {
                             href={data.event_link}>
                             Pelajari Selengkapnya
                           </a>
+                        </p>
+                      ) : null}
+
+                      {data.location && data.location.address ? (
+                        <p>
+                          <strong>Lokasi event : </strong>
+                          {data.location.address}
                         </p>
                       ) : null}
                     </article>

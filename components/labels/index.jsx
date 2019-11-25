@@ -13,6 +13,7 @@ const LabelStyle = Styled.span`
     let bg = color_blue_main
     switch (status) {
       case 'reject':
+      case 'ended_event':
         bg = color_red_main
         break
       case 'waiting':
@@ -27,7 +28,11 @@ const LabelStyle = Styled.span`
   }}
 `
 const Label = props => {
-  return <LabelStyle status={props.status}>{props.status}</LabelStyle>
+  return (
+    <LabelStyle status={props.status}>
+      {props.text ? props.text : props.status}
+    </LabelStyle>
+  )
 }
 
 export default Label
