@@ -41,7 +41,7 @@ class SendEvent extends React.Component {
     }
 
     if (this.state.poster) params.poster = this.state.poster
-    if (this.state.address) params.location_name = this.state.address
+    if (this.state.address) params.location_address = this.state.address
     if (this.state.coords)
       params.location_coordinate = JSON.stringify(this.state.coords)
     if (this.state.note) params.note = this.state.note
