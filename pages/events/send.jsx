@@ -25,13 +25,11 @@ class SendEvent extends React.Component {
     event_time: new Date()
   }
 
-  submitHandler() {
-    if (!this.state.email) return Toast(true, 'Email wajib diisi', 'error')
-    if (!this.state.title)
-      return Toast(true, 'Judul event wajib diisi', 'error')
-    if (!this.state.event_time)
-      return Toast(true, 'Waktu event wajib diisi', 'error')
+  componentDidUpdate() {
+    const { events } = this.props
+  }
 
+  submitHandler() {
     let params = {
       email: this.state.email,
       title: this.state.title,
@@ -48,7 +46,6 @@ class SendEvent extends React.Component {
       params.location_coordinate = JSON.stringify(this.state.coords)
     if (this.state.note) params.note = this.state.note
 
-    console.log('params', params)
     this.props.dispatch(createEvent(params))
   }
 
@@ -57,6 +54,13 @@ class SendEvent extends React.Component {
       title: 'Kirim Events - Mau Gowes',
       description:
         'Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator'
+    }
+    const { is_loading, status, message } = this.props.events.submit_post || {}
+    if (status === 200 || status === 201) {
+      setTimeout(() => {
+        location.href = '/events'
+      }, 1000)
+      Toast(true, message)
     }
     return (
       <GlobalLayout metadata={metadata}>
@@ -133,7 +137,7 @@ class SendEvent extends React.Component {
                   />
                   <Submit
                     onClick={() => this.submitHandler()}
-                    loading={false}
+                    loading={is_loading || status == 200 || status == 201}
                     text="Kirim Event"
                     requiredInputs={['title', 'link', 'email']}
                     setState={(ns, cb) => this.setState(ns, cb)}
