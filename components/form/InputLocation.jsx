@@ -1,8 +1,8 @@
-import React from "react"
-import Toast from "../../modules/toast"
-import Styled from "styled-components"
-import InputText from "./InputText"
-import { pushScript, pushStyle } from "../../modules/dom"
+import React from 'react'
+import Toast from '../../modules/toast'
+import Styled from 'styled-components'
+import InputText from './InputText'
+import { pushScript, pushStyle } from '../../modules/dom'
 
 // default focus coordinat if user not give location access
 // monas Jakarta
@@ -32,69 +32,87 @@ class LocationPicker extends React.Component {
   }
 
   componentDidMount() {
-    pushStyle("https://unpkg.com/leaflet@1.5.1/dist/leaflet.css", {
+    const { readOnly, coordinate } = this.props
+    pushStyle('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css', {
       integrity:
-        "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==",
-      crossorigin: "true"
+        'sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==',
+      crossorigin: 'true'
     })
 
-    pushScript("https://unpkg.com/leaflet@1.5.1/dist/leaflet.js", {
+    pushScript('https://unpkg.com/leaflet@1.5.1/dist/leaflet.js', {
       integrity:
-        "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==",
-      crossorigin: "true"
+        'sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==',
+      crossorigin: 'true'
     })
 
-    this.getLocation()
+    if (readOnly) {
+      setTimeout(
+        () =>
+          this.renderMap({
+            lat: coordinate.lat,
+            lng: coordinate.lng || coordinate.lon,
+            readOnly
+          }),
+        1000
+      )
+    } else {
+      this.getLocation()
+    }
   }
 
   getLocation() {
     if (navigator.permissions) {
-      navigator.permissions.query({ name: "geolocation" }).then(result => {
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
         // get location status
         this.setState({ locationStatus: result.state })
-        if (result.state == "granted") {
-          navigator.geolocation.getCurrentPosition(position => this.savePositionToState({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }))
-        } else if (result.state == "prompt") {
-          
-          navigator.geolocation.getCurrentPosition(position => this.savePositionToState({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }), () => {
-            // location denied
-            this.savePositionToState(DEFAULT_LOCATION)
-          })
-        } else if (result.state == "denied") {
+        if (result.state == 'granted') {
+          navigator.geolocation.getCurrentPosition(position =>
+            this.savePositionToState({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            })
+          )
+        } else if (result.state == 'prompt') {
+          navigator.geolocation.getCurrentPosition(
+            position =>
+              this.savePositionToState({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }),
+            () => {
+              // location denied
+              this.savePositionToState(DEFAULT_LOCATION)
+            }
+          )
+        } else if (result.state == 'denied') {
           Toast(
             true,
-            "Kamu tidak memberikan akses lokasi untuk Mau Gowes",
-            "error"
+            'Kamu tidak memberikan akses lokasi untuk Mau Gowes',
+            'error'
           )
           this.savePositionToState(DEFAULT_LOCATION)
         }
       })
     } else {
-      Toast(true, "Browser Anda Tidak Support Geo Location", "error")
+      Toast(true, 'Browser Anda Tidak Support Geo Location', 'error')
       // save position on old browser
       this.savePositionToState(DEFAULT_LOCATION)
     }
   }
 
-  renderMap({ lat, lng }) {
-    console.log("rendering map", { lat, lng })
+  renderMap({ lat, lng, readOnly = false }) {
+    console.log('rendering map', { lat, lng })
 
     // only render map one time
     if (!MyMap) {
       // ref: https://leafletjs.com/
       // set lat, lng and zoom
       // map focus and zoom
-      MyMap = L.map("render-map", {
+      MyMap = L.map('render-map', {
         scrollWheelZoom: false
       }).setView([lat, lng], 17)
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(MyMap)
@@ -103,33 +121,34 @@ class LocationPicker extends React.Component {
       this.renderMarker({ lat, lng })
 
       // click event listener
-      MyMap.on("click", e => {
-        const lat = e.latlng.lat
-        const lng = e.latlng.lng
+      if (!readOnly) {
+        MyMap.on('click', e => {
+          const lat = e.latlng.lat
+          const lng = e.latlng.lng
 
-        this.setState(
-          {
-            coords: {
-              lat,
-              lng
+          this.setState(
+            {
+              coords: {
+                lat,
+                lng
+              }
+            },
+            () => {
+              // render marker
+              this.renderMarker({ lat, lng })
             }
-          },
-          () => {
-            // render marker
-            this.renderMarker({ lat, lng })
-          }
-        )
-      })
-      
+          )
+        })
+      }
     } else {
       MyMap.setView([lat, lng])
     }
   }
 
-  renderMarker({lat, lng}) {
+  renderMarker({ lat, lng }) {
     if (MarkerLayer) MyMap.removeLayer(MarkerLayer)
 
-    return MarkerLayer = L.marker([lat, lng]).addTo(MyMap)
+    return (MarkerLayer = L.marker([lat, lng]).addTo(MyMap))
   }
 
   savePositionToState(coords) {
@@ -146,26 +165,32 @@ class LocationPicker extends React.Component {
 
   render() {
     const { locationStatus } = this.state
+    const { readOnly } = this.props
     return (
       <InputLocation className="location-picker form-child">
-        <label htmlFor="render" style={{ marginBottom: 10, display: "block" }}>
-          {this.props.label}
-        </label>
+        {readOnly ? null : (
+          <React.Fragment>
+            <label
+              htmlFor="render"
+              style={{ marginBottom: 10, display: 'block' }}>
+              {this.props.label}
+            </label>
 
-        <InputText
-          name="address"
-          containerStyle={{ marginBottom: 10 }}
-          placeholder="Masukan alamat disini"
-          type="text"
-          value={this.state.address || ""}
-          setState={(n, cb) => {
-            this.setState(n, cb)
-            this.props.setState(n, cb)
-          }}
-        />
+            <InputText
+              name="address"
+              containerStyle={{ marginBottom: 10 }}
+              placeholder="Masukan alamat disini"
+              type="text"
+              value={this.state.address || ''}
+              setState={(n, cb) => {
+                this.setState(n, cb)
+                this.props.setState(n, cb)
+              }}
+            />
+          </React.Fragment>
+        )}
 
         <div id="render-map" />
-        
       </InputLocation>
     )
   }

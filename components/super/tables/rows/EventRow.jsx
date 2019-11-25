@@ -1,45 +1,30 @@
 import Styled from 'styled-components'
 import DayJs from '../../../../modules/dayjs'
+import Link from 'next/router'
 import { BlogRowStyled } from './BlogRow'
 import {
   color_blue_main,
-  color_gray_soft,
+  color_gray_dark,
   color_white_main,
   color_red_main
 } from '../../../Const'
+import Label from '../../../labels'
 
 export const EventRowStyled = Styled(BlogRowStyled)`
   a {
     font-weight: bold;
+    margin-right: 5px;
   }
-  ${props => {
-    const { status } = props
-    let bg = color_blue_main
-    if (status === 'reject') {
-      bg = color_red_main
-    } else if (status === 'waiting') {
-      bg = color_gray_soft
-    }
-    return `
-      .label-${props.status} {
-        color: ${color_white_main};
-        background-color: ${bg};
-        padding: 0 6px;
-        border-radius: 5px;
-        margin-left: 5px;
-      }
-    `
-  }}
 `
 
 export default props => {
   const { data } = props
   return (
-    <EventRowStyled className="table-row" status={data.status}>
-      {data.title}
-      <span className={`label-${data.status}`}>{data.status}</span>
+    <EventRowStyled className="table-row">
+      <a href={`/super/events/detail/${data.id}`}>{data.title}</a>
+      <Label status={data.event_status} />
       <br />
-      Dipost {DayJs(data.start_time * 1000).fromNow()}
+      Dipost {DayJs(data.created_on * 1000).fromNow()}
     </EventRowStyled>
   )
 }

@@ -37,22 +37,29 @@ module.exports = {
             })
           }
 
-          // close connection to mongo server
-          client.close()
-
-          if (results && results.length > 0) {
-            const response = eventTransformer.event(results[0])
-            response.status = 200
-            response.message = "success"
-
-            // success
-            return callback(response)
-          } else {
+          if (results.length < 1) {
             return callback({
               status: 204,
-              message: "Event tidak tersedia"
+              messages: "Event tidak tersedia"
             })
           }
+
+          const result = eventTransformer.event(results[0])
+
+          // increase total views
+          db.collection("events").updateOne(
+            { _id: ObjectId(result.id) },
+            { $set: { views: result.views + 1 } }
+          )
+            
+          // close connection to mongo server
+          // client.close()
+
+          result.status = 200
+          result.message = "success"
+
+          // success
+          return callback(result)
         })
     })
   },
@@ -90,7 +97,8 @@ module.exports = {
       location_coordinate,
       note,
       status: "waiting",
-      created_on: currentTime
+      created_on: currentTime,
+      views: 0
     }
 
     // upload poster process
@@ -209,7 +217,7 @@ module.exports = {
    */
   actionEvent(req, res, callback) {
     let { id } = req.params
-    const { status } = req.body
+    const { status, note } = req.body
 
     if (id && id.length != 24) {
       return callback({ status: 204, messages: "Event tidak ditemukan" })
@@ -241,7 +249,8 @@ module.exports = {
             // update data
             const postdata = {
               updated_on: Math.round(new Date().getTime() / 1000),
-              status
+              status,
+              sender_note: note || "",
             }
             // update data on db
             db.collection("events").update({ _id: id }, { $set: postdata })

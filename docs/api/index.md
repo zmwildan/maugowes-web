@@ -1,10 +1,11 @@
-# Api Documentations 
+# Api Documentations
 
-## Events 
+## Events
 
 #### List All Events
 
 **Request**
+
 - method : GET
 - endpoint : /api/events/:seal
 - query :
@@ -13,6 +14,7 @@
   - status : one of : default "accept" || "reject | "waiting" | "all"
 
 **Response**
+
 ```
 {
     "status": 200,
@@ -28,7 +30,7 @@
                 "address": "location address",
                 "coordinate": {
                     "lat": -7.7829162,
-                    "lon": 110.3670518
+                    "lng": 110.3670518
                 }
             },
             "note": "this is note",
@@ -46,10 +48,12 @@
 #### Events Detail
 
 **Request**
+
 - method : GET
 - endpoint : /api/events/:seal/:id
 
 **Response**
+
 ```
 {
     "id": "5dd1d2b89b1df5086578c3d1",
@@ -61,7 +65,7 @@
         "address": "location address",
         "coordinate": {
             "lat": -7.7829162,
-            "lon": 110.3670518
+            "lng": 110.3670518
         }
     },
     "note": "this is note",
@@ -75,20 +79,23 @@
 ```
 
 #### Create Event
+
 **Request**
+
 - method : POST
 - endpoint : /api/events/:seal/:event_id
-- formdata : 
+- formdata :
   - email : string (required)
   - title : string (required)
   - start_time : number / epochtime (required)
-  - location_name : string
-  - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lon": 110.3670518}'
+  - location_address : string
+  - location_coordinate : string / json string , sample : '{"lat": -7.7829162,"lng": 110.3670518}'
   - link : string
   - note : string
   - poster : file object
 
 **Response**
+
 ```
 {
     "status": 201,
@@ -99,13 +106,15 @@
 #### Event Action (Admin Only)
 
 **Request**
+
 - method : POST
 - endpoint : /api/events/action/:seal/:event_id
-- formdata : 
-  - status : "accept" | "reject"
+- formdata :
+  - status : "accept" | "reject" \*required
   - note : string will sent to event creator
 
 **Response**
+
 ```
 {
     "status": 200,
@@ -114,13 +123,16 @@
 ```
 
 #### Delete Event (Admin Only)
+
 **Request**
+
 - method : DELETE
 - endpoint : /api/events/:seal/:event_id
 
 **Response**
+
 ```
 {
-  
+
 }
 ```
