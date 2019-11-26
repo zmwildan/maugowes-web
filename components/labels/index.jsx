@@ -29,10 +29,14 @@ const LabelStyle = Styled.span`
 `
 const Label = props => {
   return (
-    <LabelStyle status={props.status}>
+    <LabelStyle style={props.style} status={props.status}>
       {props.text ? props.text : props.status}
     </LabelStyle>
   )
+}
+
+Label.defaultProps = {
+  style: {}
 }
 
 export default Label

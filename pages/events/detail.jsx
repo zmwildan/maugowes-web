@@ -9,7 +9,7 @@ import DefaultLayout from '../../components/layouts/Default'
 //   color_blue_main,
 //   color_white_main
 // } from '../../components/Const'
-import DayJs from "dayjs"
+import DayJs from 'dayjs'
 import DisqusBox from '../../components/boxs/Disqus'
 import ShareBox from '../../components/boxs/Share'
 import Loader from '../../components/Loader'
@@ -95,7 +95,7 @@ class EventDetail extends React.Component {
           // description: data.truncatedContent,
           author: {
             '@type': 'Organization',
-            name: "Mau Gowes"
+            name: 'Mau Gowes'
           }
         }
       }
@@ -106,7 +106,6 @@ class EventDetail extends React.Component {
           'Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.'
       }
     }
-    console.log(data)
 
     return (
       <GlobalLayout metadata={metadata}>
@@ -124,9 +123,16 @@ class EventDetail extends React.Component {
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <h1>
-                      {data.title} {data.is_ended ? '[Telah Berakhir]' : null}
+                      {data.title}{' '}
+                      {data.is_ended ? (
+                        <Label
+                          style={{ fontSize: 20, position: "absolute", margin: "7.5px 0 0 10px" }}
+                          status={'ended_event'}
+                          text={'Telah berakhir'}
+                        />
+                      ) : null}
                     </h1>
-                    <Label status={'ended_event'} text={'Telah berakhir'} />
+
                     {/* post meta */}
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
@@ -175,29 +181,30 @@ class EventDetail extends React.Component {
                       className="blog-detail_content"
                       style={{ padding: '40px 0 50px' }}>
                       <p>
-                        <strong>Waktu : </strong>{DayJs(data.start_time).format('DD MMMM YYYY HH:mm')}
+                        <strong>Waktu : </strong>
+                        <br />
+                        {DayJs(data.start_time).format('DD MMMM YYYY HH:mm')}
                       </p>
-                      {data.note ? (
-                        <p>
-                          <strong>Catatan : </strong>
-                          <br />
-                          {data.note}
-                        </p>
-                      ) : null}
-                      {data.event_link ? (
-                        <p>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={data.event_link}>
-                            Pelajari Selengkapnya
-                          </a>
-                        </p>
-                      ) : null}
-
+                      <p>
+                        <strong>Catatan : </strong>
+                        <br />
+                        {data.note || 'Tidak ada catatan'}
+                        <br />
+                        {data.event_link ? (
+                          <React.Fragment>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={data.event_link}>
+                              Pelajari Selengkapnya
+                            </a>
+                          </React.Fragment>
+                        ) : null}
+                      </p>
                       {data.location && data.location.address ? (
                         <p>
                           <strong>Lokasi event : </strong>
+                          <br />
                           {data.location.address}
                         </p>
                       ) : null}
