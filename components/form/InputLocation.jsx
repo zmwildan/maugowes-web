@@ -135,6 +135,12 @@ class LocationPicker extends React.Component {
             },
             () => {
               // render marker
+              this.props.setState({
+                coords: {
+                  lat,
+                  lng
+                }
+              })
               this.renderMarker({ lat, lng })
             }
           )
