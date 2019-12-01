@@ -30,7 +30,6 @@ class Events extends React.Component {
       //  only call in server side
       const { endpoint, type } = fetchEvents()['CALL_API']
       const reqQuery = requestQueryGenerator(query)
-      console.log(endpoint)
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
           reqQuery

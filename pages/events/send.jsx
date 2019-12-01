@@ -135,6 +135,7 @@ class SendEvent extends React.Component {
                     value={this.state.poster || ''}
                     validate={this.state.poster_validate || {}}
                     setState={(n, cb) => this.setState(n, cb)}
+                    accept="image/*"
                   />
                   <Submit
                     onClick={() => this.submitHandler()}
