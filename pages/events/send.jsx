@@ -46,6 +46,7 @@ class SendEvent extends React.Component {
       params.location_coordinate = JSON.stringify(this.state.coords)
     if (this.state.note) params.note = this.state.note
 
+    // console.log(params)
     this.props.dispatch(createEvent(params))
   }
 

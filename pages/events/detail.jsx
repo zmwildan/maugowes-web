@@ -1,15 +1,15 @@
 import React from 'react'
-import Styled from 'styled-components'
+// import Styled from 'styled-components'
 import GlobalLayout from '../../components/layouts/Global'
 import DefaultLayout from '../../components/layouts/Default'
-import { toCamelCase } from 'string-manager'
-import {
-  color_gray_dark,
-  color_gray_soft,
-  color_blue_main,
-  color_white_main
-} from '../../components/Const'
-// import DayJs from "dayjs"
+// import { toCamelCase } from 'string-manager'
+// import {
+//   color_gray_dark,
+//   color_gray_soft,
+//   color_blue_main,
+//   color_white_main
+// } from '../../components/Const'
+import DayJs from 'dayjs'
 import DisqusBox from '../../components/boxs/Disqus'
 import ShareBox from '../../components/boxs/Share'
 import Loader from '../../components/Loader'
@@ -24,6 +24,7 @@ import CommentIcon from '../../components/icons/Comment'
 import EyeIcon from '../../components/icons/Eye'
 import { BlogDetailStyled } from '../blog/detail'
 import InputLocation from '../../components/form/InputLocation'
+import Label from '../../components/labels'
 
 function getId(title) {
   let titleArr = title.split('-')
@@ -75,7 +76,7 @@ class EventDetail extends React.Component {
           alternativeHeadline: data.title,
           image: data.poster.original,
           genre: 'cycling,bicycle,sepeda,gowes',
-          // keywords: data.tags.toString(),
+          keywords: 'gowes bareng,info gobar,info gowes',
           wordcount: data.note.length,
           publisher: {
             '@type': 'Organization',
@@ -90,19 +91,19 @@ class EventDetail extends React.Component {
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
           dateCreated: new Date(data.created_on * 1000).toISOString(),
-          dateModified: new Date(data.updated_on * 1000).toISOString()
+          dateModified: new Date(data.updated_on * 1000).toISOString(),
           // description: data.truncatedContent,
-          // author: {
-          //   '@type': 'Person',
-          //   name: data.author.username
-          // }
+          author: {
+            '@type': 'Organization',
+            name: 'Mau Gowes'
+          }
         }
       }
     } else {
       metadata = {
-        title: 'Postingan tidak ditemukan',
+        title: 'Event tidak ditemukan',
         description:
-          'Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.'
+          'Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.'
       }
     }
 
@@ -121,7 +122,16 @@ class EventDetail extends React.Component {
                 />
                 <div className="grid-center">
                   <div className="col-7_xs-12">
-                    <h1>{data.title}</h1>
+                    <h1>
+                      {data.title}{' '}
+                      {data.is_ended ? (
+                        <Label
+                          style={{ fontSize: 20, position: "absolute", margin: "7.5px 0 0 10px" }}
+                          status={'ended_event'}
+                          text={'Telah berakhir'}
+                        />
+                      ) : null}
+                    </h1>
 
                     {/* post meta */}
                     <div className="blog-detail_meta">
@@ -169,8 +179,37 @@ class EventDetail extends React.Component {
 
                     <article
                       className="blog-detail_content"
-                      dangerouslySetInnerHTML={{ __html: data.note }}
-                    />
+                      style={{ padding: '40px 0 50px' }}>
+                      <p>
+                        <strong>Waktu : </strong>
+                        <br />
+                        {DayJs(data.start_time).format('DD MMMM YYYY HH:mm')}
+                      </p>
+                      <p>
+                        <strong>Catatan : </strong>
+                        <br />
+                        {data.note || 'Tidak ada catatan'}
+                        <br />
+                        {data.event_link ? (
+                          <React.Fragment>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={data.event_link}>
+                              Pelajari Selengkapnya
+                            </a>
+                          </React.Fragment>
+                        ) : null}
+                      </p>
+                      {data.location && data.location.address ? (
+                        <p>
+                          <strong>Lokasi event : </strong>
+                          <br />
+                          {data.location.address}
+                        </p>
+                      ) : null}
+                    </article>
+
                     <InputLocation
                       name="location"
                       label="Lokasi Start / Meetpoint Gowes"
