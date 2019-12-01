@@ -15,7 +15,11 @@ const EventDetailStyle = Style.div`
 	}
 	.d-flex{
 		display: flex;
-	}
+  }
+  
+  .mb-25{
+    margin-bottom: 25px;
+  }
 `
 class EventDetail extends React.Component {
   componentDidUpdate(prevProps) {
@@ -42,29 +46,29 @@ class EventDetail extends React.Component {
     const { eventData } = this.props
     return (
       <EventDetailStyle>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Title</div>
           <div className="col-9">{eventData.title}</div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Status</div>
           <div className="col-9">
             <Label status={eventData.event_status} />
           </div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Note</div>
           <div className="col-9">
             <article dangerouslySetInnerHTML={{ __html: eventData.note }} />
           </div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Event Date</div>
           <div className="col-9">
             {DayJs(eventData.start_time).format('DD MMMM YYYY HH:mm')}
           </div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Event Link</div>
           <div className="col-9">
             {eventData.event_link ? (
@@ -76,11 +80,11 @@ class EventDetail extends React.Component {
             )}
           </div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Event Location</div>
           <div className="col-9">{eventData.location.address}</div>
         </div>
-        <div className="grid">
+        <div className="grid mb-25">
           <div className="col-3 text-bold">Map</div>
           <div className="col-9">
             <InputLocation
