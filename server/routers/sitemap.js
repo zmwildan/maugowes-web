@@ -6,6 +6,9 @@ const SitemapHandler = require('../handlers/sitemap')
 // route of : /sitemap/post
 Router.get('/posts', SitemapHandler.postsSitemap)
 
+// route of : /sitemap/videos
+Router.get('/videos', SitemapHandler.videosSitemap)
+
 // route of : /sitemap/events
 Router.get('/events', SitemapHandler.eventsSitemap)
 
