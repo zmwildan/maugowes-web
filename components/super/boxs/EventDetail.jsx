@@ -82,7 +82,7 @@ class EventDetail extends React.Component {
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Event Location</div>
-          <div className="col-9">{eventData.location.address}</div>
+          <div className="col-9">{eventData.location.address || "-"}</div>
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Map</div>

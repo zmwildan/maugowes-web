@@ -76,7 +76,6 @@ export const BlogDetailStyled = Styled.div`
     text-align: center;
     img {
       max-width: 100%;
-      max-height: 300px;
       object-fit: contain;
     }
   }
