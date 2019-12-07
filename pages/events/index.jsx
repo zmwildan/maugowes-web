@@ -18,7 +18,7 @@ import { fetchEvents, fetchMoreEvents } from '../../redux/events/actions'
 const EventsStyled = Styled.div`
 
 `
-const MaxResults = 6
+const MaxResults = 20
 const StoreFilter = 'list'
 class Events extends React.Component {
   state = {

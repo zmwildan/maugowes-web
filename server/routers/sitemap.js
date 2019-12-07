@@ -1,12 +1,18 @@
-const express = require("express")
+const express = require('express')
 const Router = express.Router()
 
-const SitemapHandler = require("../handlers/sitemap")
+const SitemapHandler = require('../handlers/sitemap')
 
 // route of : /sitemap/post
-Router.get("/posts", SitemapHandler.postsSitemap)
+Router.get('/posts', SitemapHandler.postsSitemap)
+
+// route of : /sitemap/videos
+Router.get('/videos', SitemapHandler.videosSitemap)
+
+// route of : /sitemap/events
+Router.get('/events', SitemapHandler.eventsSitemap)
 
 // route of : /sitemap/menus
-Router.get("/menus", SitemapHandler.menusSitemap)
+Router.get('/menus', SitemapHandler.menusSitemap)
 
 module.exports = Router
