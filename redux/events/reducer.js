@@ -5,9 +5,7 @@ import {
 } from '../modules/reducerHandler'
 
 export default (
-  state = {
-    new: {}
-  },
+  state = {},
   action
 ) => {
   if (!state[action.filter]) state[action.filter] = {}

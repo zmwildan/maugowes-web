@@ -59,13 +59,12 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    // const videosState = this.props.videos.new || {}
+    this.props.dispatch(fetchVideos("new", {maxResults: 5}))
 
-    // if(!videosState.status) {
-    //   this.props.dispatch(fetchVideos("new", {maxResults: 5}))
-    // }
+    this.props.dispatch(
+      fetchBlog("new", { limit: 6 })
+    )
 
-    // req new bike review
     this.props.dispatch(
       fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })
     )

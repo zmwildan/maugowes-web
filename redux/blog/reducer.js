@@ -1,16 +1,10 @@
-import {
-  GET_BLOG,
-  GET_MORE_BLOG,
-  SUBMIT_FORM
-} from "./actions"
+import { GET_BLOG, GET_MORE_BLOG, SUBMIT_FORM } from './actions'
 import {
   receiveDataByFilter,
   receiveMoreDataByFilter
-} from "../modules/reducerHandler"
+} from '../modules/reducerHandler'
 
-export default (state = {
-  new: {}
-}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case GET_BLOG:
     case SUBMIT_FORM:

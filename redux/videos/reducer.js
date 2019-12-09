@@ -8,9 +8,7 @@ import {
   receiveMoreDataByFilter
 } from "../modules/reducerHandler"
 
-export default (state = {
-  new: {}
-}, action) => {
+export default (state = {}, action) => {
   if (!state[action.filter]) state[action.filter] = {}
 
   switch (action.type) {
