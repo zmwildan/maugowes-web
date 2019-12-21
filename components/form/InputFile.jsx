@@ -1,16 +1,20 @@
-import React, { Component } from "react"
-import { validate } from "../../modules/validator"
+import React, { Component } from 'react'
+import { validate } from '../../modules/validator'
 
 export default class InputFile extends Component {
   static defaultProps = {
-    type: "file",
+    type: 'file',
     max: 1000000,
     customStyle: {},
-    customStylePreview: { width: 150 },
-    accept: ""
+    customStylePreview: {
+      maxWidth: '100%',
+      width: 200,
+      display: 'block',
+      marginBottom: 10
+    },
+    accept: '',
+    preview: '/static/images/image-placeholder.jpeg'
   }
-
-  state = {}
 
   componentDidMount = () => {
     validate(this.props)
@@ -19,49 +23,55 @@ export default class InputFile extends Component {
   handleChange(e) {
     const { files } = e.target
     if (files[0]) {
+      const file = files[0]
       // get preview if upload image
-      if (this.props.accept.includes("image/")) {
+      if (this.props.accept.includes('image')) {
         const reader = new FileReader()
-        reader.onload = e => {
-          this.setState({ image_preview: e.target.result })
-        }
-        reader.readAsDataURL(files[0])
-      }
 
-      this.props.setState(
-        {
-          [this.props.name]: files[0]
-        },
-        () => {
-          this.validateInput()
+        reader.readAsDataURL(file)
+
+        // after load data as url
+        reader.onloadend = () => {
+          // change parent value
+          this.props.setState(
+            {
+              [this.props.name]: file,
+              [`${this.props.name}_preview`]: reader.result
+            },
+            () => {
+              this.validateInput()
+            }
+          )
         }
-      )
+      }
     }
   }
 
   validateInput(props = this.props) {
     const result = validate(props)
     this.props.setState({
-      [this.props.name + "_validate"]: result
+      [this.props.name + '_validate']: result
     })
   }
 
   render() {
-    const { max, label, name, validate, required, preview } = this.props
+    const { preview } = this.props
+    const { max, label, name, validate, required } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
+
     return (
       <div
         style={this.props.customStyle}
-        className={`form-child ${!is_valid ? "error" : ""}`}>
+        className={`form-child ${!is_valid ? 'error' : ''}`}>
         {label ? (
           <label htmlFor={this.props.id || name}>
-            {label} {required ? "(wajib)" : "(opsional)"}
+            {label} {required ? '*' : ''}
           </label>
         ) : null}
-        {this.state.image_preview || preview ? (
+        {preview ? (
           <img
             style={this.props.customStylePreview}
-            src={this.state.image_preview || preview}
+            src={preview}
             alt="preview"
           />
         ) : null}
@@ -75,8 +85,11 @@ export default class InputFile extends Component {
           style={this.props.customStyleInput || {}}
           accept={this.props.accept}
         />
-        <br/>
-        <span style={{fontSize: 12}}>maks {max / 1000000} MB</span>
+
+        <br />
+
+        <span style={{ fontSize: 12 }}>maks {max / 1000000} MB</span>
+
         {!is_valid ? (
           <small>
             <br />

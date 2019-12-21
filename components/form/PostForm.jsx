@@ -25,7 +25,8 @@ class BlogPage extends React.Component {
         title: blogData.title,
         content: blogData.content,
         tags: blogData.tags,
-        video: blogData.video
+        video: blogData.video,
+        image_preview: blogData.image.original
       })
     }
   }
@@ -69,13 +70,16 @@ class BlogPage extends React.Component {
 
   render() {
     const { is_loading, status } = this.props.formResponse
+
     return (
       <FormStyled method="post" action="javascript:;">
         <InputFile
           label="Gambar Utama"
           name="image"
           id="input-image"
-          value={this.state.image || ""}
+          accept="image/*"
+          value={this.state.image || {}}
+          preview={this.state.image_preview}
           validate={this.state.image_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
           required={!this.props.isEdit}
