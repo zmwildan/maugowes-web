@@ -1,15 +1,16 @@
-import React from "react"
+import React from 'react'
 // import Styled from "styled-components"
-import { createPost, updatePost } from "../../redux/blog/actions"
+import { createPost, updatePost } from '../../redux/blog/actions'
 
 // components
-import InputText from "./InputText"
-import InputFile from "./InputFile"
-import InputTag from "./InputTag"
-import Editor from "./Editor"
-import Submit from "./Submit"
-import FormStyled from "./FormStyled"
-import Toast from "../../modules/toast"
+import InputText from './InputText'
+import InputFile from './InputFile'
+import InputTag from './InputTag'
+import Editor from './Editor'
+import Submit from './Submit'
+import FormStyled from './FormStyled'
+import Toast from '../../modules/toast'
+import { stateValidatorChecker } from '../../modules/validator'
 
 class BlogPage extends React.Component {
   state = {}
@@ -34,49 +35,65 @@ class BlogPage extends React.Component {
   componentWillReceiveProps(np) {
     const { formResponse } = np
     if (formResponse.status == 200 || formResponse.status == 201) {
-      location.href = "/super/blog"
+      location.href = '/super/blog'
     }
   }
 
   submitHandler(draft = false) {
-    if (!this.state.content) return Toast(true, "Konten wajib diisi", "error")
+    let requiredInputs = ['title']
 
-    if (!this.props.isEdit && !this.state.image)
-      return Toast(true, "Wajib upload gambar", "error")
+    if (!this.props.isEdit) requiredInputs.push('image')
 
-    let formdata = {
-      title: this.state.title,
-      content: this.state.content,
-      tags:
-        this.state.tags && this.state.tags.length > 0
-          ? this.state.tags.toString()
-          : "blog"
-    }
+    // start form validation
+    const { is_valid } = stateValidatorChecker({
+      setState: (ns, cb) => this.setState(ns, cb),
+      state: this.state,
+      requiredInputs
+    })
 
-    if (this.state.video) formdata.video = this.state.video
-    if (this.state.image) formdata.image = this.state.image
+    if (is_valid) {
+      if (!this.state.content) return Toast(true, 'Konten wajib diisi', 'error')
 
-    // is draft post or not
-    if (draft) formdata.draft = true
-    else formdata.draft = false
+      if (!this.props.isEdit && !this.state.image)
+        return Toast(true, 'Wajib upload gambar', 'error')
 
-    // action to submit post
-    if (this.props.isEdit) {
-      this.props.dispatch(updatePost(formdata, this.props.blogData.id))
-    } else {
-      this.props.dispatch(createPost(formdata))
+      let formdata = {
+        title: this.state.title,
+        content: this.state.content,
+        tags:
+          this.state.tags && this.state.tags.length > 0
+            ? this.state.tags.toString()
+            : 'blog'
+      }
+
+      if (this.state.video) formdata.video = this.state.video
+      if (this.state.image) formdata.image = this.state.image
+
+      // is draft post or not
+      if (draft) formdata.draft = true
+      else formdata.draft = false
+
+      // action to submit post
+      if (this.props.isEdit) {
+        this.props.dispatch(updatePost(formdata, this.props.blogData.id))
+      } else {
+        this.props.dispatch(createPost(formdata))
+      }
     }
   }
 
   render() {
     const { is_loading, status } = this.props.formResponse
 
+    let requiredInputs = ['title']
+
+    if (!this.props.isEdit) requiredInputs.push('image')
+
     return (
       <FormStyled method="post" action="javascript:;">
         <InputFile
           label="Gambar Utama"
           name="image"
-          id="input-image"
           accept="image/*"
           value={this.state.image || {}}
           preview={this.state.image_preview}
@@ -88,7 +105,7 @@ class BlogPage extends React.Component {
           label="Video"
           placeholder="Video Embed Url"
           type="text"
-          value={this.state.video || ""}
+          value={this.state.video || ''}
           validate={this.state.video_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
           name="video"
@@ -97,7 +114,7 @@ class BlogPage extends React.Component {
           label="title"
           placeholder="Judul postingan"
           type="text"
-          value={this.state.title || ""}
+          value={this.state.title || ''}
           validate={this.state.title_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
           name="title"
@@ -119,20 +136,18 @@ class BlogPage extends React.Component {
         />
         <br />
         <Submit
-          style={{display: "inline", marginRight: 10}}
+          style={{ display: 'inline', marginRight: 10 }}
           onClick={() => this.submitHandler()}
           loading={is_loading || status == 200 || status == 201}
           text="Simpan Post"
-          requiredInputs={["title"]}
           setState={(n, cb) => this.setState(n, cb)}
         />
         <Submit
           color="white"
-          style={{display: "inline", marginRight: 10}}
+          style={{ display: 'inline', marginRight: 10 }}
           onClick={() => this.submitHandler(true)}
           loading={is_loading || status == 200 || status == 201}
           text="Simpan Draft"
-          requiredInputs={["title"]}
           setState={(n, cb) => this.setState(n, cb)}
         />
       </FormStyled>

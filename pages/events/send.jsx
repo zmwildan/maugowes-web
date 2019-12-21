@@ -134,6 +134,7 @@ class SendEvent extends React.Component {
                     id="input-poster"
                     value={this.state.poster || ''}
                     validate={this.state.poster_validate || {}}
+                    preview={this.state.poster_preview}
                     setState={(n, cb) => this.setState(n, cb)}
                     accept="image/*"
                   />

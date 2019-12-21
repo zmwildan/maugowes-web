@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
 import { validate } from '../../modules/validator'
+import Styled from 'styled-components'
+import { color_red_main, color_gray_medium, color_blue_main } from '../Const'
+
+const InputFileStyled = Styled.div`
+  &.error {
+    color: ${color_red_main};
+  }
+`
 
 export default class InputFile extends Component {
   static defaultProps = {
@@ -60,7 +68,7 @@ export default class InputFile extends Component {
     const is_valid = !(!validate.is_valid && validate.message)
 
     return (
-      <div
+      <InputFileStyled
         style={this.props.customStyle}
         className={`form-child ${!is_valid ? 'error' : ''}`}>
         {label ? (
@@ -96,7 +104,7 @@ export default class InputFile extends Component {
             {validate.message}
           </small>
         ) : null}
-      </div>
+      </InputFileStyled>
     )
   }
 }
