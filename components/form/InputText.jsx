@@ -16,7 +16,7 @@ const InputTextStyled = Styled.div`
     font-size: 12px;
   }
   input {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px 0;
     font-size: 15px;
     border: none;
@@ -40,6 +40,7 @@ export default class InputText extends React.Component {
 
   handleChange(e) {
     const { value } = e.target
+
     this.props.setState(
       {
         [this.props.name]: value
@@ -81,7 +82,10 @@ export default class InputText extends React.Component {
           </label>
         ) : null}
         <input
-          onChange={e => this.handleChange(e)}
+          onChange={e => {
+            if(this.props.onChange) this.props.onChange(e)
+            this.handleChange(e)
+          }}
           onBlur={e => this.handleChange(e)}
           type={type}
           name={name}
@@ -111,5 +115,6 @@ InputText.defaultProps = {
   autoComplete: "off",
   containerStyle: {},
   validate: {},
-  placeholder: ""
+  placeholder: "",
+  onChange: () => {}
 }

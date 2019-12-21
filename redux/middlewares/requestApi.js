@@ -16,7 +16,8 @@ export default store => next => async action => {
     // set to loading in state, only on client side
     next({
       type,
-      filter
+      filter,
+      options
     })
 
     // start to request to api and store response to state
@@ -32,6 +33,7 @@ export default store => next => async action => {
         return next({
           type,
           filter,
+          options,
           data: response.body
         })
       })

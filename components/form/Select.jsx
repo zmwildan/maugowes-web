@@ -20,7 +20,7 @@ const SelectStyled = Styled.div`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px 0;
     font-size: 15px;
     color: ${color_gray_dark};

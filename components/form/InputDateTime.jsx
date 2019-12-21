@@ -233,7 +233,7 @@ text-align: left;
     font-size: 12px;
   }
   input {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px 0;
     font-size: 15px;
     border: none;

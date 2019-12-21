@@ -10,6 +10,12 @@ export function receiveDataByFilter(state, action) {
   return Object.assign({}, state)
 }
 
+/**
+ * function to receive data by filter
+ * @param {string} filter
+ * @param {object} state for reducer 
+ * @param {object} action for reducer
+ */
 export function receiveMoreDataByFilter(state, action) {
   if (action.data && action.data.status) {
     state[action.filter].is_loading = false
@@ -23,5 +29,14 @@ export function receiveMoreDataByFilter(state, action) {
   } else {
     state[action.filter].is_loading = true
   }
+  return Object.assign({}, state)
+}
+
+/**
+ * @desc function to reset state by filter
+ * @param {string} filter
+ */
+export function resetByFilter(state, filter) {
+  delete state[filter]
   return Object.assign({}, state)
 }

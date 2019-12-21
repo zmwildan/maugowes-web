@@ -1,12 +1,12 @@
-export const GET_BLOG = "GET_BLOG"
-export const GET_MORE_BLOG = "GET_MORE_BLOG"
-export const SUBMIT_FORM = "SUBMIT_FORM"
+export const GET_BLOG = 'GET_BLOG'
+export const GET_MORE_BLOG = 'GET_MORE_BLOG'
+export const SUBMIT_FORM = 'SUBMIT_FORM'
 
-import { CALL_API } from "../middlewares/requestApi"
+import { CALL_API } from '../middlewares/requestApi'
 
-import sealMiddleware from "seal-middleware"
-import getConfig from "next/config"
-import { objToQuery } from "string-manager"
+import sealMiddleware from 'seal-middleware'
+import getConfig from 'next/config'
+import { objToQuery } from 'string-manager'
 
 const { publicRuntimeConfig } = getConfig()
 const { API_KEY } = publicRuntimeConfig
@@ -32,7 +32,7 @@ export function fetchBlogDetail(blog_id) {
  * @param {string} filter
  * @param {object} data
  */
-export function fetchBlog(filter = "", query = {}) {
+export function fetchBlog(filter = '', query = {}) {
   return {
     [CALL_API]: {
       type: GET_BLOG,
@@ -45,7 +45,7 @@ export function fetchBlog(filter = "", query = {}) {
 /**
  * function to fetch more blog list by filter
  */
-export function fetchMoreBlog(filter = "new", query = {}) {
+export function fetchMoreBlog(filter = 'new', query = {}) {
   return {
     [CALL_API]: {
       type: GET_MORE_BLOG,
@@ -54,7 +54,6 @@ export function fetchMoreBlog(filter = "new", query = {}) {
     }
   }
 }
-
 
 /**
  * @description function to update post
@@ -65,13 +64,13 @@ export function fetchMoreBlog(filter = "new", query = {}) {
  * @param {string} formdata.content content of post
  * @param {number} post_id id of post
  */
-export function updatePost(formdata={}, post_id) {
+export function updatePost(formdata = {}, post_id) {
   return {
     [CALL_API]: {
       formdata,
-      method: "PUT",
+      method: 'PUT',
       endpoint: `/api/posts/${post_id}`,
-      filter: "submit_post",
+      filter: 'submit_post',
       type: SUBMIT_FORM
     }
   }
@@ -85,13 +84,13 @@ export function updatePost(formdata={}, post_id) {
  * @param {object} formdata.image image of post (optional)
  * @param {string} formdata.content content of post
  */
-export function createPost(formdata={}) {
+export function createPost(formdata = {}) {
   return {
     [CALL_API]: {
       formdata,
-      method: "POST",
+      method: 'POST',
       endpoint: `/api/posts`,
-      filter: "submit_post",
+      filter: 'submit_post',
       type: SUBMIT_FORM
     }
   }

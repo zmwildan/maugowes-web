@@ -6,6 +6,7 @@ const VideoHandler = require("../handlers/video")
 const PostHandler = require("../handlers/post")
 const AuthHandler = require("../handlers/auth")
 const EventHandler = require("../handlers/events")
+const LocationHandler = require("../handlers/location")
 
 // middlewares
 const FormDataMiddleware = require("../middlewares/formDataMiddleware")
@@ -13,6 +14,9 @@ const AuthMiddleware = require("../middlewares/authMiddleware")
 const SealMiddleware = require("../middlewares/sealMiddleware")
 
 // api endpoints
+
+// location
+Router.get("/location/search/:seal", SealMiddleware, LocationHandler.searchLocation)
 
 // events 
 Router.post("/events/:seal", SealMiddleware, FormDataMiddleware, EventHandler.createEvent)

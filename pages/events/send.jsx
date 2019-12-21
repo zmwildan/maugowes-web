@@ -25,10 +25,6 @@ class SendEvent extends React.Component {
     event_time: new Date()
   }
 
-  componentDidUpdate() {
-    const { events } = this.props
-  }
-
   submitHandler() {
     let params = {
       email: this.state.email,
@@ -46,7 +42,7 @@ class SendEvent extends React.Component {
       params.location_coordinate = JSON.stringify(this.state.coords)
     if (this.state.note) params.note = this.state.note
 
-    // console.log(params)
+    // console.log("send events", params)
     this.props.dispatch(createEvent(params))
   }
 
@@ -63,6 +59,9 @@ class SendEvent extends React.Component {
       }, 1000)
       Toast(true, message)
     }
+
+    const searchResults = this.props.location.search_location || {}
+
     return (
       <GlobalLayout metadata={metadata}>
         <DefaultLayout>
@@ -107,6 +106,8 @@ class SendEvent extends React.Component {
                     required
                   />
                   <InputLocation
+                    dispatch={this.props.dispatch}
+                    searchResults={searchResults}
                     name="location"
                     label="Lokasi Start / Meetpoint Gowes"
                     setState={(n, cb) => this.setState(n, cb)}
@@ -160,6 +161,7 @@ class SendEvent extends React.Component {
 
 export default connect(state => {
   return {
-    events: state.Events
+    events: state.Events,
+    location: state.Location
   }
 })(SendEvent)
