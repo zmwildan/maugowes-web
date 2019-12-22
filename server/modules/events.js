@@ -3,6 +3,7 @@ const { ObjectId } = require("mongodb")
 const cloudinary = require("./cloudinary")
 const file = require("./file")
 const eventTransformer = require("../transformers/event")
+const { sendEmail } = require("../modules/email")
 
 module.exports = {
   /**
@@ -51,7 +52,7 @@ module.exports = {
             { _id: ObjectId(result.id) },
             { $set: { views: result.views + 1 } }
           )
-            
+
           // close connection to mongo server
           // client.close()
 
@@ -100,6 +101,48 @@ module.exports = {
       created_on: currentTime,
       views: 0
     }
+
+    // thanks email to sender
+    const thanksHTML = `
+     <tr>
+       <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+           <tr>
+             <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+               <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Terimakasih telah mengirim event gowes di Mau Gowes,</p>
+               <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Saat ini permintaan kamu sedang di cek oleh moderator, kami akan segera mengirimkan status terbaru memlalui email ini.</p>
+             </td>
+           </tr>
+         </table>
+       </td>
+     </tr>
+   `
+
+    // report email to admin
+    const reportHTML = `
+   <tr>
+       <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+           <tr>
+             <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+               <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Ada kiriman event gowes baru dari ${params.email}, lihat <a href="https://maugowes.com/super/events">daftar event</a> di Mau Gowes</p>
+             </td>
+           </tr>
+         </table>
+       </td>
+     </tr>`
+
+    // send email
+    sendEmail(
+      [params.email],
+      "Terimakasih Telah Mengirim Event Gowes - Mau Gowes",
+      thanksHTML
+    )
+    sendEmail(
+      ["maugowes@gmail.com"],
+      "Ada Kiriman Event Gowes Baru - Mau Gowes",
+      reportHTML
+    )
 
     // upload poster process
     if (typeof poster != "undefined") {
@@ -250,10 +293,33 @@ module.exports = {
             const postdata = {
               updated_on: Math.round(new Date().getTime() / 1000),
               status,
-              sender_note: note || "",
+              sender_note: note || ""
             }
             // update data on db
             db.collection("events").update({ _id: id }, { $set: postdata })
+            
+            // email report to sender
+            const reportHTML = `
+              <tr>
+                <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                    <tr>
+                      <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Event gowes kamu telah diupdate dengan status "${status}". ${note ? `Berikut catatan dari admin "${note}"` : ""}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            `
+            
+            // send email
+            sendEmail(
+              [results[0].email],
+              "Status Event Gowes Kamu - Mau Gowes",
+              reportHTML
+            )
+
 
             // success
             return callback({

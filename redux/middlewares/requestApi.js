@@ -1,5 +1,6 @@
 import config from "../../config/index"
 import superagent from "superagent"
+import toast from "../../modules/toast"
 
 export const CALL_API = "CALL_API"
 
@@ -30,11 +31,18 @@ export default store => next => async action => {
       .set("Accept", "application/json")
       .send(formdata)
       .then(response => {
+
+        const data = response.body
+
+        if(methodNormalize != "get" && (data.status !== 200 || data.status !== 201)) {
+          toast(true, data.message || "Terjadi masalah di API", "error")
+        }
+
         return next({
           type,
           filter,
           options,
-          data: response.body
+          data
         })
       })
       .catch(err => console.error("redux error : ", err))

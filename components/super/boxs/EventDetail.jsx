@@ -1,14 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Style from 'styled-components'
+import React from "react"
+import { connect } from "react-redux"
+import Style from "styled-components"
 
 //actions
-import { setStatus } from '../../../redux/events/actions'
+import { setStatus } from "../../../redux/events/actions"
 // components
-import InputLocation from '../../form/InputLocation'
-import DayJs from '../../../modules/dayjs'
-import Button from '../../buttons'
-import Label from '../../labels'
+import InputLocation from "../../form/InputLocation"
+import DayJs from "../../../modules/dayjs"
+import Button from "../../buttons"
+import Label from "../../labels"
 const EventDetailStyle = Style.div`
 	.text-bold{
 		font-weight: bold;
@@ -29,9 +29,9 @@ class EventDetail extends React.Component {
     }
   }
   handleClick = status => {
-    let note = ''
-    if (status === 'reject') {
-      const prompt = window.prompt('Alasan ditolak')
+    let note = ""
+    if (status === "reject") {
+      const prompt = window.prompt("Alasan ditolak")
       if (prompt !== null) {
         note = prompt
       }
@@ -58,14 +58,12 @@ class EventDetail extends React.Component {
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Note</div>
-          <div className="col-9">
-            <article dangerouslySetInnerHTML={{ __html: eventData.note }} />
-          </div>
+          <div className="col-9">{eventData.note || "-"}</div>
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Event Date</div>
           <div className="col-9">
-            {DayJs(eventData.start_time).format('DD MMMM YYYY HH:mm')}
+            {DayJs(eventData.start_time).format("DD MMMM YYYY HH:mm")}
           </div>
         </div>
         <div className="grid mb-25">
@@ -76,7 +74,7 @@ class EventDetail extends React.Component {
                 {eventData.event_link}
               </a>
             ) : (
-              '-'
+              "-"
             )}
           </div>
         </div>
@@ -91,20 +89,26 @@ class EventDetail extends React.Component {
               readOnly
               coordinate={eventData.location.coordinate}
             />
+            <a
+              href={`https://maps.google.com/maps?q=${eventData.location.coordinate.lat},${eventData.location.coordinate.lng}`}
+              target="_blank"
+              rel="noopener noreferer">
+              Lihat di Google Maps
+            </a>
           </div>
         </div>
-        {eventData.event_status === 'waiting' ? (
+        {eventData.event_status === "waiting" ? (
           <div className="grid">
             <div className="col-9 d-flex" data-push-left="off-3">
               <Button
                 text="Accept"
                 style={{ marginRight: 10 }}
-                onClick={() => this.handleClick('accept')}
+                onClick={() => this.handleClick("accept")}
               />
               <Button
                 text="Reject"
                 color="white"
-                onClick={() => this.handleClick('reject')}
+                onClick={() => this.handleClick("reject")}
               />
             </div>
           </div>
