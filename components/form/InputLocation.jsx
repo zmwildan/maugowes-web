@@ -96,6 +96,11 @@ class LocationPicker extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    // reset MyMap initial
+    MyMap = null
+  }
+
   getLocation() {
     if (navigator.permissions) {
       navigator.permissions.query({ name: "geolocation" }).then(result => {
