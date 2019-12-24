@@ -82,6 +82,31 @@ const VideoCard = Styled.div`
     width: 50px;
   }
  }
+
+ //responsiveness
+ // gridlex _xs
+  @media (max-width: 36em) {
+    
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    &.video-large {
+      .video-card-cover {
+        width: 100%;
+        height: 200px;
+      }
+      .video-card-meta {
+        width: calc(100% - 40px);
+        .video-card-title {
+          height: 100px;
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
 `
 
 export default props => {

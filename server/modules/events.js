@@ -297,7 +297,7 @@ module.exports = {
             }
             // update data on db
             db.collection("events").update({ _id: id }, { $set: postdata })
-            
+
             // email report to sender
             const reportHTML = `
               <tr>
@@ -305,21 +305,22 @@ module.exports = {
                   <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                     <tr>
                       <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Event gowes kamu telah diupdate dengan status "${status}". ${note ? `Berikut catatan dari admin "${note}"` : ""}</p>
+                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Event gowes kamu telah diupdate dengan status "${status}". ${
+              note ? `Berikut catatan dari admin "${note}"` : ""
+            }</p>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
             `
-            
+
             // send email
             sendEmail(
               [results[0].email],
               "Status Event Gowes Kamu - Mau Gowes",
               reportHTML
             )
-
 
             // success
             return callback({
