@@ -37,7 +37,7 @@ class SuperLayout extends React.Component {
     return (
       <SuperStyled>
         <div className="grid">
-          <div className="col-2">
+          <div className="col-2_md-3_xs-12">
             <div className="super-sidebar">
               <div className="super-sidebar-child">
                 <strong>Blog</strong>
@@ -89,7 +89,7 @@ class SuperLayout extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-8">{this.props.children}</div>
+          <div className="col-8_md-9_xs-12">{this.props.children}</div>
         </div>
       </SuperStyled>
     )
