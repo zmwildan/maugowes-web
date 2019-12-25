@@ -96,7 +96,6 @@ class Events extends React.Component {
               text={metadata.description}
               backgroundImage="https://images.unsplash.com/photo-1558009525-29a300db7b7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
             />
-            <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
             <EventsBox
               data={events}
               loadmoreHandler={() => this.loadmoreHandler()}

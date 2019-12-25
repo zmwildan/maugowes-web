@@ -75,7 +75,7 @@ class SendEvent extends React.Component {
 
             {/* form send event */}
             <div className="grid-center">
-              <div className="col-6 super-login-wrapper">
+              <div className="col-6_xs-12 super-login-wrapper">
                 <FormStyled>
                   <h2>Data Kamu (kami akan menjaga kerahasiaan data ini)</h2>
                   <InputText
