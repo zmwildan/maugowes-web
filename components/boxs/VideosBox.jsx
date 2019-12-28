@@ -7,6 +7,8 @@ import Error from "../cards/CardError"
 import Button from "../buttons/index"
 import GA from "./GA"
 
+let isEven = true
+
 const VideosBoxStyled = Styled.div`
   margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
   .video-box-title {
@@ -38,8 +40,24 @@ const VideosBox = props => {
           <div className="grid">
             {results.map((n, key) => {
               let size = "default"
-              if (key === 0 || key % 5 === 0) size = "large"
-              return <Card size={size} key={key} data={n} />
+
+              return (
+                <React.Fragment key={key}>
+                  <Card size={size} data={n} />
+                  {results.length > 9 &&
+                  key !== 0 &&
+                  key !== results.length - 1 &&
+                  (key + 1) % 9 === 0 ? (
+                    <div
+                      className="col-12">
+                      <GA
+                        adClient="ca-pub-4468477322781117"
+                        adSlot="4316048838"
+                      />
+                    </div>
+                  ) : null}
+                </React.Fragment>
+              )
             })}
           </div>
         ) : null

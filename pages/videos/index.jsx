@@ -93,7 +93,6 @@ class VideosPage extends React.Component {
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
               backgroundImage="https://images.unsplash.com/photo-1495295482929-5403d732f147?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
             />
-            <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
             <VideosBox
               data={videos}
               loadmoreHandler={() => this.loadmoreHandler()}

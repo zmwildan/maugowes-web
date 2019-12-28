@@ -1,3 +1,4 @@
+import React from "react"
 import Styled from "styled-components"
 import CardBlog from "../cards/CardBlog"
 import { color_blue_main } from "../Const"
@@ -41,7 +42,23 @@ const BlogBox = props => {
             {results.map((n, key) => {
               let size = "default"
               if (key === 0 || key % 5 === 0) size = "large"
-              return <CardBlog size={size} key={key} data={n} />
+              return (
+                <React.Fragment key={key}>
+                  <CardBlog size={size} data={n} />
+                  {/* every 8 card show ads */}
+                  {results.length > 9 &&
+                  key !== 0 &&
+                  key !== results.length - 1 &&
+                  (key + 1) % 9 === 0 ? (
+                    <div className="col-12">
+                      <GA
+                        adClient="ca-pub-4468477322781117"
+                        adSlot="4316048838"
+                      />
+                    </div>
+                  ) : null}
+                </React.Fragment>
+              )
             })}
           </div>
         ) : null

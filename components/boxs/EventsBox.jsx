@@ -57,8 +57,8 @@ const EventsBox = props => {
               return (
                 <React.Fragment key={key}>
                   <Card data={n} />
-                  {(key + 1) % 3 === 0 ? (
-                    <div className="col-12_md-6_xs-12">
+                  {results.length > 9 && (key + 1) % 9 && key != 0 ? (
+                    <div className="col-12">
                       <GA
                         adClient="ca-pub-4468477322781117"
                         adSlot="4316048838"
