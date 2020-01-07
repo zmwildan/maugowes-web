@@ -24,7 +24,6 @@ const HomePage = Styled.div`
 
 class Home extends React.Component {
   static async getInitialProps({ reduxStore }) {
-
     if (typeof window == "undefined") {
       // only call in server side
 
@@ -59,12 +58,8 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    this.props.dispatch(fetchVideos("new", {maxResults: 5}))
-
-    this.props.dispatch(
-      fetchBlog("new", { limit: 6 })
-    )
-
+    this.props.dispatch(fetchVideos("new", { maxResults: 5 }))
+    this.props.dispatch(fetchBlog("new", { limit: 6 }))
     this.props.dispatch(
       fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })
     )

@@ -10,7 +10,7 @@ import GA from "./GA"
 let isEven = true
 
 const VideosBoxStyled = Styled.div`
-  margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
+  margin-top: ${props => (props.noHeaderTitle ? "50px" : "40px")};
   .video-box-title {
     border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
@@ -48,8 +48,7 @@ const VideosBox = props => {
                   key !== 0 &&
                   key !== results.length - 1 &&
                   (key + 1) % 9 === 0 ? (
-                    <div
-                      className="col-12">
+                    <div className="col-12">
                       <GA
                         adClient="ca-pub-4468477322781117"
                         adSlot="4316048838"

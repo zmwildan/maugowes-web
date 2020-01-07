@@ -1,34 +1,34 @@
-import React from 'react'
-import Styled from 'styled-components'
-import { connect } from 'react-redux'
-import config from '../../config/index'
-import fetch from 'isomorphic-unfetch'
-import { objToQuery } from 'string-manager'
+import React from "react"
+import Styled from "styled-components"
+import { connect } from "react-redux"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
+import { objToQuery } from "string-manager"
 
 // components
-import GlobalLayout from '../../components/layouts/Global'
-import DefaultLayout from '../../components/layouts/Default'
-import Header from '../../components/boxs/FullWidthHeader'
-import GA from '../../components/boxs/GA'
-import EventsBox from '../../components/boxs/EventsBox'
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
+import Header from "../../components/boxs/FullWidthHeader"
+import GA from "../../components/boxs/GA"
+import EventsBox from "../../components/boxs/EventsBox"
 
 //actions
-import { fetchEvents, fetchMoreEvents } from '../../redux/events/actions'
+import { fetchEvents, fetchMoreEvents } from "../../redux/events/actions"
 
 const EventsStyled = Styled.div`
 
 `
 const MaxResults = 20
-const StoreFilter = 'list'
+const StoreFilter = "list"
 class Events extends React.Component {
   state = {
     page: 1
   }
 
   static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == 'undefined') {
+    if (typeof window == "undefined") {
       //  only call in server side
-      const { endpoint, type } = fetchEvents()['CALL_API']
+      const { endpoint, type } = fetchEvents()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
@@ -45,10 +45,12 @@ class Events extends React.Component {
     }
 
     return {
-      tag: query.tag || '',
-      username: query.username,
       query
     }
+  }
+
+  state = {
+    query: this.props.query
   }
 
   componentDidMount() {
@@ -59,7 +61,7 @@ class Events extends React.Component {
     }
   }
 
-  loadMoreHandler() {
+  _loadMoreHandler() {
     const eventState = this.props.events[StoreFilter] || {}
     if (!eventState.is_loading && eventState.status == 200) {
       this.setState(
@@ -82,9 +84,9 @@ class Events extends React.Component {
   render() {
     const events = this.props.events[StoreFilter] || {}
     const metadata = {
-      title: 'Events - Mau Gowes',
+      title: "Events - Mau Gowes",
       description:
-        'Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda'
+        "Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda"
     }
 
     return (
@@ -92,15 +94,19 @@ class Events extends React.Component {
         <DefaultLayout>
           <EventsStyled>
             <Header
-              title="Kirim Events"
+              title="Event Gowes"
               text={metadata.description}
               backgroundImage="https://images.unsplash.com/photo-1558009525-29a300db7b7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
             />
+
             <EventsBox
               data={events}
-              loadmoreHandler={() => this.loadmoreHandler()}
+              loadmoreHandler={() => this._loadmoreHandler()}
               noHeaderTitle
               maxResults={MaxResults}
+              useFilter
+              setState={(n, cb) => this.setState(n, cb)}
+              query={this.state.query}
             />
           </EventsStyled>
         </DefaultLayout>
@@ -113,7 +119,7 @@ export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
     limit: MaxResults,
-    status: 'accept'
+    status: "accept"
   }
 
   if (query.tag) reqQuery.tag = query.tag

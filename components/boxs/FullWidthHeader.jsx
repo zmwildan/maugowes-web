@@ -24,6 +24,9 @@ const FullWidthHeaderStyled = Styled.div`
     font-size: 14px;
     color: ${color_gray_soft};
   }
+  #full-width-spacer {
+    height: 375px;
+  }
 `
 
 class FullWidthHeader extends React.Component {
@@ -32,15 +35,14 @@ class FullWidthHeader extends React.Component {
 
     // listen window resize
     document.addEventListener("resize", this.spacerHeightSetter)
-
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     // remove resize event listener
     document.removeEventListener("resize", this.spacerHeightSetter)
   }
 
-  spacerHeightSetter(){
+  spacerHeightSetter() {
     const HeaderEl = document.getElementById("full-width-header")
     const SpacerEl = document.getElementById("full-width-spacer")
     SpacerEl.style.height = `${HeaderEl.offsetHeight}px`
@@ -52,9 +54,7 @@ class FullWidthHeader extends React.Component {
         <FullWidthHeaderStyled
           id={this.props.id || "full-width-header"}
           style={{
-            background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${
-              this.props.backgroundImage
-            })`
+            background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${this.props.backgroundImage})`
           }}>
           <div className="container">
             <h1>{this.props.title}</h1>

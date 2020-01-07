@@ -8,7 +8,7 @@ import Button from "../buttons/index"
 import GA from "../../components/boxs/GA"
 
 const BlogBoxStyled = Styled.div`
-  margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
+  margin-top: ${props => (props.noHeaderTitle ? "50px" : "40px")};
   .blog-box-title {
     border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
