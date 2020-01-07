@@ -1,7 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
+import Router from "next/router"
 import Styled from "styled-components"
 import Card from "../cards/CardEvent"
-import { color_blue_main, color_gray_medium, color_gray_dark } from "../Const"
+import {
+  color_blue_main,
+  color_gray_medium,
+  color_gray_dark,
+  color_gray_soft
+} from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
@@ -21,9 +27,20 @@ const EventsBoxStyled = Styled.div`
       text-decoration: none;
     }
   }
+  .filter {
+    padding: 0 20px;
+    margin-bottom: 50px;
+    form {
+      padding: 10px 0;
+      border-top: 1px solid ${color_gray_medium};
+      border-bottom: 1px solid ${color_gray_medium};
+      font-size: 15px;
+    }
+  }
 `
 
 const EventsBox = props => {
+  let { query = {} } = props
   const { results, status, message, total, is_loading } = props.data
 
   return (
@@ -36,8 +53,16 @@ const EventsBox = props => {
         </div>
       ) : (
         <center style={{ marginBottom: 50, lineHeight: 1.5 }}>
-          Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
-          <strong>{total || 0}</strong> events
+          {status ? (
+            status != 200 ? (
+              "Belum ada event"
+            ) : (
+              <span>
+                Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
+                <strong>{total || 0}</strong> events
+              </span>
+            )
+          ) : null}
           <br />
           Atau kamu juga bisa{" "}
           <Link href="/events/send" prefetch>
@@ -49,6 +74,32 @@ const EventsBox = props => {
           </Link>
         </center>
       )}
+
+      {props.useFilter ? (
+        <div className="grid">
+          <div className="col filter">
+            <form action="" method="get">
+              <label htmlFor="filter-show-active">
+                <input
+                  id="filter-show-active"
+                  type="checkbox"
+                  checked={query.show_all}
+                  onChange={() => {
+                    query.show_all = query.show_all ? 0 : 1
+                    props.setState({ query })
+                    // ref : https://github.com/zeit/next.js/#userouter
+                    Router.push({
+                      pathname: "/events",
+                      query
+                    })
+                  }}
+                />
+                Tampilkan semua{" "}
+              </label>
+            </form>
+          </div>
+        </div>
+      ) : null}
 
       {status ? (
         results && results.length > 0 ? (
