@@ -55,7 +55,16 @@ class Events extends React.Component {
 
   componentDidMount() {
     const eventState = this.props.events[StoreFilter] || {}
+    this.setState(this.props.query)
     if (!eventState.status && !eventState.is_loading) {
+      const reqQuery = requestQueryGenerator(this.props.query)
+      this.props.dispatch(fetchEvents(StoreFilter, reqQuery))
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps, this.props)
+    if (prevProps.query.show_all !== this.props.query.show_all) {
       const reqQuery = requestQueryGenerator(this.props.query)
       this.props.dispatch(fetchEvents(StoreFilter, reqQuery))
     }
@@ -124,6 +133,7 @@ export function requestQueryGenerator(query = {}) {
 
   if (query.tag) reqQuery.tag = query.tag
   if (query.username) reqQuery.username = query.username
+  if (query.show_all) reqQuery.show_all = query.show_all
 
   return reqQuery
 }

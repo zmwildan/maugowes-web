@@ -1,12 +1,12 @@
-export const GET_EVENTS = 'GET_EVENTS'
-export const GET_MORE_EVENTS = 'GET_MORE_EVENTS'
-export const SUBMIT_FORM = 'SUBMIT_FORM'
+export const GET_EVENTS = "GET_EVENTS"
+export const GET_MORE_EVENTS = "GET_MORE_EVENTS"
+export const SUBMIT_FORM = "SUBMIT_FORM"
 
-import { CALL_API } from '../middlewares/requestApi'
+import { CALL_API } from "../middlewares/requestApi"
 
-import sealMiddleware from 'seal-middleware'
-import getConfig from 'next/config'
-import { objToQuery } from 'string-manager'
+import sealMiddleware from "seal-middleware"
+import getConfig from "next/config"
+import { objToQuery } from "string-manager"
 
 const { publicRuntimeConfig } = getConfig()
 const { API_KEY } = publicRuntimeConfig
@@ -34,7 +34,8 @@ export function fetchEventDetail(event_id) {
  * @param {object} params
  * @param {object} params.query query of request
  */
-export function fetchEvents(filter = '', query = {}) {
+export function fetchEvents(filter = "", query = {}) {
+  console.log(query)
   return {
     [CALL_API]: {
       type: GET_EVENTS,
@@ -51,7 +52,7 @@ export function fetchEvents(filter = '', query = {}) {
  * @param {object} params.query queryof request
  *
  */
-export function fetchMoreEvents(filter = '', query = {}) {
+export function fetchMoreEvents(filter = "", query = {}) {
   return {
     [CALL_API]: {
       type: GET_MORE_EVENTS,
@@ -76,9 +77,9 @@ export function createEvent(formdata = {}) {
   return {
     [CALL_API]: {
       formdata,
-      method: 'POST',
+      method: "POST",
       endpoint: `/api/events/${seal.generateSeal()}`,
-      filter: 'submit_post',
+      filter: "submit_post",
       type: SUBMIT_FORM
     }
   }
@@ -93,9 +94,9 @@ export function setStatus(event_id, formdata = {}) {
   return {
     [CALL_API]: {
       formdata,
-      method: 'POST',
+      method: "POST",
       endpoint: `/api/events/action/${seal.generateSeal()}/${event_id}`,
-      filter: 'submit_post',
+      filter: "submit_post",
       type: SUBMIT_FORM
     }
   }
