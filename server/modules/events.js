@@ -175,7 +175,7 @@ module.exports = {
    * @param {function} callback
    */
   fetchEvents(req, res, callback) {
-    const { page = 1, limit = 7, status = "accept" } = req.query
+    const { page = 1, limit = 7, status = "accept", show_all = 1 } = req.query
 
     let aggregate = [
       {
@@ -190,6 +190,17 @@ module.exports = {
     if (status && status !== "all") {
       aggregate.push({
         $match: { status }
+      })
+    }
+
+    if (show_all && show_all * 1 === 0) {
+      const now = new Date().getTime() * 1000
+      // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/gte/
+      aggregate.push({
+        $match: {
+          // get start time greater than or equal than current time
+          start_time: { $gte: now.toString() }
+        }
       })
     }
 
@@ -215,7 +226,7 @@ module.exports = {
               .toArray((err, results) => {
                 // error from database
                 if (err) {
-                  console.err(err)
+                  console.log(err)
                   return callback({
                     status: 500,
                     messages: "something wrong with mongo"
