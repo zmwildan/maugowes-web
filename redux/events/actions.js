@@ -35,7 +35,7 @@ export function fetchEventDetail(event_id) {
  * @param {object} params.query query of request
  */
 export function fetchEvents(filter = "", query = {}) {
-  console.log(query)
+  if (!query.show_all) query.show_all = 0
   return {
     [CALL_API]: {
       type: GET_EVENTS,
@@ -53,6 +53,7 @@ export function fetchEvents(filter = "", query = {}) {
  *
  */
 export function fetchMoreEvents(filter = "", query = {}) {
+  if (!query.show_all) query.show_all = 0
   return {
     [CALL_API]: {
       type: GET_MORE_EVENTS,

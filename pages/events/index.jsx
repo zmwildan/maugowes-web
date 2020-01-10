@@ -9,7 +9,6 @@ import { objToQuery } from "string-manager"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
-import GA from "../../components/boxs/GA"
 import EventsBox from "../../components/boxs/EventsBox"
 
 //actions
@@ -28,19 +27,18 @@ class Events extends React.Component {
   static async getInitialProps({ reduxStore, query }) {
     if (typeof window == "undefined") {
       //  only call in server side
-      const { endpoint, type } = fetchEvents()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
-          reqQuery
-        )}`
+      const { endpoint, type } = fetchEvents(StoreFilter, reqQuery)["CALL_API"]
+
+      const eventsResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}${endpoint}`
       )
-      const posts = await postsResponse.json()
+      const events = await eventsResponse.json()
 
       reduxStore.dispatch({
         type,
         filter: StoreFilter,
-        data: posts
+        data: events
       })
     }
 
@@ -63,7 +61,6 @@ class Events extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps, this.props)
     if (prevProps.query.show_all !== this.props.query.show_all) {
       const reqQuery = requestQueryGenerator(this.props.query)
       this.props.dispatch(fetchEvents(StoreFilter, reqQuery))
@@ -128,12 +125,12 @@ export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
     limit: MaxResults,
-    status: "accept"
+    status: "accept",
+    show_all: query.show_all || 0
   }
 
   if (query.tag) reqQuery.tag = query.tag
   if (query.username) reqQuery.username = query.username
-  if (query.show_all) reqQuery.show_all = query.show_all
 
   return reqQuery
 }
