@@ -24,7 +24,6 @@ class VideosPage extends React.Component {
   }
 
   static async getInitialProps({ reduxStore, query }) {
-
     if (typeof window == "undefined") {
       const { endpoint, type } = fetchVideos()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)
@@ -91,7 +90,7 @@ class VideosPage extends React.Component {
             <Header
               title="Mau Gowes Video"
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
-              backgroundImage="https://images.unsplash.com/photo-1495295482929-5403d732f147?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+              backgroundImage="https://images.unsplash.com/photo-1541877944-ac82a091518a?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
             />
             <VideosBox
               data={videos}
