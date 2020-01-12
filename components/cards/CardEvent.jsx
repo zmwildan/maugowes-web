@@ -1,12 +1,12 @@
-import Styled from 'styled-components'
+import Styled from "styled-components"
 import {
   color_gray_dark,
   color_black_main,
   color_blue_main,
   color_red_main,
   color_white_main
-} from '../Const'
-import DayJs from '../../modules/dayjs'
+} from "../Const"
+import DayJs from "../../modules/dayjs"
 
 const CardEventStyled = Styled.div`
   padding: 0 20px;
@@ -38,7 +38,6 @@ const CardEventStyled = Styled.div`
   .card-event-time {
     text-align: left;
     overflow-y: hidden;
-    height: 50px;
     .card-event-label {
       padding: 15px 0;
       margin-right: 15px;
@@ -104,7 +103,7 @@ const CardEvent = props => {
 
       <div className="card-event-time">
         <span className="card-event-label">
-          {DayJs(data.start_time).format('DD MMMM YYYY HH:mm')} <br />{' '}
+          {DayJs(data.start_time).format("DD MMMM YYYY HH:mm")} <br />{" "}
           {data.location.address}
         </span>
       </div>
@@ -119,7 +118,7 @@ const CardEvent = props => {
 
       <div className="card-event-content">{data.note}</div>
 
-      <div className="card-event-category">Gowes Bareng</div>
+      {/* <div className="card-event-category">Gowes Bareng</div> */}
     </CardEventStyled>
   )
 }
