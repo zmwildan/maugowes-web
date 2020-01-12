@@ -158,11 +158,11 @@ class VideoDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
-                <GA
+                {/* <GA
                   style={{ marginBottom: 0 }}
                   adClient="ca-pub-4468477322781117"
                   adSlot="2754181340"
-                />
+                /> */}
 
                 {/* video detail */}
                 <div className="grid-center">

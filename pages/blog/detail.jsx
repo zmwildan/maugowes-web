@@ -1,31 +1,31 @@
-import React from 'react'
-import Styled from 'styled-components'
-import GlobalLayout from '../../components/layouts/Global'
-import DefaultLayout from '../../components/layouts/Default'
-import { toCamelCase } from 'string-manager'
+import React from "react"
+import Styled from "styled-components"
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
+import { toCamelCase } from "string-manager"
 import {
   color_gray_dark,
   color_gray_soft,
   color_blue_main,
   color_white_main
-} from '../../components/Const'
+} from "../../components/Const"
 // import DayJs from "dayjs"
-import DisqusBox from '../../components/boxs/Disqus'
-import ShareBox from '../../components/boxs/Share'
-import Loader from '../../components/Loader'
-import GA from '../../components/boxs/GA'
+import DisqusBox from "../../components/boxs/Disqus"
+import ShareBox from "../../components/boxs/Share"
+import Loader from "../../components/Loader"
+import GA from "../../components/boxs/GA"
 
-import { connect } from 'react-redux'
-import { fetchBlogDetail, fetchBlog } from '../../redux/blog/actions'
-import config from '../../config/index'
-import fetch from 'isomorphic-unfetch'
-import BlogBox from '../../components/boxs/BlogBox'
-import ShareIcon from '../../components/icons/Share'
-import CommentIcon from '../../components/icons/Comment'
-import EyeIcon from '../../components/icons/Eye'
+import { connect } from "react-redux"
+import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
+import BlogBox from "../../components/boxs/BlogBox"
+import ShareIcon from "../../components/icons/Share"
+import CommentIcon from "../../components/icons/Comment"
+import EyeIcon from "../../components/icons/Eye"
 
 function getId(title) {
-  let titleArr = title.split('-')
+  let titleArr = title.split("-")
   return titleArr[titleArr.length - 1]
 }
 
@@ -134,9 +134,9 @@ class BlogDetail extends React.Component {
   state = {}
 
   static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == 'undefined') {
+    if (typeof window == "undefined") {
       const id = getId(query.id)
-      const { type, endpoint } = fetchBlogDetail(id)['CALL_API']
+      const { type, endpoint } = fetchBlogDetail(id)["CALL_API"]
       //  only call in server side
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}`
@@ -159,7 +159,7 @@ class BlogDetail extends React.Component {
     const blogRelatedState = this.props.blog.related || {}
     if (!blogRelatedState.status) {
       return this.props.dispatch(
-        fetchBlog('related', {
+        fetchBlog("related", {
           limit: 3,
           page: 1,
           notId: getId(this.props.id)
@@ -182,22 +182,22 @@ class BlogDetail extends React.Component {
         image: data.image.original,
         keywords: data.tags.toString(),
         jsonld: {
-          '@context': 'https://schema.org',
-          '@type': 'BlogPosting',
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
           headline: data.title,
           alternativeHeadline: data.title,
           image: data.image.original,
-          genre: 'cycling,bicycle,sepeda,gowes',
+          genre: "cycling,bicycle,sepeda,gowes",
           keywords: data.tags.toString(),
           wordcount: data.content.length,
           publisher: {
-            '@type': 'Organization',
-            name: 'Mau Gowes',
+            "@type": "Organization",
+            name: "Mau Gowes",
             logo: {
-              '@type': 'ImageObject',
-              url: 'https://maugowes.com/static/icons/icon-512x512.png',
-              height: '500',
-              width: '500'
+              "@type": "ImageObject",
+              url: "https://maugowes.com/static/icons/icon-512x512.png",
+              height: "500",
+              width: "500"
             }
           },
           url: `https://maugowes.com${data.link}`,
@@ -206,16 +206,16 @@ class BlogDetail extends React.Component {
           dateModified: new Date(data.updated_on * 1000).toISOString(),
           description: data.truncatedContent,
           author: {
-            '@type': 'Person',
+            "@type": "Person",
             name: data.author.username
           }
         }
       }
     } else {
       metadata = {
-        title: 'Postingan tidak ditemukan',
+        title: "Postingan tidak ditemukan",
         description:
-          'Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.'
+          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus."
       }
     }
 
@@ -281,10 +281,10 @@ class BlogDetail extends React.Component {
                         <a
                           onClick={() => {
                             document
-                              .getElementById('comment-box')
+                              .getElementById("comment-box")
                               .scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'center'
+                                behavior: "smooth",
+                                block: "center"
                               })
                           }}
                           href="javascript:;">
@@ -297,10 +297,10 @@ class BlogDetail extends React.Component {
                         <a
                           onClick={() => {
                             document
-                              .getElementById('share-box')
+                              .getElementById("share-box")
                               .scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'center'
+                                behavior: "smooth",
+                                block: "center"
                               })
                           }}
                           href="javascript:;">
@@ -342,7 +342,7 @@ class BlogDetail extends React.Component {
                 <div className="blog-detail_related">
                   <BlogBox
                     hideAds
-                    style={{ margin: '20px 0' }}
+                    style={{ margin: "20px 0" }}
                     noHeaderTitle
                     noStats
                     data={related}
