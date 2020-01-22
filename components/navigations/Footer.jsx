@@ -90,7 +90,11 @@ export default props => {
     <React.Fragment>
       <Footer className="grid">
         <div className="col-4_xs-12 footer-left">
-          <img className="footer-left-logo" src="/static/images/logo-2.png" alt="Logo Mau Gowes" />
+          <img
+            className="footer-left-logo"
+            src="/static/images/logo-2.png"
+            alt="Logo Mau Gowes"
+          />
           <p>
             Mau Gowes - Adalah platform online yang dibuat untuk kamu para
             pecinta sepeda. Disini kamu bisa dapat konten menarik dan sekalian
@@ -188,8 +192,11 @@ export default props => {
       <FooterPoweredBy>
         <strong>
           Powered by{" "}
-          <a href="https://byidmore.com" target="_blank">
-            Id More
+          <a
+            href="https://yussanmediagroup.org"
+            target="_blank"
+            rel="noopener noreferer">
+            Yussan Media Group
           </a>
         </strong>
       </FooterPoweredBy>

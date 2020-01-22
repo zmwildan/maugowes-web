@@ -134,7 +134,7 @@ function emailTemplate({ body }) {
                      <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
                        Send by <a href="https://maugowes.com" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Mau Gowes</a>.
                        <br/>
-                       Powered by <a href="https://byidmore.com">Id More</a>
+                       Powered by <a href="https://yussanmediagroup.org">Yussan Media Group</a>
                      </td>
                    </tr>
                  </table>

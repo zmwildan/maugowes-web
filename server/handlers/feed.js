@@ -1,12 +1,12 @@
-const postModule = require('../modules/post')
-const videoModule = require('../modules/videos')
-const eventModule = require('../modules/events')
-const DaysJs = require('dayjs')
+const postModule = require("../modules/post")
+const videoModule = require("../modules/videos")
+const eventModule = require("../modules/events")
+const DaysJs = require("dayjs")
 
 // handler of /feed/videos
 module.exports.videosFeed = (req, res) => {
   return videoModule.fetchVideos(req, res, json => {
-    res.set('Content-Type', 'text/xml')
+    res.set("Content-Type", "text/xml")
     let content = ``
     json.results.map(n => {
       content += `
@@ -17,7 +17,7 @@ module.exports.videosFeed = (req, res) => {
                 <guid>https://maugowes.com${n.link}</guid>
                 <category domain="https://maugowes.com">video,mau gowes,sepeda,roadbike,mtb,foldingbike</category>
                 <pubDate>${DaysJs(n.created_on * 1000).format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</pubDate>
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
@@ -30,9 +30,9 @@ module.exports.videosFeed = (req, res) => {
                 <description>Video dari Mau Gowes - Bahagia Bersama Sepeda</description>
                 <link>https://maugowes.com</link>
                 <category domain="https://maugowes.com">gowes/sepeda/cycling/roadbike/mtb/folding bike</category>
-                <copyright>Copyright 2019 Id More Team.</copyright>
+                <copyright>Copyright 2020 Yussan Media Group.</copyright>
                 <lastBuildDate>${DaysJs().format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</lastBuildDate>
                 <language>id-id</language>
                 <image>
@@ -55,7 +55,7 @@ module.exports.videosFeed = (req, res) => {
 // handle of /feed/posts
 module.exports.postsFeed = (req, res) => {
   return postModule.fetchPosts(req, res, json => {
-    res.set('Content-Type', 'text/xml')
+    res.set("Content-Type", "text/xml")
     let content = ``
     json.results.map(n => {
       content += `
@@ -65,10 +65,10 @@ module.exports.postsFeed = (req, res) => {
                 <link>https://maugowes.com${n.link}</link>
                 <guid>https://maugowes.com${n.link}</guid>
                 <category domain="https://maugowes.com">${n.tags.join(
-                  ','
+                  ","
                 )}</category>
                 <pubDate>${DaysJs(n.created_on * 1000).format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</pubDate>
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
@@ -81,9 +81,9 @@ module.exports.postsFeed = (req, res) => {
                 <description>Postingan blog dari Mau Gowes - Bahagia Bersama Sepeda</description>
                 <link>https://maugowes.com</link>
                 <category domain="https://maugowes.com">gowes/sepeda/cycling/roadbike/mtb/folding bike</category>
-                <copyright>Copyright 2019 Id More Team.</copyright>
+                <copyright>Copyright 2020 Yussan Media Group.</copyright>
                 <lastBuildDate>${DaysJs().format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</lastBuildDate>
                 <language>id-id</language>
                 <image>
@@ -106,7 +106,7 @@ module.exports.postsFeed = (req, res) => {
 // handler of /feed/events
 module.exports.eventsFeed = (req, res) => {
   return eventModule.fetchEvents(req, res, json => {
-    res.set('Content-Type', 'text/xml')
+    res.set("Content-Type", "text/xml")
     let content = ``
     json.results.map(n => {
       content += `
@@ -117,7 +117,7 @@ module.exports.eventsFeed = (req, res) => {
                 <guid>https://maugowes.com${n.link}</guid>
                 <category domain="https://maugowes.com">video,mau gowes,sepeda,roadbike,mtb,foldingbike</category>
                 <pubDate>${DaysJs(n.created_on * 1000).format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</pubDate>
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
@@ -130,9 +130,9 @@ module.exports.eventsFeed = (req, res) => {
                 <description>Video dari Mau Gowes - Bahagia Bersama Sepeda</description>
                 <link>https://maugowes.com</link>
                 <category domain="https://maugowes.com">gowes/sepeda/cycling/roadbike/mtb/folding bike</category>
-                <copyright>Copyright 2019 Id More Team.</copyright>
+                <copyright>Copyright 2020 Yussan Media Group.</copyright>
                 <lastBuildDate>${DaysJs().format(
-                  'ddd, DD MMM YYYY'
+                  "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</lastBuildDate>
                 <language>id-id</language>
                 <image>
