@@ -53,17 +53,6 @@ const EventsBox = props => {
         </div>
       ) : (
         <center style={{ marginBottom: 50, lineHeight: 1.5 }}>
-          {status ? (
-            status != 200 ? (
-              "Belum ada event"
-            ) : (
-              <span>
-                Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
-                <strong>{total || 0}</strong> events
-              </span>
-            )
-          ) : null}
-          <br />
           Atau kamu juga bisa{" "}
           <Link href="/events/send" prefetch>
             <a
@@ -72,6 +61,11 @@ const EventsBox = props => {
               + Kirim Event Baru
             </a>
           </Link>
+          <br />
+          <span>
+            Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
+            <strong>{total || 0}</strong> events
+          </span>
         </center>
       )}
 

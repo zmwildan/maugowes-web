@@ -221,6 +221,7 @@ class EventDetail extends React.Component {
                       readOnly
                       coordinate={data.location.coordinate}
                     />
+
                     <a
                       href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
                       target="_blank"

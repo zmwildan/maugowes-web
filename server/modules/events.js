@@ -4,6 +4,10 @@ const cloudinary = require("./cloudinary")
 const file = require("./file")
 const eventTransformer = require("../transformers/event")
 const { sendEmail } = require("../modules/email")
+const toGeoJson = require("togeojson")
+const path = require("path")
+const XMLDomParser = require("xmldom").DOMParser
+const fs = require("fs")
 
 module.exports = {
   /**
@@ -85,7 +89,7 @@ module.exports = {
       note,
       start_time
     } = req.body
-    const { poster } = req.files
+    const { poster, gpx } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
 
     // params insert into db
@@ -100,6 +104,17 @@ module.exports = {
       status: "waiting",
       created_on: currentTime,
       views: 0
+    }
+
+    // if send gpx , generate geojson
+    if (typeof gpx != "undefined") {
+      // ref: https://stackoverflow.com/a/48809708
+      console.log("gpx", gpx)
+      const gpxAbsolutePath = path.resolve(gpx.path)
+      const gpxXML = new XMLDomParser().parseFromString(
+        fs.readFileSync(gpxAbsolutePath, "utf8")
+      )
+      params.geoJSON = toGeoJson.gpx(gpxXML)
     }
 
     // thanks email to sender

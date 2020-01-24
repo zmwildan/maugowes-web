@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { validate } from '../../modules/validator'
-import Styled from 'styled-components'
-import { color_red_main, color_gray_medium, color_blue_main } from '../Const'
+import React, { Component } from "react"
+import { validate } from "../../modules/validator"
+import Styled from "styled-components"
+import { color_red_main } from "../Const"
+import Toast from "../../modules/toast"
 
 const InputFileStyled = Styled.div`
   &.error {
@@ -11,17 +12,17 @@ const InputFileStyled = Styled.div`
 
 export default class InputFile extends Component {
   static defaultProps = {
-    type: 'file',
+    type: "file",
     max: 1000000,
     customStyle: {},
     customStylePreview: {
-      maxWidth: '100%',
+      maxWidth: "100%",
       width: 200,
-      display: 'block',
+      display: "block",
       marginBottom: 10
     },
-    accept: '',
-    preview: '/static/images/image-placeholder.jpeg'
+    accept: "",
+    preview: "/static/images/image-placeholder.jpeg"
   }
 
   componentDidMount = () => {
@@ -32,8 +33,10 @@ export default class InputFile extends Component {
     const { files } = e.target
     if (files[0]) {
       const file = files[0]
-      // get preview if upload image
-      if (this.props.accept.includes('image')) {
+      const { accept } = this.props
+
+      if (accept.includes("image")) {
+        // get preview if upload image
         const reader = new FileReader()
 
         reader.readAsDataURL(file)
@@ -43,22 +46,24 @@ export default class InputFile extends Component {
           // change parent value
           this.props.setState(
             {
-              [this.props.name]: file,
               [`${this.props.name}_preview`]: reader.result
             },
             () => {
-              this.validateInput()
+              this.validateInput(this.props, file)
             }
           )
         }
+      } else {
+        this.validateInput(this.props, file)
       }
     }
   }
 
-  validateInput(props = this.props) {
-    const result = validate(props)
+  validateInput(props = this.props, file = null) {
+    const result = validate(props, file)
     this.props.setState({
-      [this.props.name + '_validate']: result
+      [this.props.name + "_validate"]: result,
+      [this.props.name]: file
     })
   }
 
@@ -70,13 +75,15 @@ export default class InputFile extends Component {
     return (
       <InputFileStyled
         style={this.props.customStyle}
-        className={`form-child ${!is_valid ? 'error' : ''}`}>
+        className={`form-child ${!is_valid ? "error" : ""}`}>
         {label ? (
           <label htmlFor={this.props.id || name}>
-            {label} {required ? '*' : ''}
+            {label} {required ? "*" : ""}
           </label>
         ) : null}
-        {preview ? (
+
+        {/* image preivew */}
+        {preview && this.props.accept.includes("image") ? (
           <img
             style={this.props.customStylePreview}
             src={preview}

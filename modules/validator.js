@@ -1,4 +1,4 @@
-import Toast from './toast'
+import Toast from "./toast"
 
 export let validator = {}
 
@@ -6,33 +6,33 @@ export function resetValidator() {
   validator = {}
 }
 
-export function validate(props) {
+export function validate(props = {}, file = {}) {
   const { name, max, value, required, type } = props
   if (required && (!value || value == 0)) {
-    return generateResult(props, false, 'wajib diisi')
+    return generateResult(props, false, "wajib diisi")
   } else if (max && value.length > max) {
     //handle max character
     return generateResult(
       props,
       false,
-      'input melebihi batas maksimal karakter'
+      "input melebihi batas maksimal karakter"
     )
-  } else if (type == 'number' && !parseInt(value)) {
+  } else if (type == "number" && !parseInt(value)) {
     //handle input type number
-    return generateResult(props, false, 'inputan bukan angka')
-  } else if (type == 'link' && !value.includes('http')) {
+    return generateResult(props, false, "inputan bukan angka")
+  } else if (type == "link" && !value.includes("http")) {
     //handle input type link
     return generateResult(
       props,
       false,
-      'harus link valid yang dilengkapi dengan, http:// atau https://'
+      "harus link valid yang dilengkapi dengan, http:// atau https://"
     )
-  } else if (type == 'email' && !value.includes('@')) {
+  } else if (type == "email" && !value.includes("@")) {
     //handle input type email
-    return generateResult(props, false, 'harus email valid')
-  } else if (type == 'file') {
+    return generateResult(props, false, "harus email valid")
+  } else if (type == "file") {
     //handle input type file
-    return handleFileValidator(props)
+    return handleFileValidator(props, file)
   }
 
   return generateResult(props, true)
@@ -48,11 +48,11 @@ export function validationChecker() {
 
 export function validationSeter(keys) {
   keys.map(n => {
-    if (!validator[n + '_validate']) {
-      validator[n + '_validate'] = generateResult(
+    if (!validator[n + "_validate"]) {
+      validator[n + "_validate"] = generateResult(
         { name: n },
         false,
-        'wajib diisi'
+        "wajib diisi"
       )
     }
   })
@@ -60,28 +60,43 @@ export function validationSeter(keys) {
   return validator
 }
 
-function handleFileValidator(props) {
-  const { max, value } = props
+function handleFileValidator(props, file = {}) {
+  const { max, value, accept } = props
   if (value.size > max) {
     //melebihi max size
     return generateResult(
       props,
       false,
-      'ukuran maksimum adalah ' + max / 1000000 + ' MB'
+      "ukuran maksimum adalah " + max / 1000000 + " MB"
     )
   } else if (props.required && !value) {
     return generateResult(props, false, `${props.name} wajib diisi`)
+  } else if (accept.includes("*.") && file.name) {
+    // validate based on specific accepted extension
+    // check upload extensions
+    const fileNameArr = file.name.split(".")
+    const fileExtension = fileNameArr[fileNameArr.length - 1]
+    const acceptExtension = props.accept.replace(".*", "")
+
+    if (!acceptExtension.includes(fileExtension)) {
+      // file not accepted
+      return generateResult(
+        props,
+        false,
+        `File bukan ${acceptExtension}, silahkan coba yang lain`
+      )
+    }
   }
   return generateResult(props, true)
 }
 
-function generateResult(props, is_valid = true, message = '') {
+function generateResult(props, is_valid = true, message = "") {
   const { name } = props
   const result = {
     is_valid,
     message
   }
-  validator[name + '_validate'] = result
+  validator[name + "_validate"] = result
   return result
 }
 
@@ -98,16 +113,16 @@ export function stateValidatorChecker({
 }) {
   let nextState = {}
   let is_valid = true
-  let error_message = ''
+  let error_message = ""
 
   const stateKeys = Object.keys(state)
 
   stateKeys.map((n, key) => {
     // found not valid input
-    if (n.includes('_validate') && !state[n].is_valid) {
+    if (n.includes("_validate") && !state[n].is_valid) {
       is_valid = false
-      error_message += `${n.replace('_validate', '')} ${state[n].message ||
-        'belum valid'}${key < stateKeys.length - 1 ? ', ' : ''}`
+      error_message += `${n.replace("_validate", "")} ${state[n].message ||
+        "belum valid"}${key < stateKeys.length - 1 ? ", " : ""}`
     }
   })
 
@@ -117,17 +132,17 @@ export function stateValidatorChecker({
       is_valid = false
       nextState[`${n}_validate`] = {
         is_valid: false,
-        message: 'input wajib diisi'
+        message: "input wajib diisi"
       }
       error_message += `${n} wajib diisi${
-        key < requiredInputs.length - 1 ? ', ' : ''
+        key < requiredInputs.length - 1 ? ", " : ""
       }`
     }
   })
 
   if (!is_valid) {
-    Toast(true, error_message, 'error')
-    console.warn('state validator', {
+    Toast(true, error_message, "error")
+    console.warn("state validator", {
       state: nextState,
       is_valid,
       error_message
@@ -135,9 +150,9 @@ export function stateValidatorChecker({
   }
 
   setState(nextState, () => {
-    const errorEl = document.getElementsByClassName('error')
-    if(errorEl && errorEl[0]) {
-      errorEl[0].scrollIntoView({ block: 'end', behavior: 'smooth' })
+    const errorEl = document.getElementsByClassName("error")
+    if (errorEl && errorEl[0]) {
+      errorEl[0].scrollIntoView({ block: "end", behavior: "smooth" })
     }
   })
 

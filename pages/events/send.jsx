@@ -51,6 +51,7 @@ class SendEvent extends React.Component {
       if (this.state.coords)
         params.location_coordinate = JSON.stringify(this.state.coords)
       if (this.state.note) params.note = this.state.note
+      if (this.state.gpx) params.gpx = this.state.gpx
 
       // console.log("send events", params)
       this.props.dispatch(createEvent(params))
@@ -100,6 +101,16 @@ class SendEvent extends React.Component {
                   />
 
                   <h2>Tentang Event Gowes</h2>
+                  <InputFile
+                    label="Poster Event Gowes"
+                    name="poster"
+                    id="input-poster"
+                    value={this.state.poster || ""}
+                    validate={this.state.poster_validate || {}}
+                    preview={this.state.poster_preview}
+                    setState={(n, cb) => this.setState(n, cb)}
+                    accept="image/*"
+                  />
                   <InputText
                     label="Judul Event Gowes"
                     type="text"
@@ -123,6 +134,15 @@ class SendEvent extends React.Component {
                     label="Lokasi Start / Meetpoint Gowes"
                     setState={(n, cb) => this.setState(n, cb)}
                   />
+                  <InputFile
+                    label="Upload GPX untuk menampilkan rute"
+                    name="gpx"
+                    max={5000000}
+                    value={this.state.gpx || ""}
+                    validate={this.state.gpx_validate || {}}
+                    setState={(n, cb) => this.setState(n, cb)}
+                    accept="*.gpx"
+                  />
                   <InputText
                     label="Link website / sosial media"
                     type="url"
@@ -139,16 +159,6 @@ class SendEvent extends React.Component {
                     validate={this.state.note_validate || {}}
                     setState={(ns, cb) => this.setState(ns, cb)}
                     name="note"
-                  />
-                  <InputFile
-                    label="Poster"
-                    name="poster"
-                    id="input-poster"
-                    value={this.state.poster || ""}
-                    validate={this.state.poster_validate || {}}
-                    preview={this.state.poster_preview}
-                    setState={(n, cb) => this.setState(n, cb)}
-                    accept="image/*"
                   />
                   <Submit
                     onClick={() => this.submitHandler()}
