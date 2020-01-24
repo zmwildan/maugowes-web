@@ -78,12 +78,14 @@ class EventDetail extends React.Component {
             )}
           </div>
         </div>
+
+        {/* event start location row */}
         <div className="grid mb-25">
           <div className="col-3 text-bold">Event Location</div>
           <div className="col-9">{eventData.location.address || "-"}</div>
         </div>
         <div className="grid mb-25">
-          <div className="col-3 text-bold">Map</div>
+          <div className="col-3" />
           <div className="col-9">
             <InputLocation
               readOnly
@@ -97,6 +99,26 @@ class EventDetail extends React.Component {
             </a>
           </div>
         </div>
+        {/* end of event start location row */}
+
+        {/* event gpx */}
+        <div className="grid mb-25">
+          <div className="col-3 text-bold">Event GPX</div>
+          <div className="col-9">
+            {eventData.geoJSON ? (
+              <InputLocation
+                name="geoJSON"
+                readOnly
+                coordinate={eventData.location.coordinate}
+                geoJSON={eventData.geoJSON}
+              />
+            ) : (
+              "-"
+            )}
+          </div>
+        </div>
+        {/* end of event gpx */}
+
         {eventData.event_status === "waiting" ? (
           <div className="grid">
             <div className="col-9 d-flex" data-push-left="off-3">

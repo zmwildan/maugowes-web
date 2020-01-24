@@ -1,17 +1,17 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { fetchEvents, fetchMoreEvents } from '../../../redux/events/actions'
+import React from "react"
+import { connect } from "react-redux"
+import { fetchEvents, fetchMoreEvents } from "../../../redux/events/actions"
 
 // components
-import GlobalLayout from '../../../components/layouts/Global'
-import DefaultLayout from '../../../components/layouts/Default'
-import SuperLayout from '../../../components/layouts/Super'
-import PageHeader from '../../../components/boxs/PageHeader'
-import EventBox from '../../../components/super/boxs/EventBox'
-import { requestQueryGenerator } from '../../events/index'
+import GlobalLayout from "../../../components/layouts/Global"
+import DefaultLayout from "../../../components/layouts/Default"
+import SuperLayout from "../../../components/layouts/Super"
+import PageHeader from "../../../components/boxs/PageHeader"
+import EventBox from "../../../components/super/boxs/EventBox"
+import { requestQueryGenerator } from "../../events/index"
 
 const MaxResults = 6
-let StoreFilter = 'super'
+let StoreFilter = "super"
 
 class EventLists extends React.Component {
   state = {
@@ -24,7 +24,8 @@ class EventLists extends React.Component {
       let reqQuery = requestQueryGenerator(this.props.query)
       reqQuery = {
         ...reqQuery,
-        status: 'all'
+        show_all: 1,
+        status: "all"
       }
       reqQuery.showDraft = true
       this.props.dispatch(fetchEvents(StoreFilter, reqQuery))
@@ -43,7 +44,7 @@ class EventLists extends React.Component {
             limit: MaxResults,
             page: this.state.page,
             showDraft: true,
-            status: 'all'
+            status: "all"
           }
 
           return this.props.dispatch(fetchMoreEvents(StoreFilter, reqQuery))
@@ -53,7 +54,7 @@ class EventLists extends React.Component {
   }
 
   render() {
-    const title = 'Events Management'
+    const title = "Events Management"
     return (
       <GlobalLayout metadata={{ title }}>
         <DefaultLayout>
@@ -61,7 +62,7 @@ class EventLists extends React.Component {
             <div className="p-t-b-30">
               <PageHeader title={title} />
               <EventBox
-                data={this.props.events.super || ''}
+                data={this.props.events.super || ""}
                 loadmoreHandler={() => this.loadmoreHandler()}
                 maxResults={MaxResults}
               />

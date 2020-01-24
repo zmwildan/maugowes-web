@@ -17,13 +17,10 @@ const DEFAULT_LOCATION = {
   lng: 106.8272
 }
 
-let MyMap = null
-let MarkerLayer
-
 const InputLocation = Styled.div`
 position: relative;
 margin-bottom: 20px;
-#render-map {
+.render-map {
   height: 400px;
 }
 .location-recomendation  {
@@ -50,6 +47,8 @@ let reqSearchTimeout = null
 class LocationPicker extends React.Component {
   constructor(props) {
     super(props)
+    this.MyMap = null
+    this.MarkerLayer = null
     this.state = {
       locationStatus: null,
       coords: null,
@@ -57,6 +56,7 @@ class LocationPicker extends React.Component {
       searchResults: {}
     }
     this.savePositionToState = this.savePositionToState.bind(this)
+    this.renderMap = this.renderMap.bind(this)
   }
 
   componentDidMount() {
@@ -97,8 +97,8 @@ class LocationPicker extends React.Component {
   }
 
   componentWillUnmount() {
-    // reset MyMap initial
-    MyMap = null
+    // reset this.MyMap initial
+    this.MyMap = null
   }
 
   getLocation() {
@@ -191,25 +191,29 @@ class LocationPicker extends React.Component {
     console.log("rendering map", { lat, lng })
 
     // only render map one time
-    if (!MyMap) {
+    if (!this.MyMap) {
       // ref: https://leafletjs.com/
       // set lat, lng and zoom
       // map focus and zoom
-      MyMap = L.map("render-map", {
+      this.MyMap = L.map(this.props.name || "render-map", {
         scrollWheelZoom: false
       }).setView([lat, lng], 17)
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(MyMap)
+      }).addTo(this.MyMap)
 
-      // render marker
-      this.renderMarker({ lat, lng })
-
+      // render geo json (if available)
+      if (this.props.geoJSON) {
+        this._renderGeoJSON(this.props.geoJSON)
+      } else {
+        // render marker
+        this.renderMarker({ lat, lng })
+      }
       // click event listener
       if (!readOnly) {
-        MyMap.on("click", e => {
+        this.MyMap.on("click", e => {
           const lat = e.latlng.lat
           const lng = e.latlng.lng
 
@@ -234,15 +238,46 @@ class LocationPicker extends React.Component {
         })
       }
     } else {
-      MyMap.setView([lat, lng])
-      this.renderMarker({ lat, lng })
+      this.MyMap.setView([lat, lng])
+      if (this.props.geoJSON) {
+        // render geo json (if available)
+        this._renderGeoJSON(geoJSON)
+      } else {
+        // default render marker
+        this.renderMarker({ lat, lng })
+      }
     }
   }
 
   renderMarker({ lat, lng }) {
-    if (MarkerLayer) MyMap.removeLayer(MarkerLayer)
+    if (this.MarkerLayer) this.MyMap.removeLayer(this.MarkerLayer)
 
-    return (MarkerLayer = L.marker([lat, lng]).addTo(MyMap))
+    return (this.MarkerLayer = L.marker([lat, lng]).addTo(this.MyMap))
+  }
+
+  _renderGeoJSON(geoJSONData) {
+    this.geoJSON = L.geoJSON(geoJSONData).addTo(this.MyMap)
+
+    // focus map to the geoJSON bounds
+    // ref: https://stackoverflow.com/a/33261633
+    const bounds = this.geoJSON.getBounds()
+    this.MyMap.fitBounds(bounds)
+
+    // add start and finish marker
+    const lineString = geoJSONData.features[0].geometry.coordinates
+    // console.log(lineString[0], lineString[lineString.length - 1])
+    // start marker
+    this.markerStartGPX = L.marker([lineString[0][1], lineString[0][0]]).addTo(
+      this.MyMap
+    )
+    this.markerStartGPX.bindPopup("Start Line").openPopup()
+
+    // end marker
+    this.markerEndGPX = L.marker([
+      lineString[lineString.length - 1][1],
+      lineString[lineString.length - 1][0]
+    ]).addTo(this.MyMap)
+    this.markerEndGPX.bindPopup("Finish Line")
   }
 
   savePositionToState(coords) {
@@ -252,7 +287,7 @@ class LocationPicker extends React.Component {
       },
       () => {
         this.props.setState({ coords })
-        setTimeout(() => this.renderMap(coords), MyMap ? 0 : 1500)
+        setTimeout(() => this.renderMap(coords), this.MyMap ? 0 : 1500)
       }
     )
   }
@@ -332,7 +367,7 @@ class LocationPicker extends React.Component {
           </React.Fragment>
         )}
 
-        <div id="render-map" />
+        <div className="render-map" id={this.props.name || "render-map"} />
       </InputLocation>
     )
   }

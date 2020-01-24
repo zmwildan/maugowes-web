@@ -1,8 +1,7 @@
 const { generateCustomUrl } = require("../modules/cloudinary")
-const { toSlug } = require('string-manager')
+const { toSlug } = require("string-manager")
 
 module.exports = {
-
   event: (n = {}) => {
     return {
       id: n._id,
@@ -16,7 +15,12 @@ module.exports = {
       location: {
         address: n.location_address || null,
         coordinate: n.location_coordinate
-          ? JSON.parse(n.location_coordinate.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": '))
+          ? JSON.parse(
+              n.location_coordinate.replace(
+                /(['"])?([a-z0-9A-Z_]+)(['"])?:/g,
+                '"$2": '
+              )
+            )
           : null
       },
       note: n.note,
@@ -27,7 +31,8 @@ module.exports = {
         "600": generateCustomUrl(n.poster, "w_600,c_scale")
       },
       views: n.views || 1,
-      is_ended: new Date().getTime() > n.start_time
+      is_ended: new Date().getTime() > n.start_time,
+      geoJSON: n.geoJSON || null
     }
   }
 }
