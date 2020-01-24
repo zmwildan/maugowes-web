@@ -1,14 +1,6 @@
 import React from "react"
-// import Styled from 'styled-components'
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
-// import { toCamelCase } from 'string-manager'
-// import {
-//   color_gray_dark,
-//   color_gray_soft,
-//   color_blue_main,
-//   color_white_main
-// } from '../../components/Const'
 import DayJs from "dayjs"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
@@ -183,7 +175,7 @@ class EventDetail extends React.Component {
 
                     <article
                       className="blog-detail_content"
-                      style={{ padding: "40px 0 50px" }}>
+                      style={{ padding: "40px 0 0" }}>
                       <p>
                         <strong>Waktu : </strong>
                         <br />
@@ -205,29 +197,42 @@ class EventDetail extends React.Component {
                           </React.Fragment>
                         ) : null}
                       </p>
+
                       {data.location && data.location.address ? (
                         <p>
                           <strong>Lokasi event : </strong>
                           <br />
                           {data.location.address}
+                          <InputLocation
+                            name="location"
+                            label="Lokasi Start / Meetpoint Gowes"
+                            readOnly
+                            coordinate={data.location.coordinate}
+                          />
+
+                          <a
+                            href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
+                            target="_blank"
+                            rel="noopener noreferer">
+                            Lihat di Google Maps
+                          </a>
+                        </p>
+                      ) : null}
+
+                      {data.geoJSON ? (
+                        <p>
+                          <strong>Rute : </strong>
+                          <br />
+                          <InputLocation
+                            name="Rute"
+                            label="Rute"
+                            readOnly
+                            geoJSON={data.geoJSON}
+                            coordinate={data.location.coordinate}
+                          />
                         </p>
                       ) : null}
                     </article>
-
-                    <InputLocation
-                      name="location"
-                      label="Lokasi Start / Meetpoint Gowes"
-                      setState={(n, cb) => this.setState(n, cb)}
-                      readOnly
-                      coordinate={data.location.coordinate}
-                    />
-
-                    <a
-                      href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
-                      target="_blank"
-                      rel="noopener noreferer">
-                      Lihat di Google Maps
-                    </a>
                   </div>
                 </div>
 

@@ -1,13 +1,10 @@
-import { GET_EVENTS, GET_MORE_EVENTS, SUBMIT_FORM } from './actions'
+import { GET_EVENTS, GET_MORE_EVENTS, SUBMIT_FORM } from "./actions"
 import {
   receiveDataByFilter,
   receiveMoreDataByFilter
-} from '../modules/reducerHandler'
+} from "../modules/reducerHandler"
 
-export default (
-  state = {},
-  action
-) => {
+export default (state = {}, action) => {
   if (!state[action.filter]) state[action.filter] = {}
 
   switch (action.type) {

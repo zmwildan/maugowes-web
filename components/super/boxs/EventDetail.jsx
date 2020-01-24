@@ -7,7 +7,7 @@ import { setStatus } from "../../../redux/events/actions"
 // components
 import InputLocation from "../../form/InputLocation"
 import DayJs from "../../../modules/dayjs"
-import Button from "../../buttons"
+import Submit from "../../form/Submit"
 import Label from "../../labels"
 const EventDetailStyle = Style.div`
 	.text-bold{
@@ -43,7 +43,9 @@ class EventDetail extends React.Component {
     this.props.dispatch(setStatus(this.props.eventData.id, formData))
   }
   render() {
+    const { formResponse = {} } = this.props
     const { eventData } = this.props
+    const is_loading = formResponse.is_loading || formResponse.status == 200
     return (
       <EventDetailStyle>
         <div className="grid mb-25">
@@ -119,22 +121,23 @@ class EventDetail extends React.Component {
         </div>
         {/* end of event gpx */}
 
-        {eventData.event_status === "waiting" ? (
-          <div className="grid">
-            <div className="col-9 d-flex" data-push-left="off-3">
-              <Button
-                text="Accept"
-                style={{ marginRight: 10 }}
-                onClick={() => this.handleClick("accept")}
-              />
-              <Button
-                text="Reject"
-                color="white"
-                onClick={() => this.handleClick("reject")}
-              />
-            </div>
+        <div className="grid">
+          <div className="col-9 d-flex" data-push-left="off-3">
+            <Submit
+              onClick={() => this.handleClick("accept")}
+              loading={is_loading}
+              text="Terima"
+              color="white"
+              style={{ marginRight: 10 }}
+            />
+            <Submit
+              onClick={() => this.handleClick("reject")}
+              loading={is_loading}
+              color="red"
+              text="Tolak"
+            />
           </div>
-        ) : null}
+        </div>
       </EventDetailStyle>
     )
   }
