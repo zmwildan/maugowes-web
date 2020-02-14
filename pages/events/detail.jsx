@@ -1,4 +1,5 @@
 import React from "react"
+import Styled from "styled-components"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import DayJs from "dayjs"
@@ -17,6 +18,12 @@ import EyeIcon from "../../components/icons/Eye"
 import { BlogDetailStyled } from "../blog/detail"
 import InputLocation from "../../components/form/InputLocation"
 import Label from "../../components/labels"
+
+const EventDetailStyled = Styled(BlogDetailStyled)`
+  strong.title {
+    font-size: 25px;
+  }
+`
 
 function getId(title) {
   let titleArr = title.split("-")
@@ -102,7 +109,7 @@ class EventDetail extends React.Component {
     return (
       <GlobalLayout metadata={metadata}>
         <DefaultLayout>
-          <BlogDetailStyled className="blog-detail">
+          <EventDetailStyled className="blog-detail">
             {!data.status ? (
               <Loader />
             ) : data.status === 200 ? (
@@ -177,12 +184,12 @@ class EventDetail extends React.Component {
                       className="blog-detail_content"
                       style={{ padding: "40px 0 0" }}>
                       <p>
-                        <strong>Waktu : </strong>
+                        <strong className="title">Waktu : </strong>
                         <br />
                         {DayJs(data.start_time).format("DD MMMM YYYY HH:mm")}
                       </p>
                       <p>
-                        <strong>Catatan : </strong>
+                        <strong className="title">Catatan : </strong>
                         <br />
                         {data.note || "Tidak ada catatan"}
                         <br />
@@ -200,7 +207,7 @@ class EventDetail extends React.Component {
 
                       {data.location && data.location.address ? (
                         <p>
-                          <strong>Lokasi event : </strong>
+                          <strong className="title">Lokasi event : </strong>
                           <br />
                           {data.location.address}
                           <InputLocation
@@ -221,7 +228,7 @@ class EventDetail extends React.Component {
 
                       {data.geoJSON ? (
                         <p>
-                          <strong>Rute : </strong>
+                          <strong className="title">Rute : </strong>
                           <br />
                           <InputLocation
                             name="Rute"
@@ -262,7 +269,7 @@ class EventDetail extends React.Component {
             ) : (
               <Loader text={data.messages} />
             )}
-          </BlogDetailStyled>
+          </EventDetailStyled>
         </DefaultLayout>
       </GlobalLayout>
     )
