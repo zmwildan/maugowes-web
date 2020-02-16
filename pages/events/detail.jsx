@@ -119,9 +119,10 @@ class EventDetail extends React.Component {
                   adClient="ca-pub-4468477322781117"
                   adSlot="4316048838"
                 />
+
                 <div className="grid-center">
                   <div className="col-7_xs-12">
-                    <h1>
+                    <h1 style={{ marginBottom: -10 }}>
                       {data.title}{" "}
                       {data.is_ended ? (
                         <Label
@@ -135,7 +136,6 @@ class EventDetail extends React.Component {
                         />
                       ) : null}
                     </h1>
-
                     {/* post meta */}
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
@@ -176,13 +176,16 @@ class EventDetail extends React.Component {
                       </span>
                     </div>
                     {/* end of post meta */}
-                    <div className="blog-detail_main-image">
-                      <img src={data.poster.original} alt={data.title} />
-                    </div>
+                  </div>
+                </div>
 
-                    <article
-                      className="blog-detail_content"
-                      style={{ padding: "40px 0 0" }}>
+                <article className="blog-detail_content">
+                  <div className="grid-center">
+                    <div className="col-7_xs-12" style={{ paddingBottom: 0 }}>
+                      <div className="blog-detail_main-image">
+                        <img src={data.poster.original} alt={data.title} />
+                      </div>
+
                       <p>
                         <strong className="title">Waktu : </strong>
                         <br />
@@ -204,44 +207,52 @@ class EventDetail extends React.Component {
                           </React.Fragment>
                         ) : null}
                       </p>
+                    </div>
+                  </div>
 
+                  {/* maps */}
+
+                  <div className="grid-center">
+                    <div className="col-7_xs-12">
                       {data.location && data.location.address ? (
-                        <p>
-                          <strong className="title">Lokasi event : </strong>
+                        <React.Fragment>
+                          <strong className="title">Titik Start : </strong>
                           <br />
-                          {data.location.address}
-                          <InputLocation
-                            name="location"
-                            label="Lokasi Start / Meetpoint Gowes"
-                            readOnly
-                            coordinate={data.location.coordinate}
-                          />
-
+                          {data.location.address}{" "}
                           <a
                             href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
                             target="_blank"
                             rel="noopener noreferer">
-                            Lihat di Google Maps
+                            Lihat Titik Start di Google Maps
                           </a>
-                        </p>
+                        </React.Fragment>
                       ) : null}
-
+                    </div>
+                    <div className="col-10_xs-12">
                       {data.geoJSON ? (
-                        <p>
-                          <strong className="title">Rute : </strong>
-                          <br />
-                          <InputLocation
-                            name="Rute"
-                            label="Rute"
-                            readOnly
-                            geoJSON={data.geoJSON}
-                            coordinate={data.location.coordinate}
-                          />
-                        </p>
+                        <InputLocation
+                          readOnly
+                          geoJSON={data.geoJSON}
+                          coordinate={data.location.coordinate}
+                          markers={[
+                            {
+                              name: "titik start",
+                              coordinate: data.location.coordinate
+                            }
+                          ]}
+                          noLabel
+                        />
+                      ) : data.location && data.location.coordinate ? (
+                        <InputLocation
+                          readOnly
+                          coordinate={data.location.coordinate}
+                          noLabel
+                        />
                       ) : null}
-                    </article>
+                    </div>
                   </div>
-                </div>
+                </article>
+                {/* end of maps */}
 
                 <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
 

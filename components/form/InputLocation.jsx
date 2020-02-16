@@ -47,6 +47,7 @@ let reqSearchTimeout = null
 class LocationPicker extends React.Component {
   constructor(props) {
     super(props)
+    this.Markers = []
     this.MyMap = null
     this.MarkerLayer = null
     this.state = {
@@ -81,7 +82,7 @@ class LocationPicker extends React.Component {
             lng: coordinate.lng || coordinate.lon,
             readOnly
           }),
-        1000
+        1500
       )
     } else {
       this.getLocation()
@@ -188,8 +189,6 @@ class LocationPicker extends React.Component {
   }
 
   renderMap({ lat, lng, readOnly = false }) {
-    console.log("rendering map", { lat, lng })
-
     // only render map one time
     if (!this.MyMap) {
       // ref: https://leafletjs.com/
@@ -211,6 +210,12 @@ class LocationPicker extends React.Component {
         // render marker
         this.renderMarker({ lat, lng })
       }
+
+      // render markers from props
+      if (this.props.markers) {
+        this._renderMarkers(this.props.markers)
+      }
+
       // click event listener
       if (!readOnly) {
         this.MyMap.on("click", e => {
@@ -264,20 +269,18 @@ class LocationPicker extends React.Component {
     this.MyMap.fitBounds(bounds)
 
     // add start and finish marker
-    const lineString = geoJSONData.features[0].geometry.coordinates
-    // console.log(lineString[0], lineString[lineString.length - 1])
-    // start marker
-    this.markerStartGPX = L.marker([lineString[0][1], lineString[0][0]]).addTo(
-      this.MyMap
-    )
-    this.markerStartGPX.bindPopup("Start Line").openPopup()
+    // const lineString = geoJSONData.features[0].geometry.coordinates
+  }
 
-    // end marker
-    this.markerEndGPX = L.marker([
-      lineString[lineString.length - 1][1],
-      lineString[lineString.length - 1][0]
-    ]).addTo(this.MyMap)
-    this.markerEndGPX.bindPopup("Finish Line")
+  _renderMarkers(markerData = []) {
+    markerData.map((n, key) => {
+      const marker = L.marker([n.coordinate.lat, n.coordinate.lng]).addTo(
+        this.MyMap
+      )
+      if (key == 0) marker.bindPopup(n.name).openPopup()
+      else marker.bindPopup(n.name)
+      this.Markers.push(marker)
+    })
   }
 
   savePositionToState(coords) {
@@ -294,7 +297,7 @@ class LocationPicker extends React.Component {
 
   render() {
     const { onSearchTyping, searchResults } = this.state
-    const { readOnly } = this.props
+    const { readOnly, noLabel } = this.props
     return (
       <InputLocation className="location-picker form-child">
         {readOnly ? null : (
