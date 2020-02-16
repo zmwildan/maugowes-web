@@ -78,6 +78,7 @@ module.exports = {
    * @param {string} req.body.location_coordinates
    * @param {string} req.body.note
    * @param {string} req.files.poster
+   * @param {string} req.files.gpx
    */
   addEvent(req, res, callback) {
     const {
@@ -180,6 +181,93 @@ module.exports = {
         "https://res.cloudinary.com/dhjkktmal/image/upload/v1574004879/maugowes/2019/61836828_294185834796563_491780751893725184_o.png"
       return this.insertIntoEvent(params, callback)
     }
+  },
+
+  /**
+   * function to update event
+   * @param {string} req.body.email
+   * @param {string} req.body.title
+   * @param {string} req.body.link
+   * @param {string} req.body.location_address
+   * @param {string} req.body.location_coordinates
+   * @param {string} req.body.note
+   * @param {string} req.files.poster
+   * @param {string} req.files.gpx
+   */
+  updateEvent(req, res, callback) {
+    let id = req.params.event_id
+    if (id && id.length != 24) {
+      if (req.no_count) return callback()
+      return callback({ status: 204, messages: "Event tidak ditemukan" })
+    }
+
+    id = ObjectId(id)
+
+    const {
+      email,
+      title,
+      link,
+      location_address,
+      location_coordinate = {},
+      note,
+      start_time
+    } = req.body
+    const { poster, gpx } = req.files
+    const currentTime = Math.round(new Date().getTime() / 1000)
+
+    // params insert into db
+    const params = {
+      email,
+      title,
+      link,
+      start_time,
+      location_address,
+      location_coordinate,
+      note,
+      update_on: currentTime
+    }
+
+    // if send gpx , generate geojson
+    if (typeof gpx != "undefined") {
+      // ref: https://stackoverflow.com/a/48809708
+      console.log("gpx", gpx)
+      const gpxAbsolutePath = path.resolve(gpx.path)
+      const gpxXML = new XMLDomParser().parseFromString(
+        fs.readFileSync(gpxAbsolutePath, "utf8")
+      )
+      params.geoJSON = toGeoJson.gpx(gpxXML)
+    }
+
+    mongo(({ db, client }) => {
+      // db execution
+      // upload poster process
+      if (typeof poster != "undefined") {
+        const filename = file.encName(poster)
+        const upload_path = `maugowes/${new Date().getFullYear()}/${filename}`
+
+        // start upload to cloudinary
+        return cloudinary.upload(poster.path, upload_path, (err, result) => {
+          if (err) {
+            console.err("cloudinary upload error", err)
+          } else {
+            // insert into database
+            params.poster = result.secure_url
+            db.collection("events").update({ _id: id }, { $set: params })
+            return callback({
+              status: 200,
+              message: "Update event success"
+            })
+          }
+        })
+      } else {
+        // default poster
+        db.collection("events").update({ _id: id }, { $set: params })
+        return callback({
+          status: 200,
+          message: "Update event success"
+        })
+      }
+    })
   },
 
   /**

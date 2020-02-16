@@ -1,17 +1,20 @@
 import React from "react"
 import Styled from "styled-components"
+import DayJs from "dayjs"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
+
+// redux
+import { connect } from "react-redux"
+import { fetchEventDetail } from "../../redux/events/actions"
+
+// components
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
-import DayJs from "dayjs"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 import GA from "../../components/boxs/GA"
-
-import { connect } from "react-redux"
-import { fetchEventDetail } from "../../redux/events/actions"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import ShareIcon from "../../components/icons/Share"
 import CommentIcon from "../../components/icons/Comment"
 import EyeIcon from "../../components/icons/Eye"

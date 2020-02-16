@@ -122,20 +122,39 @@ class EventDetail extends React.Component {
         {/* end of event gpx */}
 
         <div className="grid">
-          <div className="col-9 d-flex" data-push-left="off-3">
-            <Submit
-              onClick={() => this.handleClick("accept")}
-              loading={is_loading}
-              text="Terima"
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-            <Submit
-              onClick={() => this.handleClick("reject")}
-              loading={is_loading}
-              color="red"
-              text="Tolak"
-            />
+          <div
+            className="col-9 d-flex"
+            data-push-left="off-3"
+            style={{ position: "relative" }}>
+            {/* show on waiting and accept */}
+            {eventData.event_status == "accept" ||
+            eventData.event_status != "reject" ? (
+              <Submit
+                onClick={() => this.handleClick("reject")}
+                loading={is_loading}
+                color="red"
+                text="Tolak"
+                style={{ marginRight: 10 }}
+              />
+            ) : null}
+            {eventData.event_status == "reject" ||
+            eventData.event_status != "accept" ? (
+              <Submit
+                onClick={() => this.handleClick("accept")}
+                loading={is_loading}
+                text="Terima"
+                color="white"
+                style={{ marginRight: 10 }}
+              />
+            ) : null}
+
+            {/* link to update event */}
+            <a
+              style={{ position: "absolute", right: 0, top: "30%" }}
+              href={`/super/events/edit/${eventData.id}`}
+              rel="noreferer noopener">
+              Update Event
+            </a>
           </div>
         </div>
       </EventDetailStyle>

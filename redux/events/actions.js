@@ -87,6 +87,30 @@ export function createEvent(formdata = {}) {
 }
 
 /**
+ * @description function to create event
+ * @param {string} event_id event id
+ * @param {string} formdata.email eo email
+ * @param {string} formdata.title title of event
+ * @param {number || epochtime} formdata.start_time start time of event
+ * @param {string} formdata.location_address location of event
+ * @param {string} formdata.location_coordinate location coordinate of event
+ * @param {string} formdata.link link of event
+ * @param {string} formdata.note note of event
+ * @param {object} formdata.poster location coordinate of event
+ */
+export function updateEvent(formdata = {}, event_id) {
+  return {
+    [CALL_API]: {
+      formdata,
+      method: "PUT",
+      endpoint: `/api/events/${event_id}/${seal.generateSeal()}`,
+      filter: "submit_post",
+      type: SUBMIT_FORM
+    }
+  }
+}
+
+/**
  * @description function to change status of event
  * @param {string} formdata.status event status (accept || reject)
  * @param {string} formdata.note note status (only send if reject)
