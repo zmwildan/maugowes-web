@@ -57,7 +57,7 @@ class LocationPicker extends React.Component {
       searchResults: {}
     }
     this.savePositionToState = this.savePositionToState.bind(this)
-    this.renderMap = this.renderMap.bind(this)
+    this.renderMap = this._renderMap.bind(this)
   }
 
   componentDidMount() {
@@ -77,7 +77,7 @@ class LocationPicker extends React.Component {
     if (readOnly) {
       setTimeout(
         () =>
-          this.renderMap({
+          this._renderMap({
             lat: coordinate.lat,
             lng: coordinate.lng || coordinate.lon,
             readOnly
@@ -188,7 +188,7 @@ class LocationPicker extends React.Component {
     )
   }
 
-  renderMap({ lat, lng, readOnly = false }) {
+  _renderMap({ lat, lng, readOnly = false }) {
     // only render map one time
     if (!this.MyMap) {
       // ref: https://leafletjs.com/
@@ -290,14 +290,14 @@ class LocationPicker extends React.Component {
       },
       () => {
         this.props.setState({ coords })
-        setTimeout(() => this.renderMap(coords), this.MyMap ? 0 : 1500)
+        setTimeout(() => this._renderMap(coords), this.MyMap ? 0 : 1500)
       }
     )
   }
 
   render() {
     const { onSearchTyping, searchResults } = this.state
-    const { readOnly, noLabel } = this.props
+    const { readOnly } = this.props
     return (
       <InputLocation className="location-picker form-child">
         {readOnly ? null : (

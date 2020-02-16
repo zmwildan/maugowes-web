@@ -214,11 +214,13 @@ class EventDetail extends React.Component {
 
                   <div className="grid-center">
                     <div className="col-7_xs-12">
-                      {data.location && data.location.address ? (
+                      {data.location ? (
                         <React.Fragment>
                           <strong className="title">Titik Start : </strong>
                           <br />
-                          {data.location.address}{" "}
+                          {data.location.address ||
+                            `latitude: ${data.location.coordinate.lat}, longitude: ${data.location.coordinate.lng}`}
+                          <br />
                           <a
                             href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
                             target="_blank"
