@@ -6,6 +6,11 @@ module.exports = {
       res.json(json)
     })
   },
+  updateEvent: (req, res) => {
+    return eventModule.updateEvent(req, res, json => {
+      res.json(json)
+    })
+  },
   fetchEvents: (req, res) => {
     return eventModule.fetchEvents(req, res, json => {
       res.json(json)

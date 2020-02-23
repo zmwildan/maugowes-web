@@ -51,6 +51,7 @@ class LocationPicker extends React.Component {
     this.MyMap = null
     this.MarkerLayer = null
     this.state = {
+      address: this.props.address || "",
       locationStatus: null,
       coords: null,
       onSearchTyping: false,
@@ -74,7 +75,7 @@ class LocationPicker extends React.Component {
       crossorigin: "true"
     })
 
-    if (readOnly) {
+    if (readOnly || coordinate) {
       setTimeout(
         () =>
           this._renderMap({
