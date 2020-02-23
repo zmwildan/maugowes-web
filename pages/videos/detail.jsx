@@ -1,7 +1,8 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import { color_black_main, color_white_main } from "../../components/Const"
+import { nl2br } from "string-manager"
+// import { color_black_main, color_white_main } from "../../components/Const"
 import config from "../../config/index"
 
 // redux
@@ -24,6 +25,7 @@ const VideoDetailStyled = Styled.div`
     margin: 0 -8px;
     h1 {
       font-weight: 400;
+      line-height: 1.3;
     }
   }
 
@@ -188,9 +190,16 @@ class VideoDetail extends React.Component {
 
                 <div className="grid-center">
                   <div className="col-7_xs-12">
-                    <p style={{ lineHeight: 1.8, wordBreak: "break-all" }}>
-                      {data.description}
-                    </p>
+                    <p
+                      style={{
+                        lineHeight: 1.8,
+                        wordBreak: "break-all",
+                        padding: "25px 0 0"
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: nl2br(data.description)
+                      }}
+                    />
 
                     <div className="grid" id="share-box">
                       <div className="col-12">
