@@ -200,9 +200,7 @@ class EventDetail extends React.Component {
                         <br />
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: eventData.note.trim()
-                              ? nl2br(eventData.note)
-                              : "-"
+                            __html: data.note.trim() ? nl2br(data.note) : "-"
                           }}
                         />
                         <br />
