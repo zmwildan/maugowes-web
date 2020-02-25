@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import Style from "styled-components"
+import { nl2br } from "string-manager"
 
 //actions
 import { setStatus } from "../../../redux/events/actions"
@@ -60,7 +61,9 @@ class EventDetail extends React.Component {
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Note</div>
-          <div className="col-9">{eventData.note || "-"}</div>
+          <div className="col-9">
+            {eventData.note.trim() ? nl2br(eventData.note) : "-"}
+          </div>
         </div>
         <div className="grid mb-25">
           <div className="col-3 text-bold">Event Date</div>

@@ -3,6 +3,7 @@ import Styled from "styled-components"
 import DayJs from "dayjs"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
+import { nl2br } from "string-manager"
 
 // redux
 import { connect } from "react-redux"
@@ -197,7 +198,9 @@ class EventDetail extends React.Component {
                       <p>
                         <strong className="title">Catatan : </strong>
                         <br />
-                        {data.note || "Tidak ada catatan"}
+                        {data.note.trim()
+                          ? nl2br(data.note)
+                          : "Tidak ada catatan"}
                         <br />
                         {data.event_link ? (
                           <React.Fragment>
