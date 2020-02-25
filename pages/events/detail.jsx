@@ -198,9 +198,13 @@ class EventDetail extends React.Component {
                       <p>
                         <strong className="title">Catatan : </strong>
                         <br />
-                        {data.note.trim()
-                          ? nl2br(data.note)
-                          : "Tidak ada catatan"}
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: eventData.note.trim()
+                              ? nl2br(eventData.note)
+                              : "-"
+                          }}
+                        />
                         <br />
                         {data.event_link ? (
                           <React.Fragment>
