@@ -1,7 +1,7 @@
 import Head from "next/head"
 import React from "react"
 import Styled from "styled-components"
-import { color_black_main, color_blue_main } from "../Const"
+import { color_black_main, color_blue_main, color_gray_dark } from "../Const"
 
 const GlobalLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -10,6 +10,10 @@ const GlobalLayoutStyled = Styled.div`
   a {
     text-decoration: none;
     color: ${color_blue_main};
+  }
+
+  .text-muted {
+    color: ${color_gray_dark} !important;
   }
 
   // form components global style

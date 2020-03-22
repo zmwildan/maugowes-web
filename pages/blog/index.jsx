@@ -1,23 +1,23 @@
-import React from 'react'
-import Styled from 'styled-components'
-import { connect } from 'react-redux'
-import { fetchBlog, fetchMoreBlog } from '../../redux/blog/actions'
-import config from '../../config/index'
-import fetch from 'isomorphic-unfetch'
-import { objToQuery } from 'string-manager'
+import Styled from "styled-components"
+import { connect } from "react-redux"
+import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
+import { objToQuery } from "string-manager"
+
+// layouts
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
 
 // components
-import GlobalLayout from '../../components/layouts/Global'
-import DefaultLayout from '../../components/layouts/Default'
-import Header from '../../components/boxs/FullWidthHeader'
-import BlogBox from '../../components/boxs/BlogBox'
-import GA from '../../components/boxs/GA'
+import Header from "../../components/boxs/FullWidthHeader"
+import BlogBox from "../../components/boxs/BlogBox"
 
 const BlogStyled = Styled.div`
 
 `
 
-const StoreFilter = 'list'
+const StoreFilter = "list"
 const MaxResults = 6
 
 class Blog extends React.Component {
@@ -26,9 +26,9 @@ class Blog extends React.Component {
   }
 
   static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == 'undefined') {
+    if (typeof window == "undefined") {
       //  only call in server side
-      const { endpoint, type } = fetchBlog()['CALL_API']
+      const { endpoint, type } = fetchBlog()["CALL_API"]
       const reqQuery = requestQueryGenerator(query)
 
       const postsResponse = await fetch(
@@ -46,7 +46,7 @@ class Blog extends React.Component {
     }
 
     return {
-      tag: query.tag || '',
+      tag: query.tag || "",
       username: query.username,
       query
     }
@@ -82,7 +82,7 @@ class Blog extends React.Component {
 
   render() {
     const blog = this.props.blog[StoreFilter] || {}
-    let title = 'Blog - Mau Gowes'
+    let title = "Blog - Mau Gowes"
     if (this.props.tag) {
       title = `Postingan Dengan Tag "${this.props.tag}"`
     } else if (this.props.username) {
@@ -93,7 +93,7 @@ class Blog extends React.Component {
       <GlobalLayout
         metadata={{
           title,
-          description: 'Baca postingan terupdate seputar dunia pergowesan'
+          description: "Baca postingan terupdate seputar dunia pergowesan"
         }}>
         <DefaultLayout>
           <BlogStyled>

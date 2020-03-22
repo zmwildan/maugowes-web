@@ -8,11 +8,23 @@ module.exports = routes()
   .add("super_post_edit", "/super/blog/edit/:id", "/super/blog/form")
   .add("super_event_detail", "/super/events/detail/:id", "/super/events/detail")
   .add("super_event_edit", "/super/events/edit/:id", "/super/events/edit")
-  // public routes
+
+  // products routes
   .add("product_detail", "/product/:id", "product")
-  .add("blog_detail", "/blog/:id", "blog/detail")
+
+  // videos routes
   .add("video_detail", "/videos/:id", "videos/detail")
+
+  // blog routes
+  .add("blog_detail", "/blog/:id", "blog/detail")
   .add("blog_by_tag", "/blog/tag/:tag", "blog/index")
+
+  // author routes
   .add("author", "/author/:username", "blog/index")
+
+  // events reoutes
   .add("create_event", "/events/send", "events/send")
   .add("event_detail", "/events/:id", "events/detail")
+
+  // bikes routes
+  .add("bike_detail", "/bikes/:id", "bikes/detail")

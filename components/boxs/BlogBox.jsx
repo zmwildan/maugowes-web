@@ -1,4 +1,3 @@
-import React from "react"
 import Styled from "styled-components"
 import CardBlog from "../cards/CardBlog"
 import { color_blue_main } from "../Const"

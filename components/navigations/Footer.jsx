@@ -192,10 +192,7 @@ export default props => {
       <FooterPoweredBy>
         <strong>
           Powered by{" "}
-          <a
-            href="https://yussanmediagroup.org"
-            target="_blank"
-            rel="noopener noreferer">
+          <a href="https://byymg.com" target="_blank" rel="noopener noreferer">
             Yussan Media Group
           </a>
         </strong>

@@ -1,7 +1,12 @@
 import Styled from "styled-components"
-import { color_gray_dark, color_gray_medium, color_black_main } from "../Const"
+import {
+  color_gray_dark,
+  color_gray_medium,
+  color_black_main,
+  color_blue_main
+} from "../Const"
 
-const SidebarMarketplaceSytled = Styled.div`
+export const SidebarMarketplaceSytled = Styled.div`
   .sidebar-items {
     margin-bottom: 10px;
     padding-right: 20px;
@@ -20,6 +25,16 @@ const SidebarMarketplaceSytled = Styled.div`
         padding-bottom: 10px;
         border-bottom: solid 1px ${color_gray_medium};
         margin-bottom: 10px;
+
+        select {
+          border: 1px solid ${color_gray_dark};
+          padding: 10px;
+          color: ${color_gray_dark};
+          &:focus {
+           border: 2px solid ${color_blue_main};
+          }
+         }
+
         a {
           text-decoration: none;
           color: ${color_black_main};
@@ -27,6 +42,7 @@ const SidebarMarketplaceSytled = Styled.div`
           width: 100%;
           line-height: 1.5;
         }
+
         .subcategories {
           transition: max-height .5s ease-out;
           height: auto;

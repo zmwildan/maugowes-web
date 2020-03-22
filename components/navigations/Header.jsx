@@ -116,6 +116,11 @@ const AvailableMenu = [
     link: "/blog"
   },
   {
+    name: "Bikes",
+    pathname: "bikes",
+    link: "/bikes"
+  },
+  {
     name: "Events",
     pathname: "events",
     link: "/events"

@@ -1,9 +1,15 @@
 import React from "react"
 import Styled from "styled-components"
 import { validate } from "../../modules/validator"
-import { color_red_main, color_gray_medium, color_blue_main, color_gray_dark, color_black_main } from "../Const"
+import {
+  color_red_main,
+  color_gray_medium,
+  color_blue_main,
+  color_gray_dark,
+  color_black_main
+} from "../Const"
 
-const SelectStyled = Styled.div`
+export const SelectStyled = Styled.div`
   text-align: left;
   margin-bottom: 20px;
   &.error {
@@ -63,14 +69,7 @@ export default class Select extends React.Component {
   }
 
   render() {
-    const {
-      value,
-      label,
-      name,
-      validate,
-      autoFocus,
-      autoComplete
-    } = this.props
+    const { value, label, name, validate, autoFocus, autoComplete } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
     return (
       <SelectStyled className={`form-child ${!is_valid ? "error" : ""}`}>

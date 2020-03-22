@@ -8,7 +8,7 @@ const FullWidthHeaderStyled = Styled.div`
   width: 100%;
   background-size: cover !important;
   background-position: center! important;
-  padding: 150px 0;
+  padding: 90px 0;
   color: #FFF;
   text-align: center;
   h1{
@@ -59,6 +59,7 @@ class FullWidthHeader extends React.Component {
           <div className="container">
             <h1>{this.props.title}</h1>
             <h2 dangerouslySetInnerHTML={{ __html: this.props.text }} />
+            <small style={{ fontSize: 10 }}>image source: unsplash.com</small>
           </div>
         </FullWidthHeaderStyled>
         {/* spacers */}
