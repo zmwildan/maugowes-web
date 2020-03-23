@@ -86,11 +86,14 @@ const Button = props => {
   return (
     <ButtonStyled {...props} disabled={props.isDisabled}>
       {props.type === "link" ? (
-        <Link id={props.btnId || "id of button"} href={props.target} prefetch>
+        <Link id={props.btnId || "btn-id"} href={props.target} prefetch>
           <a href={props.target}>{props.text}</a>
         </Link>
       ) : (
-        <button id={props.btnId} type="button" onClick={() => props.onClick}>
+        <button
+          id={props.btnId || "btn-id"}
+          type="button"
+          onClick={() => props.onClick}>
           {props.text}
         </button>
       )}

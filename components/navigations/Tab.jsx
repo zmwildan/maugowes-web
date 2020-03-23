@@ -1,14 +1,17 @@
 import Styled from "styled-components"
-import { color_gray_medium, color_black_main } from "../Const"
+import { color_black_main, color_gray_dark } from "../Const"
 
 const TabStyled = Styled.div`
-  border-bottom: 1px solid ${color_gray_medium};
+  border-bottom: 1px solid ${color_gray_dark};
+  border-width: 2px;
   padding: 10px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
   .tab-item {
     cursor: pointer;
     padding: 10px 20px;
-    border-bottom: 1px solid ${color_gray_medium};
-    color: ${color_gray_medium};
+    border-bottom: 1px solid ${color_gray_dark};
+    color: ${color_gray_dark};
     text-transform: uppercase;
     letter-spacing: -.5px;
     font-size: 16px !important;

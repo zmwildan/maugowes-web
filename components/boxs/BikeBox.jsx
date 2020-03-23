@@ -40,11 +40,11 @@ line-height: 2;
  }
  .product-share {
   color: ${color_gray_dark};
-  display: flex;
-  align-items: center;
   padding: 20px 0;
   .product-share_icon {
     margin-right: 20px;
+    top: 5px;
+    position: relative;
   }
  }
 
@@ -100,7 +100,14 @@ const ProductBox = props => {
               <img src="https://img.icons8.com/android/20/000000/twitter.png" />
             </a>
           </div>
-          <Button color="blue" size="small" text="Komparasi" />
+          <Button
+            style={{ marginTop: 5 }}
+            color="blue"
+            size="small"
+            text="Komparasi"
+            type="link"
+            target="/bikes/compare"
+          />
         </div>
       </div>
     </ProductBoxStyled>
