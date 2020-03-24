@@ -1,5 +1,10 @@
 import Styled from "styled-components"
-import { color_red_main, color_white_main } from "../../components/Const"
+import {
+  color_red_main,
+  color_white_main,
+  color_gray_soft,
+  color_gray_medium
+} from "../../components/Const"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -8,6 +13,25 @@ import DefaultLayout from "../../components/layouts/Default"
 // components
 const BikesCompareStyled = Styled.div`
     margin-top: 50px;
+
+    ul.list-data {
+      line-height: 2;
+      padding: 0;
+      li {
+        height: 63px;
+        padding: 5px 10px;
+        list-style: none;
+        &:nth-child(even) {
+          background: ${color_gray_soft};
+        }
+        &:nth-child(odd) {
+          background: ${color_gray_medium};
+        }
+        strong {
+          margin-right: 20px;
+        }
+      }
+    }
     
     .bike-compare-search {
       margin-bottom: 30px;
@@ -27,6 +51,14 @@ const BikesCompareStyled = Styled.div`
     }
 
     .bike-compare-specs {
+      .bike-compare-left { 
+        margin-top: 220px;
+        h3:first-child {
+          margin-top: 0;
+        }
+      }
+
+      
       .bike-compare-right {
         overflow-x: auto;
         overflow-y: hidden;
@@ -59,9 +91,13 @@ const BikesCompareStyled = Styled.div`
             }
           }
           .bike-compare-right__item__content {
-            padding: 2.5px; 
-            background: #000;
             height: 1500px;
+            h3 {
+              &:first-child {
+                margin-top: 0;
+              }
+              color: #fff;
+            }
           }
         }
       }
@@ -97,16 +133,38 @@ class BikesCompare extends React.Component {
             </div>
             {/* end of input to search data */}
 
-            <div className="grid bike-compare-specs">
-              <div className="col-3 bike-compare-left">left side</div>
-              <div className="col-9 bike-compare-right">
-                <div className="grid" style={{ flexFlow: "unset" }}>
+            <div className="grid-noGutter bike-compare-specs">
+              {/* left side */}
+              <div className="col-3_xs-6 bike-compare-left">
+                <div className="bike-compare-left__item">
+                  <h3>Groupset</h3>
+                  <ul className="list-data">
+                    <li>
+                      <strong>Electric Sifter :</strong>
+                    </li>
+                    <li>
+                      <strong>Cassete :</strong>
+                    </li>
+                    <li>
+                      <strong>Electric Sifter :</strong>
+                    </li>
+                    <li>
+                      <strong>Cassete :</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {/* end of left side */}
+
+              {/* right side */}
+              <div className="col-9_xs-6 bike-compare-right">
+                <div className="grid-noGutter" style={{ flexFlow: "unset" }}>
                   {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(
                     (n, key) => {
                       return (
                         <div
                           key={key}
-                          className="col-3 bike-compare-right__item">
+                          className="col-3_md-6_xs-12 bike-compare-right__item">
                           <div
                             className="bike-compare-right__item__thumbnail"
                             style={{
@@ -120,7 +178,13 @@ class BikesCompare extends React.Component {
                             <h4>Pinarello F12 2020</h4>
                           </div>
                           <div className="bike-compare-right__item__content">
-                            ...
+                            <h3>Groupset</h3>
+                            <ul className="list-data">
+                              <li>yes, Shimano Di2</li>
+                              <li>12 speed, 10t - 28t</li>
+                              <li>yes, Shimano Di2</li>
+                              <li>12 speed, 10t - 28t</li>
+                            </ul>
                           </div>
                         </div>
                       )
@@ -128,6 +192,7 @@ class BikesCompare extends React.Component {
                   )}
                 </div>
               </div>
+              {/* end of right side */}
             </div>
           </BikesCompareStyled>
         </DefaultLayout>
