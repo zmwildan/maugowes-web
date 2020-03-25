@@ -1,6 +1,9 @@
 const express = require("express")
 const Router = express.Router()
 
+// Routes
+const BikesRoutes = require("./api/bikes")
+
 // handlers
 const VideoHandler = require("../handlers/video")
 const PostHandler = require("../handlers/post")
@@ -72,6 +75,9 @@ Router.post("/logout", AuthHandler.logout)
 
 // testers
 // Router.post("/test/sebangsa-post", PostHandler.sebangsaPostTest)
+
+// endpoint of : /api/bikes/*
+Router.use(BikesRoutes)
 
 Router.use("*", (req, res, next) => {
   return res.json({
