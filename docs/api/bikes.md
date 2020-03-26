@@ -37,7 +37,7 @@ Endpoint to request list of bike brand
 **Request**
 
 - method : GET
-- endpoint : `/api/bikes-brand/:seal`
+- endpoint : `/api/bike-brands/:seal`
 
 ### Bike Brand Type
 
@@ -46,7 +46,7 @@ Endpoint to request list of bike type
 **Request**
 
 - method : GET
-- endpoint : `/api/bikes-type/:seal`
+- endpoint : `/api/bike-types/:seal`
 
 ## Bikes Super Only
 

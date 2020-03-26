@@ -17,12 +17,14 @@ module.exports = {
 
   // function to handle endpoint /api/bike-types/:/id/:seal
   getBikeTypes: (req, res) => {
-    return {}
+    return bikeModule.getBikeTypes(req, res, json => {
+      res.json(json)
+    })
   },
 
   // function to handle endpoint /api/bike-brands/:/id/:seal
   getBikeBrands: (req, res) => {
-    return bikeModule.getBikeBrands(req, req, json => {
+    return bikeModule.getBikeBrands(req, res, json => {
       res.json(json)
     })
   }
