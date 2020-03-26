@@ -180,10 +180,44 @@ module.exports = {
   },
 
   /**
+   * function to fetch bike brands
+   */
+  getBikeBrands(req, res, callback) {
+    return mongo(({ db, client }) => {
+      db.collection("bikes_brands")
+        .find({})
+        .toArray((err, results) => {
+          // found error on from database
+          if (err) {
+            console.log("MongoDB Error", err)
+          }
+
+          if (results.length < 1) {
+            return callback({
+              status: 204,
+              messages: "Sepeda tidak ditemukan"
+            })
+          }
+
+          results.map((n, key) => {
+            n.id = n._id
+            delete n._id
+          })
+
+          // return as array
+          return callback({
+            status: 200,
+            results
+          })
+        })
+    })
+  },
+
+  /**
    * function to list all specs groups
    */
   getSpecsGroup(req, res, callback) {
-    return mongo(({db, client}) => {
+    return mongo(({ db, client }) => {
       db.collection("bikes_specs_groups")
     })
   }

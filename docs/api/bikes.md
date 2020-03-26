@@ -23,12 +23,30 @@
 
 ### Bike Detail
 
-**Request**
-
 Endpoint to request bike detail based on bike id
+
+**Request**
 
 - method : GET
 - endpoint: `/api/bikes/:id/:seal`
+
+### Bike Brand List
+
+Endpoint to request list of bike brand
+
+**Request**
+
+- method : GET
+- endpoint : `/api/bikes-brand/:seal`
+
+### Bike Brand Type
+
+Endpoint to request list of bike type
+
+**Request**
+
+- method : GET
+- endpoint : `/api/bikes-type/:seal`
 
 ## Bikes Super Only
 
