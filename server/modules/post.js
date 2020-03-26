@@ -167,12 +167,13 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "postingan tidak ditemukan"
+              messages: "Postingan tidak ditemukan"
             })
           }
 
           // transform result
           const author = result[0].author[0]
+
           result[0].author = author
           result = postTransformer.post(result[0])
 
@@ -188,6 +189,7 @@ module.exports = {
           }
           result.status = 200
           result.message = "success"
+
           return callback(result)
         })
     })

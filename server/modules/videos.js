@@ -26,9 +26,7 @@ module.exports = {
       // get video Youtube by id
       youtubeReq(
         "get",
-        `/youtube/v3/videos?id=${video_id}&part=snippet&key=${
-          process.env.GOOGLE_TOKEN
-        }`,
+        `/youtube/v3/videos?id=${video_id}&part=snippet&key=${process.env.GOOGLE_TOKEN}`,
         response => {
           // return callback(response.items.length)
           if (response.items && response.items.length > 0) {
@@ -110,7 +108,6 @@ module.exports = {
 
               // return results as json response
               if (results && results.length > 0) {
-
                 // transform data
                 results.map((n, key) => {
                   n = videoDbTransformer.video(n)
@@ -145,7 +142,7 @@ module.exports = {
       return callback({ status: 204, messages: "Video tidak ditemukan" })
     }
 
-    mongo(({ db, client }) => {
+    return mongo(({ db, client }) => {
       // list post and order by created_on
       db.collection("videos")
         .aggregate([

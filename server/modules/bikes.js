@@ -6,7 +6,10 @@ const bikeTransformer = require("../transformers/bikes")
 module.exports = {
   /**
    * function to fetch bikes
-   * @param {string}
+   * @param {number} req.query.page number of page
+   * @param {number} req.query.limit nuber of limit
+   * @param {string} req.query.type id of type
+   * @param {string} req.query.brand id of brand
    */
   getBikes(req, res, callback) {
     const { page = 1, limit = 7, type, brand } = req.query
@@ -52,8 +55,6 @@ module.exports = {
         $match: { brand_id: ObjectId(brand) }
       })
     }
-
-    console.log("aggregate", aggregate)
 
     mongo(({ db, client }) => {
       let countAggregate = Object.assign([], aggregate)
@@ -114,6 +115,76 @@ module.exports = {
               })
           })
         })
+    })
+  },
+
+  /**
+   * function to fetch bike by bikes id
+   */
+  getBike(req, res, callback) {
+    const { id } = req.params
+    // id validation
+    if (id && id.length != 24) {
+      return callback({ status: 204, messages: "Sepeda tidak ditemukan" })
+    }
+
+    let aggregate = [
+      {
+        $match: { _id: ObjectId(id) }
+      },
+      {
+        // join to bike brand using lookup
+        $lookup: {
+          from: "bikes_brands",
+          localField: "brand_id",
+          foreignField: "_id",
+          as: "brand"
+        }
+      },
+      {
+        // join to bike type using lookup
+        $lookup: {
+          from: "bikes_types",
+          localField: "type_id",
+          foreignField: "_id",
+          as: "type"
+        }
+      }
+    ]
+
+    return mongo(({ db, client }) => {
+      // request bike by bike id
+      db.collection("bikes")
+        .aggregate(aggregate)
+        .toArray((err, result) => {
+          // found error from database
+          if (err) {
+            console.log("MongoDB Error", err)
+          }
+
+          if (result.length < 1) {
+            if (req.no_count) return callback()
+            return callback({
+              status: 204,
+              messages: "Sepeda tidak ditemukan"
+            })
+          }
+
+          // transform result to standart version
+          return callback({
+            status: 200,
+            results: bikeTransformer.bike(result[0])
+          })
+        })
+    })
+  },
+
+  /**
+   * function to list all specs groups
+   */
+  getSpecsGroup(req, res, callback) {
+    return mongo(({db, client}) => {
+      db.collection("bikes_specs_groups")
     })
   }
 }
