@@ -1,4 +1,5 @@
 import Styled from "styled-components"
+import { scaleNumber, toSlug } from "string-manager"
 import { color_gray_dark, color_blue_main, color_black_main } from "../Const"
 
 const CardBikeStyled = Styled.div`
@@ -26,8 +27,8 @@ const CardBikeStyled = Styled.div`
  }
 `
 
-const CardBike = props => {
-  const linkTarget = "/bikes/pinarello-dogma-f12-dds3247ysdhsdf"
+const CardBike = ({ data }) => {
+  const linkTarget = `/bikes/${toSlug(data.name)}-${data.id}`
   return (
     <CardBikeStyled
       className="col-4"
@@ -39,12 +40,14 @@ const CardBike = props => {
       <div className="card-bike">
         <div
           className="card-bike__thumb"
-          style={{ backgroundImage: `url(/static/images/dummies/bike-1.jpg)` }}
+          style={{ backgroundImage: `url(${data.images})` }}
         />
         <div className="card-bike__text">
           <a href={linkTarget}>
-            <h3>Pinarello Dogma F12 2020</h3>
-            <small className="text-muted">estimasi Rp 200juta</small>
+            <h3>{data.name}</h3>
+            <small className="text-muted">
+              estimasi Rp {scaleNumber(data.estimated_price)}
+            </small>
           </a>
         </div>
       </div>
