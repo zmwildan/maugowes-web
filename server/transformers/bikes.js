@@ -46,5 +46,20 @@ module.exports = {
       name: n.name,
       estimated_price: n.estimated_price
     }
+  },
+  /**
+   * function to transform list specs from database to standart version
+   */
+  bikeSpecs: (specs = []) => {
+    let newSpecs = {}
+    specs.map((n, key) => {
+      if (!newSpecs[n.spec_group[0].name]) newSpecs[n.spec_group[0].name] = []
+      newSpecs[n.spec_group[0].name].push({
+        spec: n.spec[0].name,
+        description: n.description
+      })
+    })
+
+    return newSpecs
   }
 }

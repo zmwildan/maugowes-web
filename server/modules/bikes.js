@@ -163,6 +163,8 @@ module.exports = {
           }
 
           if (result.length < 1) {
+            // bike is found
+
             if (req.no_count) return callback()
             return callback({
               status: 204,
@@ -170,11 +172,50 @@ module.exports = {
             })
           }
 
-          // transform result to standart version
-          return callback({
-            status: 200,
-            results: bikeTransformer.bike(result[0])
-          })
+          // transform result as standart format
+          let bikeResults = bikeTransformer.bike(result[0])
+          bikeResults.status == 200
+
+          // get specs based on bike_id
+          const bikeRelationsAggregate = [
+            { $match: { bike_id: ObjectId(bikeResults.id) } },
+            // join to bikes_specs table
+            {
+              $lookup: {
+                from: "bikes_specs",
+                localField: "spec_id",
+                foreignField: "_id",
+                as: "spec"
+              }
+            },
+            // join to bikes_specs_group table
+            {
+              $lookup: {
+                from: "bikes_specs_groups",
+                localField: "spec.spec_group_id",
+                foreignField: "_id",
+                as: "spec_group"
+              }
+            }
+          ]
+
+          // join to bike specs group
+          return db
+            .collection("bikes_specs_relations")
+            .aggregate(bikeRelationsAggregate)
+            .toArray((err, bikeSpecsResults) => {
+              if (err) {
+                console.log("MongoDB Error", err)
+              }
+
+              // transform bike specs results to standart version
+              if (bikeSpecsResults.length > 1)
+                bikeSpecsResults = bikeTransformer.bikeSpecs(bikeSpecsResults)
+              bikeResults.specs = bikeSpecsResults
+
+              // transform result to standart version
+              return callback(bikeResults)
+            })
         })
     })
   },
