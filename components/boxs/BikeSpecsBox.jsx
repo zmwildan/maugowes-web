@@ -31,10 +31,11 @@ const BikeSpecsStyled = Styled.div`
 
 const BikeSpecs = props => {
   const keys = Object.keys(props.data)
+
   return (
     <BikeSpecsStyled>
       {keys.map((n, key) => {
-        return (
+        return props.data[n] && props.data[n].length > 0 ? (
           <div key={key} className="bike-specs">
             <h2>{n}</h2>
             <div className="bike-specs__components">
@@ -50,7 +51,7 @@ const BikeSpecs = props => {
               </ul>
             </div>
           </div>
-        )
+        ) : null
       })}
     </BikeSpecsStyled>
   )
