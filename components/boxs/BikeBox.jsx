@@ -1,10 +1,11 @@
 import Styled from "styled-components"
-
+import { currencyFormat } from "string-manager"
 import { color_gray_dark, color_gray_medium } from "../Const"
 
 // components
 import Button from "../buttons/index"
 import ImagePrevBox from "./ImagePreviewBox"
+import Share from "../boxs/Share"
 
 const ProductBoxStyled = Styled.div`
 margin: 80px 0;
@@ -24,6 +25,7 @@ line-height: 2;
  }
  .product-status {
   line-height: 1.9;
+  text-transform: capitalize;
  }
  .product-price {
   font-size: 24px;
@@ -37,15 +39,6 @@ line-height: 2;
   border-bottom: 1px solid ${color_gray_medium};
   color: ${color_gray_dark};
   font-size: 14px;
- }
- .product-share {
-  color: ${color_gray_dark};
-  padding: 20px 0;
-  .product-share_icon {
-    margin-right: 20px;
-    top: 5px;
-    position: relative;
-  }
  }
 
  // responsiveness
@@ -63,17 +56,17 @@ line-height: 2;
 }
 `
 
-const ProductBox = props => {
+const ProductBox = ({ data }) => {
   return (
     <ProductBoxStyled>
       <div className="grid">
         <div className="col-6_xs-12 product-page-left">
-          <ImagePrevBox />
+          <ImagePrevBox data={data.images} />
         </div>
 
         <div className="col-6_xs-12 product-page-right">
           <div className="product-title">
-            <h1>Argon 81 Krypton Red</h1>
+            <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
           </div>
           <div className="product-rate">
             <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
@@ -83,30 +76,25 @@ const ProductBox = props => {
             <img src="https://img.icons8.com/color/20/000000/star-half.png" />
           </div>
           <div className="product-status">
-            <strong>Waktu Rilis: </strong> 20 Januari 2020
+            <strong>Waktu Rilis: </strong> {data.release_date}
             <br />
-            <strong>Brand: </strong> Pinarello
+            <strong>Brand: </strong>{" "}
+            <a href={`/bikes?brand=${data.brand.id}`}>{data.brand.name}</a>
             <br />
-            <strong>Tipe:</strong> Road Bike
+            <strong>Tipe:</strong>{" "}
+            <a href={`/bikes?type=${data.type.id}`}>{data.type.name}</a>
             <br />
-            <strong>Estimasi Harga:</strong> Rp 235.000.000,-
+            <strong>Estimasi Harga:</strong> Rp{" "}
+            {currencyFormat(data.estimated_price)},-
           </div>
-          <div className="product-share">
-            <span style={{ marginRight: 20 }}>SHARE:</span>
-            <a className="product-share_icon" href="#">
-              <img src="https://img.icons8.com/android/20/000000/facebook.png" />
-            </a>
-            <a className="product-share_icon" href="#">
-              <img src="https://img.icons8.com/android/20/000000/twitter.png" />
-            </a>
-          </div>
+          <br />
           <Button
             style={{ marginTop: 5 }}
             color="blue"
             size="small"
             text="Komparasi"
             type="link"
-            target="/bikes/compare"
+            target={`/bikes/compare?ids=${data.id}`}
           />
         </div>
       </div>

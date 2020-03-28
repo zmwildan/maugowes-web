@@ -211,6 +211,9 @@ module.exports = {
               // transform bike specs results to standart version
               if (bikeSpecsResults.length > 1)
                 bikeSpecsResults = bikeTransformer.bikeSpecs(bikeSpecsResults)
+
+              bikeResults.status = 200
+              bikeResults.message = "Sepeda ditemukan"
               bikeResults.specs = bikeSpecsResults
 
               // transform result to standart version

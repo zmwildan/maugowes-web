@@ -18,7 +18,6 @@ import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import Sidebar from "../../components/navigations/SidebarBikes"
 import BikesBox from "../../components/boxs/BikesBox"
-import Loader from "../../components/Loader"
 
 const BikesStyled = Styled.div`
  margin-top: 50px;
@@ -42,8 +41,6 @@ export function requestQueryGenerator(query = {}) {
 
   if (query.brand) reqQuery.brand = query.brand
   if (query.type) reqQuery.type = query.type
-
-  console.log("reqQuery", reqQuery)
 
   return reqQuery
 }
@@ -89,7 +86,17 @@ class BikesIndex extends React.Component {
     return { query }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const bikeTypes = this.props.bikes.bike_types || {}
+    const bikeBrands = this.props.bikes.bike_brands || {}
+    const bikes = this.props.bikes.bike_list || {}
+
+    const reqQuery = requestQueryGenerator(this.props.query)
+
+    if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
+    if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
+    if (!bikes.status) this.props.dispatch(fetchBikes("bike_list", reqQuery))
+  }
 
   render() {
     return (

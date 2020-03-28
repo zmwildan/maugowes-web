@@ -9,7 +9,6 @@ import {
   color_blue_main,
   color_white_main
 } from "../../components/Const"
-// import DayJs from "dayjs"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"

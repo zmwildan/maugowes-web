@@ -30,7 +30,7 @@ class SidebarBikes extends React.Component {
   }
 
   selectRender(dataKey) {
-    const { status, results } = this.props[dataKey]
+    const { status, results } = this.props[dataKey] || {}
     if (status && status == 200) {
       return results.map((n, key) => (
         <option key={key} value={n.id}>

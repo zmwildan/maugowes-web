@@ -53,3 +53,17 @@ export function fetchBikeTypes(filter = "bike_types") {
     }
   }
 }
+
+/**
+ * function to fetch bike detail
+ * @param {string} bike_id id of bike
+ */
+export function fetchBikeDetail(bike_id) {
+  return {
+    [CALL_API]: {
+      type: GET_BIKE,
+      filter: bike_id,
+      endpoint: `/api/bike/${bike_id}/${seal.generateSeal()}`
+    }
+  }
+}

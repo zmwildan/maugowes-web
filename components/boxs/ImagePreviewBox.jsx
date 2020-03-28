@@ -31,21 +31,20 @@ cursor: pointer;
 }
 `
 
-const Images = [
-  "/static/images/dummies/product-2.jpg",
-  "/static/images/dummies/product-1.jpg"
-]
+const DefaultImages = ["/static/images/dummies/product-2.jpg"]
 
 const ImagePreviewBox = props => {
   const [mainImg, setMainImg] = useState(0)
 
+  let images = props.data.length < 1 ? DefaultImages : props.data
+
   return (
     <ImagePreviewBoxStyled>
       <div className="preview-product">
-        <img src={Images[mainImg]} alt="product preview" />
+        <img src={images[mainImg]} alt="product preview" />
       </div>
       <div className="product-thumb">
-        {Images.map((n, key) => {
+        {images.map((n, key) => {
           return (
             <div
               key={key}
@@ -60,6 +59,10 @@ const ImagePreviewBox = props => {
       </div>
     </ImagePreviewBoxStyled>
   )
+}
+
+ImagePreviewBox.defaultProps = {
+  data: []
 }
 
 export default ImagePreviewBox

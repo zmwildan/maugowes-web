@@ -5,6 +5,7 @@ const BikeSpecsStyled = Styled.div`
   .bike-specs {
     h2 {
       margin: 30px 0;
+      text-transform: capitalize;
     }
     .bike-specs__components {
       ul {
@@ -29,49 +30,34 @@ const BikeSpecsStyled = Styled.div`
 `
 
 const BikeSpecs = props => {
+  const keys = Object.keys(props.data)
   return (
     <BikeSpecsStyled>
-      <div className="bike-specs">
-        <h2>Groupset</h2>
-        <div className="bike-specs__components">
-          <ul>
-            <li>
-              <strong>Front Deraliur : </strong>
-              Shimano Dura Ace 9300
-            </li>
-            <li>
-              <strong>Rear Deraliur : </strong>
-              Shimano Dura Ace 9300
-            </li>
-            <li>
-              <strong>Cassete : </strong>
-              Shimano Dura Ace 11 Speed
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="bike-specs">
-        <h2>Groupset</h2>
-        <div className="bike-specs__components">
-          <ul>
-            <li>
-              <strong>Front Deraliur : </strong>
-              Shimano Dura Ace 9300
-            </li>
-            <li>
-              <strong>Rear Deraliur : </strong>
-              Shimano Dura Ace 9300
-            </li>
-            <li>
-              <strong>Cassete : </strong>
-              Shimano Dura Ace 11 Speed
-            </li>
-          </ul>
-        </div>
-      </div>
+      {keys.map((n, key) => {
+        return (
+          <div key={key} className="bike-specs">
+            <h2>{n}</h2>
+            <div className="bike-specs__components">
+              <ul>
+                {props.data[n].map((m, m_key) => {
+                  return (
+                    <li key={m_key}>
+                      <strong>{m.spec} : </strong>
+                      {m.description}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </div>
+        )
+      })}
     </BikeSpecsStyled>
   )
+}
+
+BikeSpecs.defaultProps = {
+  data: []
 }
 
 export default BikeSpecs
