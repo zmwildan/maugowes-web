@@ -209,7 +209,7 @@ module.exports = {
               }
 
               // transform bike specs results to standart version
-              if (bikeSpecsResults.length > 1)
+              if (bikeSpecsResults.length > 0)
                 bikeSpecsResults = bikeTransformer.bikeSpecs(bikeSpecsResults)
 
               bikeResults.status = 200

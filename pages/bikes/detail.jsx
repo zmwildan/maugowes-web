@@ -83,7 +83,7 @@ class BikeDetail extends React.Component {
           <Error text="Spesifikasi belum tersedia" />
         )
       case 1:
-        return bikeData.geometri ? (
+        return bikeData.geometry ? (
           <div className="bike-detail__geometry">
             <img
               src="https://contenderbicycles.com/wp-content/uploads/2019/05/2020-Pinarello-Dogma-F12-Geometry-768x644.jpg"

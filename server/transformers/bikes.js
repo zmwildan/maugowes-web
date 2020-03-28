@@ -53,7 +53,7 @@ module.exports = {
    */
   bikeSpecs: (specs = []) => {
     let newSpecs = {}
-    specs.map((n, key) => {
+    specs.map(n => {
       if (!newSpecs[n.spec_group[0].name]) newSpecs[n.spec_group[0].name] = []
       newSpecs[n.spec_group[0].name].push({
         spec: n.spec[0].name,
