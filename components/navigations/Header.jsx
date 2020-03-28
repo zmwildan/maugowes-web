@@ -18,7 +18,7 @@ const HeaderStyled = Styled.header`
     text-align: center;
     padding: 50px 0;
     .header-logo-img {
-      width: 250px;
+      width: 180px;
       max-width: 100%;
     }
   }

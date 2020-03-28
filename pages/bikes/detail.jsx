@@ -78,17 +78,25 @@ class BikeDetail extends React.Component {
     switch (this.state.activeTab) {
       case 0:
         return bikeData.specs ? (
-          <BikeSpecsBox data={bikeData.specs} />
+          <React.Fragment>
+            <BikeSpecsBox data={bikeData.specs} />
+            <br />
+            {bikeData.source ? (
+              <a
+                target="_blank"
+                rel="noopener noreferer"
+                href={bikeData.source}>
+                Sumber Data
+              </a>
+            ) : null}
+          </React.Fragment>
         ) : (
           <Error text="Spesifikasi belum tersedia" />
         )
       case 1:
         return bikeData.geometry ? (
           <div className="bike-detail__geometry">
-            <img
-              src="https://contenderbicycles.com/wp-content/uploads/2019/05/2020-Pinarello-Dogma-F12-Geometry-768x644.jpg"
-              alt="geometry"
-            />
+            <img src={bikeData.geometry} alt="geometry" />
           </div>
         ) : (
           <Error text="Geometri belum tersedia" />
@@ -121,7 +129,7 @@ class BikeDetail extends React.Component {
             {bikeData.status ? (
               bikeData.status == 200 ? (
                 <div className="grid-center">
-                  <div className="col-10_xs-12">
+                  <div className="col-12">
                     <BikeBox data={bikeData} />
                     <div className="grid-center">
                       <div className="col-10_md-10_xs-12">

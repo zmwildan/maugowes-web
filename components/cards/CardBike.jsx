@@ -31,7 +31,7 @@ const CardBike = ({ data }) => {
   const linkTarget = `/bikes/${toSlug(data.name)}-${data.id}`
   return (
     <CardBikeStyled
-      className="col-4"
+      className="col-4_xs-6"
       onClick={() => {
         if (typeof window !== "undefined") {
           location.href = linkTarget

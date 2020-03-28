@@ -23,7 +23,8 @@ module.exports = {
       name: n.name,
       estimated_price: n.estimated_price,
       release_date: n.release_date,
-      geometry: n.geometry
+      geometry: n.geometry,
+      source: n.source
     }
   },
   /**

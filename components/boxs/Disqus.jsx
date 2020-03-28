@@ -22,6 +22,14 @@ class Disqus extends React.Component {
         s.setAttribute("data-timestamp", +new Date())
         ;(d.head || d.body).appendChild(s)
       })()
+    } else {
+      DISQUS.reset({
+        reload: true,
+        config: function() {
+          this.page.identifier = this.props.identifier
+          this.page.url = this.props.url
+        }
+      })
     }
   }
 
@@ -29,7 +37,5 @@ class Disqus extends React.Component {
     return <div id="disqus_thread" />
   }
 }
-
-
 
 export default Disqus

@@ -111,11 +111,11 @@ class BikesIndex extends React.Component {
             <div className="grid">
               <Sidebar
                 query={this.props.query}
-                className="col-3"
+                className="col-3_md-4_xs-12"
                 bikeBrands={this.props.bikes.bike_brands}
                 bikeTypes={this.props.bikes.bike_types}
               />
-              <div className="content col-9">
+              <div className="content col-9_md-8_xs-12">
                 <BikesBox data={this.props.bikes.bike_list || {}} />
               </div>
             </div>

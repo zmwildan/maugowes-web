@@ -60,11 +60,11 @@ const ProductBox = ({ data }) => {
   return (
     <ProductBoxStyled>
       <div className="grid">
-        <div className="col-6_xs-12 product-page-left">
+        <div className="col-8_xs-12 product-page-left">
           <ImagePrevBox data={data.images} />
         </div>
 
-        <div className="col-6_xs-12 product-page-right">
+        <div className="col-4_xs-12 product-page-right">
           <div className="product-title">
             <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
           </div>
