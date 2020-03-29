@@ -60,7 +60,7 @@ module.exports = {
     if (q) {
       // search with ignore capital text, source: https://stackoverflow.com/a/9655186/2780875
       aggregate.push({
-        $match: { name: { $regex: /Polygon$/i } }
+        $match: { name: { $regex: `.*${q}.*`, $options: "i" } }
       })
     }
 
