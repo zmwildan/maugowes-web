@@ -12,14 +12,30 @@
   - type: id of type ,
   - brand : id of brand
 
-### Bikes Comparation
+### Bike Spec Group
 
 **Request**
 
 - method : GET
-- endpoint : `/api/bikes/compare/:seal`,
-- query ;
-  bike : list of id bike compare, divide comas (max 4), sample : bike=1,2,3,4
+- endpoint : `/api/bike-group-specs/:seal`
+
+**Response**
+
+```
+{
+    "status": 200,
+    "message": "data available",
+    "results": {
+        "frameset": [
+            "frame spesification"
+        ],
+        "groupset": [
+            "front derailleur",
+            "rear derailleur"
+        ]
+    }
+}
+```
 
 ### Bike Detail
 

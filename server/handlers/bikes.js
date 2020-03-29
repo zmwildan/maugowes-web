@@ -27,5 +27,12 @@ module.exports = {
     return bikeModule.getBikeBrands(req, res, json => {
       res.json(json)
     })
+  },
+
+  // function to handle endpoint /api/bike-group-specs/:seal
+  getBikeGroupSpecs: (req, res) => {
+    return bikeModule.getBikeGroupSpecs(req, res, json => {
+      res.json(json)
+    })
   }
 }

@@ -297,9 +297,47 @@ module.exports = {
   /**
    * function to list all specs groups
    */
-  getSpecsGroup(req, res, callback) {
+  getBikeGroupSpecs(req, res, callback) {
+    const aggregate = [
+      {
+        $lookup: {
+          from: "bikes_specs_groups",
+          localField: "spec_group_id",
+          foreignField: "_id",
+          as: "spec_group"
+        }
+      }
+    ]
     return mongo(({ db, client }) => {
-      db.collection("bikes_specs_groups")
+      db.collection("bikes_specs")
+        .aggregate(aggregate)
+        .toArray((err, results) => {
+          if (err) {
+            console.log("MongoDB Error", err)
+          }
+
+          // normalize array
+          if (results.length > 1) {
+            let nextSpecs = {}
+            results.map(n => {
+              console.log("n", n)
+              const spec_group_name = n.spec_group[0].name
+              if (!nextSpecs[spec_group_name]) nextSpecs[spec_group_name] = []
+              nextSpecs[spec_group_name].push(n.name)
+            })
+            callback({
+              status: 200,
+              message: "data available",
+              results: nextSpecs
+            })
+          } else {
+            // data not found
+            return callback({
+              status: 204,
+              messages: "Bike specs not"
+            })
+          }
+        })
     })
   }
 }
