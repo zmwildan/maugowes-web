@@ -1,10 +1,17 @@
 import Styled from "styled-components"
+import { connect } from "react-redux"
+import { extractPath } from "../../modules/url"
+import config from "../../config/index"
+import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
   color_gray_soft,
   color_gray_medium
 } from "../../components/Const"
+
+// redux
+import { fetchBikeDetail } from "../../redux/bikes/actions"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -105,6 +112,35 @@ const BikesCompareStyled = Styled.div`
   `
 
 class BikesCompare extends React.Component {
+  static async getInitialProps({ reduxStore, res, query }) {
+    if (typeof window == "undefined") {
+      const { ids } = query
+      const { type, endpoint } = fetchBikeDetail(ids)["CALL_API"]
+      //  only call in server side
+      const bikeResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}${endpoint}`
+      )
+      const bike = await bikeResponse.json()
+      reduxStore.dispatch({
+        type,
+        filter: ids,
+        data: bike
+      })
+    }
+
+    return {
+      ids: query.ids
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    const { ids } = props
+    this.state = {
+      ids: [ids]
+    }
+  }
+
   render() {
     const MetaData = {
       title: `Perbandingan Sepeda - Mau Gowes`,
@@ -159,8 +195,9 @@ class BikesCompare extends React.Component {
               {/* right side */}
               <div className="col-9_xs-6 bike-compare-right">
                 <div className="grid-noGutter" style={{ flexFlow: "unset" }}>
-                  {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(
-                    (n, key) => {
+                  {this.state.ids.map((n, key) => {
+                    const bikeData = this.props.bikes[n] || {}
+                    if (bikeData.status === 200) {
                       return (
                         <div
                           key={key}
@@ -168,14 +205,16 @@ class BikesCompare extends React.Component {
                           <div
                             className="bike-compare-right__item__thumbnail"
                             style={{
-                              backgroundImage: `url(/static/images/dummies/bike-1.jpg)`
+                              backgroundImage: `url(${bikeData.images[0]})`
                             }}>
-                            <button type="button" className="btn-delete">
-                              x
-                            </button>
+                            {key ? (
+                              <button type="button" className="btn-delete">
+                                x
+                              </button>
+                            ) : null}
                           </div>
                           <div className="bike-compare-right__item__title">
-                            <h4>Pinarello F12 2020</h4>
+                            <h4>{bikeData.name}</h4>
                           </div>
                           <div className="bike-compare-right__item__content">
                             <h3>Groupset</h3>
@@ -189,7 +228,7 @@ class BikesCompare extends React.Component {
                         </div>
                       )
                     }
-                  )}
+                  })}
                 </div>
               </div>
               {/* end of right side */}
@@ -201,4 +240,8 @@ class BikesCompare extends React.Component {
   }
 }
 
-export default BikesCompare
+export default connect(state => {
+  return {
+    bikes: state.Bikes
+  }
+})(BikesCompare)
