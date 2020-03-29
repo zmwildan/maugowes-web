@@ -11,6 +11,7 @@
   - limit : number, default = 12
   - type: id of type ,
   - brand : id of brand
+  - q : string, keyword to search
 
 ### Bike Spec Group
 
@@ -25,15 +26,21 @@
 {
     "status": 200,
     "message": "data available",
-    "results": {
-        "frameset": [
-            "frame spesification"
-        ],
-        "groupset": [
-            "front derailleur",
-            "rear derailleur"
-        ]
-    }
+    "results": [
+        {
+            "name": "frameset",
+            "specs": [
+                "frame spesification"
+            ]
+        },
+        {
+            "name": "groupset",
+            "specs": [
+                "front derailleur",
+                "rear derailleur"
+            ]
+        }
+    ]
 }
 ```
 
