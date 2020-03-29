@@ -2,10 +2,12 @@ import Styled from "styled-components"
 import { objToQuery } from "string-manager"
 import { SidebarMarketplaceSytled } from "./SidebarMarketplace"
 import { SelectStyled } from "../form/Select"
+import { InputTextStyled } from "../form/InputText"
 import { color_gray_dark, color_blue_main } from "../Const"
 
 const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 .sidebar-items {
+  margin-bottom: 20px;
  .categories {
   .category-item {
    border-bottom: none;
@@ -18,6 +20,10 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 `
 
 class SidebarBikes extends React.Component {
+  state = {
+    q: this.props.query.q || ""
+  }
+
   changeHandler(e) {
     const { name, value } = e.target
     let { query } = this.props
@@ -46,6 +52,29 @@ class SidebarBikes extends React.Component {
     const { brand, type } = this.props.query
     return (
       <SidebarBikesStyled className={this.props.className}>
+        <div className="sidebar-items">
+          <h2 className="title">Cari</h2>
+          <InputTextStyled>
+            <input
+              placeholder="Tulis brand atau tipe disini"
+              name="q"
+              type="text"
+              value={this.state.q}
+              onKeyDown={e => {
+                if (e.keyCode === 13) {
+                  this.changeHandler({
+                    target: {
+                      name: "q",
+                      value: this.state.q
+                    }
+                  })
+                }
+              }}
+              onChange={e => this.setState({ q: e.target.value })}
+            />
+          </InputTextStyled>
+        </div>
+        <br />
         <div className="sidebar-items">
           <h2 className="title">Filter</h2>
           <div className="categories">
