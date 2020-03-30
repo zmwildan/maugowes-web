@@ -3,7 +3,7 @@ import Styled from "styled-components"
 import { validate } from "../../modules/validator"
 import { color_red_main, color_gray_medium, color_blue_main } from "../Const"
 
-const InputTextStyled = Styled.div`
+export const InputTextStyled = Styled.div`
   text-align: left;
   margin-bottom: 20px;
   &.error {
@@ -83,7 +83,7 @@ export default class InputText extends React.Component {
         ) : null}
         <input
           onChange={e => {
-            if(this.props.onChange) this.props.onChange(e)
+            if (this.props.onChange) this.props.onChange(e)
             this.handleChange(e)
           }}
           onBlur={e => this.handleChange(e)}

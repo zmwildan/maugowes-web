@@ -12,7 +12,7 @@ module.exports = {
    * @param {string} req.query.brand id of brand
    */
   getBikes(req, res, callback) {
-    const { page = 1, limit = 7, type, brand } = req.query
+    const { page = 1, limit = 7, type, brand, q } = req.query
 
     let aggregate = [
       {
@@ -53,6 +53,14 @@ module.exports = {
     if (brand) {
       aggregate.push({
         $match: { brand_id: ObjectId(brand) }
+      })
+    }
+
+    // search by keyword
+    if (q) {
+      // search with ignore capital text, source: https://stackoverflow.com/a/9655186/2780875
+      aggregate.push({
+        $match: { name: { $regex: `.*${q}.*`, $options: "i" } }
       })
     }
 
@@ -318,12 +326,19 @@ module.exports = {
 
           // normalize array
           if (results.length > 1) {
-            let nextSpecs = {}
+            let nextSpecs = []
+            let alreadyGroup = []
+            let keysGroup = {}
             results.map(n => {
-              console.log("n", n)
+              // request format is :
+              // [{type: "spec group", list: ["spec_list"]}]
               const spec_group_name = n.spec_group[0].name
-              if (!nextSpecs[spec_group_name]) nextSpecs[spec_group_name] = []
-              nextSpecs[spec_group_name].push(n.name)
+              if (!alreadyGroup.includes(spec_group_name)) {
+                alreadyGroup.push(spec_group_name)
+                keysGroup[spec_group_name] = nextSpecs.length
+                nextSpecs.push({ name: spec_group_name, specs: [] })
+              }
+              nextSpecs[keysGroup[spec_group_name]].specs.push(n.name)
             })
             callback({
               status: 200,

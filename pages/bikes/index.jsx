@@ -41,6 +41,7 @@ export function requestQueryGenerator(query = {}) {
 
   if (query.brand) reqQuery.brand = query.brand
   if (query.type) reqQuery.type = query.type
+  if (query.q) reqQuery.q = query.q
 
   return reqQuery
 }
