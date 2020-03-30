@@ -1,6 +1,18 @@
 const bikeModule = require("../modules/bikes")
 
 module.exports = {
+  // function to handle endpoint POST: /api/bikes/:seal
+  createBike: (req, res) => {
+    return bikeModule.createBike(req, res, json => {
+      res.json(json)
+    })
+  },
+
+  // function to handle endpoint PUT: /api/bikes/:seal
+  updateBike: (req, res) => {
+    return bikeModule.updateBike(req, res)
+  },
+
   // function to handle endpoint /api/bikes/:seal
   getBikes: (req, res) => {
     return bikeModule.getBikes(req, res, json => {

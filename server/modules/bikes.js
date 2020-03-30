@@ -354,5 +354,74 @@ module.exports = {
           }
         })
     })
+  },
+
+  /**
+   * function to create new bike
+   * @param {string} req.params.title
+   * @param {array} req.params.images , sample data ["image1","image2", "image3"]
+   */
+  createBike(req, res, callback) {
+    const now = parseInt(new Date().getTime())
+
+    let formdata = {
+      name: req.body.name,
+      brand_id: ObjectId(req.body.brand_id),
+      type_id: ObjectId(req.body.type_id),
+      estimated_price: req.body.estimated_price || 0,
+      release_date: req.body.release_date || "-",
+      images: JSON.parse(req.body.images) || [],
+      geometry: req.body.geometry,
+      source: req.body.source,
+      created_on: now,
+      updated_on: now
+    }
+
+    // insert to database
+    return mongo(({ db, client }) => {
+      db.collection("bikes").insert(formdata)
+
+      client.close()
+
+      return callback({
+        status: 201,
+        message: "Bike Created"
+      })
+    })
+  },
+
+  /**
+   * function to update bike
+   * @param {string} req.params.bike_id
+   */
+  updateBike(req, res) {
+    let { id } = req.params
+    id = ObjectId(id)
+
+    const now = parseInt(new Date().getTime())
+
+    let formdata = {
+      name: req.body.name,
+      brand_id: ObjectId(req.body.brand_id),
+      type_id: ObjectId(req.body.type_id),
+      estimated_price: req.body.estimated_price || 0,
+      release_date: req.body.release_date || "-",
+      images: JSON.parse(req.body.images) || [],
+      geometry: req.body.geometry,
+      source: req.body.source,
+      updated_on: now
+    }
+
+    // update database
+    return mongo(({ db, client }) => {
+      db.collection("bikes").update({ _id: id }, { $set: formdata })
+
+      client.close()
+
+      return res.json({
+        status: 200,
+        message: "Update Bike Success"
+      })
+    })
   }
 }
