@@ -1,10 +1,10 @@
 // components
 import Button from "../../buttons/index"
 import Table from "../tables/TableWrapper"
-import BlogRow from "../tables/rows/BlogRow"
+import BikeRow from "../tables/rows/BikeRow"
 import Loader from "../../Loader"
 
-const SuperBlogBox = props => {
+const SuperBikeBox = props => {
   const { results, status, message, stats, is_loading, total } = props.data
 
   return (
@@ -12,14 +12,14 @@ const SuperBlogBox = props => {
       {results && results.length && total && !props.noStats ? (
         <React.Fragment>
           Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> post
+          <strong>{total}</strong> sepeda
         </React.Fragment>
       ) : null}
 
       <Table>
         {status
           ? results && results.length > 0
-            ? results.map((n, key) => <BlogRow key={key} data={n} />)
+            ? results.map((n, key) => <BikeRow key={key} data={n} />)
             : null
           : null}
       </Table>
@@ -47,4 +47,8 @@ const SuperBlogBox = props => {
   )
 }
 
-export default SuperBlogBox
+SuperBikeBox.defaultProps = {
+  data: {}
+}
+
+export default SuperBikeBox

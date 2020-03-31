@@ -3,14 +3,13 @@ import Styled from "styled-components"
 import { requestQueryGenerator } from "../../blog/index"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../../redux/blog/actions"
-// import config from "../../../config/index"
-// import { objToQuery } from "string-manager"
-// import fetch from "isomorphic-unfetch"
 
-// components
+// layouts
 import GlobalLayout from "../../../components/layouts/Global"
 import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
+
+// components
 import PageHeader from "../../../components/boxs/PageHeader"
 import BlogBox from "../../../components/super/boxs/BlogBox"
 
@@ -76,7 +75,6 @@ class BlogPage extends React.Component {
                 data={blogState}
                 maxResults={MaxResults}
                 loadmoreHandler={() => this.loadmoreHandler()}
-                isSuper
               />
             </BlogPageStyled>
           </SuperLayout>
