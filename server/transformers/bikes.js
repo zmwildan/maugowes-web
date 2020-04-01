@@ -24,7 +24,9 @@ module.exports = {
       estimated_price: n.estimated_price,
       release_date: n.release_date,
       geometry: n.geometry,
-      source: n.source
+      source: n.source,
+      created: n.created_on,
+      updated_on: n.updated_on
     }
   },
   /**
@@ -46,7 +48,9 @@ module.exports = {
       brand,
       type,
       name: n.name,
-      estimated_price: n.estimated_price
+      estimated_price: n.estimated_price,
+      created: n.created_on,
+      updated_on: n.updated_on
     }
   },
   /**

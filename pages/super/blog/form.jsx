@@ -1,10 +1,8 @@
-import React from "react"
 import Styled from "styled-components"
 import { fetchBlogDetail } from "../../../redux/blog/actions"
 import { connect } from "react-redux"
 import config from "../../../config/index"
 import fetch from "isomorphic-unfetch"
-
 
 // components
 import GlobalLayout from "../../../components/layouts/Global"
