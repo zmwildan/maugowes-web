@@ -34,7 +34,7 @@ export class Tags extends React.Component {
       name: this.props.name,
       className: this.props.className,
       placeholder: this.props.class,
-      autoFocus: this.props.autofocus
+      autoFocus: this.props.autofocus,
     }
 
     return this.props.mode === "textarea" ? (
