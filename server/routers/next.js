@@ -35,4 +35,4 @@ module.exports = routes()
 
   // bikes routes
   .add("bike_compare", "/bikes/compare", "bikes/compare")
-  .add("bike_detail", "/bikes/:id", "bikes/detail")
+// .add("bike_detail", "/bikes/:id", "bikes/detail")

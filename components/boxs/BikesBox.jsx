@@ -11,7 +11,7 @@ const BikesBoxStyled = Styled.div`
 
 class BikesBox extends React.Component {
   render() {
-    const { status, results, message } = this.props.data
+    const { status, results, message, is_loading } = this.props.data
     return (
       <BikesBoxStyled>
         {status ? (
@@ -24,16 +24,16 @@ class BikesBox extends React.Component {
           ) : (
             <Error text={message} />
           )
-        ) : (
-          <Loader />
-        )}
+        ) : null}
+
+        {!status || is_loading ? <Loader /> : null}
       </BikesBoxStyled>
     )
   }
 }
 
 BikesBox.defaultProps = {
-  data: {}
+  data: {},
 }
 
 export default BikesBox
