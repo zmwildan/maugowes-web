@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react"
 // import Styled from "styled-components"
-import { createPost, updatePost } from '../../redux/blog/actions'
+import { createPost, updatePost } from "../../redux/blog/actions"
 
 // components
-import InputText from './InputText'
-import InputFile from './InputFile'
-import InputTag from './InputTag'
-import Editor from './Editor'
-import Submit from './Submit'
-import FormStyled from './FormStyled'
-import Toast from '../../modules/toast'
-import { stateValidatorChecker } from '../../modules/validator'
+import InputText from "./InputText"
+import InputFile from "./InputFile"
+import InputTag from "./InputTag"
+import Editor from "./Editor"
+import Submit from "./Submit"
+import FormStyled from "./FormStyled"
+import Toast from "../../modules/toast"
+import { stateValidatorChecker } from "../../modules/validator"
 
 class BlogPage extends React.Component {
   state = {}
@@ -27,7 +27,7 @@ class BlogPage extends React.Component {
         content: blogData.content,
         tags: blogData.tags,
         video: blogData.video,
-        image_preview: blogData.image.original
+        image_preview: blogData.image.original,
       })
     }
   }
@@ -35,27 +35,27 @@ class BlogPage extends React.Component {
   componentWillReceiveProps(np) {
     const { formResponse } = np
     if (formResponse.status == 200 || formResponse.status == 201) {
-      location.href = '/super/blog'
+      location.href = "/super/blog"
     }
   }
 
   submitHandler(draft = false) {
-    let requiredInputs = ['title']
+    let requiredInputs = ["title"]
 
-    if (!this.props.isEdit) requiredInputs.push('image')
+    if (!this.props.isEdit) requiredInputs.push("image")
 
     // start form validation
     const { is_valid } = stateValidatorChecker({
       setState: (ns, cb) => this.setState(ns, cb),
       state: this.state,
-      requiredInputs
+      requiredInputs,
     })
 
     if (is_valid) {
-      if (!this.state.content) return Toast(true, 'Konten wajib diisi', 'error')
+      if (!this.state.content) return Toast(true, "Konten wajib diisi", "error")
 
       if (!this.props.isEdit && !this.state.image)
-        return Toast(true, 'Wajib upload gambar', 'error')
+        return Toast(true, "Wajib upload gambar", "error")
 
       let formdata = {
         title: this.state.title,
@@ -63,7 +63,7 @@ class BlogPage extends React.Component {
         tags:
           this.state.tags && this.state.tags.length > 0
             ? this.state.tags.toString()
-            : 'blog'
+            : "blog",
       }
 
       if (this.state.video) formdata.video = this.state.video
@@ -85,9 +85,9 @@ class BlogPage extends React.Component {
   render() {
     const { is_loading, status } = this.props.formResponse
 
-    let requiredInputs = ['title']
+    let requiredInputs = ["title"]
 
-    if (!this.props.isEdit) requiredInputs.push('image')
+    if (!this.props.isEdit) requiredInputs.push("image")
 
     return (
       <FormStyled method="post" action="javascript:;">
@@ -105,7 +105,7 @@ class BlogPage extends React.Component {
           label="Video"
           placeholder="Video Embed Url"
           type="text"
-          value={this.state.video || ''}
+          value={this.state.video || ""}
           validate={this.state.video_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
           name="video"
@@ -114,7 +114,7 @@ class BlogPage extends React.Component {
           label="title"
           placeholder="Judul postingan"
           type="text"
-          value={this.state.title || ''}
+          value={this.state.title || ""}
           validate={this.state.title_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
           name="title"
@@ -136,7 +136,7 @@ class BlogPage extends React.Component {
         />
         <br />
         <Submit
-          style={{ display: 'inline', marginRight: 10 }}
+          style={{ display: "inline", marginRight: 10 }}
           onClick={() => this.submitHandler()}
           loading={is_loading || status == 200 || status == 201}
           text="Simpan Post"
@@ -144,11 +144,11 @@ class BlogPage extends React.Component {
         />
         <Submit
           color="white"
-          style={{ display: 'inline', marginRight: 10 }}
+          style={{ display: "inline", marginRight: 10 }}
           onClick={() => this.submitHandler(true)}
           loading={is_loading || status == 200 || status == 201}
-          text="Simpan Draft"
           setState={(n, cb) => this.setState(n, cb)}
+          text="Simpan Draft"
         />
       </FormStyled>
     )

@@ -19,8 +19,8 @@ module.exports = {
         // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
         $sort: {
           // order by created_on desc
-          created_on: -1
-        }
+          updated_on: -1,
+        },
       },
       {
         // join to bike brand using lookup
@@ -28,8 +28,8 @@ module.exports = {
           from: "bikes_brands",
           localField: "brand_id",
           foreignField: "_id",
-          as: "brand"
-        }
+          as: "brand",
+        },
       },
       {
         // join to bike type using lookup
@@ -37,22 +37,22 @@ module.exports = {
           from: "bikes_types",
           localField: "type_id",
           foreignField: "_id",
-          as: "type"
-        }
-      }
+          as: "type",
+        },
+      },
     ]
 
     // list by type
     if (type) {
       aggregate.push({
-        $match: { type_id: ObjectId(type) }
+        $match: { type_id: ObjectId(type) },
       })
     }
 
     // list by brand
     if (brand) {
       aggregate.push({
-        $match: { brand_id: ObjectId(brand) }
+        $match: { brand_id: ObjectId(brand) },
       })
     }
 
@@ -60,7 +60,7 @@ module.exports = {
     if (q) {
       // search with ignore capital text, source: https://stackoverflow.com/a/9655186/2780875
       aggregate.push({
-        $match: { name: { $regex: `.*${q}.*`, $options: "i" } }
+        $match: { name: { $regex: `.*${q}.*`, $options: "i" } },
       })
     }
 
@@ -69,7 +69,7 @@ module.exports = {
 
       // get events total count
       countAggregate.push({
-        $count: "total"
+        $count: "total",
       })
 
       // count total bikes
@@ -90,7 +90,7 @@ module.exports = {
                   console.log(err)
                   return callback({
                     status: 500,
-                    messages: "something wrong with mongo"
+                    messages: "something wrong with mongo",
                   })
                 }
 
@@ -110,14 +110,14 @@ module.exports = {
                     status: 200,
                     message: "success",
                     results,
-                    total: count && count[0] ? count[0].total : 0
+                    total: count && count[0] ? count[0].total : 0,
                   })
                 } else {
                   // data not found
                   return callback({
                     status: 204,
                     message: "Sepeda tidak tersedia",
-                    total: count && count[0] ? count[0].total : 0
+                    total: count && count[0] ? count[0].total : 0,
                   })
                 }
               })
@@ -138,7 +138,7 @@ module.exports = {
 
     let aggregate = [
       {
-        $match: { _id: ObjectId(id) }
+        $match: { _id: ObjectId(id) },
       },
       {
         // join to bike brand using lookup
@@ -146,8 +146,8 @@ module.exports = {
           from: "bikes_brands",
           localField: "brand_id",
           foreignField: "_id",
-          as: "brand"
-        }
+          as: "brand",
+        },
       },
       {
         // join to bike type using lookup
@@ -155,9 +155,9 @@ module.exports = {
           from: "bikes_types",
           localField: "type_id",
           foreignField: "_id",
-          as: "type"
-        }
-      }
+          as: "type",
+        },
+      },
     ]
 
     return mongo(({ db, client }) => {
@@ -176,7 +176,7 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "Sepeda tidak ditemukan"
+              messages: "Sepeda tidak ditemukan",
             })
           }
 
@@ -193,8 +193,8 @@ module.exports = {
                 from: "bikes_specs",
                 localField: "spec_id",
                 foreignField: "_id",
-                as: "spec"
-              }
+                as: "spec",
+              },
             },
             // join to bikes_specs_group table
             {
@@ -202,9 +202,9 @@ module.exports = {
                 from: "bikes_specs_groups",
                 localField: "spec.spec_group_id",
                 foreignField: "_id",
-                as: "spec_group"
-              }
-            }
+                as: "spec_group",
+              },
+            },
           ]
 
           // join to bike specs group
@@ -247,7 +247,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Merek sepeda tidak ditemukan"
+              messages: "Merek sepeda tidak ditemukan",
             })
           }
 
@@ -259,7 +259,7 @@ module.exports = {
           // return as array
           return callback({
             status: 200,
-            results
+            results,
           })
         })
     })
@@ -284,7 +284,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Tipe sepeda tidak ditemukan"
+              messages: "Tipe sepeda tidak ditemukan",
             })
           }
 
@@ -296,7 +296,7 @@ module.exports = {
           // return as array
           return callback({
             status: 200,
-            results
+            results,
           })
         })
     })
@@ -312,9 +312,9 @@ module.exports = {
           from: "bikes_specs_groups",
           localField: "spec_group_id",
           foreignField: "_id",
-          as: "spec_group"
-        }
-      }
+          as: "spec_group",
+        },
+      },
     ]
     return mongo(({ db, client }) => {
       db.collection("bikes_specs")
@@ -329,7 +329,7 @@ module.exports = {
             let nextSpecs = []
             let alreadyGroup = []
             let keysGroup = {}
-            results.map(n => {
+            results.map((n) => {
               // request format is :
               // [{type: "spec group", list: ["spec_list"]}]
               const spec_group_name = n.spec_group[0].name
@@ -343,13 +343,13 @@ module.exports = {
             callback({
               status: 200,
               message: "data available",
-              results: nextSpecs
+              results: nextSpecs,
             })
           } else {
             // data not found
             return callback({
               status: 204,
-              messages: "Bike specs not"
+              messages: "Bike specs not",
             })
           }
         })
@@ -374,7 +374,7 @@ module.exports = {
       geometry: req.body.geometry,
       source: req.body.source,
       created_on: now,
-      updated_on: now
+      updated_on: now,
     }
 
     // insert to database
@@ -385,7 +385,7 @@ module.exports = {
 
       return callback({
         status: 201,
-        message: "Bike Created"
+        message: "Bike Created",
       })
     })
   },
@@ -409,7 +409,7 @@ module.exports = {
       images: JSON.parse(req.body.images) || [],
       geometry: req.body.geometry,
       source: req.body.source,
-      updated_on: now
+      updated_on: now,
     }
 
     // update database
@@ -420,8 +420,8 @@ module.exports = {
 
       return res.json({
         status: 200,
-        message: "Update Bike Success"
+        message: "Update Bike Success",
       })
     })
-  }
+  },
 }

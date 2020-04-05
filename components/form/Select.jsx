@@ -29,7 +29,7 @@ export const SelectStyled = Styled.div`
     width: 100%;
     padding: 10px 0;
     font-size: 15px;
-    color: ${color_gray_dark};
+    color: ${color_black_main};
     border: none;
     border-bottom: 2px solid ${color_gray_medium};
     outline: 0;
@@ -87,7 +87,7 @@ export default class Select extends React.Component {
             {this.props.required ? <span className="text-red">*</span> : null}
           </label>
         ) : null}
-        <select onChange={(e) => this.handleChange(e)}>
+        <select onChange={(e) => this.handleChange(e)} value={value || ""}>
           {placeholder ? <option value="">{placeholder}</option> : null}
           {this.props.options.map((n, key) => {
             return (

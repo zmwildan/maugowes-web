@@ -1,4 +1,5 @@
 export const GET_BIKE = "GET_BIKE"
+export const SUBMIT_BIKE = "SUBMIT_BIKE"
 
 import { CALL_API } from "../middlewares/requestApi"
 
@@ -12,6 +13,36 @@ const { API_KEY } = publicRuntimeConfig
 const seal = new sealMiddleware(API_KEY, 60000)
 
 /**
+ * function to create bike
+ */
+export function createBike(formdata) {
+  return {
+    [CALL_API]: {
+      type: SUBMIT_BIKE,
+      formdata,
+      method: "post",
+      filter: "submit_bike",
+      endpoint: `/api/bikes/${seal.generateSeal()}`,
+    },
+  }
+}
+
+/**
+ * function to create bike
+ */
+export function updateBike(formdata, bike_id) {
+  return {
+    [CALL_API]: {
+      type: SUBMIT_BIKE,
+      formdata,
+      method: "put",
+      filter: "submit_bike",
+      endpoint: `/api/bike/${bike_id}/${seal.generateSeal()}`,
+    },
+  }
+}
+
+/**
  * function to fetch bikes
  * @param {string} query.brand_id filter list by bike brand
  * @param {string} query.type_id filter list by bike type
@@ -23,8 +54,8 @@ export function fetchBikes(filter = "bike_list", query = {}) {
     [CALL_API]: {
       type: GET_BIKE,
       filter,
-      endpoint: `/api/bikes/${seal.generateSeal()}?${objToQuery(query)}`
-    }
+      endpoint: `/api/bikes/${seal.generateSeal()}?${objToQuery(query)}`,
+    },
   }
 }
 
@@ -36,8 +67,8 @@ export function fetchBikeBrands(filter = "bike_brands") {
     [CALL_API]: {
       type: GET_BIKE,
       filter,
-      endpoint: `/api/bike-brands/${seal.generateSeal()}`
-    }
+      endpoint: `/api/bike-brands/${seal.generateSeal()}`,
+    },
   }
 }
 
@@ -49,8 +80,8 @@ export function fetchBikeTypes(filter = "bike_types") {
     [CALL_API]: {
       type: GET_BIKE,
       filter,
-      endpoint: `/api/bike-types/${seal.generateSeal()}`
-    }
+      endpoint: `/api/bike-types/${seal.generateSeal()}`,
+    },
   }
 }
 
@@ -63,7 +94,7 @@ export function fetchBikeDetail(bike_id) {
     [CALL_API]: {
       type: GET_BIKE,
       filter: bike_id,
-      endpoint: `/api/bike/${bike_id}/${seal.generateSeal()}`
-    }
+      endpoint: `/api/bike/${bike_id}/${seal.generateSeal()}`,
+    },
   }
 }
