@@ -14,6 +14,7 @@ const seal = new sealMiddleware(API_KEY, 60000)
 
 /**
  * function to create bike
+ * @param {object} formdata
  */
 export function createBike(formdata) {
   return {
@@ -29,6 +30,8 @@ export function createBike(formdata) {
 
 /**
  * function to create bike
+ * @param {object} formdata
+ * @param {string} bike_id
  */
 export function updateBike(formdata, bike_id) {
   return {
@@ -98,3 +101,8 @@ export function fetchBikeDetail(bike_id) {
     },
   }
 }
+
+/**
+ * function to fetch all bike group specs and bike specs
+ */
+export function fetchBikeGroupSpecs() {}

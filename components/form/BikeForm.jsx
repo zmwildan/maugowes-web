@@ -29,6 +29,7 @@ class BikeForm extends React.Component {
         release_date: bikeData.release_date,
         estimated_price: bikeData.estimated_price,
         geometry: bikeData.geometry,
+        source: bikeData.source,
       }
 
       if (bikeData.images && bikeData.images.length > 0) {
@@ -47,6 +48,7 @@ class BikeForm extends React.Component {
       "release_date",
       "estimated_price",
       "geometry",
+      "source",
     ]
     const { id } = this.props
     const { is_valid } = stateValidatorChecker({
@@ -64,6 +66,7 @@ class BikeForm extends React.Component {
         estimated_price: this.state.estimated_price,
         geometry: this.state.geometry,
         images: JSON.stringify(this.state.images),
+        source: this.state.source,
       }
       console.log("formdata", formdata)
 
@@ -232,24 +235,66 @@ class BikeForm extends React.Component {
         />
         {/* end of input geometry */}
 
+        {/* bike source link */}
+        <InputText
+          label="Link Source"
+          placeholder="sample : https://source.com/path"
+          name="source"
+          type="text"
+          value={this.state.source || ""}
+          validate={this.state.source_validate || {}}
+          setState={(n, cb) => this.setState(n, cb)}
+          required
+        />
+        {/* end of bike source link */}
+
         {id ? (
           <React.Fragment>
             <h2>Bike Specs</h2>
-            {this.state.specs.map((n) => {
+            {this.state.specs.map((n, key) => {
               return (
                 <div className="grid">
-                  <div className="col-6">
+                  <div className="col-4">
                     <SelectStyled>
-                      <select name="" id="">
+                      <select name={`spec_name_${key}`}>
                         <option value="">Spec 1</option>
                         <option value="">Spec 2</option>
                       </select>
                     </SelectStyled>
                   </div>
-                  <div className="col-6">
+                  <div className="col-3">
                     <InputTextStyled>
-                      <input type="text" value="Input here..." />
+                      <input
+                        name={`spec_value_${key}`}
+                        type="text"
+                        value="Input here..."
+                      />
                     </InputTextStyled>
+                  </div>
+                  <div className="col-5">
+                    <Button
+                      size="small"
+                      color="white"
+                      type="button"
+                      onClick={() => {
+                        console.log("saving spec...")
+                      }}
+                      containerStyle={{
+                        marginRight: 10,
+                        display: "inline-block",
+                      }}
+                      text="Save"
+                    />
+                    <Button
+                      size="small"
+                      color="red"
+                      type="button"
+                      onClick={() => {
+                        console.log("saving spec...")
+                      }}
+                      containerStyle={{ display: "inline-block" }}
+                      text="x"
+                    />
                   </div>
                 </div>
               )

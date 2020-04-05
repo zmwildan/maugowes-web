@@ -37,53 +37,53 @@ const Menus = [
     name: "Blog",
     child: [
       {
-        name: "+Tambah Post",
-        link: "/super/blog/create"
+        name: "+ Create Post",
+        link: "/super/blog/create",
       },
       {
         name: "Posts",
-        link: "/super/blog"
-      }
-    ]
+        link: "/super/blog",
+      },
+    ],
   },
   {
     name: "Videos",
     child: [
       {
-        name: "+Tambah Video",
-        link: "/super/videos/create"
+        name: "+ Create Video",
+        link: "/super/videos/create",
       },
       {
         name: "Videos",
-        link: "/super/videos"
-      }
-    ]
+        link: "/super/videos",
+      },
+    ],
   },
   {
     name: "Bikes",
     child: [
       {
-        name: "+Tambah Sepeda",
-        link: "/super/bikes/create"
+        name: "+ Create Bike",
+        link: "/super/bikes/create",
       },
       {
         name: "Bikes",
-        link: "/super/bikes"
-      }
-    ]
+        link: "/super/bikes",
+      },
+    ],
   },
   {
     name: "Events",
     child: [
       {
-        name: "+Tambah Event",
-        link: "/super/events/create"
+        name: "+ Create Event",
+        link: "/super/events/create",
       },
       {
         name: "Events",
-        link: "/super/events"
-      }
-    ]
+        link: "/super/events",
+      },
+    ],
   },
   {
     name: "Akun",
@@ -94,10 +94,10 @@ const Menus = [
           e.preventDefault()
           dispatch(logout())
           setTimeout(() => location.reload(), 1200)
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ]
 
 class SuperLayout extends React.Component {
@@ -118,7 +118,7 @@ class SuperLayout extends React.Component {
                             <li key={mkey}>
                               <a
                                 href={m.onClick ? "#" : m.link || ""}
-                                onClick={e => {
+                                onClick={(e) => {
                                   if (m.onClick)
                                     return m.onClick(e, this.props.dispatch)
                                 }}>
@@ -201,6 +201,6 @@ class SuperLayout extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return { auth: state.Auth }
 })(SuperLayout)
