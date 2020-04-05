@@ -61,6 +61,7 @@ module.exports = {
     specs.map((n) => {
       if (!newSpecs[n.spec_group[0].name]) newSpecs[n.spec_group[0].name] = []
       newSpecs[n.spec_group[0].name].push({
+        id: n.spec[0]._id,
         spec: n.spec[0].name,
         description: n.description,
       })

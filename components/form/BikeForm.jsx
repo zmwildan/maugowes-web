@@ -2,25 +2,31 @@ import { stateValidatorChecker } from "../../modules/validator"
 import Toast from "../../modules/toast"
 
 // redux
-import { createBike, updateBike } from "../../redux/bikes/actions"
+import {
+  createBike,
+  updateBike,
+  updateBikeSpecsRelation,
+  deleteBikeSpecsRelation,
+} from "../../redux/bikes/actions"
 
 // components
 import InputText, { InputTextStyled } from "./InputText"
 import Select, { SelectStyled } from "./Select"
-import Editor from "./Editor"
 import Submit from "./Submit"
 import Button from "../buttons/index"
 import FormStyled from "./FormStyled"
 
 class BikeForm extends React.Component {
   state = {
-    images: [""],
-    specs: [""],
+    images: [],
+    specs: [],
+    specsName: [],
   }
 
   componentDidMount() {
     const { bikes, id } = this.props
     if (id && bikes[id]) {
+      // convert bike detail to state
       const bikeData = bikes[id]
       let nextState = {
         name: bikeData.name,
@@ -30,13 +36,53 @@ class BikeForm extends React.Component {
         estimated_price: bikeData.estimated_price,
         geometry: bikeData.geometry,
         source: bikeData.source,
+        specs: [],
       }
 
+      // convert bike images to state
       if (bikeData.images && bikeData.images.length > 0) {
         nextState.images = bikeData.images
       }
 
+      // transform bike specs to state
+      const groupSpecKey = Object.keys(bikeData.specs)
+      if (groupSpecKey && groupSpecKey.length > 0) {
+        groupSpecKey.map((n) => {
+          if (bikeData.specs[n]) {
+            bikeData.specs[n].map((m) => {
+              nextState.specs.push({
+                spec_id: m.id,
+                description: m.description,
+              })
+            })
+          }
+        })
+      }
+
       this.setState(nextState)
+    }
+  }
+
+  componentDidUpdate() {
+    let { specsName } = this.state
+    // convert bike group specs to state
+    const groupSpecsData = this.props.bikes.group_specs
+    if (
+      specsName.length == 0 &&
+      this.props.id &&
+      groupSpecsData.status == 200
+    ) {
+      console.log("group_sepcs", groupSpecsData)
+      groupSpecsData.results.map((n) => {
+        if (n.specs) {
+          n.specs.map((m) => {
+            specsName.push({
+              id: m.id,
+              name: m.name,
+            })
+          })
+        }
+      })
     }
   }
 
@@ -248,17 +294,30 @@ class BikeForm extends React.Component {
         />
         {/* end of bike source link */}
 
-        {id ? (
+        {id && this.state.specsName.length > 0 ? (
           <React.Fragment>
             <h2>Bike Specs</h2>
             {this.state.specs.map((n, key) => {
               return (
-                <div className="grid">
+                <div key={key} className="grid">
                   <div className="col-4">
                     <SelectStyled>
-                      <select name={`spec_name_${key}`}>
-                        <option value="">Spec 1</option>
-                        <option value="">Spec 2</option>
+                      <select
+                        name={`spec_name_${key}`}
+                        value={this.state.specs[key].spec_id || ""}
+                        onChange={(e) => {
+                          let { specs } = this.state
+                          specs[key].spec_id = e.target.value
+                          this.setState({ specs })
+                        }}>
+                        <option value="">-- Choose spec</option>
+                        {this.state.specsName.map((n) => {
+                          return (
+                            <option key={n.id} value={n.id}>
+                              {n.name}
+                            </option>
+                          )
+                        })}
                       </select>
                     </SelectStyled>
                   </div>
@@ -267,17 +326,33 @@ class BikeForm extends React.Component {
                       <input
                         name={`spec_value_${key}`}
                         type="text"
-                        value="Input here..."
+                        value={this.state.specs[key].description || ""}
+                        onChange={(e) => {
+                          let { specs } = this.state
+                          specs[key].description = e.target.value
+                          this.setState({ specs })
+                        }}
                       />
                     </InputTextStyled>
                   </div>
                   <div className="col-5">
                     <Button
                       size="small"
+                      isDisabled={
+                        !this.state.specs[key].spec_id ||
+                        !this.state.specs[key].description
+                      }
                       color="white"
                       type="button"
                       onClick={() => {
                         console.log("saving spec...")
+                        this.props.dispatch(
+                          updateBikeSpecsRelation({
+                            bike_id: id,
+                            spec_id: this.state.specs[key].spec_id,
+                            description: this.state.specs[key].description,
+                          })
+                        )
                       }}
                       containerStyle={{
                         marginRight: 10,
@@ -287,10 +362,23 @@ class BikeForm extends React.Component {
                     />
                     <Button
                       size="small"
+                      isDisabled={
+                        !this.state.specs[key].spec_id ||
+                        !this.state.specs[key].description
+                      }
                       color="red"
                       type="button"
                       onClick={() => {
-                        console.log("saving spec...")
+                        console.log("deleting spec...")
+                        let { specs } = this.state
+                        this.props.dispatch(
+                          deleteBikeSpecsRelation({
+                            bike_id: id,
+                            spec_id: this.state.specs[key].spec_id,
+                          })
+                        )
+                        specs.splice(key, 1)
+                        this.setState({ specs })
                       }}
                       containerStyle={{ display: "inline-block" }}
                       text="x"
@@ -305,7 +393,10 @@ class BikeForm extends React.Component {
               type="button"
               onClick={() => {
                 let { specs } = this.state
-                specs.push("")
+                specs.push({
+                  spec_id: "",
+                  description: "",
+                })
                 this.setState({ specs })
               }}
               text="+ Add Spec"

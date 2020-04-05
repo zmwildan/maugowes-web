@@ -85,8 +85,8 @@ const ButtonStyled = Styled.div`
 const Button = (props) => {
   return (
     <ButtonStyled
-      {...props}
       disabled={props.isDisabled}
+      {...props}
       style={props.containerStyle}>
       {props.type === "link" ? (
         <Link href={props.target} prefetch>

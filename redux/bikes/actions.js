@@ -105,4 +105,42 @@ export function fetchBikeDetail(bike_id) {
 /**
  * function to fetch all bike group specs and bike specs
  */
-export function fetchBikeGroupSpecs() {}
+export function fetchBikeGroupSpecs() {
+  return {
+    [CALL_API]: {
+      type: GET_BIKE,
+      filter: "group_specs",
+      endpoint: `/api/bike-group-specs/${seal.generateSeal()}`,
+    },
+  }
+}
+
+/**
+ * function to update bike spec relation
+ */
+export function updateBikeSpecsRelation(formdata) {
+  return {
+    [CALL_API]: {
+      type: GET_BIKE,
+      method: "PUT",
+      filter: "submit_bike_relation",
+      endpoint: `/api/bike-specs-relation/${seal.generateSeal()}`,
+      formdata,
+    },
+  }
+}
+
+/**
+ * function to delete bike spec relation
+ */
+export function deleteBikeSpecsRelation(formdata) {
+  return {
+    [CALL_API]: {
+      type: GET_BIKE,
+      method: "DELETE",
+      filter: "submit_bike_relation",
+      endpoint: `/api/bike-specs-relation/${seal.generateSeal()}`,
+      formdata,
+    },
+  }
+}

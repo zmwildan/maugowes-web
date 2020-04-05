@@ -8,6 +8,7 @@ import {
   fetchBikeBrands,
   fetchBikeTypes,
   fetchBikeDetail,
+  fetchBikeGroupSpecs,
 } from "../../../redux/bikes/actions"
 
 // components
@@ -50,7 +51,11 @@ class BikeForm extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchBikeTypes())
     this.props.dispatch(fetchBikeBrands())
-    if (this.state.id) this.props.dispatch(fetchBikeDetail(this.state.id))
+
+    if (this.state.id) {
+      this.props.dispatch(fetchBikeDetail(this.state.id))
+      this.props.dispatch(fetchBikeGroupSpecs())
+    }
   }
 
   render() {

@@ -338,7 +338,10 @@ module.exports = {
                 keysGroup[spec_group_name] = nextSpecs.length
                 nextSpecs.push({ name: spec_group_name, specs: [] })
               }
-              nextSpecs[keysGroup[spec_group_name]].specs.push(n.name)
+              nextSpecs[keysGroup[spec_group_name]].specs.push({
+                name: n.name,
+                id: n._id,
+              })
             })
             callback({
               status: 200,
@@ -421,6 +424,63 @@ module.exports = {
       return res.json({
         status: 200,
         message: "Update Bike Success",
+      })
+    })
+  },
+
+  /**
+   * function to update specs relation
+   * @param {*} req.body.spec_id
+   * @param {*} req.body.bike_id
+   * @param {*} req.body.description
+   * @see https://docs.mongodb.com/manual/reference/operator/update/setOnInsert/
+   */
+  updateSpecRelation(req, res) {
+    const { bike_id, spec_id, description } = req.body
+    return mongo(({ db, client }) => {
+      db.collection("bikes_specs_relations").update(
+        {
+          bike_id: ObjectId(bike_id),
+          spec_id: ObjectId(spec_id),
+        },
+        {
+          $set: { description },
+          $setOnInsert: {
+            bike_id: ObjectId(bike_id),
+            spec_id: ObjectId(spec_id),
+          },
+        },
+        { upsert: true }
+      )
+
+      client.close()
+
+      return res.json({
+        status: 200,
+        message: "Update spec sukses",
+      })
+    })
+  },
+
+  /**
+   * function to delete specs relation
+   * @param {string} req.body.spec_id
+   * @param {string} req.body.bike_id
+   */
+  deleteSpecRelation(req, res) {
+    return mongo(({ db, client }) => {
+      // delete on bikes_specs_relations based on spec_id and bike_id
+      // @see : https://docs.mongodb.com/manual/reference/method/db.collection.remove/
+      db.collection("bikes_specs_relations").remove({
+        bike_id: ObjectId(req.body.bike_id),
+        spec_id: ObjectId(req.body.spec_id),
+      })
+
+      client.close()
+
+      return res.json({
+        status: 200,
+        message: "Delete spec success",
       })
     })
   },

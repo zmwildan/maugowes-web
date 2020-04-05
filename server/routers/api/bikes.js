@@ -18,4 +18,16 @@ Router.get("/bike-types/:seal", BikeHandler.getBikeTypes)
 
 Router.get("/bike-group-specs/:seal", BikeHandler.getBikeGroupSpecs)
 
+// bike specs relation
+Router.put(
+  "/bike-specs-relation/:seal",
+  FormDataMiddleware,
+  BikeHandler.updateSpecRelation
+)
+Router.delete(
+  "/bike-specs-relation/:seal",
+  FormDataMiddleware,
+  BikeHandler.deleteSpecRelation
+)
+
 module.exports = Router
