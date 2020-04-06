@@ -3,6 +3,7 @@ import Styled from "styled-components"
 
 const BikeSpecsStyled = Styled.div`
   .bike-specs {
+    margin-bottom: 50px;
     h2 {
       margin: 30px 0;
       text-transform: capitalize;
@@ -29,7 +30,7 @@ const BikeSpecsStyled = Styled.div`
   }
 `
 
-const BikeSpecs = props => {
+const BikeSpecs = (props) => {
   const keys = Object.keys(props.data)
 
   return (
@@ -43,7 +44,9 @@ const BikeSpecs = props => {
                 {props.data[n].map((m, m_key) => {
                   return (
                     <li key={m_key}>
-                      <strong>{m.spec} : </strong>
+                      <strong style={{ textTransform: "capitalize" }}>
+                        {m.spec} :{" "}
+                      </strong>
                       {m.description}
                     </li>
                   )
@@ -58,7 +61,7 @@ const BikeSpecs = props => {
 }
 
 BikeSpecs.defaultProps = {
-  data: []
+  data: [],
 }
 
 export default BikeSpecs
