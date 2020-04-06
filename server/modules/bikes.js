@@ -435,7 +435,7 @@ module.exports = {
    * @param {*} req.body.description
    * @see https://docs.mongodb.com/manual/reference/operator/update/setOnInsert/
    */
-  updateSpecRelation(req, res) {
+  updateSpecRelation(req, res, callback) {
     const { bike_id, spec_id, description } = req.body
     return mongo(({ db, client }) => {
       db.collection("bikes_specs_relations").update(
@@ -455,7 +455,7 @@ module.exports = {
 
       client.close()
 
-      return res.json({
+      return callback({
         status: 200,
         message: "Update spec sukses",
       })
@@ -467,7 +467,7 @@ module.exports = {
    * @param {string} req.body.spec_id
    * @param {string} req.body.bike_id
    */
-  deleteSpecRelation(req, res) {
+  deleteSpecRelation(req, res, callback) {
     return mongo(({ db, client }) => {
       // delete on bikes_specs_relations based on spec_id and bike_id
       // @see : https://docs.mongodb.com/manual/reference/method/db.collection.remove/
@@ -478,7 +478,7 @@ module.exports = {
 
       client.close()
 
-      return res.json({
+      return callback({
         status: 200,
         message: "Delete spec success",
       })

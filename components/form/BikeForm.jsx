@@ -1,5 +1,4 @@
 import { stateValidatorChecker } from "../../modules/validator"
-import Toast from "../../modules/toast"
 
 // redux
 import {
@@ -15,6 +14,8 @@ import Select, { SelectStyled } from "./Select"
 import Submit from "./Submit"
 import Button from "../buttons/index"
 import FormStyled from "./FormStyled"
+
+let isInitial = true
 
 class BikeForm extends React.Component {
   state = {
@@ -44,10 +45,24 @@ class BikeForm extends React.Component {
         nextState.images = bikeData.images
       }
 
-      // transform bike specs to state
+      this.setState(nextState)
+    }
+  }
+
+  componentDidUpdate() {
+    const { id, bikes } = this.props
+    let { specsName } = this.state
+    const bikeData = bikes[id]
+
+    // create specs state
+    if (bikeData && bikeData.specs && isInitial) {
+      isInitial = false
+      let nextState = {
+        specs: [],
+      }
       const groupSpecKey = Object.keys(bikeData.specs)
       if (groupSpecKey && groupSpecKey.length > 0) {
-        groupSpecKey.map((n) => {
+        groupSpecKey.map((n, key) => {
           if (bikeData.specs[n]) {
             bikeData.specs[n].map((m) => {
               nextState.specs.push({
@@ -56,22 +71,17 @@ class BikeForm extends React.Component {
               })
             })
           }
+
+          if (key == groupSpecKey.length - 1) {
+            this.setState(nextState)
+          }
         })
       }
-
-      this.setState(nextState)
     }
-  }
 
-  componentDidUpdate() {
-    let { specsName } = this.state
     // convert bike group specs to state
     const groupSpecsData = this.props.bikes.group_specs
-    if (
-      specsName.length == 0 &&
-      this.props.id &&
-      groupSpecsData.status == 200
-    ) {
+    if (specsName.length == 0 && id && groupSpecsData.status == 200) {
       console.log("group_sepcs", groupSpecsData)
       groupSpecsData.results.map((n) => {
         if (n.specs) {
