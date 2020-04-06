@@ -1,25 +1,25 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../../config/index"
+import config from "../../../config/index"
 import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
   color_gray_soft,
   color_gray_medium,
-} from "../../components/Const"
+} from "../../../components/Const"
 
 // redux
 import {
   fetchBikeDetail,
   fetchBikes,
   fetchBikeTypes,
-} from "../../redux/bikes/actions"
-import { fetchGroupSpec } from "../../redux/groupSpec/actions"
+} from "../../../redux/bikes/actions"
+import { fetchGroupSpec } from "../../../redux/groupSpec/actions"
 
 // layouts
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
+import GlobalLayout from "../../../components/layouts/Global"
+import DefaultLayout from "../../../components/layouts/Default"
 
 // components
 const BikesCompareStyled = Styled.div`
@@ -114,11 +114,15 @@ const BikesCompareStyled = Styled.div`
     }
   `
 
+//setup before functions
+let typingTimer //timer identifier
+const doneTypingInterval = 500
+
 class BikesCompare extends React.Component {
   static async getInitialProps({ reduxStore, res, query }) {
+    const { id } = query
     if (typeof window == "undefined") {
       const { type, endpoint } = fetchGroupSpec("list")["CALL_API"]
-      const { id } = query
       //  only call in server side
       const groupSpecResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}`
@@ -145,6 +149,7 @@ class BikesCompare extends React.Component {
     return {
       id: query.id,
     }
+    return {}
   }
 
   constructor(props) {
@@ -152,6 +157,7 @@ class BikesCompare extends React.Component {
     const { id } = props
     this.state = {
       ids: [id],
+      search: "",
     }
   }
 
@@ -163,8 +169,15 @@ class BikesCompare extends React.Component {
     }
   }
 
-  handleChange = (e) => {
-    console.log(e)
+  handleKeyDown = (e) => {
+    clearTimeout(typingTimer)
+  }
+
+  handleKeyUp = (e) => {
+    clearTimeout(typingTimer)
+    typingTimer = setTimeout(() => {
+      console.log("asdf")
+    }, doneTypingInterval)
   }
 
   render() {
@@ -191,8 +204,11 @@ class BikesCompare extends React.Component {
                   type="text"
                   name="input-search-bike"
                   id="input-search-bike"
+                  value={this.state.search}
                   placeholder="Pencarian sepeda"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyDown={this.handleKeyDown}
+                  onKeyUp={this.handleKeyUp}
                 />
               </div>
             </div>
@@ -206,13 +222,13 @@ class BikesCompare extends React.Component {
                   {groupSpec.status === 200
                     ? groupSpec.results.map((data, key) => {
                         return (
-                          <React.Fragment>
+                          <React.Fragment key={key}>
                             <h3>{data.name}</h3>
                             <ul className="list-data">
                               {data.specs.map((spec, key) => {
                                 return (
                                   <li key={key}>
-                                    <strong>{spec}</strong>
+                                    <strong>{spec.name}</strong>
                                   </li>
                                 )
                               })}
@@ -253,14 +269,13 @@ class BikesCompare extends React.Component {
                             {groupSpec.results.map((data, key) => {
                               const specs = bikeData.specs[data.name] || []
                               return (
-                                <React.Fragment>
+                                <React.Fragment key={key}>
                                   <h3>{data.name}</h3>
                                   <ul className="list-data">
                                     {data.specs.map((data, i) => {
-                                      console.log(data)
-                                      const spec = specs[data] || {}
+                                      const spec = specs[data.name] || {}
                                       return (
-                                        <li>
+                                        <li key={i}>
                                           {spec.description
                                             ? spec.description
                                             : "-"}
