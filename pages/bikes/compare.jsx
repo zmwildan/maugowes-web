@@ -1,17 +1,21 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import { extractPath } from "../../modules/url"
 import config from "../../config/index"
 import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
   color_gray_soft,
-  color_gray_medium
+  color_gray_medium,
 } from "../../components/Const"
 
 // redux
-import { fetchBikeDetail } from "../../redux/bikes/actions"
+import {
+  fetchBikeDetail,
+  fetchBikes,
+  fetchBikeTypes,
+} from "../../redux/bikes/actions"
+import { fetchGroupSpec } from "../../redux/groupSpec/actions"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -98,7 +102,6 @@ const BikesCompareStyled = Styled.div`
             }
           }
           .bike-compare-right__item__content {
-            height: 1500px;
             h3 {
               &:first-child {
                 margin-top: 0;
@@ -114,38 +117,63 @@ const BikesCompareStyled = Styled.div`
 class BikesCompare extends React.Component {
   static async getInitialProps({ reduxStore, res, query }) {
     if (typeof window == "undefined") {
-      const { ids } = query
-      const { type, endpoint } = fetchBikeDetail(ids)["CALL_API"]
+      const { type, endpoint } = fetchGroupSpec("list")["CALL_API"]
+      const { id } = query
       //  only call in server side
-      const bikeResponse = await fetch(
+      const groupSpecResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}`
+      )
+      const groupSpec = await groupSpecResponse.json()
+      reduxStore.dispatch({
+        type,
+        filter: "list",
+        data: groupSpec,
+      })
+      const fetchBike = fetchBikeDetail(id)["CALL_API"]
+      const fetchBikeType = fetchBike.type
+      const bikeResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}${fetchBike.endpoint}`
       )
       const bike = await bikeResponse.json()
       reduxStore.dispatch({
-        type,
-        filter: ids,
-        data: bike
+        type: fetchBikeType,
+        filter: id,
+        data: bike,
       })
     }
 
     return {
-      ids: query.ids
+      id: query.id,
     }
   }
 
   constructor(props) {
     super(props)
-    const { ids } = props
+    const { id } = props
     this.state = {
-      ids: [ids]
+      ids: [id],
     }
+  }
+
+  componentDidMount() {
+    const { id, dispatch } = this.props
+    const bikeData = this.props.bikes[id] || {}
+    if (!bikeData.status) {
+      dispatch(fetchBikeDetail(id))
+    }
+  }
+
+  handleChange = (e) => {
+    console.log(e)
   }
 
   render() {
     const MetaData = {
       title: `Perbandingan Sepeda - Mau Gowes`,
-      description: `Spesifikasi dan deskripsi dari`
+      description: `Spesifikasi dan deskripsi dari`,
     }
+
+    const groupSpec = this.props.groupSpec["list"] || {}
 
     return (
       <GlobalLayout metadata={MetaData}>
@@ -164,6 +192,7 @@ class BikesCompare extends React.Component {
                   name="input-search-bike"
                   id="input-search-bike"
                   placeholder="Pencarian sepeda"
+                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -171,23 +200,27 @@ class BikesCompare extends React.Component {
 
             <div className="grid-noGutter bike-compare-specs">
               {/* left side */}
+
               <div className="col-3_xs-6 bike-compare-left">
                 <div className="bike-compare-left__item">
-                  <h3>Groupset</h3>
-                  <ul className="list-data">
-                    <li>
-                      <strong>Electric Sifter :</strong>
-                    </li>
-                    <li>
-                      <strong>Cassete :</strong>
-                    </li>
-                    <li>
-                      <strong>Electric Sifter :</strong>
-                    </li>
-                    <li>
-                      <strong>Cassete :</strong>
-                    </li>
-                  </ul>
+                  {groupSpec.status === 200
+                    ? groupSpec.results.map((data, key) => {
+                        return (
+                          <React.Fragment>
+                            <h3>{data.name}</h3>
+                            <ul className="list-data">
+                              {data.specs.map((spec, key) => {
+                                return (
+                                  <li key={key}>
+                                    <strong>{spec}</strong>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </React.Fragment>
+                        )
+                      })
+                    : null}
                 </div>
               </div>
               {/* end of left side */}
@@ -205,7 +238,7 @@ class BikesCompare extends React.Component {
                           <div
                             className="bike-compare-right__item__thumbnail"
                             style={{
-                              backgroundImage: `url(${bikeData.images[0]})`
+                              backgroundImage: `url(${bikeData.images[0]})`,
                             }}>
                             {key ? (
                               <button type="button" className="btn-delete">
@@ -217,13 +250,27 @@ class BikesCompare extends React.Component {
                             <h4>{bikeData.name}</h4>
                           </div>
                           <div className="bike-compare-right__item__content">
-                            <h3>Groupset</h3>
-                            <ul className="list-data">
-                              <li>yes, Shimano Di2</li>
-                              <li>12 speed, 10t - 28t</li>
-                              <li>yes, Shimano Di2</li>
-                              <li>12 speed, 10t - 28t</li>
-                            </ul>
+                            {groupSpec.results.map((data, key) => {
+                              const specs = bikeData.specs[data.name] || []
+                              return (
+                                <React.Fragment>
+                                  <h3>{data.name}</h3>
+                                  <ul className="list-data">
+                                    {data.specs.map((data, i) => {
+                                      console.log(data)
+                                      const spec = specs[data] || {}
+                                      return (
+                                        <li>
+                                          {spec.description
+                                            ? spec.description
+                                            : "-"}
+                                        </li>
+                                      )
+                                    })}
+                                  </ul>
+                                </React.Fragment>
+                              )
+                            })}
                           </div>
                         </div>
                       )
@@ -240,8 +287,9 @@ class BikesCompare extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    bikes: state.Bikes
+    bikes: state.Bikes,
+    groupSpec: state.GroupSpec,
   }
 })(BikesCompare)
