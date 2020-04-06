@@ -6,7 +6,7 @@ import {
   color_gray_medium,
   color_blue_main,
   color_gray_dark,
-  color_black_main
+  color_black_main,
 } from "../Const"
 
 export const SelectStyled = Styled.div`
@@ -22,14 +22,14 @@ export const SelectStyled = Styled.div`
     font-size: 12px;
   }
   select {
-    border-radius: none;
+    border-radius: 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     width: 100%;
     padding: 10px 0;
     font-size: 15px;
-    color: ${color_gray_dark};
+    color: ${color_black_main};
     border: none;
     border-bottom: 2px solid ${color_gray_medium};
     outline: 0;
@@ -53,7 +53,7 @@ export default class Select extends React.Component {
     const { value } = e.target
     this.props.setState(
       {
-        [this.props.name]: value
+        [this.props.name]: value,
       },
       () => {
         this.validateInput()
@@ -64,12 +64,20 @@ export default class Select extends React.Component {
   validateInput(props = this.props) {
     const result = validate(props)
     this.props.setState({
-      [this.props.name + "_validate"]: result
+      [this.props.name + "_validate"]: result,
     })
   }
 
   render() {
-    const { value, label, name, validate, autoFocus, autoComplete } = this.props
+    const {
+      value,
+      label,
+      name,
+      validate,
+      autoFocus,
+      autoComplete,
+      placeholder,
+    } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
     return (
       <SelectStyled className={`form-child ${!is_valid ? "error" : ""}`}>
@@ -79,7 +87,8 @@ export default class Select extends React.Component {
             {this.props.required ? <span className="text-red">*</span> : null}
           </label>
         ) : null}
-        <select onChange={e => this.handleChange(e)}>
+        <select onChange={(e) => this.handleChange(e)} value={value || ""}>
+          {placeholder ? <option value="">{placeholder}</option> : null}
           {this.props.options.map((n, key) => {
             return (
               <option key={key} value={n.value}>
@@ -112,5 +121,5 @@ Select.defaultProps = {
   required: false,
   autoFocus: false,
   autoComplete: "off",
-  placeholder: ""
+  placeholder: "",
 }

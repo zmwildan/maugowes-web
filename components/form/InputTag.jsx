@@ -10,27 +10,28 @@ const InputTagsStyled = Styled.div`
 
 class InputTags extends React.Component {
   state = {
-    Tags: null
+    Tags: null,
   }
 
   componentDidMount = () => {
     const { Tags } = require("../../modules/tagify")
-    setTimeout(() => {
-      this.setState({ Tags })
-    }, 1500)
+    this.setState({ Tags })
+    // setTimeout(() => {
+    //   this.setState({ Tags })
+    // }, 1500)
   }
 
-  tagifyAddHandler = e => {
-    let {tags} = this.props 
+  tagifyAddHandler = (e) => {
+    let { tags } = this.props
     tags.push(e.detail.data.value)
-    this.props.setState({[this.props.name]: tags})
+    this.props.setState({ [this.props.name]: tags })
   }
 
-  tagifyRemoveHandler = e => {
-    let {tags} = this.props 
+  tagifyRemoveHandler = (e) => {
+    let { tags } = this.props
     const index = tags.indexOf(e.detail.data.value)
     tags.splice(index, 1)
-    this.props.setState({[this.props.name]: tags})
+    this.props.setState({ [this.props.name]: tags })
   }
 
   render = () => {
@@ -38,18 +39,22 @@ class InputTags extends React.Component {
     const TagifySettings = {
       callbacks: {
         add: this.tagifyAddHandler,
-        remove: this.tagifyRemoveHandler
-      }
+        remove: this.tagifyRemoveHandler,
+      },
     }
+    const { Tags } = this.state
 
+    console.log("Tags", this.state.Tags)
     return (
       <InputTagsStyled className="form-child">
         <label htmlFor={this.props.id || this.props.name}>
           {this.props.label}{" "}
-          {this.props.required && this.props.label? <span className="text-red">*</span> : null}
+          {this.props.required && this.props.label ? (
+            <span className="text-red">*</span>
+          ) : null}
         </label>
-        {this.state.Tags ? (
-          <this.state.Tags
+        {Tags ? (
+          <Tags
             settings={TagifySettings}
             mode="input"
             name={this.props.name}
@@ -63,7 +68,7 @@ class InputTags extends React.Component {
 
 InputTags.defaultProps = {
   initialValue: "",
-  tags: []
+  tags: [],
 }
 
 export default InputTags

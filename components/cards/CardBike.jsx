@@ -1,6 +1,7 @@
 import Styled from "styled-components"
 import { scaleNumber, toSlug } from "string-manager"
 import { color_gray_dark, color_blue_main, color_black_main } from "../Const"
+import Link from "next/link"
 
 const CardBikeStyled = Styled.div`
  .card-bike {
@@ -40,15 +41,17 @@ const CardBike = ({ data }) => {
       <div className="card-bike">
         <div
           className="card-bike__thumb"
-          style={{ backgroundImage: `url(${data.images})` }}
+          style={{ backgroundImage: `url(${data.images || ""})` }}
         />
         <div className="card-bike__text">
-          <a href={linkTarget}>
-            <h3>{data.name}</h3>
-            <small className="text-muted">
-              estimasi Rp {scaleNumber(data.estimated_price)}
-            </small>
-          </a>
+          <Link href={"/bikes/[id]"} as={linkTarget} prefetch>
+            <a href={linkTarget}>
+              <h3>{data.name}</h3>
+              <small className="text-muted">
+                estimasi Rp {scaleNumber(data.estimated_price)}
+              </small>
+            </a>
+          </Link>
         </div>
       </div>
     </CardBikeStyled>

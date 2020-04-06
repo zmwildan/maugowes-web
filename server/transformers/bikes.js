@@ -24,7 +24,9 @@ module.exports = {
       estimated_price: n.estimated_price,
       release_date: n.release_date,
       geometry: n.geometry,
-      source: n.source
+      source: n.source,
+      created: n.created_on,
+      updated_on: n.updated_on,
     }
   },
   /**
@@ -46,7 +48,9 @@ module.exports = {
       brand,
       type,
       name: n.name,
-      estimated_price: n.estimated_price
+      estimated_price: n.estimated_price,
+      created: n.created_on,
+      updated_on: n.updated_on,
     }
   },
   /**
@@ -54,14 +58,15 @@ module.exports = {
    */
   bikeSpecs: (specs = []) => {
     let newSpecs = {}
-    specs.map(n => {
+    specs.map((n) => {
       if (!newSpecs[n.spec_group[0].name]) newSpecs[n.spec_group[0].name] = []
       newSpecs[n.spec_group[0].name].push({
+        id: n.spec[0]._id,
         spec: n.spec[0].name,
-        description: n.description
+        description: n.description,
       })
     })
 
     return newSpecs
-  }
+  },
 }

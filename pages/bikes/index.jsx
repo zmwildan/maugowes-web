@@ -7,7 +7,7 @@ import config from "../../config/index"
 import {
   fetchBikes,
   fetchBikeBrands,
-  fetchBikeTypes
+  fetchBikeTypes,
 } from "../../redux/bikes/actions"
 
 // layouts
@@ -28,7 +28,7 @@ const BikesStyled = Styled.div`
 
 const MetaData = {
   title: "Bikes",
-  description: "Temukan sepeda dan sepesifikasinya di halaman ini."
+  description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
 }
 
 const Host = config[process.env.NODE_ENV].host
@@ -36,7 +36,7 @@ const Host = config[process.env.NODE_ENV].host
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
-    limit: 12
+    limit: 12,
   }
 
   if (query.brand) reqQuery.brand = query.brand
@@ -59,7 +59,7 @@ class BikesIndex extends React.Component {
       reduxStore.dispatch({
         type: fetchBikeBrands()["CALL_API"].type,
         filter: fetchBikeBrands()["CALL_API"].filter,
-        data: bikeBrands
+        data: bikeBrands,
       })
 
       // request list bike types
@@ -70,7 +70,7 @@ class BikesIndex extends React.Component {
       reduxStore.dispatch({
         type: fetchBikeTypes()["CALL_API"].type,
         filter: fetchBikeTypes()["CALL_API"].filter,
-        data: bikeTypes
+        data: bikeTypes,
       })
 
       // request list bikes
@@ -81,7 +81,7 @@ class BikesIndex extends React.Component {
       reduxStore.dispatch({
         type: fetchBikes()["CALL_API"].type,
         filter: fetchBikes()["CALL_API"].filter,
-        data: bikes
+        data: bikes,
       })
     }
     return { query }
@@ -90,13 +90,12 @@ class BikesIndex extends React.Component {
   componentDidMount() {
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
-    const bikes = this.props.bikes.bike_list || {}
 
     const reqQuery = requestQueryGenerator(this.props.query)
 
     if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
     if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
-    if (!bikes.status) this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    this.props.dispatch(fetchBikes("bike_list", reqQuery))
   }
 
   render() {
@@ -127,8 +126,8 @@ class BikesIndex extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    bikes: state.Bikes
+    bikes: state.Bikes,
   }
 })(BikesIndex)

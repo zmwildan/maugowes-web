@@ -1,7 +1,12 @@
 import Head from "next/head"
 import React from "react"
 import Styled from "styled-components"
-import { color_black_main, color_blue_main, color_gray_dark } from "../Const"
+import {
+  color_black_main,
+  color_blue_main,
+  color_gray_dark,
+  color_red_main,
+} from "../Const"
 
 const GlobalLayoutStyled = Styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -37,6 +42,9 @@ const GlobalLayoutStyled = Styled.div`
     padding: 0;
     margin: 0;
   }
+  .m-t-b-30 {
+    margin: 30px 0;
+  }
   .m-t-50 {
     margin-top: 50px;
   }
@@ -51,6 +59,9 @@ const GlobalLayoutStyled = Styled.div`
   }
   .text-black {
     color: ${color_black_main};
+  }
+  .text-ted {
+    color: ${color_red_main};
   }
 
   // responsive section
@@ -76,7 +87,7 @@ const defaultMetadata = {
   keywords:
     "mau gowes,bersepeda,cycling,bicycle,sepeda,roadbike,mtb,folding bike,bike to work",
   url: "https://maugowes.com",
-  type: "blog"
+  type: "blog",
 }
 
 export default class HomeLayout extends React.Component {
@@ -137,7 +148,7 @@ export default class HomeLayout extends React.Component {
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
-                __html: JSON.stringify(metadata.jsonld)
+                __html: JSON.stringify(metadata.jsonld),
               }}
             />
           ) : null}
@@ -166,7 +177,7 @@ export default class HomeLayout extends React.Component {
               gtag('js', new Date());
             
               gtag('config', 'UA-138742898-1');
-            `
+            `,
                 }}
               />
             </React.Fragment>

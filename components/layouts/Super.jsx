@@ -32,6 +32,74 @@ const SuperStyled = Styled.div`
   }
 `
 
+const Menus = [
+  {
+    name: "Blog",
+    child: [
+      {
+        name: "+ Create Post",
+        link: "/super/blog/create",
+      },
+      {
+        name: "Posts",
+        link: "/super/blog",
+      },
+    ],
+  },
+  {
+    name: "Videos",
+    child: [
+      {
+        name: "+ Create Video",
+        link: "/super/videos/create",
+      },
+      {
+        name: "Videos",
+        link: "/super/videos",
+      },
+    ],
+  },
+  {
+    name: "Bikes",
+    child: [
+      {
+        name: "+ Create Bike",
+        link: "/super/bikes/create",
+      },
+      {
+        name: "Bikes",
+        link: "/super/bikes",
+      },
+    ],
+  },
+  {
+    name: "Events",
+    child: [
+      {
+        name: "+ Create Event",
+        link: "/super/events/create",
+      },
+      {
+        name: "Events",
+        link: "/super/events",
+      },
+    ],
+  },
+  {
+    name: "Akun",
+    child: [
+      {
+        name: "Keluar",
+        onClick: (e, dispatch) => {
+          e.preventDefault()
+          dispatch(logout())
+          setTimeout(() => location.reload(), 1200)
+        },
+      },
+    ],
+  },
+]
+
 class SuperLayout extends React.Component {
   render() {
     return (
@@ -39,7 +107,32 @@ class SuperLayout extends React.Component {
         <div className="grid">
           <div className="col-2_md-3_xs-12">
             <div className="super-sidebar">
-              <div className="super-sidebar-child">
+              {Menus.map((n, key) => {
+                return (
+                  <div key={key} className="super-sidebar-child">
+                    <strong>{n.name}</strong>
+                    {n.child ? (
+                      <ul>
+                        {n.child.map((m, mkey) => {
+                          return (
+                            <li key={mkey}>
+                              <a
+                                href={m.onClick ? "#" : m.link || ""}
+                                onClick={(e) => {
+                                  if (m.onClick)
+                                    return m.onClick(e, this.props.dispatch)
+                                }}>
+                                {m.name}
+                              </a>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    ) : null}
+                  </div>
+                )
+              })}
+              {/* <div className="super-sidebar-child">
                 <strong>Blog</strong>
                 <ul>
                   <li>
@@ -59,6 +152,18 @@ class SuperLayout extends React.Component {
                   </li>
                   <li>
                     <a href="/super/videos">Videos</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="super-sidebar-child">
+                <strong>Bikes</strong>
+                <ul>
+                  <li>
+                    <a href="/super/bikes/create">+Tambah Bike</a>
+                  </li>
+                  <li>
+                    <a href="/super/bikes">Bikes</a>
                   </li>
                 </ul>
               </div>
@@ -86,7 +191,7 @@ class SuperLayout extends React.Component {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-8_md-9_xs-12">{this.props.children}</div>
@@ -96,6 +201,6 @@ class SuperLayout extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return { auth: state.Auth }
 })(SuperLayout)
