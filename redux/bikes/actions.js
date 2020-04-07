@@ -56,7 +56,7 @@ export function updateBike(formdata, bike_id) {
 export function fetchBikes(filter = "bike_list", query = {}) {
   return {
     [CALL_API]: {
-      type: query.page == 1 ? GET_BIKE : GET_MORE_BIKE,
+      type: query.page <= 1 ? GET_BIKE : GET_MORE_BIKE,
       filter,
       endpoint: `/api/bikes/${seal.generateSeal()}?${objToQuery(query)}`,
     },

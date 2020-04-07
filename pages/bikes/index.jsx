@@ -32,7 +32,7 @@ const MetaData = {
 }
 
 const Host = config[process.env.NODE_ENV].host
-const MaxResults = 1
+const MaxResults = 9
 
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
