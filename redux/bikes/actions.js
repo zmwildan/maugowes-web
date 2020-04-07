@@ -1,4 +1,5 @@
 export const GET_BIKE = "GET_BIKE"
+export const GET_MORE_BIKE = "GET_MORE_BIKE"
 export const SUBMIT_BIKE = "SUBMIT_BIKE"
 
 import { CALL_API } from "../middlewares/requestApi"
@@ -55,7 +56,7 @@ export function updateBike(formdata, bike_id) {
 export function fetchBikes(filter = "bike_list", query = {}) {
   return {
     [CALL_API]: {
-      type: GET_BIKE,
+      type: query.page == 1 ? GET_BIKE : GET_MORE_BIKE,
       filter,
       endpoint: `/api/bikes/${seal.generateSeal()}?${objToQuery(query)}`,
     },

@@ -116,7 +116,7 @@ module.exports = {
                   // data not found
                   return callback({
                     status: 204,
-                    message: "Sepeda tidak tersedia",
+                    message: "Bike Not Found",
                     total: count && count[0] ? count[0].total : 0,
                   })
                 }
@@ -133,7 +133,7 @@ module.exports = {
     const { id } = req.params
     // id validation
     if (id && id.length != 24) {
-      return callback({ status: 204, messages: "Sepeda tidak ditemukan" })
+      return callback({ status: 204, messages: "Bike Not Found" })
     }
 
     let aggregate = [
@@ -176,7 +176,7 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "Sepeda tidak ditemukan",
+              messages: "Bike Not Found",
             })
           }
 
@@ -247,7 +247,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Merek sepeda tidak ditemukan",
+              messages: "Bike Brand Not Found",
             })
           }
 
@@ -284,7 +284,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Tipe sepeda tidak ditemukan",
+              messages: "Bike Type Not Found",
             })
           }
 

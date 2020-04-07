@@ -1,11 +1,16 @@
-import { GET_BIKE, SUBMIT_BIKE } from "./actions"
-import { receiveDataByFilter } from "../modules/reducerHandler"
+import { GET_BIKE, GET_MORE_BIKE, SUBMIT_BIKE } from "./actions"
+import {
+  receiveDataByFilter,
+  receiveMoreDataByFilter,
+} from "../modules/reducerHandler"
 
 export default (state = {}, action) => {
   switch (action.type) {
     case GET_BIKE:
     case SUBMIT_BIKE:
       return receiveDataByFilter(state, action)
+    case GET_MORE_BIKE:
+      return receiveMoreDataByFilter(state, action)
     default:
       return state
   }

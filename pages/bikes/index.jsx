@@ -32,11 +32,12 @@ const MetaData = {
 }
 
 const Host = config[process.env.NODE_ENV].host
+const MaxResults = 1
 
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
-    limit: 12,
+    limit: MaxResults,
   }
 
   if (query.brand) reqQuery.brand = query.brand
@@ -87,6 +88,10 @@ class BikesIndex extends React.Component {
     return { query }
   }
 
+  state = {
+    page: 1,
+  }
+
   componentDidMount() {
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
@@ -96,6 +101,22 @@ class BikesIndex extends React.Component {
     if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
     if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
     this.props.dispatch(fetchBikes("bike_list", reqQuery))
+  }
+
+  loadmoreHandler() {
+    const bikeData = this.props.bikes.bike_list || {}
+    if (!bikeData.is_loading && bikeData.status == 200) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+        },
+        async () => {
+          let reqQuery = requestQueryGenerator(this.props.query)
+          reqQuery.page = this.state.page
+          return this.props.dispatch(fetchBikes("bike_list", reqQuery))
+        }
+      )
+    }
   }
 
   render() {
@@ -116,7 +137,11 @@ class BikesIndex extends React.Component {
                 bikeTypes={this.props.bikes.bike_types}
               />
               <div className="content col-9_md-8_xs-12">
-                <BikesBox data={this.props.bikes.bike_list || {}} />
+                <BikesBox
+                  data={this.props.bikes.bike_list || {}}
+                  loadmoreHandler={() => this.loadmoreHandler()}
+                  maxResults={MaxResults}
+                />
               </div>
             </div>
           </BikesStyled>
