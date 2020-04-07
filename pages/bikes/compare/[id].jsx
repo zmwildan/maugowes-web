@@ -163,9 +163,6 @@ class BikesCompare extends React.Component {
     if (!bikeData.status) {
       dispatch(fetchBikeDetail(id))
     }
-    dispatch(
-      fetchBikes("bike_autocomplete", { q: this.state.search, limit: 6 })
-    )
   }
 
   handleKeyDown = (e) => {
@@ -179,7 +176,11 @@ class BikesCompare extends React.Component {
     if ((/[a-zA-Z0-9-_ ]/.test(inp) || e.keyCode === 8) && this.state.search) {
       typingTimer = setTimeout(() => {
         this.props.dispatch(
-          fetchBikes("bike_autocomplete", { q: this.state.search, limit: 6 })
+          fetchBikes("bike_autocomplete", {
+            q: this.state.search,
+            limit: 6,
+            page: 1,
+          })
         )
       }, doneTypingInterval)
     }
