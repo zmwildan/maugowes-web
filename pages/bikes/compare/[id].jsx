@@ -17,6 +17,7 @@ import { fetchGroupSpec } from "../../../redux/groupSpec/actions"
 import GlobalLayout from "../../../components/layouts/Global"
 import DefaultLayout from "../../../components/layouts/Default"
 import BikeAutoComplete from "../../../components/boxs/BikeAutoComplete"
+import CardCompareBike from "../../../components/cards/CardCompareBike"
 
 // components
 const BikesCompareStyled = Styled.div`
@@ -235,10 +236,10 @@ class BikesCompare extends React.Component {
                   onChange={(e) => this.setState({ search: e.target.value })}
                   onKeyDown={this.handleKeyDown}
                   onKeyUp={this.handleKeyUp}
-                  autocomplete="off"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                 />
                 {this.state.search ? (
                   <BikeAutoComplete
@@ -284,49 +285,13 @@ class BikesCompare extends React.Component {
                     const bikeData = this.props.bikes[n] || {}
                     if (bikeData.status === 200) {
                       return (
-                        <div
+                        <CardCompareBike
+                          bikeData={bikeData}
+                          groupSpec={groupSpec}
+                          idx={key}
                           key={key}
-                          className="col-3_md-6_xs-12 bike-compare-right__item">
-                          <div
-                            className="bike-compare-right__item__thumbnail"
-                            style={{
-                              backgroundImage: `url(${bikeData.images[0]})`,
-                            }}>
-                            {key ? (
-                              <button
-                                type="button"
-                                className="btn-delete"
-                                onClick={() => this.removeBike(bikeData.id)}>
-                                x
-                              </button>
-                            ) : null}
-                          </div>
-                          <div className="bike-compare-right__item__title">
-                            <h4>{bikeData.name}</h4>
-                          </div>
-                          <div className="bike-compare-right__item__content">
-                            {groupSpec.results.map((data, key) => {
-                              const specs = bikeData.specs[data.name] || []
-                              return (
-                                <React.Fragment key={key}>
-                                  <h3>{data.name}</h3>
-                                  <ul className="list-data">
-                                    {data.specs.map((data, i) => {
-                                      const spec = specs[data.name] || {}
-                                      return (
-                                        <li key={i}>
-                                          {spec.description
-                                            ? spec.description
-                                            : "-"}
-                                        </li>
-                                      )
-                                    })}
-                                  </ul>
-                                </React.Fragment>
-                              )
-                            })}
-                          </div>
-                        </div>
+                          removeBike={this.removeBike}
+                        />
                       )
                     }
                   })}
