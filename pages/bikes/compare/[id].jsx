@@ -1,21 +1,23 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import { extractPath } from "../../modules/url"
-import config from "../../config/index"
+import config from "../../../config/index"
 import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
   color_gray_soft,
-  color_gray_medium
-} from "../../components/Const"
+  color_gray_medium,
+} from "../../../components/Const"
 
 // redux
-import { fetchBikeDetail } from "../../redux/bikes/actions"
+import { fetchBikeDetail, fetchBikes } from "../../../redux/bikes/actions"
+import { fetchGroupSpec } from "../../../redux/groupSpec/actions"
 
 // layouts
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
+import GlobalLayout from "../../../components/layouts/Global"
+import DefaultLayout from "../../../components/layouts/Default"
+import BikeAutoComplete from "../../../components/boxs/BikeAutoComplete"
+import CardCompareBike from "../../../components/cards/CardCompareBike"
 
 // components
 const BikesCompareStyled = Styled.div`
@@ -98,7 +100,6 @@ const BikesCompareStyled = Styled.div`
             }
           }
           .bike-compare-right__item__content {
-            height: 1500px;
             h3 {
               &:first-child {
                 margin-top: 0;
@@ -111,41 +112,109 @@ const BikesCompareStyled = Styled.div`
     }
   `
 
+//setup before functions
+let typingTimer //timer identifier
+const doneTypingInterval = 500
+
 class BikesCompare extends React.Component {
   static async getInitialProps({ reduxStore, res, query }) {
+    const { id } = query
     if (typeof window == "undefined") {
-      const { ids } = query
-      const { type, endpoint } = fetchBikeDetail(ids)["CALL_API"]
+      const { type, endpoint } = fetchGroupSpec("list")["CALL_API"]
       //  only call in server side
-      const bikeResponse = await fetch(
+      const groupSpecResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}`
+      )
+      const groupSpec = await groupSpecResponse.json()
+      reduxStore.dispatch({
+        type,
+        filter: "list",
+        data: groupSpec,
+      })
+      const fetchBike = fetchBikeDetail(id)["CALL_API"]
+      const bikeResponse = await fetch(
+        `${config[process.env.NODE_ENV].host}${fetchBike.endpoint}`
       )
       const bike = await bikeResponse.json()
       reduxStore.dispatch({
-        type,
-        filter: ids,
-        data: bike
+        type: fetchBikeDetail(id)["CALL_API"].type,
+        filter: id,
+        data: bike,
       })
     }
 
     return {
-      ids: query.ids
+      id: query.id,
     }
   }
 
   constructor(props) {
     super(props)
-    const { ids } = props
+    const { id } = props
     this.state = {
-      ids: [ids]
+      ids: [id],
+      search: "",
+    }
+  }
+
+  componentDidMount() {
+    const { id, dispatch } = this.props
+    const bikeData = this.props.bikes[id] || {}
+    if (!bikeData.status) {
+      dispatch(fetchBikeDetail(id))
+    }
+  }
+
+  handleKeyDown = (e) => {
+    if (e.keyCode === 38 || e.keyCode === 40) e.preventDefault()
+    clearTimeout(typingTimer)
+  }
+
+  handleKeyUp = (e) => {
+    clearTimeout(typingTimer)
+    const inp = String.fromCharCode(e.keyCode)
+    if ((/[a-zA-Z0-9-_ ]/.test(inp) || e.keyCode === 8) && this.state.search) {
+      typingTimer = setTimeout(() => {
+        this.props.dispatch(
+          fetchBikes("bike_autocomplete", {
+            q: this.state.search,
+            limit: 6,
+            page: 1,
+          })
+        )
+      }, doneTypingInterval)
+    }
+  }
+
+  setSuggestion = (id) => {
+    const { ids } = this.state
+    if (ids.indexOf(id) === -1) {
+      ids.push(id)
+      const bikeData = this.props.bikes[id] || {}
+      if (!bikeData.status) {
+        this.props.dispatch(fetchBikeDetail(id))
+      }
+    }
+    this.setState({ ids, search: "" })
+  }
+
+  removeBike = (id) => {
+    const { ids } = this.state
+    const idx = ids.indexOf(id)
+    if (idx !== -1) {
+      ids.splice(idx, 1)
+      this.setState({ ids })
     }
   }
 
   render() {
     const MetaData = {
       title: `Perbandingan Sepeda - Mau Gowes`,
-      description: `Spesifikasi dan deskripsi dari`
+      description: `Spesifikasi dan deskripsi dari`,
     }
+
+    const groupSpec = this.props.groupSpec["list"] || {}
+    const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
     return (
       <GlobalLayout metadata={MetaData}>
@@ -163,31 +232,49 @@ class BikesCompare extends React.Component {
                   type="text"
                   name="input-search-bike"
                   id="input-search-bike"
+                  value={this.state.search}
                   placeholder="Pencarian sepeda"
+                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyDown={this.handleKeyDown}
+                  onKeyUp={this.handleKeyUp}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                 />
+                {this.state.search ? (
+                  <BikeAutoComplete
+                    data={bikeLists}
+                    setSuggestion={this.setSuggestion}
+                  />
+                ) : null}
               </div>
             </div>
             {/* end of input to search data */}
 
             <div className="grid-noGutter bike-compare-specs">
               {/* left side */}
+
               <div className="col-3_xs-6 bike-compare-left">
                 <div className="bike-compare-left__item">
-                  <h3>Groupset</h3>
-                  <ul className="list-data">
-                    <li>
-                      <strong>Electric Sifter :</strong>
-                    </li>
-                    <li>
-                      <strong>Cassete :</strong>
-                    </li>
-                    <li>
-                      <strong>Electric Sifter :</strong>
-                    </li>
-                    <li>
-                      <strong>Cassete :</strong>
-                    </li>
-                  </ul>
+                  {groupSpec.status === 200
+                    ? groupSpec.results.map((data, key) => {
+                        return (
+                          <React.Fragment key={key}>
+                            <h3>{data.name}</h3>
+                            <ul className="list-data">
+                              {data.specs.map((spec, key) => {
+                                return (
+                                  <li key={key}>
+                                    <strong>{spec.name}</strong>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </React.Fragment>
+                        )
+                      })
+                    : null}
                 </div>
               </div>
               {/* end of left side */}
@@ -199,33 +286,13 @@ class BikesCompare extends React.Component {
                     const bikeData = this.props.bikes[n] || {}
                     if (bikeData.status === 200) {
                       return (
-                        <div
+                        <CardCompareBike
+                          bikeData={bikeData}
+                          groupSpec={groupSpec}
+                          idx={key}
                           key={key}
-                          className="col-3_md-6_xs-12 bike-compare-right__item">
-                          <div
-                            className="bike-compare-right__item__thumbnail"
-                            style={{
-                              backgroundImage: `url(${bikeData.images[0]})`
-                            }}>
-                            {key ? (
-                              <button type="button" className="btn-delete">
-                                x
-                              </button>
-                            ) : null}
-                          </div>
-                          <div className="bike-compare-right__item__title">
-                            <h4>{bikeData.name}</h4>
-                          </div>
-                          <div className="bike-compare-right__item__content">
-                            <h3>Groupset</h3>
-                            <ul className="list-data">
-                              <li>yes, Shimano Di2</li>
-                              <li>12 speed, 10t - 28t</li>
-                              <li>yes, Shimano Di2</li>
-                              <li>12 speed, 10t - 28t</li>
-                            </ul>
-                          </div>
-                        </div>
+                          removeBike={this.removeBike}
+                        />
                       )
                     }
                   })}
@@ -240,8 +307,9 @@ class BikesCompare extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    bikes: state.Bikes
+    bikes: state.Bikes,
+    groupSpec: state.GroupSpec,
   }
 })(BikesCompare)

@@ -33,6 +33,6 @@ module.exports = routes()
   .add("create_event", "/events/send", "events/send")
   .add("event_detail", "/events/:id", "events/detail")
 
-  // bikes routes
-  .add("bike_compare", "/bikes/compare", "bikes/compare")
+// bikes routes
+// .add("bike_compare", "/bikes/compare/:id", "bikes/compare")
 // .add("bike_detail", "/bikes/:id", "bikes/detail")
