@@ -153,7 +153,7 @@ class BikesCompare extends React.Component {
     const { id } = props
     this.state = {
       ids: [id],
-      search: "poly",
+      search: "",
     }
   }
 
