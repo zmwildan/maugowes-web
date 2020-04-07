@@ -4,6 +4,7 @@ import Styled from "styled-components"
 import CardBike from "../cards/CardBike"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
+import GA from "../../components/boxs/GA"
 
 const BikesBoxStyled = Styled.div`
 
@@ -18,7 +19,20 @@ class BikesBox extends React.Component {
           status == 200 ? (
             <div className="grid">
               {results.map((n, key) => (
-                <CardBike key={key} data={n} />
+                <React.Fragment key={key}>
+                  <CardBike data={n} />
+                  {results.length > 9 &&
+                  key !== 0 &&
+                  key !== results.length - 1 &&
+                  (key + 1) % 9 === 0 ? (
+                    <div className="col-12">
+                      <GA
+                        adClient="ca-pub-4468477322781117"
+                        adSlot="4316048838"
+                      />
+                    </div>
+                  ) : null}
+                </React.Fragment>
               ))}
             </div>
           ) : (

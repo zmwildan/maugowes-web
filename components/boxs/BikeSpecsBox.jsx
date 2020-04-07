@@ -13,14 +13,18 @@ const BikeSpecsStyled = Styled.div`
         line-height: 2;
         padding: 0;
         li {
-          padding: 5px 10px;
+          padding: 15px 0;
           list-style: none;
-          &:nth-child(even) {
-            background: ${color_gray_soft};
+          border-bottom: 1px solid ${color_gray_medium};
+          &:first-child {
+            border-top: 1px solid ${color_gray_medium};
           }
-          &:nth-child(odd) {
-            background: ${color_gray_medium};
-          }
+          // &:nth-child(even) {
+          //   background: ${color_gray_soft};
+          // }
+          // &:nth-child(odd) {
+          //   background: ${color_gray_medium};
+          // }
           strong {
             margin-right: 20px;
           }

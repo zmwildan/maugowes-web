@@ -5,10 +5,10 @@ import { color_gray_dark, color_gray_medium } from "../Const"
 // components
 import Button from "../buttons/index"
 import ImagePrevBox from "./ImagePreviewBox"
-import Share from "../boxs/Share"
+import GA from "../../components/boxs/GA"
 
 const ProductBoxStyled = Styled.div`
-margin: 80px 0;
+margin: 50px 0;
 line-height: 2;
 
 .product-page-right {
@@ -40,8 +40,9 @@ line-height: 2;
   color: ${color_gray_dark};
   font-size: 14px;
  }
+}
 
- // responsiveness
+// responsiveness
  // gridlex _xs
  @media (max-width: 36em) {
    
@@ -49,11 +50,9 @@ line-height: 2;
  // gridlex _sm
  @media (max-width: 48em) {
   .product-page-right {
-   padding: 0;
+   padding: 10px !important;
   }
  }
-
-}
 `
 
 const ProductBox = ({ data }) => {
@@ -95,6 +94,14 @@ const ProductBox = ({ data }) => {
             text="Komparasi"
             type="link"
             target={`/bikes/compare?ids=${data.id}`}
+          />
+        </div>
+
+        <div className="col-12">
+          <GA
+            style={{ marginBottom: 0 }}
+            adClient="ca-pub-4468477322781117"
+            adSlot="4316048838"
           />
         </div>
       </div>
