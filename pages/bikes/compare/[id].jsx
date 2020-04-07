@@ -10,16 +10,13 @@ import {
 } from "../../../components/Const"
 
 // redux
-import {
-  fetchBikeDetail,
-  fetchBikes,
-  fetchBikeTypes,
-} from "../../../redux/bikes/actions"
+import { fetchBikeDetail, fetchBikes } from "../../../redux/bikes/actions"
 import { fetchGroupSpec } from "../../../redux/groupSpec/actions"
 
 // layouts
 import GlobalLayout from "../../../components/layouts/Global"
 import DefaultLayout from "../../../components/layouts/Default"
+import BikeAutoComplete from "../../../components/boxs/BikeAutoComplete"
 
 // components
 const BikesCompareStyled = Styled.div`
@@ -134,13 +131,12 @@ class BikesCompare extends React.Component {
         data: groupSpec,
       })
       const fetchBike = fetchBikeDetail(id)["CALL_API"]
-      const fetchBikeType = fetchBike.type
       const bikeResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${fetchBike.endpoint}`
       )
       const bike = await bikeResponse.json()
       reduxStore.dispatch({
-        type: fetchBikeType,
+        type: fetchBikeDetail(id)["CALL_API"].type,
         filter: id,
         data: bike,
       })
@@ -149,7 +145,6 @@ class BikesCompare extends React.Component {
     return {
       id: query.id,
     }
-    return {}
   }
 
   constructor(props) {
@@ -157,7 +152,7 @@ class BikesCompare extends React.Component {
     const { id } = props
     this.state = {
       ids: [id],
-      search: "",
+      search: "poly",
     }
   }
 
@@ -167,17 +162,47 @@ class BikesCompare extends React.Component {
     if (!bikeData.status) {
       dispatch(fetchBikeDetail(id))
     }
+    dispatch(
+      fetchBikes("bike_autocomplete", { q: this.state.search, limit: 6 })
+    )
   }
 
   handleKeyDown = (e) => {
+    if (e.keyCode === 38 || e.keyCode === 40) e.preventDefault()
     clearTimeout(typingTimer)
   }
 
   handleKeyUp = (e) => {
     clearTimeout(typingTimer)
-    typingTimer = setTimeout(() => {
-      console.log("asdf")
-    }, doneTypingInterval)
+    const inp = String.fromCharCode(e.keyCode)
+    if ((/[a-zA-Z0-9-_ ]/.test(inp) || e.keyCode === 8) && this.state.search) {
+      typingTimer = setTimeout(() => {
+        this.props.dispatch(
+          fetchBikes("bike_autocomplete", { q: this.state.search, limit: 6 })
+        )
+      }, doneTypingInterval)
+    }
+  }
+
+  setSuggestion = (id) => {
+    const { ids } = this.state
+    if (ids.indexOf(id) === -1) {
+      ids.push(id)
+      const bikeData = this.props.bikes[id] || {}
+      if (!bikeData.status) {
+        this.props.dispatch(fetchBikeDetail(id))
+      }
+    }
+    this.setState({ ids, search: "" })
+  }
+
+  removeBike = (id) => {
+    const { ids } = this.state
+    const idx = ids.indexOf(id)
+    if (idx !== -1) {
+      ids.splice(idx, 1)
+      this.setState({ ids })
+    }
   }
 
   render() {
@@ -187,6 +212,7 @@ class BikesCompare extends React.Component {
     }
 
     const groupSpec = this.props.groupSpec["list"] || {}
+    const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
     return (
       <GlobalLayout metadata={MetaData}>
@@ -209,7 +235,17 @@ class BikesCompare extends React.Component {
                   onChange={(e) => this.setState({ search: e.target.value })}
                   onKeyDown={this.handleKeyDown}
                   onKeyUp={this.handleKeyUp}
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
                 />
+                {this.state.search ? (
+                  <BikeAutoComplete
+                    data={bikeLists}
+                    setSuggestion={this.setSuggestion}
+                  />
+                ) : null}
               </div>
             </div>
             {/* end of input to search data */}
@@ -257,7 +293,10 @@ class BikesCompare extends React.Component {
                               backgroundImage: `url(${bikeData.images[0]})`,
                             }}>
                             {key ? (
-                              <button type="button" className="btn-delete">
+                              <button
+                                type="button"
+                                className="btn-delete"
+                                onClick={() => this.removeBike(bikeData.id)}>
                                 x
                               </button>
                             ) : null}
