@@ -50,11 +50,15 @@ module.exports = {
 
   // function to update bike spec relation
   updateSpecRelation: (req, res) => {
-    return bikeModule.updateSpecRelation(req, res)
+    return bikeModule.updateSpecRelation(req, res, (json) => {
+      res.json(json)
+    })
   },
 
   // function to delete bike spec relation
   deleteSpecRelation: (req, res) => {
-    return bikeModule.deleteSpecRelation(req, res)
+    return bikeModule.deleteSpecRelation(req, res, (json) => {
+      res.json(json)
+    })
   },
 }

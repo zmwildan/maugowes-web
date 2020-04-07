@@ -1,10 +1,10 @@
 export function receiveDataByFilter(state, action) {
   if (action.data) {
-    state[action.filter] = action.data
+    state[action.filter] = action.data || {}
     state[action.filter].is_loading = false
   } else {
     state[action.filter] = {
-      is_loading: true
+      is_loading: true,
     }
   }
   return Object.assign({}, state)
@@ -13,7 +13,7 @@ export function receiveDataByFilter(state, action) {
 /**
  * function to receive data by filter
  * @param {string} filter
- * @param {object} state for reducer 
+ * @param {object} state for reducer
  * @param {object} action for reducer
  */
 export function receiveMoreDataByFilter(state, action) {

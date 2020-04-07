@@ -7,7 +7,7 @@ import Button from "../buttons/index"
 import GA from "../../components/boxs/GA"
 
 const BlogBoxStyled = Styled.div`
-  margin-top: ${props => (props.noHeaderTitle ? "50px" : "40px")};
+  margin-top: ${(props) => (props.noHeaderTitle ? "50px" : "40px")};
   .blog-box-title {
     border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
@@ -15,7 +15,7 @@ const BlogBoxStyled = Styled.div`
   }
 `
 
-const BlogBox = props => {
+const BlogBox = (props) => {
   const { results, status, message, stats, is_loading, total } = props.data
 
   return (
@@ -63,7 +63,7 @@ const BlogBox = props => {
         ) : null
       ) : null}
 
-      {is_loading ? <Loader /> : null}
+      {!status || is_loading ? <Loader /> : null}
 
       {status && status !== 200 ? <Error text={message} /> : null}
 
@@ -91,7 +91,7 @@ const BlogBox = props => {
 }
 
 BlogBox.defaultProps = {
-  maxResults: 3
+  maxResults: 3,
 }
 
 export default BlogBox

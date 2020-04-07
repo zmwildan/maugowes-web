@@ -22,7 +22,7 @@ const MaxResults = 6
 
 class Blog extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   static async getInitialProps({ reduxStore, query }) {
@@ -41,14 +41,14 @@ class Blog extends React.Component {
       reduxStore.dispatch({
         type,
         filter: StoreFilter,
-        data: posts
+        data: posts,
       })
     }
 
     return {
       tag: query.tag || "",
       username: query.username,
-      query
+      query,
     }
   }
 
@@ -65,12 +65,12 @@ class Blog extends React.Component {
     if (!blogState.is_loading && blogState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         async () => {
           let reqQuery = {
             limit: MaxResults,
-            page: this.state.page
+            page: this.state.page,
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
 
@@ -93,14 +93,14 @@ class Blog extends React.Component {
       <GlobalLayout
         metadata={{
           title,
-          description: "Baca postingan terupdate seputar dunia pergowesan"
+          description: "Baca postingan terupdate seputar dunia pergowesan",
         }}>
         <DefaultLayout>
           <BlogStyled>
             <Header
               title={title}
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
-              backgroundImage="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+              backgroundImage="/static/images/cover/cover-blog.jpeg"
             />
             <BlogBox
               noHeaderTitle
@@ -118,7 +118,7 @@ class Blog extends React.Component {
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
-    limit: MaxResults
+    limit: MaxResults,
   }
 
   if (query.tag) reqQuery.tag = query.tag
@@ -127,8 +127,8 @@ export function requestQueryGenerator(query = {}) {
   return reqQuery
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    blog: state.Blog
+    blog: state.Blog,
   }
 })(Blog)

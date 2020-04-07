@@ -116,7 +116,7 @@ module.exports = {
                   // data not found
                   return callback({
                     status: 204,
-                    message: "Sepeda tidak tersedia",
+                    message: "Bike Not Found",
                     total: count && count[0] ? count[0].total : 0,
                   })
                 }
@@ -133,7 +133,7 @@ module.exports = {
     const { id } = req.params
     // id validation
     if (id && id.length != 24) {
-      return callback({ status: 204, messages: "Sepeda tidak ditemukan" })
+      return callback({ status: 204, messages: "Bike Not Found" })
     }
 
     let aggregate = [
@@ -176,7 +176,7 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "Sepeda tidak ditemukan",
+              messages: "Bike Not Found",
             })
           }
 
@@ -247,7 +247,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Merek sepeda tidak ditemukan",
+              messages: "Bike Brand Not Found",
             })
           }
 
@@ -284,7 +284,7 @@ module.exports = {
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Tipe sepeda tidak ditemukan",
+              messages: "Bike Type Not Found",
             })
           }
 
@@ -435,7 +435,7 @@ module.exports = {
    * @param {*} req.body.description
    * @see https://docs.mongodb.com/manual/reference/operator/update/setOnInsert/
    */
-  updateSpecRelation(req, res) {
+  updateSpecRelation(req, res, callback) {
     const { bike_id, spec_id, description } = req.body
     return mongo(({ db, client }) => {
       db.collection("bikes_specs_relations").update(
@@ -455,7 +455,7 @@ module.exports = {
 
       client.close()
 
-      return res.json({
+      return callback({
         status: 200,
         message: "Update spec sukses",
       })
@@ -467,7 +467,7 @@ module.exports = {
    * @param {string} req.body.spec_id
    * @param {string} req.body.bike_id
    */
-  deleteSpecRelation(req, res) {
+  deleteSpecRelation(req, res, callback) {
     return mongo(({ db, client }) => {
       // delete on bikes_specs_relations based on spec_id and bike_id
       // @see : https://docs.mongodb.com/manual/reference/method/db.collection.remove/
@@ -478,7 +478,7 @@ module.exports = {
 
       client.close()
 
-      return res.json({
+      return callback({
         status: 200,
         message: "Delete spec success",
       })

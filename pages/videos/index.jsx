@@ -20,7 +20,7 @@ const MaxResults = 7
 
 class VideosPage extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   static async getInitialProps({ reduxStore, query }) {
@@ -40,12 +40,12 @@ class VideosPage extends React.Component {
       reduxStore.dispatch({
         type,
         filter: StoreFilter,
-        data: videos
+        data: videos,
       })
     }
 
     return {
-      query
+      query,
     }
   }
 
@@ -62,12 +62,12 @@ class VideosPage extends React.Component {
     if (!videosState.is_loading && videosState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         () => {
           let reqQuery = {
             limit: MaxResults,
-            page: this.state.page
+            page: this.state.page,
           }
 
           this.props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
@@ -83,14 +83,14 @@ class VideosPage extends React.Component {
         metadata={{
           title: "Video - Mau Gowes",
           description: "Video - video terbaru dari channel Youtube Mau Gowes",
-          keywords: "video maugowes,youtube maugowes,gowes,sepeda"
+          keywords: "video maugowes,youtube maugowes,gowes,sepeda",
         }}>
         <DefaultLayout>
           <VideoStyled>
             <Header
               title="Mau Gowes Video"
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
-              backgroundImage="https://images.unsplash.com/photo-1541877944-ac82a091518a?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+              backgroundImage="/static/images/cover/cover-videos.jpeg"
             />
             <VideosBox
               data={videos}
@@ -108,15 +108,15 @@ class VideosPage extends React.Component {
 export function requestQueryGenerator(query = {}) {
   let reqQuery = {
     page: 1,
-    limit: MaxResults
+    limit: MaxResults,
   }
 
   return reqQuery
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    videos: state.Videos
+    videos: state.Videos,
   }
 }
 

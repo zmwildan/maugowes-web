@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Styled from "styled-components"
-import { color_gray_medium } from "../Const"
+import { color_gray_medium, color_gray_dark, color_blue_main } from "../Const"
 
 const ImagePreviewBoxStyled = Styled.div`
 .preview-product {
@@ -15,6 +15,7 @@ cursor: pointer;
  height: 100px;
  padding: 2px 0;
  .product-thumb-item {
+   transition: border ease .5s;
    cursor: pointer;
    margin-right: 6px;
    width: calc(25% - 7px);
@@ -27,13 +28,19 @@ cursor: pointer;
    &:last-child {
      margin-right: 0;
    }
+   &:hover {
+    border: 1px solid ${color_gray_dark};
+   }
+   &.active {
+    border: 1px solid ${color_blue_main};
+   }
  }
 }
 `
 
 const DefaultImages = ["/static/images/dummies/product-2.jpg"]
 
-const ImagePreviewBox = props => {
+const ImagePreviewBox = (props) => {
   const [mainImg, setMainImg] = useState(0)
 
   let images = props.data.length < 1 ? DefaultImages : props.data
@@ -50,9 +57,9 @@ const ImagePreviewBox = props => {
               key={key}
               onClick={() => setMainImg(key)}
               style={{
-                backgroundImage: `url(${n})`
+                backgroundImage: `url(${n})`,
               }}
-              className="product-thumb-item"
+              className={`product-thumb-item ${key == mainImg ? "active" : ""}`}
             />
           )
         })}
@@ -62,7 +69,7 @@ const ImagePreviewBox = props => {
 }
 
 ImagePreviewBox.defaultProps = {
-  data: []
+  data: [],
 }
 
 export default ImagePreviewBox

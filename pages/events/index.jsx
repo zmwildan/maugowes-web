@@ -21,7 +21,7 @@ const MaxResults = 20
 const StoreFilter = "list"
 class Events extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   static async getInitialProps({ reduxStore, query }) {
@@ -38,17 +38,17 @@ class Events extends React.Component {
       reduxStore.dispatch({
         type,
         filter: StoreFilter,
-        data: events
+        data: events,
       })
     }
 
     return {
-      query
+      query,
     }
   }
 
   state = {
-    query: this.props.query
+    query: this.props.query,
   }
 
   componentDidMount() {
@@ -72,12 +72,12 @@ class Events extends React.Component {
     if (!eventState.is_loading && eventState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         async () => {
           let reqQuery = {
             limit: MaxResults,
-            page: this.state.page
+            page: this.state.page,
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
 
@@ -92,7 +92,7 @@ class Events extends React.Component {
     const metadata = {
       title: "Events - Mau Gowes",
       description:
-        "Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda"
+        "Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
     }
 
     return (
@@ -102,7 +102,7 @@ class Events extends React.Component {
             <Header
               title="Event Gowes"
               text={metadata.description}
-              backgroundImage="https://images.unsplash.com/photo-1558009525-29a300db7b7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
+              backgroundImage="/static/images/cover/cover-events.jpeg"
             />
 
             <EventsBox
@@ -126,7 +126,7 @@ export function requestQueryGenerator(query = {}) {
     page: 1,
     limit: MaxResults,
     status: "accept",
-    show_all: query.show_all || 0
+    show_all: query.show_all || 0,
   }
 
   if (query.tag) reqQuery.tag = query.tag
@@ -135,8 +135,8 @@ export function requestQueryGenerator(query = {}) {
   return reqQuery
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    events: state.Events
+    events: state.Events,
   }
 })(Events)

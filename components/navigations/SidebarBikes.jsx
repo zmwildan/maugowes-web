@@ -3,7 +3,7 @@ import { objToQuery } from "string-manager"
 import { SidebarMarketplaceSytled } from "./SidebarMarketplace"
 import { SelectStyled } from "../form/Select"
 import { InputTextStyled } from "../form/InputText"
-import { color_gray_dark, color_blue_main } from "../Const"
+import { color_black_main } from "../Const"
 
 const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 .sidebar-items {
@@ -13,6 +13,7 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
    border-bottom: none;
    select {
      text-transform: capitalize;
+     color: ${color_black_main};
    }
   }
  }
@@ -21,7 +22,7 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 
 class SidebarBikes extends React.Component {
   state = {
-    q: this.props.query.q || ""
+    q: this.props.query.q || "",
   }
 
   changeHandler(e) {
@@ -60,17 +61,17 @@ class SidebarBikes extends React.Component {
               name="q"
               type="text"
               value={this.state.q}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.keyCode === 13) {
                   this.changeHandler({
                     target: {
                       name: "q",
-                      value: this.state.q
-                    }
+                      value: this.state.q,
+                    },
                   })
                 }
               }}
-              onChange={e => this.setState({ q: e.target.value })}
+              onChange={(e) => this.setState({ q: e.target.value })}
             />
           </InputTextStyled>
         </div>
@@ -83,7 +84,7 @@ class SidebarBikes extends React.Component {
               <SelectStyled>
                 <select
                   name="brand"
-                  onChange={e => this.changeHandler(e)}
+                  onChange={(e) => this.changeHandler(e)}
                   value={brand}>
                   <option value={0}>Pilih Brand Sepeda</option>
                   {this.selectRender("bikeBrands")}
@@ -95,7 +96,7 @@ class SidebarBikes extends React.Component {
               <SelectStyled>
                 <select
                   name="type"
-                  onChange={e => this.changeHandler(e)}
+                  onChange={(e) => this.changeHandler(e)}
                   value={type}>
                   <option value={0}>Pilih Jenis Sepeda</option>
                   {this.selectRender("bikeTypes")}
@@ -112,7 +113,7 @@ class SidebarBikes extends React.Component {
 
 SidebarBikes.defaultProps = {
   className: "",
-  query: {}
+  query: {},
 }
 
 export default SidebarBikes
