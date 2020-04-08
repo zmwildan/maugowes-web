@@ -33,7 +33,7 @@ const TabContents = [
   { text: "Spesifikasi" },
   { text: "Geometri" },
   { text: "Diskusi" },
-  { text: "Share" }
+  { text: "Share" },
 ]
 
 class BikeDetail extends React.Component {
@@ -49,7 +49,7 @@ class BikeDetail extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: bike
+        data: bike,
       })
     }
 
@@ -63,13 +63,13 @@ class BikeDetail extends React.Component {
       title,
       id,
       activeTab: 0,
-      windowReady: false
+      windowReady: false,
     }
   }
 
   componentDidMount() {
     this.setState({
-      windowReady: true
+      windowReady: true,
     })
   }
 
@@ -117,11 +117,25 @@ class BikeDetail extends React.Component {
   }
 
   render() {
-    const MetaData = {
-      title: `Bikes - Mau Gowes`,
-      description: `Spesifikasi dan deskripsi dari`
-    }
     const bikeData = this.props.bikes[this.state.id] || {}
+    let MetaData = {
+      title: `Bikes - Mau Gowes`,
+      description: `Spesifikasi dan deskripsi bikes`,
+    }
+    if (bikeData.status) {
+      if (bikeData.status == 200) {
+        MetaData = {
+          title: `${bikeData.name} - Mau Gowes`,
+          description: `Spesifikasi dan deskripsi dari ${bikeData.name}`,
+        }
+      } else {
+        MetaData = {
+          title: `Bike Not Found - Mau Gowes`,
+          description: `Sepeda tidak ditemukan`,
+        }
+      }
+    }
+
     return (
       <GlobalLayout metadata={MetaData}>
         <DefaultLayout>
@@ -136,7 +150,7 @@ class BikeDetail extends React.Component {
                         <Tab
                           tabContent={TabContents}
                           active={this.state.activeTab}
-                          onClick={selected =>
+                          onClick={(selected) =>
                             this.setState({ activeTab: selected })
                           }
                         />
@@ -148,7 +162,7 @@ class BikeDetail extends React.Component {
                   </div>
                 </div>
               ) : (
-                "error"
+                <Loader text={bikeData.messages} />
               )
             ) : (
               <Loader />
@@ -160,8 +174,8 @@ class BikeDetail extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    bikes: state.Bikes
+    bikes: state.Bikes,
   }
 })(BikeDetail)

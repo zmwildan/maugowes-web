@@ -27,7 +27,7 @@ const BikesStyled = Styled.div`
 `
 
 const MetaData = {
-  title: "Bikes",
+  title: "Bikes - Mau Gowes",
   description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
 }
 
@@ -120,12 +120,23 @@ class BikesIndex extends React.Component {
   }
 
   render() {
+    let { title, description } = MetaData
+    const { query } = this.props
+    if (query.q) {
+      title = `Hasil Pencarian "${query.q}" di ${title}`
+      description = `Hasil Pencarian "${query.q}", ${description}`
+    }
+
     return (
-      <GlobalLayout metadata={MetaData}>
+      <GlobalLayout
+        metadata={{
+          title,
+          description,
+        }}>
         <DefaultLayout>
           <Header
-            title={MetaData.title}
-            text={MetaData.description}
+            title={title}
+            text={description}
             backgroundImage="/static/images/cover/cover-bikes.jpeg"
           />
           <BikesStyled>
