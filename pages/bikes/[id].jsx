@@ -127,6 +127,7 @@ class BikeDetail extends React.Component {
         MetaData = {
           title: `${bikeData.name} - Mau Gowes`,
           description: `Spesifikasi dan deskripsi dari ${bikeData.name}`,
+          image: bikeData.images[0],
         }
       } else {
         MetaData = {
