@@ -161,7 +161,12 @@ class BikesCompare extends React.Component {
   componentDidMount() {
     const { id, dispatch } = this.props
     const bikeData = this.props.bikes[id] || {}
-    console.log(bikeData)
+    const groupSpec = this.props.groupSpec["list"] || {}
+
+    if (groupSpec.status) {
+      dispatch(fetchGroupSpec("list"))
+    }
+
     if (!bikeData.status) {
       dispatch(fetchBikeDetail(id))
     } else if (bikeData.status === 204) {
