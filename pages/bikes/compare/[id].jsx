@@ -163,7 +163,7 @@ class BikesCompare extends React.Component {
     const bikeData = this.props.bikes[id] || {}
     const groupSpec = this.props.groupSpec["list"] || {}
 
-    if (groupSpec.status) {
+    if (!groupSpec.status) {
       dispatch(fetchGroupSpec("list"))
     }
 
@@ -335,7 +335,7 @@ class BikesCompare extends React.Component {
                 <div className="grid-noGutter" style={{ flexFlow: "unset" }}>
                   {this.state.ids.map((n, key) => {
                     const bikeData = this.props.bikes[n] || {}
-                    if (bikeData.status === 200) {
+                    if (bikeData.status === 200 && groupSpec.status === 200) {
                       return (
                         <CardCompareBike
                           bikeData={bikeData}
