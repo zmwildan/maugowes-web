@@ -225,15 +225,15 @@ class BikesCompare extends React.Component {
 
     if (data && data.status === 200) {
       metadata = {
-        title: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+        title: `Komparasi Specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
         description: `Berikut adalah hasil dari komparasi spesifikasi dari ${data.name} dengan sepeda lainnya di Mau Gowes`,
         image: data.images[0],
         // keywords: data.tags.toString(),
         jsonld: {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
-          headline: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
-          alternativeHeadline: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+          headline: `Komparasi Specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+          alternativeHeadline: `Komparasi Specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
           image: data.images[0],
           genre: "cycling,bicycle,sepeda,gowes",
           keywords: "gowes bareng,info gobar,info gowes",

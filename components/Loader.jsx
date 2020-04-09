@@ -1,12 +1,22 @@
-import Styled from 'styled-components'
-import { color_gray_dark } from './Const'
+import Styled from "styled-components"
+import { color_gray_dark } from "./Const"
 
 const LoaderStyled = Styled.div`
   padding: 50px 20px;
   color: ${color_gray_dark};
   .loader{
-    width: ${props => (props.size == 'large' ? '100px' : '50px')};
-    height: ${props => (props.size == 'large' ? '100px' : '50px')};
+    width: ${(props) =>
+      props.size == "large"
+        ? "100px"
+        : props.size == "small"
+        ? "30px"
+        : "50px"};
+    height: ${(props) =>
+      props.size == "large"
+        ? "100px"
+        : props.size == "small"
+        ? "30px"
+        : "50px"};
     border-radius: 100%;
     position: relative;
     margin: 0 auto;
@@ -49,9 +59,9 @@ const LoaderStyled = Styled.div`
   }
 `
 
-export default props => {
+export default (props) => {
   return (
-    <LoaderStyled size={props.size || 'small'} className="grid-center">
+    <LoaderStyled size={props.size || "small"} className="grid-center">
       {props.text ? (
         <div>{props.text}</div>
       ) : (

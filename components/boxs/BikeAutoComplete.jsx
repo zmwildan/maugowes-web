@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react"
 import Styled from "styled-components"
 
 import Loader from "../Loader"
+import { color_gray_medium } from "../../components/Const"
 import Error from "../cards/CardError"
 
 const Wrapper = Styled.div`
   position: absolute;
   width: calc(100% - 15px);
-  border: 1px solid #000;
+  border-top: none;
+  border: 1px solid ${color_gray_medium};
 
   .bike-lists{
     font-size: 14px;
     padding: 6px 12px;
+    cursor: pointer;
   }
 
   .selected{
-    background-color: #999;
+    background-color: ${color_gray_medium};
   }
 `
 class BikeAutoComplete extends React.Component {
@@ -62,25 +64,24 @@ class BikeAutoComplete extends React.Component {
     const { status, results, message, is_loading } = data
     return (
       <Wrapper onKeyDown={this.handleKey}>
-        {status ? (
-          status == 200 ? (
-            results.map((n, key) => {
-              return (
-                <div
-                  className={`bike-lists ${
-                    this.state.selected === key ? "selected" : ""
-                  }`}
-                  onClick={() => setSuggestion(n.id)}
-                  key={key}>
-                  {n.name}
-                </div>
-              )
-            })
-          ) : (
-            <Error text={message} />
-          )
-        ) : null}
-        {!status || is_loading ? <Loader /> : null}
+        {!status || is_loading ? (
+          <Loader size="small" />
+        ) : status == 200 ? (
+          results.map((n, key) => {
+            return (
+              <div
+                className={`bike-lists ${
+                  this.state.selected === key ? "selected" : ""
+                }`}
+                onClick={() => setSuggestion(n.id)}
+                key={key}>
+                {n.name}
+              </div>
+            )
+          })
+        ) : (
+          <Error text={message} />
+        )}
       </Wrapper>
     )
   }
