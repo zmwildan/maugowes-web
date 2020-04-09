@@ -1,4 +1,4 @@
-import React from "react"
+import { currencyFormat } from "string-manager"
 
 const CardCompareBike = ({
   bikeData,
@@ -35,6 +35,10 @@ const CardCompareBike = ({
         </div>
       </div>
       <div className="bike-compare-right__item__content">
+        <h3>Harga</h3>
+        <ul className="list-data">
+          <li>Rp {currencyFormat(bikeData.estimated_price)},-</li>
+        </ul>
         {groupSpec.results.map((data, key) => {
           const specs = bikeData.specs[data.name] || []
           return (

@@ -65,8 +65,16 @@ const BikesCompareStyled = Styled.div`
         margin-top: 220px;
         h3:first-child {
           margin-top: 0;
+          
+        }
+        .bike-compare-left__item {
+          h3, strong {
+            text-transform: capitalize;
+          }
         }
       }
+
+
 
       
       .bike-compare-right {
@@ -308,6 +316,12 @@ class BikesCompare extends React.Component {
 
               <div className="col-3_xs-6 bike-compare-left">
                 <div className="bike-compare-left__item">
+                  <h3>Harga</h3>
+                  <ul className="list-data">
+                    <li>
+                      <strong>Harga dalam Rp</strong>
+                    </li>
+                  </ul>
                   {groupSpec.status === 200
                     ? groupSpec.results.map((data, key) => {
                         return (
