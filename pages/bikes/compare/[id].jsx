@@ -1,4 +1,5 @@
 import Styled from "styled-components"
+import Router from "next/router"
 import { connect } from "react-redux"
 import config from "../../../config/index"
 import fetch from "isomorphic-unfetch"
@@ -160,8 +161,11 @@ class BikesCompare extends React.Component {
   componentDidMount() {
     const { id, dispatch } = this.props
     const bikeData = this.props.bikes[id] || {}
+    console.log(bikeData)
     if (!bikeData.status) {
       dispatch(fetchBikeDetail(id))
+    } else if (bikeData.status === 204) {
+      Router.push("/bikes")
     }
   }
 
