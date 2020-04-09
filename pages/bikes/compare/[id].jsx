@@ -1,4 +1,5 @@
 import Styled from "styled-components"
+import Router from "next/router"
 import { connect } from "react-redux"
 import config from "../../../config/index"
 import fetch from "isomorphic-unfetch"
@@ -160,8 +161,16 @@ class BikesCompare extends React.Component {
   componentDidMount() {
     const { id, dispatch } = this.props
     const bikeData = this.props.bikes[id] || {}
+    const groupSpec = this.props.groupSpec["list"] || {}
+
+    if (!groupSpec.status) {
+      dispatch(fetchGroupSpec("list"))
+    }
+
     if (!bikeData.status) {
       dispatch(fetchBikeDetail(id))
+    } else if (bikeData.status === 204) {
+      Router.push("/bikes")
     }
   }
 
@@ -208,16 +217,58 @@ class BikesCompare extends React.Component {
   }
 
   render() {
-    const MetaData = {
-      title: `Perbandingan Sepeda - Mau Gowes`,
-      description: `Spesifikasi dan deskripsi dari`,
-    }
-
+    const data = this.props.bikes[this.props.id] || {}
     const groupSpec = this.props.groupSpec["list"] || {}
     const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
+    let metadata = {}
+
+    if (data && data.status === 200) {
+      metadata = {
+        title: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+        description: `Berikut adalah hasil dari komparasi spesifikasi dari ${data.name} dengan sepeda lainnya di Mau Gowes`,
+        image: data.images[0],
+        // keywords: data.tags.toString(),
+        jsonld: {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+          alternativeHeadline: `Komparasi specs ${data.name} Dengan Sepeda Lain - Mau Gowes`,
+          image: data.images[0],
+          genre: "cycling,bicycle,sepeda,gowes",
+          keywords: "gowes bareng,info gobar,info gowes",
+          wordcount: data.note ? data.note.length : 0,
+          publisher: {
+            "@type": "Organization",
+            name: "Mau Gowes",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://maugowes.com/static/icons/icon-512x512.png",
+              height: "500",
+              width: "500",
+            },
+          },
+          url: `https://maugowes.com/bikes/compare/${data.id}`,
+          datePublished: new Date(data.created * 1000).toISOString(),
+          dateCreated: new Date(data.created * 1000).toISOString(),
+          dateModified: new Date(data.updated_on * 1000).toISOString(),
+          // description: data.truncatedContent,
+          author: {
+            "@type": "Organization",
+            name: "Mau Gowes",
+          },
+        },
+      }
+    } else {
+      metadata = {
+        title: "Sepeda tidak ditemukan",
+        description:
+          "Maaf sepeda yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena sepeda telah di hapus.",
+      }
+    }
+
     return (
-      <GlobalLayout metadata={MetaData}>
+      <GlobalLayout metadata={metadata}>
         <DefaultLayout>
           <BikesCompareStyled>
             {/* input to search data */}
@@ -284,7 +335,7 @@ class BikesCompare extends React.Component {
                 <div className="grid-noGutter" style={{ flexFlow: "unset" }}>
                   {this.state.ids.map((n, key) => {
                     const bikeData = this.props.bikes[n] || {}
-                    if (bikeData.status === 200) {
+                    if (bikeData.status === 200 && groupSpec.status === 200) {
                       return (
                         <CardCompareBike
                           bikeData={bikeData}
