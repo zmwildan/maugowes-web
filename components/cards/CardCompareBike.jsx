@@ -1,8 +1,20 @@
 import React from "react"
 
-const CardCompareBike = ({ bikeData, groupSpec, idx, removeBike }) => {
+const CardCompareBike = ({
+  bikeData,
+  groupSpec,
+  idx,
+  removeBike,
+  bikeTotal,
+}) => {
+  let wrapperClassName = "col-6_xs-12 bike-compare-right__item"
+  if (bikeTotal == 3)
+    wrapperClassName = "col-4_md-6_xs-12 bike-compare-right__item"
+  if (bikeTotal == 4)
+    wrapperClassName = "col-3_md-6_xs-12 bike-compare-right__item"
+
   return (
-    <div className="col-3_md-6_xs-12 bike-compare-right__item">
+    <div className={wrapperClassName}>
       <div style={{ padding: "0 5px" }}>
         <div
           className="bike-compare-right__item__thumbnail"

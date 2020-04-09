@@ -338,6 +338,7 @@ class BikesCompare extends React.Component {
                     if (bikeData.status === 200 && groupSpec.status === 200) {
                       return (
                         <CardCompareBike
+                          bikeTotal={this.state.ids.length}
                           bikeData={bikeData}
                           groupSpec={groupSpec}
                           idx={key}
