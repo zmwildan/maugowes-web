@@ -1,7 +1,11 @@
 import Styled from "styled-components"
 
 import Loader from "../Loader"
-import { color_gray_medium } from "../../components/Const"
+import {
+  color_gray_medium,
+  color_white_main,
+  color_gray_soft,
+} from "../../components/Const"
 import Error from "../cards/CardError"
 
 const Wrapper = Styled.div`
@@ -9,6 +13,7 @@ const Wrapper = Styled.div`
   width: calc(100% - 15px);
   border-top: none;
   border: 1px solid ${color_gray_medium};
+  background: ${color_white_main};
 
   .bike-lists{
     font-size: 14px;
@@ -17,7 +22,7 @@ const Wrapper = Styled.div`
   }
 
   .selected{
-    background-color: ${color_gray_medium};
+    background-color: ${color_gray_soft};
   }
 `
 class BikeAutoComplete extends React.Component {

@@ -29,14 +29,18 @@ const BikesCompareStyled = Styled.div`
       padding: 0;
       li {
         height: 63px;
-        padding: 5px 10px;
+        padding: 5px 0;
         list-style: none;
-        &:nth-child(even) {
-          background: ${color_gray_soft};
+        border-bottom: 1px solid ${color_gray_medium};
+        &:first-child {
+          border-top: 1px solid ${color_gray_medium};
         }
-        &:nth-child(odd) {
-          background: ${color_gray_medium};
-        }
+        // &:nth-child(even) {
+        //   background: ${color_gray_soft};
+        // }
+        // &:nth-child(odd) {
+        //   background: ${color_gray_medium};
+        // }
         strong {
           margin-right: 20px;
         }
@@ -63,24 +67,30 @@ const BikesCompareStyled = Styled.div`
     .bike-compare-specs {
       .bike-compare-left { 
         margin-top: 220px;
-        h3:first-child {
-          margin-top: 0;
-          
-        }
         .bike-compare-left__item {
-          h3, strong {
+          h2 {
+            margin-top: 50px;
+            &:first-child {
+              margin-top: 0 !important;
+            }
+          }
+          h2, strong {
             text-transform: capitalize;
           }
         }
       }
-
-
-
       
       .bike-compare-right {
         overflow-x: auto;
         overflow-y: hidden;
         .bike-compare-right__item {
+          h2 {
+            margin-top: 50px;
+            color: #fff;
+            &:first-child {
+              margin-top: 0 !important;
+            }
+          }
           .bike-compare-right__item__thumbnail {
             position: relative;
             height: 150px;
@@ -108,14 +118,7 @@ const BikesCompareStyled = Styled.div`
               margin: 5px 0;
             }
           }
-          .bike-compare-right__item__content {
-            h3 {
-              &:first-child {
-                margin-top: 0;
-              }
-              color: #fff;
-            }
-          }
+         
         }
       }
     }
@@ -316,7 +319,7 @@ class BikesCompare extends React.Component {
 
               <div className="col-3_xs-6 bike-compare-left">
                 <div className="bike-compare-left__item">
-                  <h3>Harga</h3>
+                  <h2>Harga</h2>
                   <ul className="list-data">
                     <li>
                       <strong>Harga dalam Rp</strong>
@@ -326,7 +329,7 @@ class BikesCompare extends React.Component {
                     ? groupSpec.results.map((data, key) => {
                         return (
                           <React.Fragment key={key}>
-                            <h3>{data.name}</h3>
+                            <h2>{data.name}</h2>
                             <ul className="list-data">
                               {data.specs.map((spec, key) => {
                                 return (

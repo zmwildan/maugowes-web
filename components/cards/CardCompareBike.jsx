@@ -35,7 +35,7 @@ const CardCompareBike = ({
         </div>
       </div>
       <div className="bike-compare-right__item__content">
-        <h3>Harga</h3>
+        <h2>Harga</h2>
         <ul className="list-data">
           <li>Rp {currencyFormat(bikeData.estimated_price)},-</li>
         </ul>
@@ -43,7 +43,7 @@ const CardCompareBike = ({
           const specs = bikeData.specs[data.name] || []
           return (
             <React.Fragment key={key}>
-              <h3>{data.name}</h3>
+              <h2>{data.name}</h2>
               <ul className="list-data">
                 {data.specs.map((data, i) => {
                   const spec = specs.find((n) => n.id == data.id) || {}
