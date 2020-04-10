@@ -19,7 +19,7 @@ import GA from "../../components/boxs/GA"
 import ShareIcon from "../../components/icons/Share"
 import CommentIcon from "../../components/icons/Comment"
 import EyeIcon from "../../components/icons/Eye"
-import { BlogDetailStyled } from "../blog/detail"
+import { BlogDetailStyled } from "../blog/[id]"
 import InputLocation from "../../components/form/InputLocation"
 import Label from "../../components/labels"
 
@@ -49,7 +49,7 @@ class EventDetail extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: posts
+        data: posts,
       })
     }
 
@@ -88,8 +88,8 @@ class EventDetail extends React.Component {
               "@type": "ImageObject",
               url: "https://maugowes.com/static/icons/icon-512x512.png",
               height: "500",
-              width: "500"
-            }
+              width: "500",
+            },
           },
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
@@ -98,15 +98,15 @@ class EventDetail extends React.Component {
           // description: data.truncatedContent,
           author: {
             "@type": "Organization",
-            name: "Mau Gowes"
-          }
-        }
+            name: "Mau Gowes",
+          },
+        },
       }
     } else {
       metadata = {
         title: "Event tidak ditemukan",
         description:
-          "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus."
+          "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.",
       }
     }
 
@@ -133,7 +133,7 @@ class EventDetail extends React.Component {
                           style={{
                             fontSize: 20,
                             position: "absolute",
-                            margin: "7.5px 0 0 10px"
+                            margin: "7.5px 0 0 10px",
                           }}
                           status={"ended_event"}
                           text={"Telah berakhir"}
@@ -154,7 +154,7 @@ class EventDetail extends React.Component {
                               .getElementById("comment-box")
                               .scrollIntoView({
                                 behavior: "smooth",
-                                block: "center"
+                                block: "center",
                               })
                           }}
                           href="javascript:;">
@@ -170,7 +170,7 @@ class EventDetail extends React.Component {
                               .getElementById("share-box")
                               .scrollIntoView({
                                 behavior: "smooth",
-                                block: "center"
+                                block: "center",
                               })
                           }}
                           href="javascript:;">
@@ -200,7 +200,7 @@ class EventDetail extends React.Component {
                         <br />
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: data.note.trim() ? nl2br(data.note) : "-"
+                            __html: data.note.trim() ? nl2br(data.note) : "-",
                           }}
                         />
                         <br />
@@ -247,8 +247,8 @@ class EventDetail extends React.Component {
                           markers={[
                             {
                               name: "titik start",
-                              coordinate: data.location.coordinate
-                            }
+                              coordinate: data.location.coordinate,
+                            },
                           ]}
                           noLabel
                         />
@@ -297,9 +297,9 @@ class EventDetail extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    event: state.Events
+    event: state.Events,
   }
 }
 
