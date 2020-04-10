@@ -190,11 +190,8 @@ class BikesCompare extends React.Component {
   handleKeyDown = (e) => {
     if (e.keyCode === 38 || e.keyCode === 40) e.preventDefault()
     clearTimeout(typingTimer)
-  }
-
-  handleKeyUp = (e) => {
-    clearTimeout(typingTimer)
-    const inp = String.fromCharCode(e.keyCode)
+    const charCode = e.keyCode
+    const inp = String.fromCharCode(charCode)
     if ((/[a-zA-Z0-9-_ ]/.test(inp) || e.keyCode === 8) && this.state.search) {
       typingTimer = setTimeout(() => {
         this.props.dispatch(
@@ -307,7 +304,6 @@ class BikesCompare extends React.Component {
                   placeholder="Pencarian sepeda"
                   onChange={(e) => this.setState({ search: e.target.value })}
                   onKeyDown={this.handleKeyDown}
-                  onKeyUp={this.handleKeyUp}
                   autoComplete="off"
                   autoCorrect="off"
                   autoCapitalize="off"

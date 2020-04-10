@@ -14,6 +14,7 @@ const Wrapper = Styled.div`
   border-top: none;
   border: 1px solid ${color_gray_medium};
   background: ${color_white_main};
+  z-index: 1;
 
   .bike-lists{
     font-size: 14px;
