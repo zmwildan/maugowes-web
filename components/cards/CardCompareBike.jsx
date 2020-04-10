@@ -5,14 +5,8 @@ const CardCompareBike = ({
   groupSpec,
   idx,
   removeBike,
-  bikeTotal,
+  wrapperClassName,
 }) => {
-  let wrapperClassName = "col-6_xs-12 bike-compare-right__item"
-  if (bikeTotal == 3)
-    wrapperClassName = "col-4_md-6_xs-12 bike-compare-right__item"
-  if (bikeTotal == 4)
-    wrapperClassName = "col-3_md-6_xs-12 bike-compare-right__item"
-
   return (
     <div className={wrapperClassName}>
       <div style={{ padding: "0 5px" }}>

@@ -21,6 +21,8 @@ import BikeAutoComplete from "../../../components/boxs/BikeAutoComplete"
 import CardCompareBike from "../../../components/cards/CardCompareBike"
 
 // components
+import Loader from "../../../components/Loader"
+
 const BikesCompareStyled = Styled.div`
     margin-top: 50px;
 
@@ -278,6 +280,13 @@ class BikesCompare extends React.Component {
       }
     }
 
+    const bikeTotal = this.state.ids.length
+    let wrapperClassName = "col-6_xs-12 bike-compare-right__item"
+    if (bikeTotal == 3)
+      wrapperClassName = "col-4_md-6_xs-12 bike-compare-right__item"
+    if (bikeTotal == 4)
+      wrapperClassName = "col-3_md-6_xs-12 bike-compare-right__item"
+
     return (
       <GlobalLayout metadata={metadata}>
         <DefaultLayout>
@@ -352,17 +361,25 @@ class BikesCompare extends React.Component {
                 <div className="grid-noGutter" style={{ flexFlow: "unset" }}>
                   {this.state.ids.map((n, key) => {
                     const bikeData = this.props.bikes[n] || {}
-                    if (bikeData.status === 200 && groupSpec.status === 200) {
-                      return (
-                        <CardCompareBike
-                          bikeTotal={this.state.ids.length}
-                          bikeData={bikeData}
-                          groupSpec={groupSpec}
-                          idx={key}
-                          key={key}
-                          removeBike={this.removeBike}
-                        />
-                      )
+                    if (groupSpec.status === 200) {
+                      if (bikeData.status === 200) {
+                        return (
+                          <CardCompareBike
+                            bikeData={bikeData}
+                            groupSpec={groupSpec}
+                            idx={key}
+                            key={key}
+                            removeBike={this.removeBike}
+                            wrapperClassName={wrapperClassName}
+                          />
+                        )
+                      } else {
+                        return (
+                          <div className={wrapperClassName}>
+                            <Loader />
+                          </div>
+                        )
+                      }
                     }
                   })}
                 </div>
