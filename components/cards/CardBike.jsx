@@ -2,6 +2,7 @@ import Styled from "styled-components"
 import { currencyFormat, toSlug } from "string-manager"
 import { color_gray_dark, color_blue_main, color_black_main } from "../Const"
 import Link from "next/link"
+import { imageFormatUrl } from "../../modules/cloudinary"
 
 const CardBikeStyled = Styled.div`
  .card-bike {
@@ -41,7 +42,12 @@ const CardBike = ({ data }) => {
       <div className="card-bike">
         <div
           className="card-bike__thumb"
-          style={{ backgroundImage: `url(${data.images || ""})` }}
+          style={{
+            backgroundImage: `url(${imageFormatUrl(
+              data.images,
+              "c_scale,w_300"
+            )})`,
+          }}
         />
         <div className="card-bike__text">
           <Link href={"/bikes/[id]"} as={linkTarget} prefetch>

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Styled from "styled-components"
 import { color_gray_medium, color_gray_dark, color_blue_main } from "../Const"
+import { imageFormatUrl } from "../../modules/cloudinary"
 
 const ImagePreviewBoxStyled = Styled.div`
 .preview-product {
@@ -48,7 +49,10 @@ const ImagePreviewBox = (props) => {
   return (
     <ImagePreviewBoxStyled>
       <div className="preview-product">
-        <img src={images[mainImg]} alt="product preview" />
+        <img
+          src={imageFormatUrl(images[mainImg], "c_scale,w_900")}
+          alt="product preview"
+        />
       </div>
       <div className="product-thumb">
         {images.map((n, key) => {
@@ -57,7 +61,7 @@ const ImagePreviewBox = (props) => {
               key={key}
               onClick={() => setMainImg(key)}
               style={{
-                backgroundImage: `url(${n})`,
+                backgroundImage: `url(${imageFormatUrl(n, "c_scale,w_200")})`,
               }}
               className={`product-thumb-item ${key == mainImg ? "active" : ""}`}
             />
