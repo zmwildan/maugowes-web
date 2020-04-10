@@ -8,14 +8,14 @@ import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import VideoBox from "../../../components/super/boxs/VideoBox"
-import { requestQueryGenerator } from "../../videos/index"
+import { requestQueryGenerator } from "../../videos/[id]"
 
 const MaxResults = 6
 let StoreFilter = "super"
 
 class VideoList extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   componentDidMount() {
@@ -32,13 +32,13 @@ class VideoList extends React.Component {
     if (!videoState.is_loading && videoState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         async () => {
           let reqQuery = {
             limit: MaxResults,
             page: this.state.page,
-            showDraft: true
+            showDraft: true,
           }
 
           return this.props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
@@ -68,8 +68,8 @@ class VideoList extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    videos: state.Videos
+    videos: state.Videos,
   }
 })(VideoList)
