@@ -128,7 +128,7 @@ const BikesCompareStyled = Styled.div`
 
 //setup before functions
 let typingTimer //timer identifier
-const doneTypingInterval = 500
+const doneTypingInterval = 300
 
 class BikesCompare extends React.Component {
   static async getInitialProps({ reduxStore, res, query }) {
@@ -187,21 +187,27 @@ class BikesCompare extends React.Component {
     }
   }
 
+  // TODO: @wildan untuk sementara saya komen dulu karena masih blocker di mobile
   handleKeyDown = (e) => {
-    if (e.keyCode === 38 || e.keyCode === 40) e.preventDefault()
     clearTimeout(typingTimer)
     const charCode = e.keyCode
-    const inp = String.fromCharCode(charCode)
-    if ((/[a-zA-Z0-9-_ ]/.test(inp) || e.keyCode === 8) && this.state.search) {
-      typingTimer = setTimeout(() => {
-        this.props.dispatch(
-          fetchBikes("bike_autocomplete", {
-            q: this.state.search,
-            limit: 6,
-            page: 1,
-          })
-        )
-      }, doneTypingInterval)
+    if (charCode === 38 || charCode === 40) {
+      e.preventDefault()
+    } else {
+      console.log("val", e.target.value)
+      // const inp = String.fromCharCode(charCode)
+      if (this.state.search) {
+        // if ((/[a-zA-Z0-9-_ ]/.test(inp) || charCode === 8) && this.state.search) {
+        typingTimer = setTimeout(() => {
+          this.props.dispatch(
+            fetchBikes("bike_autocomplete", {
+              q: this.state.search,
+              limit: 6,
+              page: 1,
+            })
+          )
+        }, doneTypingInterval)
+      }
     }
   }
 
