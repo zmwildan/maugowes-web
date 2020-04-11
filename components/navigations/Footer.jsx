@@ -85,7 +85,7 @@ const FooterPoweredBy = Styled.div`
 
 `
 
-export default props => {
+export default (props) => {
   return (
     <React.Fragment>
       <Footer className="grid">
@@ -181,7 +181,13 @@ export default props => {
                     <a href="/blog">Blog</a>
                   </li>
                   <li>
-                    <a href="/videos">Video</a>
+                    <a href="/videos">Videos</a>
+                  </li>
+                  <li>
+                    <a href="/events">Events</a>
+                  </li>
+                  <li>
+                    <a href="/bikes">Bikes</a>
                   </li>
                 </ul>
               </div>
