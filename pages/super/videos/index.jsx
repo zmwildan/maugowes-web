@@ -8,7 +8,7 @@ import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import VideoBox from "../../../components/super/boxs/VideoBox"
-import { requestQueryGenerator } from "../../videos/[id]"
+import { requestQueryGenerator } from "../../videos/index"
 
 const MaxResults = 6
 let StoreFilter = "super"
