@@ -4,7 +4,7 @@ import {
   color_gray_soft,
   color_gray_dark,
   color_black_main,
-  color_blue_main
+  color_blue_main,
 } from "../Const"
 import initialDropdown from "../../modules/dropdown"
 
@@ -92,7 +92,7 @@ const HeaderStyled = Styled.header`
         padding: 0 20px;
         &.active {
           a {
-            color: ${color_gray_dark};
+            color: ${color_blue_main};
           }
         }
       }
@@ -108,23 +108,23 @@ const AvailableMenu = [
   {
     name: "Videos",
     pathname: "videos",
-    link: "/videos"
+    link: "/videos",
   },
   {
     name: "Blog",
     pathname: "blog",
-    link: "/blog"
+    link: "/blog",
   },
   {
     name: "Bikes",
     pathname: "bikes",
-    link: "/bikes"
+    link: "/bikes",
   },
   {
     name: "Events",
     pathname: "events",
-    link: "/events"
-  }
+    link: "/events",
+  },
   // {
   //   name: "Marketplace",
   //   link: "/marketplace"
@@ -154,7 +154,7 @@ const AvailableMenu = [
 
 class Header extends React.Component {
   state = {
-    pathname: ""
+    pathname: "",
   }
 
   componentDidMount = () => {
