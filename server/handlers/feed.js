@@ -166,7 +166,7 @@ module.exports.bikesFeed = (req, res) => {
                 <link>https://maugowes.com${n.link}</link>
                 <guid>https://maugowes.com${n.link}</guid>
                 <category domain="https://maugowes.com">road bike,folding bike,spek sepeda,urban bike</category>
-                <pubDate>${DaysJs(n.created_on * 1000).format(
+                <pubDate>${DaysJs(n.created_on).format(
                   "ddd, DD MMM YYYY"
                 )} 00:00:00 +0000</pubDate>
                 <comments>https://maugowes.com${n.link}</comments>
@@ -189,7 +189,7 @@ module.exports.bikesFeed = (req, res) => {
                     <url>https://res.cloudinary.com/dhjkktmal/image/upload/c_scale,w_100/v1555855650/maugowes/2019/mau_gowes.png</url>
                     <title>Mau Gowes - Maaaauuuu....</title>
                     <link>https://maugowes.com</link>
-                    <description>Feed dari Mau Gowes - Bahagia Bersama Sepeda</description>
+                    <description>Bikes Feed dari Mau Gowes - Bahagia Bersama Sepeda</description>
                     <width>100</width>
                     <height>100</height>
                 </image>
