@@ -51,6 +51,7 @@ module.exports = {
       estimated_price: n.estimated_price,
       created: n.created_on,
       updated_on: n.updated_on,
+      link: `/bikes/${toSlug(n.name)}-${n._id}`,
     }
   },
   /**

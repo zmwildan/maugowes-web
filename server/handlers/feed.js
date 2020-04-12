@@ -1,14 +1,15 @@
 const postModule = require("../modules/post")
 const videoModule = require("../modules/videos")
 const eventModule = require("../modules/events")
+const bikeModule = require("../modules/bikes")
 const DaysJs = require("dayjs")
 
 // handler of /feed/videos
 module.exports.videosFeed = (req, res) => {
-  return videoModule.fetchVideos(req, res, json => {
+  return videoModule.fetchVideos(req, res, (json) => {
     res.set("Content-Type", "text/xml")
     let content = ``
-    json.results.map(n => {
+    json.results.map((n) => {
       content += `
             <item>
                 <title>${n.title}</title>
@@ -54,10 +55,10 @@ module.exports.videosFeed = (req, res) => {
 
 // handle of /feed/posts
 module.exports.postsFeed = (req, res) => {
-  return postModule.fetchPosts(req, res, json => {
+  return postModule.fetchPosts(req, res, (json) => {
     res.set("Content-Type", "text/xml")
     let content = ``
-    json.results.map(n => {
+    json.results.map((n) => {
       content += `
             <item>
                 <title>${n.title}</title>
@@ -105,10 +106,10 @@ module.exports.postsFeed = (req, res) => {
 
 // handler of /feed/events
 module.exports.eventsFeed = (req, res) => {
-  return eventModule.fetchEvents(req, res, json => {
+  return eventModule.fetchEvents(req, res, (json) => {
     res.set("Content-Type", "text/xml")
     let content = ``
-    json.results.map(n => {
+    json.results.map((n) => {
       content += `
             <item>
                 <title>${n.title}</title>
@@ -144,6 +145,55 @@ module.exports.eventsFeed = (req, res) => {
                     <height>100</height>
                 </image>
                 <atom:link href="https://maugowes.com/feed/events" rel="self" type="application/rss+xml"/>
+                ${content}
+            </channel>
+        </rss>
+        `
+    res.send(sitemap)
+  })
+}
+
+// handler of /feed/bikes
+module.exports.bikesFeed = (req, res) => {
+  return bikeModule.getBikes(req, res, (json) => {
+    res.set("Content-Type", "text/xml")
+    let content = ``
+    json.results.map((n) => {
+      content += `
+            <item>
+                <title>${n.name}</title>
+                <description>Spesifikasi lengkap dari ${n.name}</description>
+                <link>https://maugowes.com${n.link}</link>
+                <guid>https://maugowes.com${n.link}</guid>
+                <category domain="https://maugowes.com">road bike,folding bike,spek sepeda,urban bike</category>
+                <pubDate>${DaysJs(n.created_on * 1000).format(
+                  "ddd, DD MMM YYYY"
+                )} 00:00:00 +0000</pubDate>
+                <comments>https://maugowes.com${n.link}</comments>
+            </item>
+            `
+    })
+    let sitemap = `
+        <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+            <channel>
+                <title>Mau Gowes Bikes Feeds - Maaaauuuu....</title>
+                <description>Kumpulan sepeda dari Mau Gowes - Bahagia Bersama Sepeda</description>
+                <link>https://maugowes.com</link>
+                <category domain="https://maugowes.com">road bike/folding bike/urban bike</category>
+                <copyright>Copyright 2020 Yussan Media Group.</copyright>
+                <lastBuildDate>${DaysJs().format(
+                  "ddd, DD MMM YYYY"
+                )} 00:00:00 +0000</lastBuildDate>
+                <language>id-id</language>
+                <image>
+                    <url>https://res.cloudinary.com/dhjkktmal/image/upload/c_scale,w_100/v1555855650/maugowes/2019/mau_gowes.png</url>
+                    <title>Mau Gowes - Maaaauuuu....</title>
+                    <link>https://maugowes.com</link>
+                    <description>Feed dari Mau Gowes - Bahagia Bersama Sepeda</description>
+                    <width>100</width>
+                    <height>100</height>
+                </image>
+                <atom:link href="https://maugowes.com/feed/bikes" rel="self" type="application/rss+xml"/>
                 ${content}
             </channel>
         </rss>
