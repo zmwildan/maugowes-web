@@ -1,12 +1,12 @@
 import React from "react"
 
-import GlobalLayout from "../components/layouts/Global"
-import DefaultLayout from "../components/layouts/Default"
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
 import Styled from "styled-components"
-import Tab from "../components/navigations/Tab"
-import HeaderLvl2 from "../components/navigations/HeaderLvl2"
-import MarketplaceBox from "../components/boxs/MarketplaceBox"
-import { color_gray_dark, color_gray_medium } from "../components/Const"
+import Tab from "../../components/navigations/Tab"
+import HeaderLvl2 from "../../components/navigations/HeaderLvl2"
+import MarketplaceBox from "../../components/boxs/MarketplaceBox"
+import { color_gray_dark } from "../../components/Const"
 
 // components
 import ProductBox from "../components/boxs/ProductBox"
@@ -20,7 +20,7 @@ const ProductStyled = Styled.div`
 
 const TabContent = [
   { text: "Deskripsi Produk", link: "/product/description" },
-  { text: "Diskusi", link: "/product/discussions" }
+  { text: "Diskusi", link: "/product/discussions" },
 ]
 
 class ProductPage extends React.Component {

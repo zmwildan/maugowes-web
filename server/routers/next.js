@@ -16,9 +16,6 @@ module.exports = routes()
   .add("super_bike_create", "/super/bikes/create", "/super/bikes/form")
   .add("super_bike_edit", "/super/bikes/edit/:id", "/super/bikes/form")
 
-  // products routes
-  .add("product_detail", "/product/:id", "product")
-
   // blog routes
   .add("blog_by_tag", "/blog/tag/:tag", "blog/index")
 

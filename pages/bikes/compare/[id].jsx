@@ -37,12 +37,7 @@ const BikesCompareStyled = Styled.div`
         &:first-child {
           border-top: 1px solid ${color_gray_medium};
         }
-        // &:nth-child(even) {
-        //   background: ${color_gray_soft};
-        // }
-        // &:nth-child(odd) {
-        //   background: ${color_gray_medium};
-        // }
+        overflow: auto;
         strong {
           margin-right: 20px;
         }
@@ -59,6 +54,9 @@ const BikesCompareStyled = Styled.div`
           left: 15px;
         }
         input[type="text"] {
+          &:disabled {
+            cursor: not-allowed;
+          }
           padding: 10px 10px 10px 35px;
           display: block;
           width: calc(100% - 35px - 10px);
@@ -287,7 +285,7 @@ class BikesCompare extends React.Component {
     let wrapperClassName = "col-6_xs-12 bike-compare-right__item"
     if (bikeTotal == 3)
       wrapperClassName = "col-4_md-6_xs-12 bike-compare-right__item"
-    if (bikeTotal == 4)
+    if (bikeTotal >= 4)
       wrapperClassName = "col-3_md-6_xs-12 bike-compare-right__item"
 
     return (
@@ -314,6 +312,7 @@ class BikesCompare extends React.Component {
                   autoCorrect="off"
                   autoCapitalize="off"
                   spellCheck="false"
+                  disabled={bikeTotal >= 5}
                 />
                 {this.state.search ? (
                   <BikeAutoComplete
