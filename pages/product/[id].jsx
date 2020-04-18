@@ -9,7 +9,7 @@ import MarketplaceBox from "../../components/boxs/MarketplaceBox"
 import { color_gray_dark } from "../../components/Const"
 
 // components
-import ProductBox from "../components/boxs/ProductBox"
+import ProductBox from "../../components/boxs/ProductBox"
 
 const ProductStyled = Styled.div`
   .product-description {
