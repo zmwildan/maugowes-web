@@ -6,7 +6,6 @@ import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
-  color_gray_soft,
   color_gray_medium,
 } from "../../../components/Const"
 
@@ -30,8 +29,8 @@ const BikesCompareStyled = Styled.div`
       line-height: 2;
       padding: 0;
       li {
-        height: 63px;
-        padding: 5px 0;
+        height: 64px;
+        padding: 5px 5px 5px 2px;
         list-style: none;
         border-bottom: 1px solid ${color_gray_medium};
         &:first-child {
