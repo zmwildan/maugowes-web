@@ -75,10 +75,10 @@ const Menus = [
   {
     name: "Events",
     child: [
-      {
-        name: "+ Create Event",
-        link: "/super/events/create",
-      },
+      // {
+      //   name: "+ Create Event",
+      //   link: "/super/events/create",
+      // },
       {
         name: "Events",
         link: "/super/events",

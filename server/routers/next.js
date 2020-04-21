@@ -16,6 +16,10 @@ module.exports = routes()
   .add("super_bike_create", "/super/bikes/create", "/super/bikes/form")
   .add("super_bike_edit", "/super/bikes/edit/:id", "/super/bikes/form")
 
+  // // super events
+  // .add("super_events_create", "/super/events/create", "/super/events/edit")
+  // .add("super_events_edit", "/super/events/edit/:id", "/super/events/edit")
+
   // blog routes
   .add("blog_by_tag", "/blog/tag/:tag", "blog/index")
 
