@@ -6,7 +6,7 @@ import {
   color_blue_main,
   color_gray_medium,
   color_gray_dark,
-  color_gray_soft
+  color_gray_soft,
 } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
@@ -15,7 +15,7 @@ import GA from "./GA"
 import Link from "next/link"
 
 const EventsBoxStyled = Styled.div`
-  margin-top: ${props => (props.noHeaderTitle ? "80px" : "40px")};
+  margin-top: ${(props) => (props.noHeaderTitle ? "80px" : "40px")};
   .events-box-title {
     border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
@@ -39,7 +39,7 @@ const EventsBoxStyled = Styled.div`
   }
 `
 
-const EventsBox = props => {
+const EventsBox = (props) => {
   let { query = {} } = props
   const { results, status, message, total, is_loading } = props.data
 
@@ -84,7 +84,7 @@ const EventsBox = props => {
                     // ref : https://github.com/zeit/next.js/#userouter
                     Router.push({
                       pathname: "/events",
-                      query
+                      query,
                     })
                   }}
                 />
@@ -99,10 +99,11 @@ const EventsBox = props => {
         results && results.length > 0 ? (
           <div className="grid">
             {results.map((n, key) => {
+              const keyPlus1 = key + 1
               return (
                 <React.Fragment key={key}>
                   <Card data={n} />
-                  {results.length > 9 && (key + 1) % 9 && key != 0 ? (
+                  {results.length > 9 && key != 0 && keyPlus1 % 9 == 0 ? (
                     <div className="col-12">
                       <GA
                         adClient="ca-pub-4468477322781117"

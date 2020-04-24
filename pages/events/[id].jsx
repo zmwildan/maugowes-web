@@ -118,12 +118,6 @@ class EventDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
-                <GA
-                  style={{ marginBottom: 0 }}
-                  adClient="ca-pub-4468477322781117"
-                  adSlot="4316048838"
-                />
-
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <h1 style={{ marginBottom: -10 }}>
@@ -189,6 +183,12 @@ class EventDetail extends React.Component {
                       <div className="blog-detail_main-image">
                         <img src={data.poster.original} alt={data.title} />
                       </div>
+
+                      <GA
+                        style={{ margin: "30px 0" }}
+                        adClient="ca-pub-4468477322781117"
+                        adSlot="4316048838"
+                      />
 
                       <p>
                         <strong className="title">Waktu : </strong>

@@ -77,7 +77,7 @@ class VideoDetail extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: video
+        data: video,
       })
     }
 
@@ -95,7 +95,7 @@ class VideoDetail extends React.Component {
         fetchVideos("related", {
           limit: 4,
           page: 1,
-          notId: getId(this.props.id)
+          notId: getId(this.props.id),
         })
       )
     }
@@ -130,8 +130,8 @@ class VideoDetail extends React.Component {
               "@type": "ImageObject",
               url: "https://maugowes.com/static/icons/icon-512x512.png",
               height: "500",
-              width: "500"
-            }
+              width: "500",
+            },
           },
           url: `https://maugowes.com/videos/${this.props.id}`,
           datePublished: new Date(data.publishedDate).toISOString(),
@@ -140,15 +140,15 @@ class VideoDetail extends React.Component {
           description: data.description,
           author: {
             "@type": "Organization",
-            name: "Mau Gowes"
-          }
-        }
+            name: "Mau Gowes",
+          },
+        },
       }
     } else {
       metadata = {
         title: "Video tidak ditemukan",
         description:
-          "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus."
+          "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus.",
       }
     }
 
@@ -160,12 +160,6 @@ class VideoDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
-                {/* <GA
-                  style={{ marginBottom: 0 }}
-                  adClient="ca-pub-4468477322781117"
-                  adSlot="2754181340"
-                /> */}
-
                 {/* video detail */}
                 <div className="grid-center">
                   <div className="col-7_xs-12">
@@ -188,16 +182,22 @@ class VideoDetail extends React.Component {
                   </div>
                 </div>
 
+                <GA
+                  style={{ margin: "30px 0" }}
+                  adClient="ca-pub-4468477322781117"
+                  adSlot="2754181340"
+                />
+
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <p
                       style={{
                         lineHeight: 1.8,
                         wordBreak: "break-all",
-                        padding: "25px 0 0"
+                        padding: "25px 0 0",
                       }}
                       dangerouslySetInnerHTML={{
-                        __html: nl2br(data.description)
+                        __html: nl2br(data.description),
                       }}
                     />
 
@@ -244,9 +244,9 @@ class VideoDetail extends React.Component {
   }
 }
 
-const mapsStateToProps = state => {
+const mapsStateToProps = (state) => {
   return {
-    videos: state.Videos
+    videos: state.Videos,
   }
 }
 
