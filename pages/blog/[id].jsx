@@ -7,7 +7,7 @@ import {
   color_gray_dark,
   color_gray_soft,
   color_blue_main,
-  color_white_main
+  color_white_main,
 } from "../../components/Const"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
@@ -144,7 +144,7 @@ class BlogDetail extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: posts
+        data: posts,
       })
     }
 
@@ -161,7 +161,7 @@ class BlogDetail extends React.Component {
         fetchBlog("related", {
           limit: 3,
           page: 1,
-          notId: getId(this.props.id)
+          notId: getId(this.props.id),
         })
       )
     }
@@ -196,8 +196,8 @@ class BlogDetail extends React.Component {
               "@type": "ImageObject",
               url: "https://maugowes.com/static/icons/icon-512x512.png",
               height: "500",
-              width: "500"
-            }
+              width: "500",
+            },
           },
           url: `https://maugowes.com${data.link}`,
           datePublished: new Date(data.created_on * 1000).toISOString(),
@@ -206,15 +206,15 @@ class BlogDetail extends React.Component {
           description: data.truncatedContent,
           author: {
             "@type": "Person",
-            name: data.author.username
-          }
-        }
+            name: data.author.username,
+          },
+        },
       }
     } else {
       metadata = {
         title: "Postingan tidak ditemukan",
         description:
-          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus."
+          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.",
       }
     }
 
@@ -226,11 +226,6 @@ class BlogDetail extends React.Component {
               <Loader />
             ) : data.status === 200 ? (
               <React.Fragment>
-                <GA
-                  style={{ marginBottom: 0 }}
-                  adClient="ca-pub-4468477322781117"
-                  adSlot="4316048838"
-                />
                 <div className="grid-center">
                   <div className="col-7_xs-12">
                     <h1>{data.title}</h1>
@@ -283,7 +278,7 @@ class BlogDetail extends React.Component {
                               .getElementById("comment-box")
                               .scrollIntoView({
                                 behavior: "smooth",
-                                block: "center"
+                                block: "center",
                               })
                           }}
                           href="javascript:;">
@@ -299,7 +294,7 @@ class BlogDetail extends React.Component {
                               .getElementById("share-box")
                               .scrollIntoView({
                                 behavior: "smooth",
-                                block: "center"
+                                block: "center",
                               })
                           }}
                           href="javascript:;">
@@ -319,6 +314,12 @@ class BlogDetail extends React.Component {
                         <img src={data.image.original} alt={data.title} />
                       </div>
                     )}
+
+                    <GA
+                      style={{ margin: "30px 0" }}
+                      adClient="ca-pub-4468477322781117"
+                      adSlot="4316048838"
+                    />
 
                     <article
                       className="blog-detail_content"
@@ -372,9 +373,9 @@ class BlogDetail extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    blog: state.Blog
+    blog: state.Blog,
   }
 }
 
