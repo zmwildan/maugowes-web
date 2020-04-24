@@ -1,6 +1,9 @@
 import Head from "next/head"
 import React from "react"
 import Styled from "styled-components"
+import * as Firebase from "../../modules/firebase"
+
+// components
 import {
   color_black_main,
   color_blue_main,
@@ -91,6 +94,10 @@ const defaultMetadata = {
 }
 
 export default class HomeLayout extends React.Component {
+  componentDidMount() {
+    Firebase.firebaseInit()
+  }
+
   render = () => {
     const { children, metadata = defaultMetadata, scripts = [] } = this.props
 
@@ -158,6 +165,12 @@ export default class HomeLayout extends React.Component {
                 return <script src={n.src} key={key} />
               })
             : null}
+
+          {/* The core Firebase JS SDK is always required and must be listed first */}
+          <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+
+          {/* TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries */}
+          <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
 
           {process.env.NODE_ENV === "production" ? (
             <React.Fragment>
