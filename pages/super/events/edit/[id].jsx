@@ -6,14 +6,14 @@ import Toast from "../../../../modules/toast"
 
 // redux
 import { connect } from "react-redux"
-import { fetchEventDetail } from "../../../redux/events/actions"
+import { fetchEventDetail } from "../../../../redux/events/actions"
 
 // components
-import GlobalLayout from "../../../components/layouts/Global"
-import DefaultLayout from "../../../components/layouts/Default"
-import SuperLayout from "../../../components/layouts/Super"
-import PageHeader from "../../../components/boxs/PageHeader"
-import EventForm from "../../../components/form/Events/EventForm"
+import GlobalLayout from "../../../../components/layouts/Global"
+import DefaultLayout from "../../../../components/layouts/Default"
+import SuperLayout from "../../../../components/layouts/Super"
+import PageHeader from "../../../../components/boxs/PageHeader"
+import EventForm from "../../../../components/form/Events/EventForm"
 
 const EditEventStyled = Styled.div`
 
