@@ -1,8 +1,8 @@
 import React from "react"
 import Styled from "styled-components"
-import config from "../../../config/index"
+import config from "../../../../config/index"
 import fetch from "isomorphic-unfetch"
-import Toast from "../../../modules/toast"
+import Toast from "../../../../modules/toast"
 
 // redux
 import { connect } from "react-redux"
@@ -35,7 +35,7 @@ class EditEvent extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: posts
+        data: posts,
       })
     }
 
@@ -79,9 +79,9 @@ class EditEvent extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
     events: state.Events,
-    location: state.Location
+    location: state.Location,
   }
 })(EditEvent)
