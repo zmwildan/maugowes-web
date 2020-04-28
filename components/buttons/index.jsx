@@ -11,7 +11,10 @@ import {
 import Link from "next/link"
 
 const ButtonStyled = Styled.div`
-
+  &.btn-inline {
+    display: inline;
+    margin-right: 10px;
+  }
   button, a {
     cursor: pointer;
     opacity: ${(props) => (props.isDisabled ? 0.8 : 1)};

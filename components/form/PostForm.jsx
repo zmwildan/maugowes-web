@@ -1,5 +1,4 @@
 import React from "react"
-// import Styled from "styled-components"
 import { createPost, updatePost } from "../../redux/blog/actions"
 
 // components
@@ -136,6 +135,7 @@ class BlogPage extends React.Component {
         />
         <br />
         <Submit
+          className="btn-inline"
           style={{ display: "inline", marginRight: 10 }}
           onClick={() => this.submitHandler()}
           loading={is_loading || status == 200 || status == 201}
@@ -143,6 +143,7 @@ class BlogPage extends React.Component {
           setState={(n, cb) => this.setState(n, cb)}
         />
         <Submit
+          className="btn-inline"
           color="white"
           style={{ display: "inline", marginRight: 10 }}
           onClick={() => this.submitHandler(true)}
