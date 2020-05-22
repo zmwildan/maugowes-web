@@ -131,6 +131,16 @@ export default (props) => {
                 href="https://twitter.com/maugowes">
                 <img src="/static/images/twitter-48.png" />
               </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link_a"
+                href="https://wa.me/6285156934428?text=Ada%20pertanyaan%20seputar%20produk%20Yussan%20Media%20Group%2C%20bisa%20disini.">
+                <img
+                  style={{ width: 31, padding: 2 }}
+                  src="/static/images/logos/whatsapp-48.png"
+                />
+              </a>
             </span>
           </div>
         </div>
