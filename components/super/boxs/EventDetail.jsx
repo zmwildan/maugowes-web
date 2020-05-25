@@ -29,7 +29,7 @@ class EventDetail extends React.Component {
       location.href = `/super/events/detail/${eventData.id}`
     }
   }
-  handleClick = status => {
+  handleClick = (status) => {
     let note = ""
     if (status === "reject") {
       const prompt = window.prompt("Alasan ditolak")
@@ -39,7 +39,7 @@ class EventDetail extends React.Component {
     }
     const formData = {
       status,
-      note
+      note,
     }
     this.props.dispatch(setStatus(this.props.eventData.id, formData))
   }
@@ -64,7 +64,10 @@ class EventDetail extends React.Component {
           <div
             className="col-9"
             dangerouslySetInnerHTML={{
-              __html: eventData.note.trim() ? nl2br(eventData.note) : "-"
+              __html:
+                eventData.note && eventData.note.trim()
+                  ? nl2br(eventData.note)
+                  : "-",
             }}
           />
         </div>
@@ -167,6 +170,6 @@ class EventDetail extends React.Component {
     )
   }
 }
-export default connect(state => {
+export default connect((state) => {
   return {}
 })(EventDetail)

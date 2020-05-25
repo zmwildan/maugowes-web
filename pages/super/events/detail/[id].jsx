@@ -1,28 +1,31 @@
+import React from "react"
 import Styled from "styled-components"
-import { fetchBlogDetail } from "../../../redux/blog/actions"
-import { connect } from "react-redux"
-import config from "../../../config/index"
+import config from "../../../../config/index"
 import fetch from "isomorphic-unfetch"
 
+// redux
+import { fetchEventDetail } from "../../../../redux/events/actions"
+import { connect } from "react-redux"
+
 // components
-import GlobalLayout from "../../../components/layouts/Global"
-import DefaultLayout from "../../../components/layouts/Default"
-import SuperLayout from "../../../components/layouts/Super"
-import PageHeader from "../../../components/boxs/PageHeader"
-import PostForm from "../../../components/form/PostForm"
+import GlobalLayout from "../../../../components/layouts/Global"
+import DefaultLayout from "../../../../components/layouts/Default"
+import SuperLayout from "../../../../components/layouts/Super"
+import PageHeader from "../../../../components/boxs/PageHeader"
+import EventDetail from "../../../../components/super/boxs/EventDetail"
 
 const BlogCreateStyled = Styled.div`
 
 `
 
-class BlogPage extends React.Component {
+class DetailPage extends React.Component {
   state = {}
 
   static async getInitialProps({ reduxStore, res, query }) {
     const { id } = query
     // if (typeof window == "undefined") {
     if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchBlogDetail(id)["CALL_API"]
+      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
       //  only call in server side
       const postsResponse = await fetch(
         `${config[process.env.NODE_ENV].host}${endpoint}`
@@ -31,7 +34,7 @@ class BlogPage extends React.Component {
       reduxStore.dispatch({
         type,
         filter: id,
-        data: posts
+        data: posts,
       })
     }
 
@@ -40,10 +43,10 @@ class BlogPage extends React.Component {
 
   render() {
     const { id } = this.props
-    const title = id ? "Update Post" : "Create Post"
-    const blogData = this.props.blog[id] || {}
-    const formResponse = this.props.blog.submit_post || {}
-    const { is_loading } = blogData
+    const title = "Event Detail"
+    const eventData = this.props.events[id] || {}
+    const formResponse = this.props.events.submit_post || {}
+    const { is_loading } = eventData
     return (
       <GlobalLayout metadata={{ title }}>
         <DefaultLayout>
@@ -53,11 +56,10 @@ class BlogPage extends React.Component {
               {is_loading ? (
                 <Loading />
               ) : (
-                <PostForm
+                <EventDetail
                   dispatch={this.props.dispatch}
-                  blogData={blogData}
                   formResponse={formResponse}
-                  isEdit={blogData && blogData.id}
+                  eventData={eventData}
                 />
               )}
             </BlogCreateStyled>
@@ -68,8 +70,8 @@ class BlogPage extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    blog: state.Blog
+    events: state.Events,
   }
-})(BlogPage)
+})(DetailPage)

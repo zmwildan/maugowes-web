@@ -1,6 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
-import { requestQueryGenerator } from "../../blog/index"
+import { requestQueryGenerator } from "../../../components/pages/BlogList"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../../redux/blog/actions"
 
@@ -21,14 +21,14 @@ let StoreFilter = "super"
 
 class BlogPage extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   static async getInitialProps({ reduxStore, query }) {
     return {
       tag: query.tag || "",
       username: query.username,
-      query
+      query,
     }
   }
 
@@ -46,13 +46,13 @@ class BlogPage extends React.Component {
     if (!blogState.is_loading && blogState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         async () => {
           let reqQuery = {
             limit: MaxResults,
             page: this.state.page,
-            showDraft: true
+            showDraft: true,
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
 
@@ -84,8 +84,8 @@ class BlogPage extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    blog: state.Blog
+    blog: state.Blog,
   }
 })(BlogPage)
