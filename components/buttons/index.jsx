@@ -92,8 +92,8 @@ const Button = (props) => {
       {...props}
       style={props.containerStyle}>
       {props.type === "link" ? (
-        <Link href={props.target} prefetch>
-          <a href={props.target}>{props.text}</a>
+        <Link href={props.target} as={props.targetAs || props.target}>
+          <a href={props.targetAs || props.target}>{props.text}</a>
         </Link>
       ) : (
         <button id={props.btnId} type="button" onClick={() => props.onClick}>

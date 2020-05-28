@@ -4,9 +4,10 @@ import {
   color_black_main,
   color_blue_main,
   color_red_main,
-  color_white_main
+  color_white_main,
 } from "../Const"
 import DayJs from "../../modules/dayjs"
+import Link from "next/link"
 
 const CardEventStyled = Styled.div`
   padding: 0 20px;
@@ -85,21 +86,23 @@ const CardEventStyled = Styled.div`
   }
 `
 
-const CardEvent = props => {
+const CardEvent = (props) => {
   const { data } = props
   return (
     <CardEventStyled className="col-4_xs-12_md-6">
-      <a href={data.link}>
-        <div
-          className="card-event-cover"
-          style={{
-            backgroundImage: `url(${data.poster[600]})`
-          }}>
-          {data.is_ended ? (
-            <div className="label label-red">TELAH BERAKHIR</div>
-          ) : null}
-        </div>
-      </a>
+      <Link href="/events/[id]" as={data.link}>
+        <a>
+          <div
+            className="card-event-cover"
+            style={{
+              backgroundImage: `url(${data.poster[600]})`,
+            }}>
+            {data.is_ended ? (
+              <div className="label label-red">TELAH BERAKHIR</div>
+            ) : null}
+          </div>
+        </a>
+      </Link>
 
       <div className="card-event-time">
         <span className="card-event-label">
@@ -110,9 +113,9 @@ const CardEvent = props => {
 
       <div className="card-event-title">
         <h3>
-          <a href={data.link} target="_blank" rel="noopener noreferrer">
-            {data.title}
-          </a>
+          <Link href="/events/[id]" as={data.link}>
+            <a>{data.title}</a>
+          </Link>
         </h3>
       </div>
 

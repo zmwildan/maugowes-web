@@ -151,8 +151,11 @@ class BlogDetail extends React.Component {
     return { id: query.id }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ windowReady: true })
+
+    // fetch blog detail
+    this.fetchBlogDetail()
 
     // get related post
     const blogRelatedState = this.props.blog.related || {}
@@ -164,6 +167,20 @@ class BlogDetail extends React.Component {
           notId: getId(this.props.id),
         })
       )
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id != this.props.id) {
+      return this.fetchBlogDetail()
+    }
+  }
+
+  fetchBlogDetail() {
+    const id = getId(this.props.id)
+    const blogDetail = this.props.blog[id] || {}
+    if (!blogDetail.status) {
+      return this.props.dispatch(fetchBlogDetail(id))
     }
   }
 
@@ -211,10 +228,17 @@ class BlogDetail extends React.Component {
         },
       }
     } else {
-      metadata = {
-        title: "Postingan tidak ditemukan",
-        description:
-          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.",
+      if (!data.status) {
+        metadata = {
+          title: "Blog loading...",
+          description: "Tunggu sejenak.",
+        }
+      } else {
+        metadata = {
+          title: "Postingan tidak ditemukan",
+          description:
+            "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.",
+        }
       }
     }
 

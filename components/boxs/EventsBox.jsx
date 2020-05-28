@@ -54,7 +54,7 @@ const EventsBox = (props) => {
       ) : (
         <center style={{ marginBottom: 50, lineHeight: 1.5 }}>
           Atau kamu juga bisa{" "}
-          <Link href="/events/send" prefetch>
+          <Link href="/events/send">
             <a
               href="/events/send"
               title="Kamu punya event sepeda, yuk kirim ke Mau Gowes">

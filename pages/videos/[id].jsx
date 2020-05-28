@@ -86,18 +86,36 @@ class VideoDetail extends React.Component {
 
   state = {}
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ windowReady: true })
 
+    this.fetchVideoDetail()
+
     const videoRelatedState = this.props.videos.related || {}
+
     if (!videoRelatedState.status) {
-      return this.props.dispatch(
+      this.props.dispatch(
         fetchVideos("related", {
           limit: 4,
           page: 1,
           notId: getId(this.props.id),
         })
       )
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id != this.props.id) {
+      return this.fetchVideoDetail()
+    }
+  }
+
+  fetchVideoDetail() {
+    const id = getId(this.props.id)
+    const videoDetail = this.props.videos.id || {}
+
+    if (!videoDetail.status) {
+      this.props.dispatch(fetchVideoDetail(id))
     }
   }
 
@@ -145,10 +163,17 @@ class VideoDetail extends React.Component {
         },
       }
     } else {
-      metadata = {
-        title: "Video tidak ditemukan",
-        description:
-          "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus.",
+      if (!data.status) {
+        metadata = {
+          title: "Video loading...",
+          description: "Tunggu sejenak, memproses video...",
+        }
+      } else {
+        metadata = {
+          title: "Video tidak ditemukan",
+          description:
+            "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus.",
+        }
       }
     }
 

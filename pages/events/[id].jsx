@@ -58,6 +58,21 @@ class EventDetail extends React.Component {
 
   async componentDidMount() {
     this.setState({ windowReady: true })
+    this.fetchEventDetail()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id != this.props.id) {
+      return this.fetchEventDetail()
+    }
+  }
+
+  fetchEventDetail() {
+    const id = getId(this.props.id)
+    const data = this.props.event[id] || {}
+    if (!data.status) {
+      this.props.dispatch(fetchEventDetail(id))
+    }
   }
 
   render() {
@@ -103,10 +118,17 @@ class EventDetail extends React.Component {
         },
       }
     } else {
-      metadata = {
-        title: "Event tidak ditemukan",
-        description:
-          "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.",
+      if (!data.status) {
+        metadata = {
+          title: "Event Loading...",
+          description: "Tunggu sejenak.",
+        }
+      } else {
+        metadata = {
+          title: "Event tidak ditemukan",
+          description:
+            "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.",
+        }
       }
     }
 
@@ -200,7 +222,10 @@ class EventDetail extends React.Component {
                         <br />
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: data.note.trim() ? nl2br(data.note) : "-",
+                            __html:
+                              data.note && data.note.trim()
+                                ? nl2br(data.note)
+                                : "-",
                           }}
                         />
                         <br />

@@ -32,26 +32,22 @@ const CardBikeStyled = Styled.div`
 const CardBike = ({ data }) => {
   const linkTarget = `/bikes/${toSlug(data.name)}-${data.id}`
   return (
-    <CardBikeStyled
-      className="col-4_xs-6"
-      onClick={() => {
-        if (typeof window !== "undefined") {
-          location.href = linkTarget
-        }
-      }}>
+    <CardBikeStyled className="col-4_xs-6">
       <div className="card-bike">
-        <div
-          className="card-bike__thumb"
-          style={{
-            backgroundImage: `url(${imageFormatUrl(
-              data.images,
-              "c_scale,w_300"
-            )})`,
-          }}
-        />
+        <Link href={"/bikes/[id]"} as={linkTarget}>
+          <div
+            className="card-bike__thumb"
+            style={{
+              backgroundImage: `url(${imageFormatUrl(
+                data.images,
+                "c_scale,w_300"
+              )})`,
+            }}
+          />
+        </Link>
         <div className="card-bike__text">
-          <Link href={"/bikes/[id]"} as={linkTarget} prefetch>
-            <a href={linkTarget}>
+          <Link href={"/bikes/[id]"} as={linkTarget}>
+            <a>
               <h3>{data.name}</h3>
               <small className="text-muted">
                 estimasi Rp {currencyFormat(data.estimated_price)},-

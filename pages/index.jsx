@@ -37,7 +37,7 @@ class Home extends React.Component {
       reduxStore.dispatch({
         type: fetchVideos()["CALL_API"].type,
         filter: "new",
-        data: videos
+        data: videos,
       })
 
       // request news list
@@ -50,7 +50,7 @@ class Home extends React.Component {
       reduxStore.dispatch({
         type: fetchBlog()["CALL_API"].type,
         filter: "new",
-        data: posts
+        data: posts,
       })
     }
 
@@ -124,7 +124,8 @@ class Home extends React.Component {
             <div className="grid-center p-t-30 p-b-50">
               <Button
                 type="link"
-                target="/blog/tag/review%20lain"
+                targetAs="/blog/tag/review%20lain"
+                target="/blog/tag/[tag]"
                 text="Baca Review Part / Aksesories"
               />
             </div>
@@ -139,7 +140,8 @@ class Home extends React.Component {
             <div className="grid-center p-t-30 p-b-50">
               <Button
                 type="link"
-                target="/blog/tag/cara%20cara"
+                targetAs="/blog/tag/cara%20cara"
+                target="/blog/tag/[tag]"
                 text="Baca Cara Cara"
               />
             </div>
@@ -154,7 +156,8 @@ class Home extends React.Component {
             <div className="grid-center p-t-30 p-b-50">
               <Button
                 type="link"
-                target="/blog/tag/review%20sepeda"
+                targetAs="/blog/tag/review%20sepeda"
+                target="/blog/tag/[tag]"
                 text="Baca Review Sepeda"
               />
             </div>
@@ -166,10 +169,10 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     videos: state.Videos,
-    blog: state.Blog
+    blog: state.Blog,
   }
 }
 

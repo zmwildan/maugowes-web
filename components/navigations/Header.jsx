@@ -177,7 +177,7 @@ class Header extends React.Component {
       <HeaderStyled>
         <div className="grid-center header-logo">
           <div className="col">
-            <Link href="/" prefetch>
+            <Link href="/">
               <a href="/">
                 <img
                   className="header-logo-img"
@@ -254,7 +254,7 @@ class Header extends React.Component {
                             {n.child.map((m, key) => {
                               return (
                                 <li key={key}>
-                                  <Link href={m.link} prefetch>
+                                  <Link href={m.link}>
                                     <a href={m.link}>
                                       {m.name}{" "}
                                       <IconBottomArrow
@@ -270,7 +270,7 @@ class Header extends React.Component {
                         </div>
                       </Dropdown>
                     ) : (
-                      <Link href={n.link} prefetch>
+                      <Link href={n.link}>
                         <a className="header-top-menu_link" href={n.link}>
                           {n.name}
                         </a>

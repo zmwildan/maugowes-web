@@ -2,6 +2,7 @@ import React from "react"
 import Dayjs from "../../modules/dayjs"
 import Styled from "styled-components"
 import { color_gray_dark, color_black_main, color_blue_main } from "../Const"
+import Link from "next/link"
 
 const CardBlogStyled = Styled.div`
 
@@ -65,32 +66,31 @@ const CardBlogStyled = Styled.div`
   }
 `
 
-export default props => {
+export default (props) => {
   const { data = {} } = props || {}
   const linkUrl = data.link
   return (
     <CardBlogStyled className="col-4_xs-12_md-6">
-      <a href={linkUrl}>
-        <div
-          className="card-blog-cover"
-          style={{
-            backgroundImage: `url(${
-              data.image ? data.image["600"] : "/static/images/no-image.png"
-            })`
-          }}
-        />
-      </a>
+      <Link href="/blog/[id]" as={linkUrl}>
+        <a>
+          <div
+            className="card-blog-cover"
+            style={{
+              backgroundImage: `url(${
+                data.image ? data.image["600"] : "/static/images/no-image.png"
+              })`,
+            }}
+          />
+        </a>
+      </Link>
 
       {/* tag of post */}
       <div className="card-blog-tags">
         {data.tags && data.tags.length > 0
           ? data.tags.map((tag, key) => (
-              <a
-                key={key}
-                className="card-blog-label"
-                href={`/blog/tag/${tag}`}>
-                {tag}
-              </a>
+              <Link key={key} href="/blog/tag/[tag]" as={`/blog/tag/${tag}`}>
+                <a className="card-blog-label">{tag}</a>
+              </Link>
             ))
           : null}
       </div>
@@ -98,7 +98,9 @@ export default props => {
       {/* title if post */}
       <div className="card-blog-title">
         <h3>
-          <a href={linkUrl}>{data.title || "..."}</a>
+          <Link href="/blog/[id]" as={linkUrl}>
+            <a>{data.title || "..."}</a>
+          </Link>
         </h3>
       </div>
 
