@@ -71,6 +71,12 @@ class BikeDetail extends React.Component {
     this.setState({
       windowReady: true,
     })
+    this.fetchBikeDetail()
+  }
+
+  fetchBikeDetail() {
+    const bikeData = this.props.bikes[this.state.id] || {}
+    if (!bikeData.status) [this.props.dispatch(fetchBikeDetail(this.state.id))]
   }
 
   boxRenderHandler() {
