@@ -1,8 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
 import DayJs from "dayjs"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import { nl2br } from "string-manager"
 
 // redux
@@ -22,6 +20,7 @@ import EyeIcon from "../../components/icons/Eye"
 import { BlogDetailStyled } from "../blog/[id]"
 import InputLocation from "../../components/form/InputLocation"
 import Label from "../../components/labels"
+import { scaleNumber } from "string-manager/dist/modules/number"
 
 const EventDetailStyled = Styled(BlogDetailStyled)`
   strong.title {
@@ -37,20 +36,10 @@ function getId(title) {
 class EventDetail extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const id = getId(query.id)
-      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+      await reduxStore.dispatch(fetchEventDetail(id))
     }
 
     return { id: query.id }
@@ -160,7 +149,7 @@ class EventDetail extends React.Component {
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
                         <EyeIcon width="30" height="30" />
-                        <span>{data.views}</span>
+                        <span>{scaleNumber(data.views)}</span>
                       </span>
 
                       <span className="blog-detail_meta_item">

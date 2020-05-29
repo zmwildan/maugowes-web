@@ -1,8 +1,6 @@
 import Styled from "styled-components"
 import { fetchBlogDetail } from "../../../redux/blog/actions"
 import { connect } from "react-redux"
-import config from "../../../config/index"
-import fetch from "isomorphic-unfetch"
 
 // components
 import GlobalLayout from "../../../components/layouts/Global"
@@ -18,21 +16,11 @@ const BlogCreateStyled = Styled.div`
 class BlogPage extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
+  static async getInitialProps({ req, reduxStore, query }) {
     const { id } = query
     // if (typeof window == "undefined") {
-    if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchBlogDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+    if (typeof id != "undefined" && req) {
+      await reduxStore.dispatch(fetchBlogDetail(id))
     }
 
     return { id }

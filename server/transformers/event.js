@@ -21,18 +21,18 @@ module.exports = {
                 '"$2": '
               )
             )
-          : null
+          : null,
       },
       note: n.note,
       sender_note: n.sender_note || "",
       event_status: n.status,
       poster: {
         original: n.poster,
-        "600": generateCustomUrl(n.poster, "w_600,c_scale")
+        "600": generateCustomUrl(n.poster, "w_600,c_scale"),
       },
       views: n.views || 1,
       is_ended: new Date().getTime() > n.start_time,
-      geoJSON: n.geoJSON || null
+      geoJSON: n.geoJSON || null,
     }
-  }
+  },
 }

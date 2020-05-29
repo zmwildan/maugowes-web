@@ -44,7 +44,6 @@ class InputTags extends React.Component {
     }
     const { Tags } = this.state
 
-    console.log("Tags", this.state.Tags)
     return (
       <InputTagsStyled className="form-child">
         <label htmlFor={this.props.id || this.props.name}>

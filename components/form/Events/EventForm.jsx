@@ -18,11 +18,10 @@ class EventForm extends React.Component {
     super(props)
 
     let initialState = {
-      event_time: new Date()
+      event_time: new Date(),
     }
 
     const { eventData } = props
-    console.log("eventData", eventData)
     if (eventData) {
       initialState = {
         email: eventData.email,
@@ -32,7 +31,7 @@ class EventForm extends React.Component {
         note: eventData.note || "",
         coords: eventData.location.coordinate || {},
         poster_preview: eventData.poster[600],
-        event_time: eventData.start_time
+        event_time: eventData.start_time,
       }
     }
 
@@ -43,7 +42,7 @@ class EventForm extends React.Component {
     const { is_valid } = stateValidatorChecker({
       setState: (ns, cb) => this.setState(ns, cb),
       state: this.state,
-      requiredInputs: ["email", "title", "link"]
+      requiredInputs: ["email", "title", "link"],
     })
     const { eventData } = this.props
 
@@ -55,7 +54,7 @@ class EventForm extends React.Component {
         start_time:
           typeof this.state.event_time == "number"
             ? this.state.event_time
-            : this.state.event_time.getTime()
+            : this.state.event_time.getTime(),
       }
 
       if (this.state.poster) params.poster = this.state.poster

@@ -1,8 +1,6 @@
 import Styled from "styled-components"
 import Router from "next/router"
 import { connect } from "react-redux"
-import config from "../../../config/index"
-import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
@@ -128,30 +126,11 @@ let typingTimer //timer identifier
 const doneTypingInterval = 300
 
 class BikesCompare extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = query
-    if (typeof window == "undefined") {
-      const { type, endpoint } = fetchGroupSpec("list")["CALL_API"]
-      //  only call in server side
-      const groupSpecResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const groupSpec = await groupSpecResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: "list",
-        data: groupSpec,
-      })
-      const fetchBike = fetchBikeDetail(id)["CALL_API"]
-      const bikeResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${fetchBike.endpoint}`
-      )
-      const bike = await bikeResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeDetail(id)["CALL_API"].type,
-        filter: id,
-        data: bike,
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
+      const { id } = query
+      await reduxStore.dispatch(fetchGroupSpec("list"))
+      await reduxStore.dispatch(fetchBikeDetail(id))
     }
 
     return {

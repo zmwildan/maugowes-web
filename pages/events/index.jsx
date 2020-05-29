@@ -1,9 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
-import { objToQuery } from "string-manager"
 
 // components
 import GlobalLayout from "../../components/layouts/Global"
@@ -24,22 +21,10 @@ class Events extends React.Component {
     page: 1,
   }
 
-  static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      //  only call in server side
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const reqQuery = requestQueryGenerator(query)
-      const { endpoint, type } = fetchEvents(StoreFilter, reqQuery)["CALL_API"]
-
-      const eventsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const events = await eventsResponse.json()
-
-      reduxStore.dispatch({
-        type,
-        filter: StoreFilter,
-        data: events,
-      })
+      await reduxStore.dispatch(fetchEvents(StoreFilter, reqQuery))
     }
 
     return {

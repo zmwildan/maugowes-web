@@ -1,7 +1,5 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import fetch from "isomorphic-unfetch"
-import config from "../../config/index"
 
 // redux
 import {
@@ -31,7 +29,6 @@ const MetaData = {
   description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
 }
 
-const Host = config[process.env.NODE_ENV].host
 const MaxResults = 9
 
 export function requestQueryGenerator(query = {}) {
@@ -52,38 +49,9 @@ class BikesIndex extends React.Component {
     if (typeof window == "undefined") {
       const reqQuery = requestQueryGenerator(query)
 
-      // request list bike brands on server
-      const bikeBrandReponse = await fetch(
-        `${Host}${fetchBikeBrands()["CALL_API"].endpoint}`
-      )
-      const bikeBrands = await bikeBrandReponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeBrands()["CALL_API"].type,
-        filter: fetchBikeBrands()["CALL_API"].filter,
-        data: bikeBrands,
-      })
-
-      // request list bike types
-      const bikeTypesResponse = await fetch(
-        `${Host}${fetchBikeTypes()["CALL_API"].endpoint}`
-      )
-      const bikeTypes = await bikeTypesResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeTypes()["CALL_API"].type,
-        filter: fetchBikeTypes()["CALL_API"].filter,
-        data: bikeTypes,
-      })
-
-      // request list bikes
-      const bikesResponse = await fetch(
-        `${Host}${fetchBikes("bike_list", reqQuery)["CALL_API"].endpoint}`
-      )
-      const bikes = await bikesResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikes()["CALL_API"].type,
-        filter: fetchBikes()["CALL_API"].filter,
-        data: bikes,
-      })
+      await reduxStore.dispatch(fetchBikeBrands())
+      await reduxStore.dispatch(fetchBikeTypes())
+      await reduxStore.dispatch(fetchBikes("bike_list", reqQuery))
     }
     return { query }
   }

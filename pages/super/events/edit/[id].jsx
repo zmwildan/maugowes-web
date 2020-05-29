@@ -1,7 +1,5 @@
 import React from "react"
 import Styled from "styled-components"
-import config from "../../../../config/index"
-import fetch from "isomorphic-unfetch"
 import Toast from "../../../../modules/toast"
 
 // redux
@@ -22,21 +20,11 @@ const EditEventStyled = Styled.div`
 class EditEvent extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
+  static async getInitialProps({ req, reduxStore, query }) {
     const { id } = query
     // if (typeof window == "undefined") {
-    if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+    if (typeof id != "undefined" && req) {
+      await fetchEventDetail(id)
     }
 
     return { id }

@@ -4,12 +4,7 @@ import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import VideosBox from "../../components/boxs/VideosBox"
-import GA from "../../components/boxs/GA"
-
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
-import { objToQuery } from "string-manager/dist/modules/httpquery"
 
 const VideoStyled = Styled.div`
   
@@ -23,25 +18,10 @@ class VideosPage extends React.Component {
     page: 1,
   }
 
-  static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      const { endpoint, type } = fetchVideos()["CALL_API"]
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const reqQuery = requestQueryGenerator(query)
-
-      // only call in server side
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
-          reqQuery
-        )}`
-      )
-
-      const videos = await videosResponse.json()
-
-      reduxStore.dispatch({
-        type,
-        filter: StoreFilter,
-        data: videos,
-      })
+      await reduxStore.dispatch(fetchVideos(StoreFilter, reqQuery))
     }
 
     return {

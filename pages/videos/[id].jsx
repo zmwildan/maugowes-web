@@ -2,8 +2,6 @@ import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { nl2br } from "string-manager"
-// import { color_black_main, color_white_main } from "../../components/Const"
-import config from "../../config/index"
 
 // redux
 import { fetchVideoDetail, fetchVideos } from "../../redux/videos/actions"
@@ -65,20 +63,10 @@ function getId(title) {
 }
 
 class VideoDetail extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const id = getId(query.id)
-      const { type, endpoint } = fetchVideoDetail(id)["CALL_API"]
-      //  only call in server side
-      const videoResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const video = await videoResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: video,
-      })
+      await reduxStore.dispatch(fetchVideoDetail(id))
     }
 
     return { id: query.id }

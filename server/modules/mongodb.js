@@ -16,7 +16,6 @@ module.exports = (callback = () => {}) => {
       debugMongo("[mongodb error] to connect mongo")
       debugMongo(err, "mongo")
     } else {
-      debugMongo("[success] connected mongo server")
       const db = client.db(MONGO_DB)
       callback({ db, client })
     }

@@ -1,7 +1,5 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../../../config/index"
-import fetch from "isomorphic-unfetch"
 
 // redux
 import {
@@ -23,20 +21,11 @@ const BikeFormStyled = Styled.div`
 `
 
 class BikeForm extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
+  static async getInitialProps({ req, reduxStore, query }) {
     const { id } = query
 
-    if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchBikeDetail(id)["CALL_API"]
-      const response = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const bike = await response.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: bike,
-      })
+    if (typeof id != "undefined" && req) {
+      await reduxStore.dispatch(fetchBikeDetail(id))
     }
 
     return {

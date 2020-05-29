@@ -14,10 +14,9 @@ import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 import GA from "../../components/boxs/GA"
 
+import { scaleNumber } from "string-manager"
 import { connect } from "react-redux"
 import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import BlogBox from "../../components/boxs/BlogBox"
 import ShareIcon from "../../components/icons/Share"
 import CommentIcon from "../../components/icons/Comment"
@@ -132,20 +131,10 @@ export const BlogDetailStyled = Styled.div`
 class BlogDetail extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const id = getId(query.id)
-      const { type, endpoint } = fetchBlogDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+      await reduxStore.dispatch(fetchBlogDetail(id))
     }
 
     return { id: query.id }
@@ -292,7 +281,7 @@ class BlogDetail extends React.Component {
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
                         <EyeIcon width="30" height="30" />
-                        <span>{data.views}</span>
+                        <span>{scaleNumber(data.views)}</span>
                       </span>
 
                       <span className="blog-detail_meta_item">

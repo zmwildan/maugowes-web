@@ -1,7 +1,5 @@
 import Styled from "styled-components"
 import { extractPath } from "../../modules/url"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import { connect } from "react-redux"
 
 // redux
@@ -37,20 +35,10 @@ const TabContents = [
 ]
 
 class BikeDetail extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = extractPath(query.id)
-    if (typeof window == "undefined") {
-      const { type, endpoint } = fetchBikeDetail(id)["CALL_API"]
-      //  only call in server side
-      const bikeResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const bike = await bikeResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: bike,
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
+      const { id } = extractPath(query.id)
+      await reduxStore.dispatch(fetchBikeDetail(id))
     }
 
     return { id: query.id }

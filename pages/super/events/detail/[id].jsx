@@ -1,7 +1,5 @@
 import React from "react"
 import Styled from "styled-components"
-import config from "../../../../config/index"
-import fetch from "isomorphic-unfetch"
 
 // redux
 import { fetchEventDetail } from "../../../../redux/events/actions"
@@ -21,24 +19,12 @@ const BlogCreateStyled = Styled.div`
 class DetailPage extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = query
-    // if (typeof window == "undefined") {
-    if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (typeof query.id != "undefined" && req) {
+      await reduxStore.dispatch(fetchEventDetail(query.id))
     }
 
-    return { id }
+    return { id: query.id }
   }
 
   render() {

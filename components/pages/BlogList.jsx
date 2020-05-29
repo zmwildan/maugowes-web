@@ -1,9 +1,6 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
-import { objToQuery } from "string-manager"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -25,24 +22,10 @@ class Blog extends React.Component {
     page: 1,
   }
 
-  static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      //  only call in server side
-      const { endpoint, type } = fetchBlog()["CALL_API"]
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const reqQuery = requestQueryGenerator(query)
-
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}?${objToQuery(
-          reqQuery
-        )}`
-      )
-      const posts = await postsResponse.json()
-
-      reduxStore.dispatch({
-        type,
-        filter: StoreFilter,
-        data: posts,
-      })
+      await reduxStore.dispatch(fetchBlog(StoreFilter, reqQuery))
     }
 
     return {

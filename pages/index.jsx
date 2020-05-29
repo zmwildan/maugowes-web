@@ -1,8 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../config/index"
-import fetch from "isomorphic-unfetch"
 import { fetchVideos } from "../redux/videos/actions"
 import { fetchBlog } from "../redux/blog/actions"
 
@@ -23,43 +21,23 @@ const HomePage = Styled.div`
 `
 
 class Home extends React.Component {
-  static async getInitialProps({ reduxStore }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore }) {
+    if (req) {
       // only call in server side
-
-      // request videos list
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${
-          fetchVideos()["CALL_API"].endpoint
-        }limit=5`
-      )
-      const videos = await videosResponse.json()
-      reduxStore.dispatch({
-        type: fetchVideos()["CALL_API"].type,
-        filter: "new",
-        data: videos,
-      })
-
-      // request news list
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${
-          fetchBlog()["CALL_API"].endpoint
-        }limit=6`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type: fetchBlog()["CALL_API"].type,
-        filter: "new",
-        data: posts,
-      })
+      await reduxStore.dispatch(fetchVideos("new", { limit: 6 }))
+      await reduxStore.dispatch(fetchBlog("new", { limit: 6 }))
     }
 
-    return {}
+    return { props: true }
   }
 
   async componentDidMount() {
-    this.props.dispatch(fetchVideos("new", { maxResults: 5 }))
-    this.props.dispatch(fetchBlog("new", { limit: 6 }))
+    const newVideos = this.props.videos.new || {}
+    const newBlog = this.props.blog.new || {}
+
+    if (!newVideos.status) this.props.dispatch(fetchVideos("new", { limit: 6 }))
+    if (!newBlog.status) this.props.dispatch(fetchBlog("new", { limit: 6 }))
+
     this.props.dispatch(
       fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })
     )
