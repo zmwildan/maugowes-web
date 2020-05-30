@@ -2,7 +2,7 @@ const UserModule = require("../modules/user")
 
 module.exports = {
   login: (req, res) => {
-    return UserModule.login(req, res, json => {
+    return UserModule.login(req, res, (json) => {
       return res.json(json)
     })
   },
@@ -10,7 +10,7 @@ module.exports = {
     delete req.session.auth
     return res.json({
       status: 200,
-      message: "Sukses logout"
+      message: "Sukses logout",
     })
-  }
+  },
 }
