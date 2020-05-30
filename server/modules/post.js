@@ -20,60 +20,76 @@ module.exports = {
           from: "users",
           localField: "user_id",
           foreignField: "_id",
-          as: "author"
-        }
+          as: "author",
+        },
       },
       {
         // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
         $sort: {
           // order by created_on desc
-          created_on: -1
-        }
-      }
+          created_on: -1,
+        },
+      },
     ]
 
     // custom aggregate
     // post by tag
     if (tag) {
       aggregate.push({
-        $match: { tags: { $regex: ".*" + tag + ".*" } }
+        $match: { tags: { $regex: ".*" + tag + ".*" } },
       })
     }
 
     // filter post by author username
     if (username) {
       aggregate.push({
-        $match: { "author.username": username }
+        $match: { "author.username": username },
       })
     }
 
     // show or hide draft, by default is hide draft post
     if (!showDraft) {
       aggregate.push({
-        $match: { draft: { $not: { $eq: true } } }
+        $match: { draft: { $not: { $eq: true } } },
       })
     }
 
     // not show certain id
     if (notId) {
       aggregate.push({
-        $match: { _id: { $not: { $eq: ObjectId(notId) } } }
+        $match: { _id: { $not: { $eq: ObjectId(notId) } } },
       })
     }
 
     // execute mongodb
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       let countAggregate = Object.assign([], aggregate)
       // get post total count
       countAggregate.push({
-        $count: "total"
+        $count: "total",
       })
 
       db.collection("posts")
         .aggregate(countAggregate)
         .toArray((err, count) => {
           client.close()
-          return mongo(({ db, client }) => {
+          return mongo(({ err, db, client }) => {
+            if (err) {
+              // error on mongo db connection
+              return callback({
+                status: 500,
+                message: "Something wrong, please try again",
+              })
+            }
+
             return (
               db
                 .collection("posts")
@@ -87,7 +103,7 @@ module.exports = {
                     console.err(err)
                     return callback({
                       status: 500,
-                      messages: "something wrong with mongo"
+                      messages: "something wrong with mongo",
                     })
                   }
 
@@ -106,13 +122,13 @@ module.exports = {
                       status: 200,
                       messages: "success",
                       results,
-                      total: count && count[0] ? count[0].total : 0
+                      total: count && count[0] ? count[0].total : 0,
                     })
                   } else {
                     return callback({
                       status: 204,
                       message: "no post available",
-                      total: count && count[0] ? count[0].total : 0
+                      total: count && count[0] ? count[0].total : 0,
                     })
                   }
                 })
@@ -135,21 +151,29 @@ module.exports = {
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // list post and order by created_on
       db.collection("posts")
         .aggregate([
           {
-            $match: { _id: ObjectId(id) }
+            $match: { _id: ObjectId(id) },
           },
           {
             $lookup: {
               from: "users",
               localField: "user_id",
               foreignField: "_id",
-              as: "author"
-            }
-          }
+              as: "author",
+            },
+          },
         ])
         .toArray((err, result) => {
           // error from database
@@ -157,7 +181,7 @@ module.exports = {
             console.err(err)
             return callback({
               status: 500,
-              messages: "something wrong with mongo"
+              messages: "something wrong with mongo",
             })
           }
 
@@ -167,7 +191,7 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "Postingan tidak ditemukan"
+              messages: "Postingan tidak ditemukan",
             })
           }
 
@@ -208,7 +232,7 @@ module.exports = {
     if (!image) {
       return callback({
         status: 203,
-        messages: "image is required, please upload"
+        messages: "image is required, please upload",
       })
     }
 
@@ -221,7 +245,7 @@ module.exports = {
         console.err("cloudinary error", err)
         return callback({
           status: 203,
-          message: "Terjadi Masalah Ketika Upload di Cloudinary"
+          message: "Terjadi Masalah Ketika Upload di Cloudinary",
         })
       } else {
         // normalize tags
@@ -237,29 +261,37 @@ module.exports = {
           updated_on: currentTime,
           draft: Boolean(draft == "true" || draft == true),
           user_id: ObjectId(user_id),
-          video
+          video,
         }
 
-        return mongo(({ db, client }) => {
+        return mongo(({ err, db, client }) => {
+          if (err) {
+            // error on mongo db connection
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
+          }
+
           // check is same title available
           db.collection("posts")
             .aggregate([
               {
-                $match: { title }
+                $match: { title },
               },
               {
                 // select from specific key: https://stackoverflow.com/a/45738049/2780875
                 $project: {
-                  _id: 1
-                }
-              }
+                  _id: 1,
+                },
+              },
             ])
             .toArray((err, results) => {
               if (err) {
                 console.err(err)
                 return callback({
                   status: 500,
-                  message: "something wrong with mongo"
+                  message: "something wrong with mongo",
                 })
               }
 
@@ -267,7 +299,7 @@ module.exports = {
                 // post available
                 return callback({
                   status: 400,
-                  message: "Failed to post, duplicated title"
+                  message: "Failed to post, duplicated title",
                 })
               } else {
                 // insert to mongodb
@@ -275,7 +307,7 @@ module.exports = {
 
                 return callback({
                   status: 201,
-                  message: "Post Created"
+                  message: "Post Created",
                 })
               }
             })
@@ -297,7 +329,7 @@ module.exports = {
 
     let postdata = {
       updated_on: currentTime,
-      draft: Boolean(draft == "true" || draft == true)
+      draft: Boolean(draft == "true" || draft == true),
     }
 
     if (title) postdata.title = title
@@ -314,29 +346,45 @@ module.exports = {
           console.err("cloudinary error", err)
           return callback({
             status: 201,
-            message: "Terjadi masalah ketika upload di Cloudinary"
+            message: "Terjadi masalah ketika upload di Cloudinary",
           })
         } else {
           postdata.image = result.secure_url
           // update mongo data
-          return mongo(({ db, client }) => {
+          return mongo(({ err, db, client }) => {
+            if (err) {
+              // error on mongo db connection
+              return callback({
+                status: 500,
+                message: "Something wrong, please try again",
+              })
+            }
+
             db.collection("posts").update({ _id: id }, { $set: postdata })
             return callback({
               status: 200,
-              message: "sukses update data"
+              message: "sukses update data",
             })
           })
         }
       })
     } else {
       // update mongo data
-      return mongo(({ db, client }) => {
+      return mongo(({ err, db, client }) => {
+        if (err) {
+          // error on mongo db connection
+          return callback({
+            status: 500,
+            message: "Something wrong, please try again",
+          })
+        }
+
         db.collection("posts").update({ _id: id }, { $set: postdata })
         return callback({
           status: 200,
-          message: "sukses update data"
+          message: "sukses update data",
         })
       })
     }
-  }
+  },
 }

@@ -1,6 +1,5 @@
 const mongo = require("./mongodb")
 const { ObjectId } = require("mongodb")
-const cloudinary = require("./cloudinary")
 const bikeTransformer = require("../transformers/bikes")
 
 module.exports = {
@@ -64,7 +63,15 @@ module.exports = {
       })
     }
 
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       let countAggregate = Object.assign([], aggregate)
 
       // get events total count
@@ -80,7 +87,15 @@ module.exports = {
           client.close()
 
           // open new connection
-          mongo(({ db, client }) => {
+          mongo(({ err, db, client }) => {
+            if (err) {
+              // error on mongo db connection
+              return callback({
+                status: 500,
+                message: "Something wrong, please try again",
+              })
+            }
+
             db.collection("bikes")
               .aggregate(aggregate)
               .skip(parseInt((page - 1) * limit))
@@ -160,7 +175,15 @@ module.exports = {
       },
     ]
 
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // request bike by bike id
       db.collection("bikes")
         .aggregate(aggregate)
@@ -235,7 +258,15 @@ module.exports = {
    * function to fetch bike brands
    */
   getBikeBrands(req, res, callback) {
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes_brands")
         .find({})
         .toArray((err, results) => {
@@ -272,7 +303,15 @@ module.exports = {
    * @param {*} callback
    */
   getBikeTypes(req, res, callback) {
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes_types")
         .find({})
         .toArray((err, results) => {
@@ -316,7 +355,15 @@ module.exports = {
         },
       },
     ]
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes_specs")
         .aggregate(aggregate)
         .toArray((err, results) => {
@@ -381,7 +428,15 @@ module.exports = {
     }
 
     // insert to database
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes").insert(formdata)
 
       client.close()
@@ -416,7 +471,15 @@ module.exports = {
     }
 
     // update database
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes").update({ _id: id }, { $set: formdata })
 
       client.close()
@@ -437,7 +500,15 @@ module.exports = {
    */
   updateSpecRelation(req, res, callback) {
     const { bike_id, spec_id, description } = req.body
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("bikes_specs_relations").update(
         {
           bike_id: ObjectId(bike_id),
@@ -468,7 +539,15 @@ module.exports = {
    * @param {string} req.body.bike_id
    */
   deleteSpecRelation(req, res, callback) {
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // delete on bikes_specs_relations based on spec_id and bike_id
       // @see : https://docs.mongodb.com/manual/reference/method/db.collection.remove/
       db.collection("bikes_specs_relations").remove({

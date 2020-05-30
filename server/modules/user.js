@@ -5,7 +5,15 @@ module.exports = {
   login: (req, res, callback) => {
     const { email, password } = req.body
     const passHash = hashPassword(password)
-    mongo(({db, client}) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("users")
         .find({ email, password: passHash })
         .toArray((err, result) => {
@@ -14,13 +22,13 @@ module.exports = {
             console.err(err)
             return callback({
               status: 500,
-              message: "something wrong with mongo"
+              message: "something wrong with mongo",
             })
           }
           if (result.length < 1) {
             return callback({
               status: 204,
-              message: "email dan password tidak cocok"
+              message: "email dan password tidak cocok",
             })
           } else {
             // login success and save userdata to session
@@ -32,13 +40,11 @@ module.exports = {
             let response = result[0]
 
             response.status = 200
-            response.message = `Login sukses, selamat datang kembali ${
-              result[0].fullname
-            }`
+            response.message = `Login sukses, selamat datang kembali ${result[0].fullname}`
 
             return callback(response)
           }
         })
     })
-  }
+  },
 }
