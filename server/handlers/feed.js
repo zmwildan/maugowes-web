@@ -7,10 +7,11 @@ const DaysJs = require("dayjs")
 // handler of /feed/videos
 module.exports.videosFeed = (req, res) => {
   return videoModule.fetchVideos(req, res, (json) => {
-    res.set("Content-Type", "text/xml")
-    let content = ``
-    json.results.map((n) => {
-      content += `
+    if (json.status === 200) {
+      res.set("Content-Type", "text/xml")
+      let content = ``
+      json.results.map((n) => {
+        content += `
             <item>
                 <title>${n.title}</title>
                 <description>${n.description}</description>
@@ -23,8 +24,8 @@ module.exports.videosFeed = (req, res) => {
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
             `
-    })
-    let sitemap = `
+      })
+      let sitemap = `
         <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
             <channel>
                 <title>Mau Gowes Videos Feeds - Maaaauuuu....</title>
@@ -49,17 +50,21 @@ module.exports.videosFeed = (req, res) => {
             </channel>
         </rss>
         `
-    res.send(sitemap)
+      return res.send(sitemap)
+    } else {
+      return res.json(json)
+    }
   })
 }
 
 // handle of /feed/posts
 module.exports.postsFeed = (req, res) => {
   return postModule.fetchPosts(req, res, (json) => {
-    res.set("Content-Type", "text/xml")
-    let content = ``
-    json.results.map((n) => {
-      content += `
+    if (json.status === 200) {
+      res.set("Content-Type", "text/xml")
+      let content = ``
+      json.results.map((n) => {
+        content += `
             <item>
                 <title>${n.title}</title>
                 <description>${n.truncatedContent}</description>
@@ -74,8 +79,8 @@ module.exports.postsFeed = (req, res) => {
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
             `
-    })
-    let sitemap = `
+      })
+      let sitemap = `
         <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
             <channel>
                 <title>Mau Gowes Blog Feed - Maaaauuuu....</title>
@@ -100,17 +105,21 @@ module.exports.postsFeed = (req, res) => {
             </channel>
         </rss>
         `
-    res.send(sitemap)
+      return res.send(sitemap)
+    } else {
+      return res.json(json)
+    }
   })
 }
 
 // handler of /feed/events
 module.exports.eventsFeed = (req, res) => {
   return eventModule.fetchEvents(req, res, (json) => {
-    res.set("Content-Type", "text/xml")
-    let content = ``
-    json.results.map((n) => {
-      content += `
+    if (json.status === 200) {
+      res.set("Content-Type", "text/xml")
+      let content = ``
+      json.results.map((n) => {
+        content += `
             <item>
                 <title>${n.title}</title>
                 <description>${n.note}</description>
@@ -123,8 +132,8 @@ module.exports.eventsFeed = (req, res) => {
                 <comments>https://maugowes.com${n.link}#comments</comments>
             </item>
             `
-    })
-    let sitemap = `
+      })
+      let sitemap = `
         <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
             <channel>
                 <title>Mau Gowes Videos Feeds - Maaaauuuu....</title>
@@ -149,17 +158,21 @@ module.exports.eventsFeed = (req, res) => {
             </channel>
         </rss>
         `
-    res.send(sitemap)
+      return res.send(sitemap)
+    } else {
+      return res.json(json)
+    }
   })
 }
 
 // handler of /feed/bikes
 module.exports.bikesFeed = (req, res) => {
   return bikeModule.getBikes(req, res, (json) => {
-    res.set("Content-Type", "text/xml")
-    let content = ``
-    json.results.map((n) => {
-      content += `
+    if (json.status === 200) {
+      res.set("Content-Type", "text/xml")
+      let content = ``
+      json.results.map((n) => {
+        content += `
             <item>
                 <title>${n.name}</title>
                 <description>Spesifikasi lengkap dari ${n.name}</description>
@@ -172,8 +185,8 @@ module.exports.bikesFeed = (req, res) => {
                 <comments>https://maugowes.com${n.link}</comments>
             </item>
             `
-    })
-    let sitemap = `
+      })
+      let sitemap = `
         <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
             <channel>
                 <title>Mau Gowes Bikes Feeds - Maaaauuuu....</title>
@@ -198,6 +211,9 @@ module.exports.bikesFeed = (req, res) => {
             </channel>
         </rss>
         `
-    res.send(sitemap)
+      return res.send(sitemap)
+    } else {
+      return res.json(json)
+    }
   })
 }
