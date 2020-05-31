@@ -1,4 +1,3 @@
-import React from "react"
 import Styled from "styled-components"
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
@@ -128,262 +127,238 @@ export const BlogDetailStyled = Styled.div`
   }
 `
 
-class BlogDetail extends React.Component {
-  state = {}
+const BlogDetail = ({ id, dispatch, blog }) => {
+  const RelatedFilter = `related_${id}`
 
-  static async getInitialProps({ req, reduxStore, query }) {
-    if (req) {
-      const id = getId(query.id)
-      await reduxStore.dispatch(fetchBlogDetail(id))
-    }
-
-    return { id: query.id }
+  // fetch blog data
+  const blogData = blog[id] || {}
+  if (!blogData.status && !blogData.is_loading) {
+    dispatch(fetchBlogDetail(id))
   }
 
-  componentDidMount() {
-    this.setState({ windowReady: true })
-
-    // fetch blog detail
-    this.fetchBlogDetail()
-
-    // get related post
-    const blogRelatedState = this.props.blog.related || {}
-    if (!blogRelatedState.status) {
-      return this.props.dispatch(
-        fetchBlog("related", {
-          limit: 3,
-          page: 1,
-          notId: getId(this.props.id),
-        })
-      )
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.id != this.props.id) {
-      return this.fetchBlogDetail()
-    }
-  }
-
-  fetchBlogDetail() {
-    const id = getId(this.props.id)
-    const blogDetail = this.props.blog[id] || {}
-    if (!blogDetail.status) {
-      return this.props.dispatch(fetchBlogDetail(id))
-    }
-  }
-
-  render() {
-    const id = getId(this.props.id)
-    const data = this.props.blog[id] || {}
-    const related = this.props.blog.related || {}
-
-    let metadata = {}
-
-    if (data && data.status === 200) {
-      metadata = {
-        title: data.title,
-        description: data.truncatedContent,
-        image: data.image.original,
-        keywords: data.tags.toString(),
-        jsonld: {
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: data.title,
-          alternativeHeadline: data.title,
-          image: data.image.original,
-          genre: "cycling,bicycle,sepeda,gowes",
-          keywords: data.tags.toString(),
-          wordcount: data.content.length,
-          publisher: {
-            "@type": "Organization",
-            name: "Mau Gowes",
-            logo: {
-              "@type": "ImageObject",
-              url: "https://maugowes.com/static/icons/icon-512x512.png",
-              height: "500",
-              width: "500",
-            },
-          },
-          url: `https://maugowes.com${data.link}`,
-          datePublished: new Date(data.created_on * 1000).toISOString(),
-          dateCreated: new Date(data.created_on * 1000).toISOString(),
-          dateModified: new Date(data.updated_on * 1000).toISOString(),
-          description: data.truncatedContent,
-          author: {
-            "@type": "Person",
-            name: data.author.username,
-          },
-        },
-      }
-    } else {
-      if (!data.status) {
-        metadata = {
-          title: "Blog loading...",
-          description: "Tunggu sejenak.",
-        }
-      } else {
-        metadata = {
-          title: "Postingan tidak ditemukan",
-          description:
-            "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.",
-        }
-      }
-    }
-
-    return (
-      <GlobalLayout metadata={metadata}>
-        <DefaultLayout>
-          <BlogDetailStyled className="blog-detail">
-            {!data.status ? (
-              <Loader />
-            ) : data.status === 200 ? (
-              <React.Fragment>
-                <div className="grid-center">
-                  <div className="col-7_xs-12">
-                    <h1>{data.title}</h1>
-
-                    {/* list tag of post */}
-                    {data.tags && data.tags.length > 0 ? (
-                      <div className="blog-detail_tag">
-                        {data.tags.map((n, key) => {
-                          return (
-                            <a key={key} href={`/blog/tag/${n}`}>
-                              {n}
-                            </a>
-                          )
-                        })}
-                      </div>
-                    ) : null}
-                    {/* end of list tag of post */}
-
-                    {/* author */}
-                    <a
-                      className="link-blog-detail_author"
-                      href="/author/yussan">
-                      <div className="blog-detail_author">
-                        <img
-                          className="blog-detail_author_avatar"
-                          src={data.author.avatar}
-                          alt={`${data.author.username} avatar`}
-                        />
-                        <div className="blog-detail_author_name">
-                          {toCamelCase(data.author.fullname)}
-                        </div>
-                        <div className="blog-detail_author_level">
-                          alias {data.author.username} sebagai Penulis
-                        </div>
-                      </div>
-                    </a>
-                    {/* end of author */}
-
-                    {/* post meta */}
-                    <div className="blog-detail_meta">
-                      <span className="blog-detail_meta_item">
-                        <EyeIcon width="30" height="30" />
-                        <span>{scaleNumber(data.views)}</span>
-                      </span>
-
-                      <span className="blog-detail_meta_item">
-                        <a
-                          onClick={() => {
-                            document
-                              .getElementById("comment-box")
-                              .scrollIntoView({
-                                behavior: "smooth",
-                                block: "center",
-                              })
-                          }}
-                          href="javascript:;">
-                          <CommentIcon width="30" height="30" />
-                          <span>0</span>
-                        </a>
-                      </span>
-
-                      <span className="blog-detail_meta_item">
-                        <a
-                          onClick={() => {
-                            document
-                              .getElementById("share-box")
-                              .scrollIntoView({
-                                behavior: "smooth",
-                                block: "center",
-                              })
-                          }}
-                          href="javascript:;">
-                          <ShareIcon width="25" height="25" />
-                          <span>Share</span>
-                        </a>
-                      </span>
-                    </div>
-                    {/* end of post meta */}
-
-                    {data.video ? (
-                      <div className="blog-detail_video">
-                        <iframe src={data.video} />
-                      </div>
-                    ) : (
-                      <div className="blog-detail_main-image">
-                        <img src={data.image.original} alt={data.title} />
-                      </div>
-                    )}
-
-                    <GA
-                      style={{ margin: "30px 0" }}
-                      adClient="ca-pub-4468477322781117"
-                      adSlot="4316048838"
-                    />
-
-                    <article
-                      className="blog-detail_content"
-                      dangerouslySetInnerHTML={{ __html: data.content }}
-                    />
-                  </div>
-                </div>
-
-                <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
-
-                {/* share box */}
-                <div className="grid-center" id="share-box">
-                  <div className="col-7_xs-12">
-                    <ShareBox url={`https://maugowes.com${data.link}`} />
-                  </div>
-                </div>
-                {/* end of share box */}
-
-                {/* blog box */}
-                <div className="blog-detail_related">
-                  <BlogBox
-                    hideAds
-                    style={{ margin: "20px 0" }}
-                    noHeaderTitle
-                    noStats
-                    data={related}
-                  />
-                </div>
-                {/* end of blog box */}
-
-                {/* comment */}
-                <div className="grid-center" id="comment-box">
-                  <div className="col-7_xs-12 blog-detail_comment">
-                    {this.state.windowReady ? (
-                      <DisqusBox
-                        url={`${window.location.origin}/blog/${id}`}
-                        identifier={`maugowes-${id}`}
-                      />
-                    ) : null}
-                  </div>
-                </div>
-                {/* end of comment */}
-              </React.Fragment>
-            ) : (
-              <Loader text={data.messages} />
-            )}
-          </BlogDetailStyled>
-        </DefaultLayout>
-      </GlobalLayout>
+  // fetch blog related
+  const blogRelated = blog[RelatedFilter] || {}
+  if (!blogRelated.status && !blogRelated.is_loading) {
+    dispatch(
+      fetchBlog(RelatedFilter, {
+        limit: 3,
+        page: 1,
+        notId: id,
+      })
     )
   }
+
+  let metadata = {}
+
+  if (blogData && blogData.status === 200) {
+    metadata = {
+      title: blogData.title,
+      description: blogData.truncatedContent,
+      image: blogData.image.original,
+      keywords: blogData.tags.toString(),
+      jsonld: {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: blogData.title,
+        alternativeHeadline: blogData.title,
+        image: blogData.image.original,
+        genre: "cycling,bicycle,sepeda,gowes",
+        keywords: blogData.tags.toString(),
+        wordcount: blogData.content.length,
+        publisher: {
+          "@type": "Organization",
+          name: "Mau Gowes",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://maugowes.com/static/icons/icon-512x512.png",
+            height: "500",
+            width: "500",
+          },
+        },
+        url: `https://maugowes.com${blogData.link}`,
+        datePublished: new Date(blogData.created_on * 1000).toISOString(),
+        dateCreated: new Date(blogData.created_on * 1000).toISOString(),
+        dateModified: new Date(blogData.updated_on * 1000).toISOString(),
+        description: blogData.truncatedContent,
+        author: {
+          "@type": "Person",
+          name: blogData.author.username,
+        },
+      },
+    }
+  } else {
+    if (!blogData.status) {
+      metadata = {
+        title: "Blog loading...",
+        description: "Tunggu sejenak.",
+      }
+    } else {
+      metadata = {
+        title: "Postingan tidak ditemukan",
+        description:
+          "Maaf postingan yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena postingan telah di hapus.",
+      }
+    }
+  }
+
+  // render the component
+  return (
+    <GlobalLayout metadata={metadata}>
+      <DefaultLayout>
+        <BlogDetailStyled className="blog-detail">
+          {!blogData.status ? (
+            <Loader />
+          ) : blogData.status === 200 ? (
+            <>
+              <div className="grid-center">
+                <div className="col-7_xs-12">
+                  <h1>{blogData.title}</h1>
+
+                  {/* list tag of post */}
+                  {blogData.tags && blogData.tags.length > 0 ? (
+                    <div className="blog-detail_tag">
+                      {blogData.tags.map((n, key) => {
+                        return (
+                          <a key={key} href={`/blog/tag/${n}`}>
+                            {n}
+                          </a>
+                        )
+                      })}
+                    </div>
+                  ) : null}
+                  {/* end of list tag of post */}
+
+                  {/* author */}
+                  <a className="link-blog-detail_author" href="/author/yussan">
+                    <div className="blog-detail_author">
+                      <img
+                        className="blog-detail_author_avatar"
+                        src={blogData.author.avatar}
+                        alt={`${blogData.author.username} avatar`}
+                      />
+                      <div className="blog-detail_author_name">
+                        {toCamelCase(blogData.author.fullname)}
+                      </div>
+                      <div className="blog-detail_author_level">
+                        alias {blogData.author.username} sebagai Penulis
+                      </div>
+                    </div>
+                  </a>
+                  {/* end of author */}
+
+                  {/* post meta */}
+                  <div className="blog-detail_meta">
+                    <span className="blog-detail_meta_item">
+                      <EyeIcon width="30" height="30" />
+                      <span>{scaleNumber(blogData.views)}</span>
+                    </span>
+
+                    <span className="blog-detail_meta_item">
+                      <a
+                        onClick={() => {
+                          document
+                            .getElementById("comment-box")
+                            .scrollIntoView({
+                              behavior: "smooth",
+                              block: "center",
+                            })
+                        }}
+                        href="javascript:;">
+                        <CommentIcon width="30" height="30" />
+                        <span>0</span>
+                      </a>
+                    </span>
+
+                    <span className="blog-detail_meta_item">
+                      <a
+                        onClick={() => {
+                          document.getElementById("share-box").scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          })
+                        }}
+                        href="javascript:;">
+                        <ShareIcon width="25" height="25" />
+                        <span>Share</span>
+                      </a>
+                    </span>
+                  </div>
+                  {/* end of post meta */}
+
+                  {blogData.video ? (
+                    <div className="blog-detail_video">
+                      <iframe src={blogData.video} />
+                    </div>
+                  ) : (
+                    <div className="blog-detail_main-image">
+                      <img src={blogData.image.original} alt={blogData.title} />
+                    </div>
+                  )}
+
+                  <GA
+                    style={{ margin: "30px 0" }}
+                    adClient="ca-pub-4468477322781117"
+                    adSlot="4316048838"
+                  />
+
+                  <article
+                    className="blog-detail_content"
+                    dangerouslySetInnerHTML={{ __html: blogData.content }}
+                  />
+                </div>
+              </div>
+
+              <GA adClient="ca-pub-4468477322781117" adSlot="4316048838" />
+
+              {/* share box */}
+              <div className="grid-center" id="share-box">
+                <div className="col-7_xs-12">
+                  <ShareBox url={`https://maugowes.com${blogData.link}`} />
+                </div>
+              </div>
+              {/* end of share box */}
+
+              {/* blog box */}
+              <div className="blog-detail_related">
+                <BlogBox
+                  hideAds
+                  style={{ margin: "20px 0" }}
+                  noHeaderTitle
+                  noStats
+                  data={blogRelated}
+                />
+              </div>
+              {/* end of blog box */}
+
+              {/* comment */}
+              <div className="grid-center" id="comment-box">
+                <div className="col-7_xs-12 blog-detail_comment">
+                  {typeof window !== "undefined" ? (
+                    <DisqusBox
+                      url={`${window.location.origin}/blog/${id}`}
+                      identifier={`maugowes-${id}`}
+                    />
+                  ) : null}
+                </div>
+              </div>
+              {/* end of comment */}
+            </>
+          ) : (
+            <Loader text={blogData.messages} />
+          )}
+        </BlogDetailStyled>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
+
+BlogDetail.getInitialProps = async ({ req, reduxStore, query }) => {
+  const id = getId(query.id)
+  if (req) {
+    await reduxStore.dispatch(fetchBlogDetail(id))
+  }
+
+  return { id }
 }
 
 const mapStateToProps = (state) => {
