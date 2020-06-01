@@ -8,14 +8,26 @@ if (MONGO_USER && MONGO_PASSWORD) {
   url = `mongodb://${MONGO_HOST}`
 }
 
+/**
+ * @see http://mongodb.github.io/node-mongodb-native/2.2/reference/connecting/connection-settings/
+ */
 module.exports = (callback = () => {}) => {
-  mongoClient.connect(url, (err, client) => {
-    if (err) {
-      console.error("[mongodb error] to connect mongo", err)
-      callback({ err })
-    } else {
-      const db = client.db(MONGO_DB)
-      callback({ db, client })
+  mongoClient.connect(
+    url,
+    {
+      // retry to connect for 60 times
+      reconnectTries: 60,
+      // wait 1 second before retrying
+      reconnectInterval: 1000,
+    },
+    (err, client) => {
+      if (err) {
+        console.error("[mongodb error] to connect mongo", err)
+        callback({ err })
+      } else {
+        const db = client.db(MONGO_DB)
+        callback({ db, client })
+      }
     }
-  })
+  )
 }
