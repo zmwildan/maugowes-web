@@ -83,7 +83,6 @@ module.exports = {
           client.close()
           return mongo(({ err, db, client }) => {
             if (err) {
-              // error on mongo db connection
               return callback({
                 status: 500,
                 message: "Something wrong, please try again",
@@ -178,10 +177,11 @@ module.exports = {
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.err(err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
             return callback({
               status: 500,
-              messages: "something wrong with mongo",
+              message: "Something wrong, please try again",
             })
           }
 
@@ -288,10 +288,11 @@ module.exports = {
             ])
             .toArray((err, results) => {
               if (err) {
-                console.err(err)
+                // error on mongo db connection
+                console.error("[mongodb error] to connect mongo", err)
                 return callback({
                   status: 500,
-                  message: "something wrong with mongo",
+                  message: "Something wrong, please try again",
                 })
               }
 

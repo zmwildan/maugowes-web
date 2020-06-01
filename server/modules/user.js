@@ -19,10 +19,11 @@ module.exports = {
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.err(err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
             return callback({
               status: 500,
-              message: "something wrong with mongo",
+              message: "Something wrong, please try again",
             })
           }
           if (result.length < 1) {

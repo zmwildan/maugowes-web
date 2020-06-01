@@ -66,6 +66,7 @@ module.exports = {
     mongo(({ err, db, client }) => {
       if (err) {
         // error on mongo db connection
+        console.error("[mongodb error] to connect mongo", err)
         return callback({
           status: 500,
           message: "Something wrong, please try again",
@@ -83,6 +84,15 @@ module.exports = {
       db.collection("bikes")
         .aggregate(countAggregate)
         .toArray((err, count) => {
+          if (err) {
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
+          }
+
           // close mongo db connection
           client.close()
 
@@ -190,7 +200,12 @@ module.exports = {
         .toArray((err, result) => {
           // found error from database
           if (err) {
-            console.log("MongoDB Error", err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
           }
 
           if (result.length < 1) {
@@ -236,7 +251,12 @@ module.exports = {
             .aggregate(bikeRelationsAggregate)
             .toArray((err, bikeSpecsResults) => {
               if (err) {
-                console.log("MongoDB Error", err)
+                // error on mongo db connection
+                console.error("[mongodb error] to connect mongo", err)
+                return callback({
+                  status: 500,
+                  message: "Something wrong, please try again",
+                })
               }
 
               // transform bike specs results to standart version
@@ -272,7 +292,12 @@ module.exports = {
         .toArray((err, results) => {
           // found error on from database
           if (err) {
-            console.log("MongoDB Error", err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
           }
 
           if (results.length < 1) {
@@ -317,7 +342,12 @@ module.exports = {
         .toArray((err, results) => {
           // found error on from database
           if (err) {
-            console.log("MongoDB Error", err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
           }
 
           if (results.length < 1) {
@@ -368,7 +398,12 @@ module.exports = {
         .aggregate(aggregate)
         .toArray((err, results) => {
           if (err) {
-            console.log("MongoDB Error", err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
           }
 
           // normalize array
