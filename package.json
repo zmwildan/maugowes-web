@@ -41,8 +41,7 @@
     "xmldom": "^0.2.1"
   },
   "scripts": {
-    "start": "nodemon --exec 'node -r dotenv/config' ./server/index.js",
-    "dev": "next",
+    "local": "nodemon --exec 'node -r dotenv/config' ./server/index.js",
     "build": "NODE_ENV=production next build",
     "test:live": "yarn build && nodemon --exec 'node -r dotenv/config' ./server/index.js"
   },

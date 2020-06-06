@@ -40,6 +40,13 @@ nextApp.prepare().then(() => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
+  // cache config
+  app.use((req, res, next) => {
+    // max age cache
+    res.set("Cache-Control", "public, max-age=31557600")
+    next()
+  })
+
   // api endpoints
   app.use("/api", ApiRoutes)
 
