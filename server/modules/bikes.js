@@ -42,14 +42,14 @@ module.exports = {
     ]
 
     // list by type
-    if (type) {
+    if (type && type.length === 24) {
       aggregate.push({
         $match: { type_id: ObjectId(type) },
       })
     }
 
     // list by brand
-    if (brand) {
+    if (brand && brand.length === 24) {
       aggregate.push({
         $match: { brand_id: ObjectId(brand) },
       })
