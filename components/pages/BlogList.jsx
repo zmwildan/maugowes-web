@@ -1,6 +1,7 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
+import { toSlug } from "string-manager"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -23,9 +24,11 @@ class Blog extends React.Component {
   }
 
   static async getInitialProps({ req, reduxStore, query }) {
+    const Filter = filterGenerator(query)
+
     if (req) {
       const reqQuery = requestQueryGenerator(query)
-      await reduxStore.dispatch(fetchBlog(StoreFilter, reqQuery))
+      await reduxStore.dispatch(fetchBlog(Filter, reqQuery))
     }
 
     return {
@@ -36,15 +39,29 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
-    const blogState = this.props.blog[StoreFilter] || {}
+    this.fetchData()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      filterGenerator(prevProps.query) !== filterGenerator(this.props.query)
+    ) {
+      this.fetchData()
+    }
+  }
+
+  fetchData(query = this.props.query) {
+    const Filter = filterGenerator(query)
+    const blogState = this.props.blog[Filter] || {}
     if (!blogState.status && !blogState.is_loading) {
-      const reqQuery = requestQueryGenerator(this.props.query)
-      this.props.dispatch(fetchBlog(StoreFilter, reqQuery))
+      const reqQuery = requestQueryGenerator(query)
+      this.props.dispatch(fetchBlog(Filter, reqQuery))
     }
   }
 
   loadmoreHandler() {
-    const blogState = this.props.blog[StoreFilter] || {}
+    const Filter = filterGenerator(this.props.query)
+    const blogState = this.props.blog[Filter] || {}
     if (!blogState.is_loading && blogState.status == 200) {
       this.setState(
         {
@@ -57,26 +74,28 @@ class Blog extends React.Component {
           }
           if (this.props.tag) reqQuery.tag = this.props.tag
 
-          return this.props.dispatch(fetchMoreBlog(StoreFilter, reqQuery))
+          return this.props.dispatch(fetchMoreBlog(Filter, reqQuery))
         }
       )
     }
   }
 
   render() {
-    const blog = this.props.blog[StoreFilter] || {}
+    const Filter = filterGenerator(this.props.query)
+    const blog = this.props.blog[Filter] || {}
+
     let title = "Blog - Mau Gowes"
     if (this.props.tag) {
-      title = `Postingan Dengan Tag "${this.props.tag}"`
+      title = `Postingan Dengan Tag "${this.props.tag}" - Mau Gowes`
     } else if (this.props.username) {
-      title = `Postingan dari "${this.props.username}"`
+      title = `Postingan dari "${this.props.username}" - Mau Gowes`
     }
 
     return (
       <GlobalLayout
         metadata={{
           title,
-          description: "Baca postingan terupdate seputar dunia pergowesan",
+          description: `${title}. Baca postingan terupdate seputar dunia pergowesan`,
         }}>
         <DefaultLayout>
           <BlogStyled>
@@ -96,6 +115,15 @@ class Blog extends React.Component {
       </GlobalLayout>
     )
   }
+}
+
+export function filterGenerator(query = {}) {
+  let filter = StoreFilter
+
+  if (query.tag) filter = toSlug(query.tag)
+  if (query.username) filter = toSlug(query.username)
+
+  return filter
 }
 
 export function requestQueryGenerator(query = {}) {
