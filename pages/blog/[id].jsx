@@ -12,6 +12,7 @@ import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 import GA from "../../components/boxs/GA"
+import { progressBar } from "../../modules/loaders"
 
 import { scaleNumber } from "string-manager"
 import { connect } from "react-redux"
@@ -133,7 +134,10 @@ const BlogDetail = ({ id, dispatch, blog }) => {
   // fetch blog data
   const blogData = blog[id] || {}
   if (!blogData.status && !blogData.is_loading) {
+    progressBar.start()
     dispatch(fetchBlogDetail(id))
+  } else {
+    progressBar.stop()
   }
 
   // fetch blog related

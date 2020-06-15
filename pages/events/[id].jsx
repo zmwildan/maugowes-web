@@ -2,6 +2,7 @@ import React from "react"
 import Styled from "styled-components"
 import DayJs from "dayjs"
 import { nl2br } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { connect } from "react-redux"
@@ -46,6 +47,7 @@ class EventDetail extends React.Component {
   }
 
   async componentDidMount() {
+    progressBar.start()
     this.setState({ windowReady: true })
     this.fetchEventDetail()
   }
@@ -69,6 +71,8 @@ class EventDetail extends React.Component {
     const data = this.props.event[id] || {}
 
     let metadata = {}
+
+    if (data.status) progressBar.stop()
 
     if (data && data.status === 200) {
       metadata = {

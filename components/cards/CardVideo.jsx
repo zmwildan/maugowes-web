@@ -5,7 +5,7 @@ import Link from "next/link"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
-  margin-bottom: 30px;
+  margin: 0 10px 30px;
 
   &:hover {
     border: 1px solid ${color_gray_soft};

@@ -3,6 +3,7 @@ import Styled from "styled-components"
 import { connect } from "react-redux"
 import { fetchVideos } from "../redux/videos/actions"
 import { fetchBlog } from "../redux/blog/actions"
+import { progressBar } from "../modules/loaders"
 
 // components
 import GlobalLayout from "../components/layouts/Global"
@@ -32,6 +33,9 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
+    window.progressBar = progressBar
+    progressBar.start()
+
     const newVideos = this.props.videos.new || {}
     const newBlog = this.props.blog.new || {}
 
@@ -50,6 +54,12 @@ class Home extends React.Component {
   }
 
   render() {
+    const newReview = this.props.blog.new_review || {}
+    const newCara = this.props.blog.new_cara_cara || {}
+    const newBikeReview = this.props.blog.new_bike_review || {}
+    if (newBikeReview.status && newCara.status && newReview.status) {
+      progressBar.stop()
+    }
     return (
       <GlobalLayout>
         <DefaultLayout>
@@ -97,7 +107,7 @@ class Home extends React.Component {
             <BlogBox
               hideAds
               title="Yang Baru di Review Part atau Aksesoris"
-              data={this.props.blog.new_review || {}}
+              data={newReview}
             />
             <div className="grid-center p-t-30 p-b-50">
               <Button
@@ -110,11 +120,7 @@ class Home extends React.Component {
             {/* end of part or accessories review */}
 
             {/* utak atik */}
-            <BlogBox
-              hideAds
-              title="Yang Baru di Cara - Cara"
-              data={this.props.blog.new_cara_cara || {}}
-            />
+            <BlogBox hideAds title="Yang Baru di Cara - Cara" data={newCara} />
             <div className="grid-center p-t-30 p-b-50">
               <Button
                 type="link"
@@ -129,7 +135,7 @@ class Home extends React.Component {
             <BlogBox
               hideAds
               title="Yang Baru di Review Sepeda"
-              data={this.props.blog.new_bike_review || {}}
+              data={newBikeReview}
             />
             <div className="grid-center p-t-30 p-b-50">
               <Button

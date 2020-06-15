@@ -17,6 +17,7 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
    }
   }
  }
+
 }
 `
 

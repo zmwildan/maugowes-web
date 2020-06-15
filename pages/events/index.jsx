@@ -1,6 +1,7 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
+import { progressBar } from "../../modules/loaders"
 
 // components
 import GlobalLayout from "../../components/layouts/Global"
@@ -37,6 +38,7 @@ class Events extends React.Component {
   }
 
   componentDidMount() {
+    progressBar.start()
     const eventState = this.props.events[StoreFilter] || {}
     this.setState(this.props.query)
     if (!eventState.status && !eventState.is_loading) {
@@ -74,6 +76,9 @@ class Events extends React.Component {
 
   render() {
     const events = this.props.events[StoreFilter] || {}
+
+    if (events.status) progressBar.stop()
+
     const metadata = {
       title: "Events - Mau Gowes",
       description:

@@ -1,6 +1,7 @@
 import Styled from "styled-components"
 import { extractPath } from "../../modules/url"
 import { connect } from "react-redux"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { fetchBikeDetail } from "../../redux/bikes/actions"
@@ -56,6 +57,7 @@ class BikeDetail extends React.Component {
   }
 
   componentDidMount() {
+    progressBar.start()
     this.setState({
       windowReady: true,
     })
@@ -112,11 +114,14 @@ class BikeDetail extends React.Component {
 
   render() {
     const bikeData = this.props.bikes[this.state.id] || {}
+
     let MetaData = {
       title: `Bikes - Mau Gowes`,
       description: `Spesifikasi dan deskripsi bikes`,
     }
+
     if (bikeData.status) {
+      progressBar.stop()
       if (bikeData.status == 200) {
         MetaData = {
           title: `${bikeData.name} - Mau Gowes`,

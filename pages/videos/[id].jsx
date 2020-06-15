@@ -2,6 +2,7 @@ import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { nl2br } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { fetchVideoDetail, fetchVideos } from "../../redux/videos/actions"
@@ -75,6 +76,7 @@ class VideoDetail extends React.Component {
   state = {}
 
   componentDidMount() {
+    progressBar.start()
     this.setState({ windowReady: true })
 
     this.fetchVideoDetail()
@@ -111,6 +113,10 @@ class VideoDetail extends React.Component {
     const id = getId(this.props.id)
     const data = this.props.videos[id] || {}
     const relatedData = this.props.videos.related || {}
+
+    if (data.status) {
+      progressBar.stop()
+    }
 
     let metadata = {}
 

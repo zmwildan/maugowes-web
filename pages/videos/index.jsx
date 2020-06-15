@@ -1,10 +1,13 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
+import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
+import { progressBar } from "../../modules/loaders"
+
+// components
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import VideosBox from "../../components/boxs/VideosBox"
-import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
 
 const VideoStyled = Styled.div`
   
@@ -30,6 +33,7 @@ class VideosPage extends React.Component {
   }
 
   componentDidMount() {
+    progressBar.start()
     const videos = this.props.videos[StoreFilter] || {}
     if (!videos.status && !videos.loading) {
       const query = requestQueryGenerator()
@@ -58,6 +62,9 @@ class VideosPage extends React.Component {
 
   render() {
     const videos = this.props.videos[StoreFilter] || {}
+    if (videos.status) {
+      progressBar.stop()
+    }
     return (
       <GlobalLayout
         metadata={{

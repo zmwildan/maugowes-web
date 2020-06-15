@@ -1,6 +1,7 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { toCamelCase } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import {
@@ -62,6 +63,8 @@ class BikesIndex extends React.Component {
   }
 
   componentDidMount() {
+    progressBar.start()
+
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
     const bikes = this.props.bikes.bike_list || {}
@@ -102,6 +105,8 @@ class BikesIndex extends React.Component {
       title += `Hasil Pencarian "${query.q}" `
       description += `Hasil Pencarian "${query.q}" `
     }
+
+    if (bikes.status) progressBar.stop()
 
     if (query.type && bikeTypes.status === 200) {
       const typeDetail = bikeTypes.results.find((n) => n.id === query.type)

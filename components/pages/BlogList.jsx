@@ -2,6 +2,7 @@ import Styled from "styled-components"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
 import { toSlug } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // layouts
 import GlobalLayout from "../../components/layouts/Global"
@@ -39,6 +40,8 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
+    window.progressBar = progressBar
+    progressBar.start()
     this.fetchData()
   }
 
@@ -83,6 +86,8 @@ class Blog extends React.Component {
   render() {
     const Filter = filterGenerator(this.props.query)
     const blog = this.props.blog[Filter] || {}
+
+    if (blog.status) progressBar.stop()
 
     let title = "Blog - Mau Gowes"
     if (this.props.tag) {
