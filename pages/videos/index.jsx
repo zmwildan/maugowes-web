@@ -33,8 +33,8 @@ class VideosPage extends React.Component {
   }
 
   componentDidMount() {
-    progressBar.start()
     const videos = this.props.videos[StoreFilter] || {}
+    if (!videos.status) progressBar.start()
     if (!videos.status && !videos.loading) {
       const query = requestQueryGenerator()
       this.props.dispatch(fetchVideos(StoreFilter, query))

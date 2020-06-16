@@ -57,7 +57,6 @@ class BikeDetail extends React.Component {
   }
 
   componentDidMount() {
-    progressBar.start()
     this.setState({
       windowReady: true,
     })
@@ -66,7 +65,10 @@ class BikeDetail extends React.Component {
 
   fetchBikeDetail() {
     const bikeData = this.props.bikes[this.state.id] || {}
-    if (!bikeData.status) [this.props.dispatch(fetchBikeDetail(this.state.id))]
+    if (!bikeData.status) {
+      progressBar.start()
+      this.props.dispatch(fetchBikeDetail(this.state.id))
+    }
   }
 
   boxRenderHandler() {

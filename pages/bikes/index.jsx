@@ -63,8 +63,6 @@ class BikesIndex extends React.Component {
   }
 
   componentDidMount() {
-    progressBar.start()
-
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
     const bikes = this.props.bikes.bike_list || {}
@@ -73,7 +71,10 @@ class BikesIndex extends React.Component {
 
     if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
     if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
-    if (!bikes.status) this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    if (!bikes.status) {
+      progressBar.start()
+      this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    }
   }
 
   loadmoreHandler() {

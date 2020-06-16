@@ -1,6 +1,6 @@
 import Document, { Head, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
-import FullLoader from "../components/FullPageLoader"
+import FullLoader from "../components/loaders/FullPageLoader"
 import Toast from "../components/Toast"
 
 export default class MyDocument extends Document {

@@ -1,5 +1,5 @@
 import Styled from "styled-components"
-import { color_blue_main, color_blue_main_transparent } from "./Const"
+import { color_blue_main, color_blue_main_transparent } from "../Const"
 
 const FullPageLoader = Styled.div`
   top: 0;

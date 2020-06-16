@@ -40,8 +40,6 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
-    window.progressBar = progressBar
-    progressBar.start()
     this.fetchData()
   }
 
@@ -57,6 +55,7 @@ class Blog extends React.Component {
     const Filter = filterGenerator(query)
     const blogState = this.props.blog[Filter] || {}
     if (!blogState.status && !blogState.is_loading) {
+      progressBar.start()
       const reqQuery = requestQueryGenerator(query)
       this.props.dispatch(fetchBlog(Filter, reqQuery))
     }

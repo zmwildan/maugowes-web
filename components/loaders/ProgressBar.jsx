@@ -7,7 +7,7 @@ const ProgressBarStyled = Styled.div`
   left: 0;
   position: fixed;
   background-image: linear-gradient(to right, #137DC2, #0d517d);
-  padding: 2px 0;
+  padding: 3px 0;
   transition: width ease .8s;
   z-index: 9999;
   display: none;

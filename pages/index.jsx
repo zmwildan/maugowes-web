@@ -33,14 +33,17 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    window.progressBar = progressBar
-    progressBar.start()
-
     const newVideos = this.props.videos.new || {}
     const newBlog = this.props.blog.new || {}
+    const newReview = this.props.blog.new_review || {}
+    const newCara = this.props.blog.new_cara_cara || {}
+    const newBikeReview = this.props.blog.new_bike_review || {}
 
     if (!newVideos.status) this.props.dispatch(fetchVideos("new", { limit: 6 }))
     if (!newBlog.status) this.props.dispatch(fetchBlog("new", { limit: 6 }))
+    if (!newReview.status || !newCara.status || !newBikeReview.status) {
+      progressBar.start()
+    }
 
     this.props.dispatch(
       fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })

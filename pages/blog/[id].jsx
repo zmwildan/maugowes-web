@@ -134,10 +134,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
   // fetch blog data
   const blogData = blog[id] || {}
   if (!blogData.status && !blogData.is_loading) {
-    progressBar.start()
     dispatch(fetchBlogDetail(id))
-  } else {
-    progressBar.stop()
   }
 
   // fetch blog related
@@ -155,6 +152,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
   let metadata = {}
 
   if (blogData && blogData.status === 200) {
+    progressBar.stop()
     metadata = {
       title: blogData.title,
       description: blogData.truncatedContent,
@@ -192,11 +190,13 @@ const BlogDetail = ({ id, dispatch, blog }) => {
     }
   } else {
     if (!blogData.status) {
+      progressBar.start()
       metadata = {
         title: "Blog loading...",
         description: "Tunggu sejenak.",
       }
     } else {
+      progressBar.stop()
       metadata = {
         title: "Postingan tidak ditemukan",
         description:

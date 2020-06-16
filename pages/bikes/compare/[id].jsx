@@ -19,6 +19,7 @@ import CardCompareBike from "../../../components/cards/CardCompareBike"
 
 // components
 import Loader from "../../../components/Loader"
+import { progressBar } from "../../../modules/loaders"
 
 const BikesCompareStyled = Styled.div`
     margin-top: 50px;
@@ -157,6 +158,7 @@ class BikesCompare extends React.Component {
     }
 
     if (!bikeData.status) {
+      progressBar.start()
       dispatch(fetchBikeDetail(id))
     } else if (bikeData.status === 204) {
       Router.push("/bikes")
@@ -214,6 +216,8 @@ class BikesCompare extends React.Component {
     const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
     let metadata = {}
+
+    if (data.status) progressBar.stop()
 
     if (data && data.status === 200) {
       metadata = {

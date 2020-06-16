@@ -76,7 +76,6 @@ class VideoDetail extends React.Component {
   state = {}
 
   componentDidMount() {
-    progressBar.start()
     this.setState({ windowReady: true })
 
     this.fetchVideoDetail()
@@ -84,6 +83,7 @@ class VideoDetail extends React.Component {
     const videoRelatedState = this.props.videos.related || {}
 
     if (!videoRelatedState.status) {
+      progressBar.start()
       this.props.dispatch(
         fetchVideos("related", {
           limit: 4,
