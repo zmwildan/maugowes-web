@@ -89,6 +89,7 @@ BikesBox.defaultProps = {
   data: {},
   loadmoreHandler: false,
   maxResults: 3,
+  noHeaderTitle: true,
 }
 
 export default BikesBox
