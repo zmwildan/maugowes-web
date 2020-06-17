@@ -17,7 +17,7 @@ const BikesBoxStyled = Styled.div`
 `
 
 const BikesBox = (props) => {
-  const { status, results, message, is_loading } = props.data
+  const { status, results, message, is_loading, total } = props.data
   return (
     <BikesBoxStyled>
       {!props.noHeaderTitle ? (
@@ -27,10 +27,10 @@ const BikesBox = (props) => {
           </h2>
         </div>
       ) : results && results.length && total && !props.noStats ? (
-        <center style={{ marginBottom: 50 }}>
-          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> post
-        </center>
+        <div style={{ paddingTop: 15, marginBottom: 20, textAlign: "center" }}>
+          Menampilkan <strong>{results.length || 0}</strong>&nbsp;dari&nbsp;
+          <strong>{total}</strong>&nbsp;bikes
+        </div>
       ) : null}
 
       {status ? (
