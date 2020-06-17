@@ -27,6 +27,7 @@ const HeaderStyled = Styled.header`
     border-top: 2px solid ${color_gray_soft}; 
     border-bottom: 2px solid ${color_blue_main};
     overflow-x: auto;
+    margin: 0;
     button.header-top-menu_link {
       background: transparent;
     }

@@ -104,7 +104,9 @@ export default class HomeLayout extends React.Component {
     return (
       <React.Fragment>
         <style jsx global>{`
-          body {
+          body,
+          [class~="grid"],
+          [class*="grid-"] {
             margin: 0 !important;
           }
         `}</style>

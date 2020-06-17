@@ -67,6 +67,11 @@ export const Footer = Styled.div`
   }
   // gridlex _sm
   @media (max-width: 48em) {
+
+    .col.footer-content {
+      padding: 0 10px;
+    }
+
     .footer-social-link {
       margin-bottom: 20px;
     }
