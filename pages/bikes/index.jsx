@@ -153,6 +153,7 @@ class BikesIndex extends React.Component {
                   data={bikes}
                   loadmoreHandler={() => this.loadmoreHandler()}
                   maxResults={MaxResults}
+                  noHeaderTitle
                 />
               </div>
             </div>
