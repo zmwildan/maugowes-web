@@ -29,10 +29,10 @@ const CardBikeStyled = Styled.div`
  }
 `
 
-const CardBike = ({ data }) => {
+const CardBike = ({ data, size }) => {
   const linkTarget = `/bikes/${toSlug(data.name)}-${data.id}`
   return (
-    <CardBikeStyled className="col-4_xs-6">
+    <CardBikeStyled className={size == "large" ? "col-3_xs-6" : "col-4_xs-6"}>
       <div className="card-bike">
         <Link href={"/bikes/[id]"} as={linkTarget}>
           <div

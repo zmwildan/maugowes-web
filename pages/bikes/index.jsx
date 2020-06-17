@@ -22,7 +22,7 @@ import BikesBox from "../../components/boxs/BikesBox"
 const BikesStyled = Styled.div`
  margin-top: 50px;
  .content {
-  padding: 20px;
+  // padding: 20px;
  }
 `
 
