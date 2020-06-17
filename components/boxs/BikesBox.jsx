@@ -1,5 +1,4 @@
 import Styled from "styled-components"
-import { color_blue_main } from "../Const"
 
 // components
 import CardBike from "../cards/CardBike"
@@ -10,9 +9,9 @@ import Button from "../../components/buttons/index"
 
 const BikesBoxStyled = Styled.div`
 .blog-box-title {
-  border-bottom: 2px solid ${color_blue_main};
   padding-bottom: 10px;
-  font-size: 20px
+  font-size: 30px;
+  font-weight: 500;
 }
 `
 

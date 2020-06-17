@@ -1,6 +1,5 @@
 import Styled from "styled-components"
 import CardBlog from "../cards/CardBlog"
-import { color_blue_main } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
@@ -9,9 +8,9 @@ import GA from "../../components/boxs/GA"
 const BlogBoxStyled = Styled.div`
   margin-top: ${(props) => (props.noHeaderTitle ? "50px" : "40px")};
   .blog-box-title {
-    border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
-    font-size: 20px
+    font-size: 30px;
+    font-weight: 500;
   }
 `
 

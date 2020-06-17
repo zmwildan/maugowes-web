@@ -12,7 +12,6 @@ import {
 } from "../Const"
 
 const GlobalLayoutStyled = Styled.div`
-  font-family: 'Montserrat', sans-serif;
   color: ${color_black_main};
 
   a {
@@ -109,6 +108,9 @@ export default class HomeLayout extends React.Component {
           [class*="grid-"] {
             margin: 0 !important;
           }
+          body {
+            font-family: "Manrope", sans-serif;
+          }
         `}</style>
         <Head>
           <meta charSet="utf-8" />
@@ -123,7 +125,7 @@ export default class HomeLayout extends React.Component {
             href="/static/vendor/gridlex/gridlex.min.css"
           />
           <link
-            href="https://fonts.googleapis.com/css?family=Montserrat:300,500,700"
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap"
             rel="stylesheet"
           />
           <link

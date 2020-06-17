@@ -1,12 +1,10 @@
 import Styled from "styled-components"
 import {
-  color_blue_main,
-  color_blue_dark,
   color_black_main,
   color_white_main,
-  // color_gray_dark,
   color_gray_medium,
   color_red_main,
+  color_blue_main,
 } from "../Const"
 import Link from "next/link"
 
@@ -26,7 +24,7 @@ const ButtonStyled = Styled.div`
         case "small":
           return `10px 15px;`
         default:
-          return `15px 25px;`
+          return `15px 50px;`
       }
     }};
     font-size: ${(props) => {
@@ -47,7 +45,7 @@ const ButtonStyled = Styled.div`
         case "red":
           return `${color_red_main} !important;`
         default:
-          return `${color_blue_main} !important;`
+          return `${color_white_main} !important;`
       }
     }};
     border: ${(props) => {
@@ -67,7 +65,7 @@ const ButtonStyled = Styled.div`
         case "white":
           return `${color_black_main} !important;`
         default:
-          return `#FFF;`
+          return `${color_blue_main} !important`
       }
     }};
     &:hover {
@@ -78,7 +76,7 @@ const ButtonStyled = Styled.div`
           case "red":
             return `1px solid ${color_red_main} !important;`
           default:
-            return `${color_blue_dark} !important;`
+            return `${color_white_main} !important;`
         }
       }};
     }

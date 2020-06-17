@@ -14,7 +14,6 @@ const FullPageLoader = Styled.div`
   background-color: ${color_blue_main_transparent};
   z-index: 10;
   left: 0 !important;
-  font-family: Montserrat, sans-serif;
   .loader-white-line {
     position: absolute;
     top: 50%;

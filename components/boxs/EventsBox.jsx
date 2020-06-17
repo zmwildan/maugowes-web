@@ -17,9 +17,9 @@ import Link from "next/link"
 const EventsBoxStyled = Styled.div`
   margin-top: ${(props) => (props.noHeaderTitle ? "80px" : "40px")};
   .events-box-title {
-    border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
-    font-size: 20px
+    font-size: 30px;
+    font-weight: 500;
   }
   .events-box-meta {
     a {

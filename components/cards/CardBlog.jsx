@@ -42,11 +42,10 @@ const CardBlogStyled = Styled.div`
     h3 {
       bottom: 0;
       margin: 0;
-      font-size: 1.5em;
-      text-align: left;
+      font-size: 18px;
+      font-weight: 400;
       a {
         color: ${color_black_main};
-        font-weight: bold;
         text-decoration: none;
       }
     }
@@ -103,9 +102,6 @@ export default (props) => {
           </Link>
         </h3>
       </div>
-
-      {/* truncated content */}
-      <div className="card-blog-content">{data.truncatedContent}</div>
       <br />
       <div className="card-blog-date">
         Diposting {Dayjs(data.created_on * 1000).fromNow()}

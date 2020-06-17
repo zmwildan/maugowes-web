@@ -1,15 +1,11 @@
 import Styled from "styled-components"
-import { color_gray_soft, color_black_main, color_gray_dark } from "../Const"
+import { color_black_main, color_gray_dark } from "../Const"
 import Dayjs from "../../modules/dayjs"
 import Link from "next/link"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
   margin: 0 10px 30px;
-
-  &:hover {
-    border: 1px solid ${color_gray_soft};
-  }
 
   &.video-large {
     height: 350px;
@@ -40,7 +36,7 @@ const VideoCard = Styled.div`
 
  
  .video-card-meta {
-  padding: 15px 20px;
+  padding: 15px 0;
   .video-card-title {
     height: 100px;
     overflow: hidden;
