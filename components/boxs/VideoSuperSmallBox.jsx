@@ -5,10 +5,12 @@ import Styled from "styled-components"
 import Card from "../cards/CardVideo"
 
 const VideoSuperSmallBoxStyled = Styled.div`
-
+  .video-ss-box-title {
+    padding-left: 20px;
+  }
 `
 
-const VideoSuperSmallBox = props => {
+const VideoSuperSmallBox = (props) => {
   if (props.data.status && props.data.status == 200) {
     return (
       <VideoSuperSmallBoxStyled>
@@ -35,7 +37,7 @@ const VideoSuperSmallBox = props => {
 }
 
 VideoSuperSmallBox.defaultProps = {
-  data: {}
+  data: {},
 }
 
 export default VideoSuperSmallBox

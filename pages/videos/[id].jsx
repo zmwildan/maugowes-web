@@ -25,6 +25,8 @@ const VideoDetailStyled = Styled.div`
     h1 {
       font-weight: 400;
       line-height: 1.3;
+      font-size: 38px;
+      margin-top: 50px
     }
   }
 

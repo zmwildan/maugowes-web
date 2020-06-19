@@ -113,6 +113,9 @@ export default class HomeLayout extends React.Component {
             font-size: 14px;
             letter-spacing: 0.9px;
           }
+          p {
+            font-size: 16px;
+          }
         `}</style>
         <Head>
           <meta charSet="utf-8" />

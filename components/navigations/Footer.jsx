@@ -99,11 +99,11 @@ export default (props) => {
             src="/static/images/logo-2.png"
             alt="Logo Mau Gowes"
           />
-          <p>
+          <div style={{ margin: "10px 0" }}>
             Mau Gowes - Adalah platform online yang dibuat untuk kamu para
             pecinta sepeda. Disini kamu bisa dapat konten menarik dan sekalian
             belanja pula.
-          </p>
+          </div>
           <div className="footer-social-link text-black">
             <span style={{ marginRight: 20 }}>Social:</span>
             <span style={{ marginTop: 5 }}>
