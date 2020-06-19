@@ -40,12 +40,11 @@ const RowProduct = Styled.div`
       color: ${color_gray_dark};
       margin-top: 30px;
       font-weight: 500;
-      font-size: 13px;
     }
   }
 `
 
-export default props => {
+export default (props) => {
   return (
     <RowProduct className="grid">
       <div className="col-3 row-product-left">

@@ -52,7 +52,7 @@ const EventsBox = (props) => {
           </h2>
         </div>
       ) : (
-        <center style={{ marginBottom: 50, lineHeight: 1.5 }}>
+        <center style={{ marginBottom: 20, lineHeight: 1.5 }}>
           Atau kamu juga bisa{" "}
           <Link href="/events/send">
             <a
@@ -61,11 +61,6 @@ const EventsBox = (props) => {
               + Kirim Event Baru
             </a>
           </Link>
-          <br />
-          <span>
-            Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
-            <strong>{total || 0}</strong> events
-          </span>
         </center>
       )}
 
@@ -88,7 +83,7 @@ const EventsBox = (props) => {
                     })
                   }}
                 />
-                Tampilkan semua{" "}
+                &nbsp; Tampilkan semua{" "}
               </label>
             </form>
           </div>

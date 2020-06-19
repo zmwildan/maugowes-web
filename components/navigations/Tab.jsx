@@ -16,6 +16,7 @@ const TabStyled = Styled.div`
     letter-spacing: -.5px;
     font-size: 16px !important;
     transition: border .5s ease, color .5s ease;
+    letter-spacing: 1px;
     &.active, &:hover {
       color: ${color_blue_main};
     }

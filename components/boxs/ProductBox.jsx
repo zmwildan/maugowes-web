@@ -38,7 +38,6 @@ margin: 80px 0;
     padding: 0;
     margin: 0;
     font-size: 18px;
-    margin-bottom: 13px;
   }
  }
  .product-rate {
@@ -85,7 +84,7 @@ margin: 80px 0;
 }
 `
 
-const ProductBox = props => {
+const ProductBox = (props) => {
   return (
     <ProductBoxStyled>
       <div className="grid">
@@ -99,25 +98,25 @@ const ProductBox = props => {
           <div className="product-thumb">
             <div
               style={{
-                backgroundImage: `url(${"/static/images/dummies/product-2.jpg"})`
+                backgroundImage: `url(${"/static/images/dummies/product-2.jpg"})`,
               }}
               className="product-thumb-item"
             />
             <div
               style={{
-                backgroundImage: `url(${"/static/images/dummies/product-1.jpg"})`
+                backgroundImage: `url(${"/static/images/dummies/product-1.jpg"})`,
               }}
               className="product-thumb-item"
             />
             <div
               style={{
-                backgroundImage: `url(${"/static/images/dummies/product-1.jpg"})`
+                backgroundImage: `url(${"/static/images/dummies/product-1.jpg"})`,
               }}
               className="product-thumb-item"
             />
             <div
               style={{
-                backgroundImage: `url(${"/static/images/dummies/product-2.jpg"})`
+                backgroundImage: `url(${"/static/images/dummies/product-2.jpg"})`,
               }}
               className="product-thumb-item"
             />

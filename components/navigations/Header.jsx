@@ -44,7 +44,7 @@ const HeaderStyled = Styled.header`
       font-weight: bold;
       text-transform: uppercase;
       outline: none;
-      
+      letter-spacing: 1.5px;
       .header-top-menu_link_icon {
         margin-left: 5px;
       }

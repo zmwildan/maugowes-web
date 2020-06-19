@@ -8,7 +8,6 @@ export const Footer = Styled.div`
   border-bottom: 1px solid ${color_gray_medium};
   text-align: center;
   color: ${color_gray_dark};
-  font-size: 13px;
   letter-spacing: .2px;
   line-height: 1.8;
   [class*=col-] {
@@ -82,7 +81,7 @@ const FooterPoweredBy = Styled.div`
   text-align: center;
   padding: 10px;
   color: ${color_gray_dark};
-  font-size: 13px;
+  letter-spacing: 1px;
   a {
     color: ${color_gray_dark};
     text-decoration: none;
@@ -211,12 +210,10 @@ export default (props) => {
         </div>
       </Footer>
       <FooterPoweredBy>
-        <strong>
-          Powered by{" "}
-          <a href="https://byymg.com" target="_blank" rel="noopener noreferer">
-            Yussan Media Group
-          </a>
-        </strong>
+        Powered by{" "}
+        <a href="https://byymg.com" target="_blank" rel="noopener noreferer">
+          Yussan Media Group
+        </a>
       </FooterPoweredBy>
     </React.Fragment>
   )

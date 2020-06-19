@@ -106,7 +106,12 @@ class Blog extends React.Component {
             <Header
               title={title}
               text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
-              backgroundImage="/static/images/cover/cover-blog.jpeg"
+              stats={{
+                suffix: "post",
+                total: blog.total || 0,
+                show:
+                  blog.results && blog.results.length ? blog.results.length : 0,
+              }}
             />
             <BlogBox
               noHeaderTitle

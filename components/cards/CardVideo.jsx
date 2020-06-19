@@ -64,6 +64,7 @@ const VideoCard = Styled.div`
   background-position: center;
   transition: background .5s ease;
   background-repeat: no-repeat;
+  border-radius: 10px;
   &:hover {
     background-size: 400px;
   }

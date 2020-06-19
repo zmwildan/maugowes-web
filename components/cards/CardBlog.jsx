@@ -16,6 +16,7 @@ const CardBlogStyled = Styled.div`
     background-size: cover;
     background-position: top center;
     cursor: pointer;
+    border-radius: 10px;
   }
 
   .card-blog-tags {
@@ -26,7 +27,6 @@ const CardBlogStyled = Styled.div`
       padding: 15px 0;
       margin-right: 15px;
       transition: background .5s ease;
-      font-size: 13px;
       background-color: #FFF;
       color: ${color_blue_main};
       font-weight: bold;

@@ -75,9 +75,16 @@ class VideosPage extends React.Component {
         <DefaultLayout>
           <VideoStyled>
             <Header
-              title="Mau Gowes Video"
+              title="Videos - Mau Gowes"
               text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
-              backgroundImage="/static/images/cover/cover-videos.jpeg"
+              stats={{
+                suffix: "video",
+                total: videos.total || 0,
+                show:
+                  videos.results && videos.results.length
+                    ? videos.results.length
+                    : 0,
+              }}
             />
             <VideosBox
               data={videos}

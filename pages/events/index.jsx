@@ -82,7 +82,7 @@ class Events extends React.Component {
     const metadata = {
       title: "Events - Mau Gowes",
       description:
-        "Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
+        "Dapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
     }
 
     return (
@@ -90,11 +90,17 @@ class Events extends React.Component {
         <DefaultLayout>
           <EventsStyled>
             <Header
-              title="Event Gowes"
+              title="Events - Mau Gowes"
               text={metadata.description}
-              backgroundImage="/static/images/cover/cover-events.jpeg"
+              stats={{
+                suffix: "events",
+                total: events.total || 0,
+                show:
+                  events.results && events.results.length
+                    ? events.results.length
+                    : 0,
+              }}
             />
-
             <EventsBox
               data={events}
               loadmoreHandler={() => this._loadmoreHandler()}

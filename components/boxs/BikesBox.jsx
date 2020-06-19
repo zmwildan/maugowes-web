@@ -25,11 +25,6 @@ const BikesBox = (props) => {
             {props.title || "Yang Baru di Bikes"}
           </h2>
         </div>
-      ) : results && results.length && total && !props.noStats ? (
-        <div style={{ paddingTop: 15, marginBottom: 20, textAlign: "center" }}>
-          Menampilkan <strong>{results.length || 0}</strong>&nbsp;dari&nbsp;
-          <strong>{total}</strong>&nbsp;bikes
-        </div>
       ) : null}
 
       {status ? (

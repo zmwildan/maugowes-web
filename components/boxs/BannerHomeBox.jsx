@@ -18,6 +18,14 @@ const BannerHomeBoxStyled = Styled.div`
                 color: ${color_white_main};
                 text-decoration: none;
             }
+            small.copyright {
+              font-size: 8px;
+              position: absolute;
+              bottom: 15px;
+              letter-spacing: .5px;
+              right: 15px;
+              opacity: .7;
+            }
         }
         &.banner-home_left {
             .banner-home_content {
@@ -65,6 +73,7 @@ class BannerHomeBox extends React.Component {
                 Kunjungi &#x2192;
               </a>
             </div>
+            <small className="copyright">Sumber: unsplash.com</small>
           </div>
         </div>
         <div className="col-6_xs-12_md-6 banner-home banner-home_right">
@@ -91,6 +100,7 @@ class BannerHomeBox extends React.Component {
                 Bukalapak &#x2192;
               </a>
             </div>
+            <small className="copyright">Sumber: unsplash.com</small>
           </div>
         </div>
       </BannerHomeBoxStyled>

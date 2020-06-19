@@ -19,6 +19,7 @@ const ButtonStyled = Styled.div`
     transition: background .5s ease;
     text-decoration: none;
     font-weight: bold;
+    border-radius: 5px;
     padding: ${(props) => {
       switch (props.size) {
         case "small":

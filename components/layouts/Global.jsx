@@ -110,6 +110,8 @@ export default class HomeLayout extends React.Component {
           }
           body {
             font-family: "Manrope", sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.9px;
           }
         `}</style>
         <Head>

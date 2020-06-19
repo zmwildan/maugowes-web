@@ -55,7 +55,9 @@ class SidebarBikes extends React.Component {
     return (
       <SidebarBikesStyled className={this.props.className}>
         <div className="sidebar-items">
-          <h2 className="title">Cari</h2>
+          <h2 style={{ marginTop: 0 }} className="title">
+            Cari
+          </h2>
           <InputTextStyled>
             <input
               placeholder="Tulis brand atau tipe disini"

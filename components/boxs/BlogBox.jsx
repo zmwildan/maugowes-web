@@ -27,11 +27,6 @@ const BlogBox = (props) => {
             {props.title || "Yang Baru di Blog"}
           </h2>
         </div>
-      ) : results && results.length && total && !props.noStats ? (
-        <center style={{ marginBottom: 50 }}>
-          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> post
-        </center>
       ) : null}
 
       {status ? (

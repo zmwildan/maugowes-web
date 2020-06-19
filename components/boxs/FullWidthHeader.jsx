@@ -1,72 +1,71 @@
 import React from "react"
 import Styled from "styled-components"
-import { color_gray_soft } from "../Const"
+import { color_blue_main, color_black_main } from "../Const"
 
 const FullWidthHeaderStyled = Styled.div`
-  position: absolute;
   left: 0;
   width: 100%;
+  background-color: #FFF;
   background-size: cover !important;
   background-position: center! important;
   padding: 90px 0;
-  color: #FFF;
   text-align: center;
+  letter-spacing: .6px;
+  display: block;
+  .container {
+    max-width: 800px;
+  }
   h1{
     margin: auto;  
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 24px;
-    letter-spacing: .6px;
+    font-weight: 500;
+    font-size: 45px;
     padding-bottom: 5px;
+    color: ${color_blue_main};
+    margin: 0;
+    letter-spacing: .7px;
   }
   h2 {
-    font-weight: 400;
-    font-size: 14px;
-    color: ${color_gray_soft};
+    font-weight: 500;
+    font-size: 45px;
+    color: ${color_black_main};
+    margin: 0;
   }
   #full-width-spacer {
     height: 375px;
   }
+  // gridlex _xs
+  @media (max-width: 36em) {
+    h1, h2 {
+      font-size: 25px;
+    }
+    padding: 50px 0;
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    h1, h2 {
+      font-size: 30px;
+    }
+    padding: 50px 0;
+  }
 `
 
-class FullWidthHeader extends React.Component {
-  componentDidMount() {
-    this.spacerHeightSetter()
-
-    // listen window resize
-    document.addEventListener("resize", this.spacerHeightSetter)
-  }
-
-  componentWillUnmount() {
-    // remove resize event listener
-    document.removeEventListener("resize", this.spacerHeightSetter)
-  }
-
-  spacerHeightSetter() {
-    const HeaderEl = document.getElementById("full-width-header")
-    const SpacerEl = document.getElementById("full-width-spacer")
-    SpacerEl.style.height = `${HeaderEl.offsetHeight}px`
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <FullWidthHeaderStyled
-          id={this.props.id || "full-width-header"}
-          style={{
-            background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${this.props.backgroundImage})`
-          }}>
-          <div className="container">
-            <h1>{this.props.title}</h1>
-            <h2 dangerouslySetInnerHTML={{ __html: this.props.text }} />
-            <small style={{ fontSize: 10 }}>image source: unsplash.com</small>
-          </div>
-        </FullWidthHeaderStyled>
-        {/* spacers */}
-        <div id="full-width-spacer" />
-      </React.Fragment>
-    )
-  }
+const FullWidthHeader = (props) => {
+  const { stats } = props
+  return (
+    <React.Fragment>
+      <FullWidthHeaderStyled id={props.id || "full-width-header"}>
+        <div className="container">
+          <h1>{props.title}</h1>
+          <h2>{props.text}</h2>
+          {stats ? (
+            <p>
+              Menampilkan {stats.show} dari {stats.total} {stats.suffix}
+            </p>
+          ) : null}
+        </div>
+      </FullWidthHeaderStyled>
+    </React.Fragment>
+  )
 }
 
 export default FullWidthHeader

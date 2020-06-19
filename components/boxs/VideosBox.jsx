@@ -27,11 +27,6 @@ const VideosBox = (props) => {
             {props.title || "Yang Baru di Video"}
           </h2>
         </div>
-      ) : total ? (
-        <center style={{ marginBottom: 50 }}>
-          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> video
-        </center>
       ) : null}
 
       {status ? (

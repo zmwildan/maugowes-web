@@ -138,7 +138,14 @@ class BikesIndex extends React.Component {
           <Header
             title={title}
             text={description}
-            backgroundImage="/static/images/cover/cover-bikes.jpeg"
+            stats={{
+              suffix: "bikes",
+              total: bikes.total || 0,
+              show:
+                bikes.results && bikes.results.length
+                  ? bikes.results.length
+                  : 0,
+            }}
           />
           <BikesStyled>
             <div className="grid">

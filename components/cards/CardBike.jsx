@@ -13,6 +13,7 @@ const CardBikeStyled = Styled.div`
    color: ${color_black_main};
   }
   .card-bike__thumb__padding {
+    border-radius: 10px;
     padding: 10px;
     border: 1px solid ${color_gray_dark};
     &:hover {
