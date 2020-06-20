@@ -20,6 +20,7 @@ const ButtonStyled = Styled.div`
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
+    word-break: break-word;
     padding: ${(props) => {
       switch (props.size) {
         case "small":

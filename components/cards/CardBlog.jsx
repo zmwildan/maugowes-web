@@ -6,7 +6,6 @@ import Link from "next/link"
 
 const CardBlogStyled = Styled.div`
 
-  padding: 0 20px;
   margin-bottom: 60px;
 
   .card-blog-cover {
@@ -69,7 +68,7 @@ export default (props) => {
   const { data = {} } = props || {}
   const linkUrl = data.link
   return (
-    <CardBlogStyled className="col-4_xs-12_md-6">
+    <CardBlogStyled className="col-4_xs-_md-6">
       <Link href="/blog/[id]" as={linkUrl}>
         <a>
           <div

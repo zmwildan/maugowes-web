@@ -10,7 +10,6 @@ import DayJs from "../../modules/dayjs"
 import Link from "next/link"
 
 const CardEventStyled = Styled.div`
-  padding: 0 20px;
   margin-bottom: 60px;
 
   .label {
@@ -34,6 +33,7 @@ const CardEventStyled = Styled.div`
     background-size: cover;
     background-position: top center;
     cursor: pointer;
+    border-radius: 10px;
   }
 
   .card-event-time {
@@ -46,7 +46,6 @@ const CardEventStyled = Styled.div`
       background-color: #FFF;
       color: ${color_blue_main};
       font-weight: bold;
-      text-transform: uppercase;
       text-decoration: none;
       display: inline-block;
     }
@@ -88,7 +87,7 @@ const CardEventStyled = Styled.div`
 const CardEvent = (props) => {
   const { data } = props
   return (
-    <CardEventStyled className="col-4_xs-12_md-6">
+    <CardEventStyled className="col-4_xs-6_md-6">
       <Link href="/events/[id]" as={data.link}>
         <a>
           <div
@@ -97,7 +96,11 @@ const CardEvent = (props) => {
               backgroundImage: `url(${data.poster[600]})`,
             }}>
             {data.is_ended ? (
-              <div className="label label-red">TELAH BERAKHIR</div>
+              <div
+                style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
+                className="label label-red">
+                TELAH BERAKHIR
+              </div>
             ) : null}
           </div>
         </a>

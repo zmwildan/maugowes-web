@@ -5,7 +5,6 @@ import Link from "next/link"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
-  margin: 0 10px 30px;
 
   &.video-large {
     height: 350px;
@@ -113,10 +112,10 @@ export default (props) => {
     <div
       className={
         size === "large"
-          ? "col-8_md-12_xs-12"
+          ? "col-8_md-12_xs-6"
           : size === "supersmall"
           ? "col-3_md-4_xs-6"
-          : "col-4_md-6_xs-12"
+          : "col-4_md-6_xs-6"
       }>
       <VideoCard className={size === "large" ? "video-large" : "video-default"}>
         <div
