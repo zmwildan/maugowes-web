@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 
@@ -17,35 +18,31 @@ const SuperBikesStyled = Styled.div`
 
 `
 
-class SuperBikes extends React.Component {
-  state = {
-    page: 1
-  }
-
-  componentDidMount() {
-    this.props.dispatch(fetchBikes())
-  }
-
-  render() {
-    const data = this.props.bikes.bike_list || {}
-
-    return (
-      <GlobalLayout metadata={{ title: "Bike Management" }}>
-        <DefaultLayout>
-          <SuperLayout>
-            <SuperBikesStyled className="p-t-b-30">
-              <PageHeader title="Bikes Management" />
-              <BikeBox data={data} loadMoreHandler={() => {}} />
-            </SuperBikesStyled>
-          </SuperLayout>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
-  }
+const SuperBikes = (props) => {
+  const [page, setPage] = useState(1)
+  const data = props.bikes.bike_list || {}
+  return (
+    <GlobalLayout metadata={{ title: "Bike Management" }}>
+      <DefaultLayout>
+        <SuperLayout>
+          <SuperBikesStyled className="p-t-b-30">
+            <PageHeader title="Bikes Management" />
+            <BikeBox data={data} loadMoreHandler={() => {}} />
+          </SuperBikesStyled>
+        </SuperLayout>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
 }
 
-export default connect(state => {
+SuperBikes.getInitialProps = async ({ req, reduxStore, query = {} }) => {
+  await reduxStore.dispatch(fetchBikes())
+
+  return { ready: true }
+}
+
+export default connect((state) => {
   return {
-    bikes: state.Bikes
+    bikes: state.Bikes,
   }
 })(SuperBikes)

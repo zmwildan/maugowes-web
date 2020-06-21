@@ -24,7 +24,7 @@ module.exports = {
     // request is validator
     if (video_type === "youtube") {
       // get video Youtube by id
-      youtubeReq(
+      return youtubeReq(
         "get",
         `/youtube/v3/videos?id=${video_id}&part=snippet&key=${process.env.GOOGLE_TOKEN}`,
         (response) => {
@@ -32,7 +32,7 @@ module.exports = {
           if (response.items && response.items.length > 0) {
             const videodata = videoTransformer.transformer(response.items[0])
             // insert to the database
-            mongo(({ err, db, client }) => {
+            return mongo(({ err, db, client }) => {
               if (err) {
                 // error on mongo db connection
                 return callback({

@@ -8,40 +8,34 @@ import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import VideoForm from "../../../components/form/VideoForm"
 
-class Videos extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = query
-    return { id }
-  }
+const Videos = ({ id, videos, dispatch }) => {
+  const title = id ? "Update Video" : "Add Video"
 
-  componentDidMount() {}
-
-  render() {
-    const { id } = this.props
-    const title = id ? "Update Video" : "Add Video"
-    return (
-      <GlobalLayout metadata={{ title }}>
-        <DefaultLayout>
-          <SuperLayout>
-            <div className="p-t-b-30">
-              <PageHeader title={title} />
-              <VideoForm
-                formResponse={this.props.videos.submit_video || {}}
-                isEdit={typeof id != "undefined"}
-                dispatch={this.props.dispatch}
-              />
-            </div>
-          </SuperLayout>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
-  }
+  return (
+    <GlobalLayout metadata={{ title }}>
+      <DefaultLayout>
+        <SuperLayout>
+          <div className="p-t-b-30">
+            <PageHeader title={title} />
+            <VideoForm
+              formResponse={videos.submit_video || {}}
+              isEdit={typeof id != "undefined"}
+              dispatch={dispatch}
+            />
+          </div>
+        </SuperLayout>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
 }
 
-export default connect(
-  state => {
-    return {
-      videos: state.Videos
-    }
-  }  
-)(Videos)
+Videos.getInitialProps = ({ query }) => {
+  const { id } = query
+  return { id }
+}
+
+export default connect((state) => {
+  return {
+    videos: state.Videos,
+  }
+})(Videos)

@@ -20,54 +20,32 @@ const BikeFormStyled = Styled.div`
 
 `
 
-class BikeForm extends React.Component {
-  static async getInitialProps({ req, reduxStore, query }) {
-    const { id } = query
+const BikeForm = ({ id, bikes, dispatch }) => {
+  let title = "Create Bike"
+  if (id) title = "Update Bike"
+  return (
+    <GlobalLayout metadata={{ title }}>
+      <DefaultLayout>
+        <SuperLayout>
+          <BikeFormStyled className="p-t-b-30">
+            <PageHeader title={title} />
+            <BikeFormCom bikes={bikes} id={id} dispatch={dispatch} />
+          </BikeFormStyled>
+        </SuperLayout>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
 
-    if (typeof id != "undefined" && req) {
-      await reduxStore.dispatch(fetchBikeDetail(id))
-    }
-
-    return {
-      id,
-    }
+BikeForm.getInitialProps = async ({ req, reduxStore, query = {} }) => {
+  const { id } = query
+  await reduxStore.dispatch(fetchBikeBrands())
+  await reduxStore.dispatch(fetchBikeTypes())
+  await reduxStore.dispatch(fetchBikeGroupSpecs())
+  if (typeof id != "undefined") {
+    await reduxStore.dispatch(fetchBikeDetail(id))
   }
-
-  state = {
-    id: this.props.id,
-  }
-
-  componentDidMount() {
-    this.props.dispatch(fetchBikeTypes())
-    this.props.dispatch(fetchBikeBrands())
-
-    if (this.state.id) {
-      this.props.dispatch(fetchBikeDetail(this.state.id))
-      this.props.dispatch(fetchBikeGroupSpecs())
-    }
-  }
-
-  render() {
-    let title = "Create Bike"
-    const { id } = this.state
-    if (id) title = "Update Bike"
-    return (
-      <GlobalLayout metadata={{ title }}>
-        <DefaultLayout>
-          <SuperLayout>
-            <BikeFormStyled className="p-t-b-30">
-              <PageHeader title={title} />
-              <BikeFormCom
-                bikes={this.props.bikes}
-                id={id}
-                dispatch={this.props.dispatch}
-              />
-            </BikeFormStyled>
-          </SuperLayout>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
-  }
+  return { id }
 }
 
 export default connect((state) => {
