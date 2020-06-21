@@ -66,6 +66,9 @@ const ButtonStyled = Styled.div`
       switch (props.color) {
         case "white":
           return `${color_black_main} !important;`
+        case "red":
+        case "black":
+          return `${color_white_main} !important;`
         default:
           return `${color_blue_main} !important`
       }

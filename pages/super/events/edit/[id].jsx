@@ -17,54 +17,48 @@ const EditEventStyled = Styled.div`
 
 `
 
-class EditEvent extends React.Component {
-  state = {}
+const EditEvent = ({ events, id, location, dispatch }) => {
+  const title = "Edit Event"
+  const eventData = events[id] || {}
+  const submitResponse = events.submit_post || {}
+  const { status, message } = events.submit_post || {}
+  const locationSearchResults = location.search_location || {}
 
-  static async getInitialProps({ req, reduxStore, query }) {
-    const { id } = query
-    // if (typeof window == "undefined") {
-    if (typeof id != "undefined" && req) {
-      await fetchEventDetail(id)
-    }
-
-    return { id }
+  if (status === 200 || status === 201) {
+    Toast(true, message)
+    setTimeout(() => {
+      location.href = `/super/events/detail/${id}`
+    }, 800)
   }
-  render() {
-    const title = "Edit Event"
-    const { id } = this.props
-    const eventData = this.props.events[id] || {}
-    const submitResponse = this.props.events.submit_post || {}
-    const locationSearchResults = this.props.location.search_location || {}
-    const { status, message } = this.props.events.submit_post || {}
-    if (status === 200 || status === 201) {
-      Toast(true, message)
-      setTimeout(() => {
-        location.href = `/super/events/detail/${id}`
-      }, 800)
-    }
 
-    return (
-      <GlobalLayout metadata={{ title }}>
-        <DefaultLayout>
-          <SuperLayout>
-            <EditEventStyled className="p-t-b-30">
-              <PageHeader title={title} />
-              {eventData.is_loading ? (
-                <Loading />
-              ) : (
-                <EventForm
-                  dispatch={this.props.dispatch}
-                  eventData={eventData}
-                  locationSearchResults={locationSearchResults}
-                  submitResponse={submitResponse}
-                />
-              )}
-            </EditEventStyled>
-          </SuperLayout>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
-  }
+  return (
+    <GlobalLayout metadata={{ title }}>
+      <DefaultLayout>
+        <SuperLayout>
+          <EditEventStyled className="p-t-b-30">
+            <PageHeader title={title} />
+            {eventData.is_loading ? (
+              <Loading />
+            ) : (
+              <EventForm
+                dispatch={dispatch}
+                eventData={eventData}
+                locationSearchResults={locationSearchResults}
+                submitResponse={submitResponse}
+              />
+            )}
+          </EditEventStyled>
+        </SuperLayout>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
+
+EditEvent.getInitialProps = async ({ reduxStore, query }) => {
+  const { id } = query
+  await reduxStore.dispatch(fetchEventDetail(id))
+
+  return { id }
 }
 
 export default connect((state) => {
