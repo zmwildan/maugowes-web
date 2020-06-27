@@ -36,7 +36,7 @@ const CardBlogStyled = Styled.div`
   }
 
   .card-blog-title {
-    height: 63px;
+    height: 72px;
     overflow: hidden;
     h3 {
       bottom: 0;
