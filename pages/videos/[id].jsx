@@ -45,6 +45,7 @@ const VideoDetailStyled = Styled.div`
     // responsive section
     // gridlex _xs
     @media (max-width: 36em) {
+      padding: 0;
       iframe {
         width: 100%;
         height: 300px;
@@ -52,6 +53,7 @@ const VideoDetailStyled = Styled.div`
     }
     // gridlex _sm
     @media (max-width: 48em) {
+      padding: 0;
       iframe {
         width: 100%;
         height: 300px;
@@ -190,17 +192,13 @@ class VideoDetail extends React.Component {
                   </div>
                 </div>
 
-                <div className="grid-center" style={{ background: "#000" }}>
-                  <div className="col-10_xs-12">
-                    <div className="video-player">
-                      <iframe
-                        src={`https://youtube.com/embed/${data.id}`}
-                        frameBorder={0}
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
+                <div className="video-player" style={{ background: "#000" }}>
+                  <iframe
+                    src={`https://youtube.com/embed/${data.id}`}
+                    frameBorder={0}
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
 
                 <GA

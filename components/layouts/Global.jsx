@@ -121,6 +121,10 @@ export default class HomeLayout extends React.Component {
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap"
+            rel="stylesheet"
+          />
+          <link
             rel="icon"
             href="/static/img/fav-icon.png"
             type="image/x-icon"
@@ -130,23 +134,20 @@ export default class HomeLayout extends React.Component {
             href="/static/vendor/gridlex/gridlex.min.css"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap"
-            rel="stylesheet"
-          />
-          <link
             rel="icon"
             type="image/png"
             href="/static/icons/icon-128x128.png"
           />
           <link rel="manifest" href="/static/manifest.json" />
+
+          <title>{metadata.title}</title>
+
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-TileImage"
             content="/static/ms-icon-144x144.png"
           />
           <meta name="theme-color" content="#ffffff" />
-
-          <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
           <meta name="keywords" content={metadata.keywords} />
 

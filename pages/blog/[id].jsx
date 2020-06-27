@@ -75,6 +75,7 @@ export const BlogDetailStyled = Styled.div`
     img {
       max-width: 100%;
       object-fit: contain;
+      border-radius: 10px;
     }
   }
   .blog-detail_content {
@@ -83,6 +84,7 @@ export const BlogDetailStyled = Styled.div`
       margin: 20px auto;
       max-width: 100%;
       display: block;
+      border-radius: 10px;
     }
     a{
       word-break: break-all;
@@ -288,17 +290,20 @@ const BlogDetail = ({ id, dispatch, blog }) => {
                     </span>
                   </div>
                   {/* end of post meta */}
+                </div>
+              </div>
+              <div className="grid-center">
+                {blogData.video ? (
+                  <div className="blog-detail_video">
+                    <iframe src={blogData.video} />
+                  </div>
+                ) : (
+                  <div className="blog-detail_main-image">
+                    <img src={blogData.image.original} alt={blogData.title} />
+                  </div>
+                )}
 
-                  {blogData.video ? (
-                    <div className="blog-detail_video">
-                      <iframe src={blogData.video} />
-                    </div>
-                  ) : (
-                    <div className="blog-detail_main-image">
-                      <img src={blogData.image.original} alt={blogData.title} />
-                    </div>
-                  )}
-
+                <div className="col-7_xs-12">
                   <GA
                     style={{ margin: "30px 0" }}
                     adClient="ca-pub-4468477322781117"
