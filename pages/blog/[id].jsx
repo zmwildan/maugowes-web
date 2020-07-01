@@ -34,6 +34,19 @@ export const BlogDetailStyled = Styled.div`
     font-weight: 500;
     font-size: 38px;
   }
+  h2 {
+    margin-top: 50px;
+  }
+  h3 {
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 0;
+  }
+  h4 {
+    font-size: 15px;
+    margin-top: 40px;
+    margin-bottom: 0;
+  }
   .blog-detail_author {
     margin-top: 50px
   }
