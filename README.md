@@ -18,9 +18,6 @@ npm run test
 
 - https://redux.js.org/recipes/writing-tests
 
-**Deploy Token**
-gitlab+deploy-token-194786 / 9fDj1YCkdAJ78QLwtyDz
-
 ## Colaborator
 
 - yussan
