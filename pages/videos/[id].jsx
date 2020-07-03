@@ -2,8 +2,7 @@ import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { nl2br } from "string-manager"
-// import { color_black_main, color_white_main } from "../../components/Const"
-import config from "../../config/index"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { fetchVideoDetail, fetchVideos } from "../../redux/videos/actions"
@@ -26,6 +25,8 @@ const VideoDetailStyled = Styled.div`
     h1 {
       font-weight: 400;
       line-height: 1.3;
+      font-size: 38px;
+      margin-top: 50px
     }
   }
 
@@ -44,6 +45,7 @@ const VideoDetailStyled = Styled.div`
     // responsive section
     // gridlex _xs
     @media (max-width: 36em) {
+      padding: 0;
       iframe {
         width: 100%;
         height: 300px;
@@ -51,6 +53,7 @@ const VideoDetailStyled = Styled.div`
     }
     // gridlex _sm
     @media (max-width: 48em) {
+      padding: 0;
       iframe {
         width: 100%;
         height: 300px;
@@ -65,20 +68,10 @@ function getId(title) {
 }
 
 class VideoDetail extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const id = getId(query.id)
-      const { type, endpoint } = fetchVideoDetail(id)["CALL_API"]
-      //  only call in server side
-      const videoResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const video = await videoResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: video,
-      })
+      await reduxStore.dispatch(fetchVideoDetail(id))
     }
 
     return { id: query.id }
@@ -86,12 +79,16 @@ class VideoDetail extends React.Component {
 
   state = {}
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ windowReady: true })
 
+    this.fetchVideoDetail()
+
     const videoRelatedState = this.props.videos.related || {}
+
     if (!videoRelatedState.status) {
-      return this.props.dispatch(
+      progressBar.start()
+      this.props.dispatch(
         fetchVideos("related", {
           limit: 4,
           page: 1,
@@ -101,10 +98,29 @@ class VideoDetail extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.id != this.props.id) {
+      return this.fetchVideoDetail()
+    }
+  }
+
+  fetchVideoDetail() {
+    const id = getId(this.props.id)
+    const videoDetail = this.props.videos.id || {}
+
+    if (!videoDetail.status) {
+      this.props.dispatch(fetchVideoDetail(id))
+    }
+  }
+
   render() {
     const id = getId(this.props.id)
     const data = this.props.videos[id] || {}
     const relatedData = this.props.videos.related || {}
+
+    if (data.status) {
+      progressBar.stop()
+    }
 
     let metadata = {}
 
@@ -145,10 +161,17 @@ class VideoDetail extends React.Component {
         },
       }
     } else {
-      metadata = {
-        title: "Video tidak ditemukan",
-        description:
-          "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus.",
+      if (!data.status) {
+        metadata = {
+          title: "Video loading...",
+          description: "Tunggu sejenak, memproses video...",
+        }
+      } else {
+        metadata = {
+          title: "Video tidak ditemukan",
+          description:
+            "Maaf video yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena video telah di hapus.",
+        }
       }
     }
 
@@ -169,17 +192,13 @@ class VideoDetail extends React.Component {
                   </div>
                 </div>
 
-                <div className="grid-center" style={{ background: "#000" }}>
-                  <div className="col-10_xs-12">
-                    <div className="video-player">
-                      <iframe
-                        src={`https://youtube.com/embed/${data.id}`}
-                        frameBorder={0}
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
+                <div className="video-player" style={{ background: "#000" }}>
+                  <iframe
+                    src={`https://youtube.com/embed/${data.id}`}
+                    frameBorder={0}
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
 
                 <GA

@@ -21,9 +21,9 @@ export function fetchBlogDetail(blog_id) {
   return {
     [CALL_API]: {
       type: GET_BLOG,
-      fiter: blog_id,
-      endpoint: `/api/post/${blog_id}/${seal.generateSeal()}`
-    }
+      filter: blog_id,
+      endpoint: `/api/post/${blog_id}/${seal.generateSeal()}`,
+    },
   }
 }
 
@@ -37,8 +37,8 @@ export function fetchBlog(filter = "", query = {}) {
     [CALL_API]: {
       type: GET_BLOG,
       filter,
-      endpoint: `/api/posts/${seal.generateSeal()}?${objToQuery(query)}`
-    }
+      endpoint: `/api/posts/${seal.generateSeal()}?${objToQuery(query)}`,
+    },
   }
 }
 
@@ -50,8 +50,8 @@ export function fetchMoreBlog(filter = "new", query = {}) {
     [CALL_API]: {
       type: GET_MORE_BLOG,
       filter,
-      endpoint: `/api/posts/${seal.generateSeal()}?${objToQuery(query)}`
-    }
+      endpoint: `/api/posts/${seal.generateSeal()}?${objToQuery(query)}`,
+    },
   }
 }
 
@@ -71,8 +71,8 @@ export function updatePost(formdata = {}, post_id) {
       method: "PUT",
       endpoint: `/api/posts/${post_id}`,
       filter: "submit_post",
-      type: SUBMIT_FORM
-    }
+      type: SUBMIT_FORM,
+    },
   }
 }
 
@@ -91,7 +91,7 @@ export function createPost(formdata = {}) {
       method: "POST",
       endpoint: `/api/posts`,
       filter: "submit_post",
-      type: SUBMIT_FORM
-    }
+      type: SUBMIT_FORM,
+    },
   }
 }

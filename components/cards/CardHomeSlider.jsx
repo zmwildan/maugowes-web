@@ -12,7 +12,7 @@ const CardHomeSlidderStyled = Styled.div`
     padding: 0 20px;
     display: flex;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 40px);
     height: 100%;
     h2 {
       font-size: 2.5em;
@@ -35,6 +35,8 @@ const CardHomeSlidderStyled = Styled.div`
   @media (max-width: 36em) {
     height: 350px;
     .slider-item-right {
+      padding: 0 10px;
+      width: calc(100% - 20px);
       h2 {
         font-size: 1.5em
       }
@@ -44,6 +46,8 @@ const CardHomeSlidderStyled = Styled.div`
   @media (max-width: 48em) {
     height: 350px;
     .slider-item-right {
+      padding: 0 10px;
+      width: calc(100% - 20px);
       h2 {
         font-size: 1.5em
       }

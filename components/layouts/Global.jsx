@@ -12,7 +12,6 @@ import {
 } from "../Const"
 
 const GlobalLayoutStyled = Styled.div`
-  font-family: 'Montserrat', sans-serif;
   color: ${color_black_main};
 
   a {
@@ -103,10 +102,28 @@ export default class HomeLayout extends React.Component {
 
     return (
       <React.Fragment>
+        <style jsx global>{`
+          body,
+          [class~="grid"],
+          [class*="grid-"] {
+            margin: 0 !important;
+          }
+          body {
+            font-family: "Manrope", sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.9px;
+          }
+          p {
+            font-size: 16px;
+          }
+        `}</style>
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap"
+            rel="stylesheet"
+          />
           <link
             rel="icon"
             href="/static/img/fav-icon.png"
@@ -117,23 +134,20 @@ export default class HomeLayout extends React.Component {
             href="/static/vendor/gridlex/gridlex.min.css"
           />
           <link
-            href="https://fonts.googleapis.com/css?family=Montserrat:300,500,700"
-            rel="stylesheet"
-          />
-          <link
             rel="icon"
             type="image/png"
             href="/static/icons/icon-128x128.png"
           />
           <link rel="manifest" href="/static/manifest.json" />
+
+          <title>{metadata.title}</title>
+
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-TileImage"
             content="/static/ms-icon-144x144.png"
           />
           <meta name="theme-color" content="#ffffff" />
-
-          <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
           <meta name="keywords" content={metadata.keywords} />
 

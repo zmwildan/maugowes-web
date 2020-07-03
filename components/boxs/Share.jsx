@@ -27,10 +27,7 @@ export default ({ url }) => (
           "width=600,height=400"
         )
       }}>
-      <img
-        src="/static/images/facebook-48.png"
-        alt="share ke Facebook"
-      />
+      <img src="/static/images/facebook-48.png" alt="share ke Facebook" />
     </a>
     {/* end of facebook share */}
 
@@ -40,15 +37,12 @@ export default ({ url }) => (
       href="javascript:;"
       onClick={() => {
         window.open(
-          `https://twitter.com/intent/tweet?status=${url}`,
+          `https://twitter.com/intent/tweet?text=${url}`,
           "Share Mau Gowes ke Twitter",
           "width=600,height=400"
         )
       }}>
-      <img
-        src="/static/images/twitter-48.png"
-        alt="share ke Twitter"
-      />
+      <img src="/static/images/twitter-48.png" alt="share ke Twitter" />
     </a>
     {/* end if twiter share */}
 

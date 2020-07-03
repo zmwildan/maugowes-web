@@ -17,22 +17,30 @@ module.exports = {
     if (!video_type || !video_id) {
       return callback({
         status: 203,
-        messages: "id video wajib diisi"
+        messages: "id video wajib diisi",
       })
     }
 
     // request is validator
     if (video_type === "youtube") {
       // get video Youtube by id
-      youtubeReq(
+      return youtubeReq(
         "get",
         `/youtube/v3/videos?id=${video_id}&part=snippet&key=${process.env.GOOGLE_TOKEN}`,
-        response => {
+        (response) => {
           // return callback(response.items.length)
           if (response.items && response.items.length > 0) {
             const videodata = videoTransformer.transformer(response.items[0])
             // insert to the database
-            mongo(({ db, client }) => {
+            return mongo(({ err, db, client }) => {
+              if (err) {
+                // error on mongo db connection
+                return callback({
+                  status: 500,
+                  message: "Something wrong, please try again",
+                })
+              }
+
               const currentTime = Math.round(new Date().getTime() / 1000)
               videodata.created_on = currentTime
               videodata.updated_on = currentTime
@@ -40,13 +48,13 @@ module.exports = {
               client.close()
               return callback({
                 status: 201,
-                messages: "video berhasil ditambahkan"
+                messages: "video berhasil ditambahkan",
               })
             })
           } else {
             return callback({
               status: 204,
-              messages: "video tidak ditemukan"
+              messages: "video tidak ditemukan",
             })
           }
         }
@@ -54,7 +62,7 @@ module.exports = {
     } else {
       return callback({
         status: 203,
-        messages: "tipe video tidak disupport"
+        messages: "tipe video tidak disupport",
       })
     }
   },
@@ -72,22 +80,39 @@ module.exports = {
         // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
         $sort: {
           // order by created_on desc
-          created_on: -1
-        }
-      }
+          updated_on: -1,
+        },
+      },
     ]
 
     const countAggregate = [
       {
-        $count: "total"
-      }
+        $count: "total",
+      },
     ]
 
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // get count of videos
       db.collection("videos")
         .aggregate(countAggregate)
         .toArray((err, count) => {
+          if (err) {
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
+          }
+
           // get video list by aggregate
           db.collection("videos")
             .aggregate(aggregate)
@@ -99,7 +124,7 @@ module.exports = {
                 console.err(err)
                 return callback({
                   status: 500,
-                  messages: "something wrong with mongo"
+                  messages: "something wrong with mongo",
                 })
               }
 
@@ -117,14 +142,14 @@ module.exports = {
                   status: 200,
                   messages: "success",
                   results,
-                  total: count && count[0] ? count[0].total : 0
+                  total: count && count[0] ? count[0].total : 0,
                 })
               } else {
                 // no video found
                 return callback({
                   status: 204,
                   message: "no videos available",
-                  total: count && count[0] ? count[0].total : 0
+                  total: count && count[0] ? count[0].total : 0,
                 })
               }
             })
@@ -142,13 +167,21 @@ module.exports = {
       return callback({ status: 204, messages: "Video tidak ditemukan" })
     }
 
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // list post and order by created_on
       db.collection("videos")
         .aggregate([
           {
-            $match: { _id: ObjectId(id) }
-          }
+            $match: { _id: ObjectId(id) },
+          },
           // ,
           // {
           //   $lookup: {
@@ -162,10 +195,11 @@ module.exports = {
         .toArray((err, result) => {
           // error from database
           if (err) {
-            console.err(err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
             return callback({
               status: 500,
-              messages: "something wrong with mongo"
+              message: "Something wrong, please try again",
             })
           }
 
@@ -175,7 +209,7 @@ module.exports = {
             if (req.no_count) return callback()
             return callback({
               status: 204,
-              messages: "Video tidak ditemukan"
+              messages: "Video tidak ditemukan",
             })
           }
 
@@ -186,5 +220,5 @@ module.exports = {
           return callback(result)
         })
     })
-  }
+  },
 }

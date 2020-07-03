@@ -1,10 +1,10 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../config/index"
-import fetch from "isomorphic-unfetch"
 import { fetchVideos } from "../redux/videos/actions"
 import { fetchBlog } from "../redux/blog/actions"
+import { fetchBikes } from "../redux/bikes/actions"
+import { progressBar } from "../modules/loaders"
 
 // components
 import GlobalLayout from "../components/layouts/Global"
@@ -13,6 +13,7 @@ import Slider from "../components/slider/index"
 import SliderItem from "../components/cards/CardHomeSlider"
 // import MarketplaceBox from "../components/boxs/MarketplaceBox"
 import GA from "../components/boxs/GA"
+import BikesBox from "../components/boxs/BikesBox"
 import BlogBox from "../components/boxs/BlogBox"
 import VideosBox from "../components/boxs/VideosBox"
 import Button from "../components/buttons/index"
@@ -23,55 +24,41 @@ const HomePage = Styled.div`
 `
 
 class Home extends React.Component {
-  static async getInitialProps({ reduxStore }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore }) {
+    if (req) {
       // only call in server side
-
-      // request videos list
-      const videosResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${
-          fetchVideos()["CALL_API"].endpoint
-        }limit=5`
-      )
-      const videos = await videosResponse.json()
-      reduxStore.dispatch({
-        type: fetchVideos()["CALL_API"].type,
-        filter: "new",
-        data: videos
-      })
-
-      // request news list
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${
-          fetchBlog()["CALL_API"].endpoint
-        }limit=6`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type: fetchBlog()["CALL_API"].type,
-        filter: "new",
-        data: posts
-      })
+      await reduxStore.dispatch(fetchVideos("new", { limit: 6 }))
+      await reduxStore.dispatch(fetchBlog("new", { limit: 6 }))
+      await reduxStore.dispatch(fetchBikes("new", { limit: 4 }))
     }
 
-    return {}
+    return { props: true }
   }
 
   async componentDidMount() {
-    this.props.dispatch(fetchVideos("new", { maxResults: 5 }))
-    this.props.dispatch(fetchBlog("new", { limit: 6 }))
-    this.props.dispatch(
-      fetchBlog("new_bike_review", { limit: 3, tag: "review sepeda" })
-    )
-    this.props.dispatch(
-      fetchBlog("new_review", { limit: 3, tag: "review lain" })
-    )
-    this.props.dispatch(
-      fetchBlog("new_cara_cara", { limit: 3, tag: "cara cara" })
-    )
+    const newVideos = this.props.videos.new || {}
+    const newBlog = this.props.blog.new || {}
+    const newBikes = this.props.bikes.new || {}
+
+    if (!newVideos.status) this.props.dispatch(fetchVideos("new", { limit: 6 }))
+    if (!newBlog.status) this.props.dispatch(fetchBlog("new", { limit: 6 }))
+    if (!newBikes.status) this.props.dispatch(fetchBikes("new", { limit: 4 }))
+
+    if (!newVideos.status || !newBlog.status || !newBikes.status) {
+      progressBar.start()
+    }
   }
 
   render() {
+    const newBlog = this.props.blog.new || {}
+    const newVideos = this.props.videos.new || {}
+    const newBikes = this.props.bikes.new || {}
+
+    if (newBlog.status && newVideos.status && newBikes.status) {
+      progressBar.stop()
+    }
+
+    // progressBar.stop()
     return (
       <GlobalLayout>
         <DefaultLayout>
@@ -92,7 +79,7 @@ class Home extends React.Component {
             {/* end of newest products */}
 
             {/* videos */}
-            <VideosBox hideAds data={this.props.videos.new || {}} />
+            <VideosBox hideAds data={newVideos} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/videos" text="Lihat Video" />
             </div>
@@ -102,6 +89,14 @@ class Home extends React.Component {
             <BannerBox />
             {/* end of banner of youtube and bike shop */}
 
+            {/* bikes */}
+            <br />
+            <BikesBox hideAds data={newBikes} size={"large"} />
+            <div className="grid-center p-t-30 p-b-50">
+              <Button type="link" target="/bikes" text="Bikes Lainnya" />
+            </div>
+            {/* end of bikes */}
+
             <GA
               style={{ marginTop: 30 }}
               adClient="ca-pub-4468477322781117"
@@ -109,56 +104,11 @@ class Home extends React.Component {
             />
 
             {/* blog */}
-            <BlogBox hideAds data={this.props.blog.new || {}} />
+            <BlogBox hideAds data={newBlog} />
             <div className="grid-center p-t-30 p-b-50">
               <Button type="link" target="/blog" text="Baca Blog" />
             </div>
             {/* end of blog */}
-
-            {/* part or accessories review */}
-            <BlogBox
-              hideAds
-              title="Yang Baru di Review Part atau Aksesoris"
-              data={this.props.blog.new_review || {}}
-            />
-            <div className="grid-center p-t-30 p-b-50">
-              <Button
-                type="link"
-                target="/blog/tag/review%20lain"
-                text="Baca Review Part / Aksesories"
-              />
-            </div>
-            {/* end of part or accessories review */}
-
-            {/* utak atik */}
-            <BlogBox
-              hideAds
-              title="Yang Baru di Cara - Cara"
-              data={this.props.blog.new_cara_cara || {}}
-            />
-            <div className="grid-center p-t-30 p-b-50">
-              <Button
-                type="link"
-                target="/blog/tag/cara%20cara"
-                text="Baca Cara Cara"
-              />
-            </div>
-            {/* utak atik */}
-
-            {/* bicycle review */}
-            <BlogBox
-              hideAds
-              title="Yang Baru di Review Sepeda"
-              data={this.props.blog.new_bike_review || {}}
-            />
-            <div className="grid-center p-t-30 p-b-50">
-              <Button
-                type="link"
-                target="/blog/tag/review%20sepeda"
-                text="Baca Review Sepeda"
-              />
-            </div>
-            {/* bicycle review */}
           </HomePage>
         </DefaultLayout>
       </GlobalLayout>
@@ -166,10 +116,11 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     videos: state.Videos,
-    blog: state.Blog
+    blog: state.Blog,
+    bikes: state.Bikes,
   }
 }
 

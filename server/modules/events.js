@@ -24,12 +24,20 @@ module.exports = {
 
     let aggregate = [
       {
-        $match: { _id: ObjectId(id) }
-      }
+        $match: { _id: ObjectId(id) },
+      },
     ]
 
     // open new connection
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("events")
         .aggregate(aggregate)
         .toArray((err, results) => {
@@ -38,14 +46,14 @@ module.exports = {
             console.err(err)
             return callback({
               status: 500,
-              messages: "something wrong with mongo"
+              messages: "something wrong with mongo",
             })
           }
 
           if (results.length < 1) {
             return callback({
               status: 204,
-              messages: "Event tidak tersedia"
+              messages: "Event tidak tersedia",
             })
           }
 
@@ -88,7 +96,7 @@ module.exports = {
       location_address,
       location_coordinate = {},
       note,
-      start_time
+      start_time,
     } = req.body
     const { poster, gpx } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
@@ -104,7 +112,7 @@ module.exports = {
       note,
       status: "waiting",
       created_on: currentTime,
-      views: 0
+      views: 0,
     }
 
     // if send gpx , generate geojson
@@ -210,7 +218,7 @@ module.exports = {
       location_address,
       location_coordinate = {},
       note,
-      start_time
+      start_time,
     } = req.body
     const { poster, gpx } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
@@ -224,7 +232,7 @@ module.exports = {
       location_address,
       location_coordinate,
       note,
-      update_on: currentTime
+      update_on: currentTime,
     }
 
     // if send gpx , generate geojson
@@ -238,7 +246,15 @@ module.exports = {
       params.geoJSON = toGeoJson.gpx(gpxXML)
     }
 
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // db execution
       // upload poster process
       if (typeof poster != "undefined") {
@@ -255,7 +271,7 @@ module.exports = {
             db.collection("events").update({ _id: id }, { $set: params })
             return callback({
               status: 200,
-              message: "Update event success"
+              message: "Update event success",
             })
           }
         })
@@ -264,7 +280,7 @@ module.exports = {
         db.collection("events").update({ _id: id }, { $set: params })
         return callback({
           status: 200,
-          message: "Update event success"
+          message: "Update event success",
         })
       }
     })
@@ -285,14 +301,14 @@ module.exports = {
         // ref: https://docs.mongodb.com/manual/reference/operator/aggregation/sort/
         $sort: {
           // order by created_on desc
-          created_on: -1
-        }
-      }
+          updated_on: -1,
+        },
+      },
     ]
 
     if (status && status !== "all") {
       aggregate.push({
-        $match: { status }
+        $match: { status },
       })
     }
 
@@ -302,26 +318,51 @@ module.exports = {
       aggregate.push({
         $match: {
           // get start time greater than or equal than current time
-          start_time: { $gte: now.toString() }
-        }
+          start_time: { $gte: now.toString() },
+        },
       })
     }
 
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       let countAggregate = Object.assign([], aggregate)
       // get events total count
       countAggregate.push({
-        $count: "total"
+        $count: "total",
       })
 
       db.collection("events")
         .aggregate(countAggregate)
         .toArray((err, count) => {
+          if (err) {
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
+          }
+
           // close mongo db connection
           client.close()
 
           // open new connection
-          mongo(({ db, client }) => {
+          mongo(({ err, db, client }) => {
+            if (err) {
+              // error on mongo db connection
+              return callback({
+                status: 500,
+                message: "Something wrong, please try again",
+              })
+            }
+
             db.collection("events")
               .aggregate(aggregate)
               .skip(parseInt((page - 1) * limit))
@@ -329,10 +370,11 @@ module.exports = {
               .toArray((err, results) => {
                 // error from database
                 if (err) {
-                  console.log(err)
+                  // error on mongo db connection
+                  console.error("[mongodb error] to connect mongo", err)
                   return callback({
                     status: 500,
-                    messages: "something wrong with mongo"
+                    message: "Something wrong, please try again",
                   })
                 }
 
@@ -350,13 +392,13 @@ module.exports = {
                     status: 200,
                     messages: "success",
                     results,
-                    total: count && count[0] ? count[0].total : 0
+                    total: count && count[0] ? count[0].total : 0,
                   })
                 } else {
                   return callback({
                     status: 204,
                     message: "Event tidak tersedia",
-                    total: count && count[0] ? count[0].total : 0
+                    total: count && count[0] ? count[0].total : 0,
                   })
                 }
               })
@@ -384,21 +426,30 @@ module.exports = {
 
     let aggregate = [
       {
-        $match: { _id: id }
-      }
+        $match: { _id: id },
+      },
     ]
 
     // check is available data on database
-    mongo(({ db, client }) => {
+    mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       db.collection("events")
         .aggregate(aggregate)
         .toArray((err, results) => {
           // error from database
           if (err) {
-            console.err(err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
             return callback({
               status: 500,
-              messages: "something wrong with mongo"
+              message: "Something wrong, please try again",
             })
           }
 
@@ -407,7 +458,7 @@ module.exports = {
             const postdata = {
               updated_on: Math.round(new Date().getTime() / 1000),
               status,
-              sender_note: note || ""
+              sender_note: note || "",
             }
             // update data on db
             db.collection("events").update({ _id: id }, { $set: postdata })
@@ -439,12 +490,12 @@ module.exports = {
             // success
             return callback({
               status: 200,
-              message: "Update status success"
+              message: "Update status success",
             })
           } else {
             return callback({
               status: 204,
-              message: "Event tidak tersedia"
+              message: "Event tidak tersedia",
             })
           }
         })
@@ -452,26 +503,35 @@ module.exports = {
   },
 
   insertIntoEvent(params = {}, callback = () => {}) {
-    return mongo(({ db, client }) => {
+    return mongo(({ err, db, client }) => {
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
+
       // check is same title available
       db.collection("events")
         .aggregate([
           {
-            $match: { title: params.title }
+            $match: { title: params.title },
           },
           {
             // select from specific key: https://stackoverflow.com/a/45738049/2780875
             $project: {
-              _id: 1
-            }
-          }
+              _id: 1,
+            },
+          },
         ])
         .toArray((err, results) => {
           if (err) {
-            console.err(err)
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
             return callback({
               status: 500,
-              message: "something wrong with mongo"
+              message: "Something wrong, please try again",
             })
           }
 
@@ -479,7 +539,7 @@ module.exports = {
             // post available
             return callback({
               status: 400,
-              message: "Gagal kirim, event judul yang sama telah ada"
+              message: "Gagal kirim, event judul yang sama telah ada",
             })
           } else {
             // insert to mongodb
@@ -488,10 +548,10 @@ module.exports = {
             return callback({
               status: 201,
               message:
-                "Terimakasih, event telah terkirim dan segera diproses oleh moderator."
+                "Terimakasih, event telah terkirim dan segera diproses oleh moderator.",
             })
           }
         })
     })
-  }
+  },
 }

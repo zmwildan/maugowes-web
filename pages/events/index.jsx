@@ -1,9 +1,7 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
-import { objToQuery } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // components
 import GlobalLayout from "../../components/layouts/Global"
@@ -24,22 +22,10 @@ class Events extends React.Component {
     page: 1,
   }
 
-  static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      //  only call in server side
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const reqQuery = requestQueryGenerator(query)
-      const { endpoint, type } = fetchEvents(StoreFilter, reqQuery)["CALL_API"]
-
-      const eventsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const events = await eventsResponse.json()
-
-      reduxStore.dispatch({
-        type,
-        filter: StoreFilter,
-        data: events,
-      })
+      await reduxStore.dispatch(fetchEvents(StoreFilter, reqQuery))
     }
 
     return {
@@ -52,6 +38,7 @@ class Events extends React.Component {
   }
 
   componentDidMount() {
+    progressBar.start()
     const eventState = this.props.events[StoreFilter] || {}
     this.setState(this.props.query)
     if (!eventState.status && !eventState.is_loading) {
@@ -89,10 +76,13 @@ class Events extends React.Component {
 
   render() {
     const events = this.props.events[StoreFilter] || {}
+
+    if (events.status) progressBar.stop()
+
     const metadata = {
       title: "Events - Mau Gowes",
       description:
-        "Di halaman events ini kamu bisa mendapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
+        "Dapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
     }
 
     return (
@@ -100,11 +90,17 @@ class Events extends React.Component {
         <DefaultLayout>
           <EventsStyled>
             <Header
-              title="Event Gowes"
+              title="Events - Mau Gowes"
               text={metadata.description}
-              backgroundImage="/static/images/cover/cover-events.jpeg"
+              stats={{
+                suffix: "events",
+                total: events.total || 0,
+                show:
+                  events.results && events.results.length
+                    ? events.results.length
+                    : 0,
+              }}
             />
-
             <EventsBox
               data={events}
               loadmoreHandler={() => this._loadmoreHandler()}

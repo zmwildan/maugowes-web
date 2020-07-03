@@ -1,8 +1,6 @@
 import Styled from "styled-components"
 import Router from "next/router"
 import { connect } from "react-redux"
-import config from "../../../config/index"
-import fetch from "isomorphic-unfetch"
 import {
   color_red_main,
   color_white_main,
@@ -21,6 +19,7 @@ import CardCompareBike from "../../../components/cards/CardCompareBike"
 
 // components
 import Loader from "../../../components/Loader"
+import { progressBar } from "../../../modules/loaders"
 
 const BikesCompareStyled = Styled.div`
     margin-top: 50px;
@@ -128,30 +127,11 @@ let typingTimer //timer identifier
 const doneTypingInterval = 300
 
 class BikesCompare extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = query
-    if (typeof window == "undefined") {
-      const { type, endpoint } = fetchGroupSpec("list")["CALL_API"]
-      //  only call in server side
-      const groupSpecResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const groupSpec = await groupSpecResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: "list",
-        data: groupSpec,
-      })
-      const fetchBike = fetchBikeDetail(id)["CALL_API"]
-      const bikeResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${fetchBike.endpoint}`
-      )
-      const bike = await bikeResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeDetail(id)["CALL_API"].type,
-        filter: id,
-        data: bike,
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
+      const { id } = query
+      await reduxStore.dispatch(fetchGroupSpec("list"))
+      await reduxStore.dispatch(fetchBikeDetail(id))
     }
 
     return {
@@ -178,6 +158,7 @@ class BikesCompare extends React.Component {
     }
 
     if (!bikeData.status) {
+      progressBar.start()
       dispatch(fetchBikeDetail(id))
     } else if (bikeData.status === 204) {
       Router.push("/bikes")
@@ -235,6 +216,8 @@ class BikesCompare extends React.Component {
     const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
     let metadata = {}
+
+    if (data.status) progressBar.stop()
 
     if (data && data.status === 200) {
       metadata = {

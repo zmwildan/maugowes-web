@@ -26,7 +26,8 @@ const HeaderStyled = Styled.header`
   .header-top-menu {
     border-top: 2px solid ${color_gray_soft}; 
     border-bottom: 2px solid ${color_blue_main};
-
+    overflow-x: auto;
+    margin: 0;
     button.header-top-menu_link {
       background: transparent;
     }
@@ -43,7 +44,7 @@ const HeaderStyled = Styled.header`
       font-weight: bold;
       text-transform: uppercase;
       outline: none;
-      
+      letter-spacing: 1.5px;
       .header-top-menu_link_icon {
         margin-left: 5px;
       }
@@ -177,7 +178,7 @@ class Header extends React.Component {
       <HeaderStyled>
         <div className="grid-center header-logo">
           <div className="col">
-            <Link href="/" prefetch>
+            <Link href="/">
               <a href="/">
                 <img
                   className="header-logo-img"
@@ -254,7 +255,7 @@ class Header extends React.Component {
                             {n.child.map((m, key) => {
                               return (
                                 <li key={key}>
-                                  <Link href={m.link} prefetch>
+                                  <Link href={m.link}>
                                     <a href={m.link}>
                                       {m.name}{" "}
                                       <IconBottomArrow
@@ -270,7 +271,7 @@ class Header extends React.Component {
                         </div>
                       </Dropdown>
                     ) : (
-                      <Link href={n.link} prefetch>
+                      <Link href={n.link}>
                         <a className="header-top-menu_link" href={n.link}>
                           {n.name}
                         </a>

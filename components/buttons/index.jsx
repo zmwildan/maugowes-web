@@ -1,12 +1,10 @@
 import Styled from "styled-components"
 import {
-  color_blue_main,
-  color_blue_dark,
   color_black_main,
   color_white_main,
-  // color_gray_dark,
   color_gray_medium,
   color_red_main,
+  color_blue_main,
 } from "../Const"
 import Link from "next/link"
 
@@ -21,12 +19,14 @@ const ButtonStyled = Styled.div`
     transition: background .5s ease;
     text-decoration: none;
     font-weight: bold;
+    border-radius: 5px;
+    word-break: break-word;
     padding: ${(props) => {
       switch (props.size) {
         case "small":
           return `10px 15px;`
         default:
-          return `15px 25px;`
+          return `15px 50px;`
       }
     }};
     font-size: ${(props) => {
@@ -47,7 +47,7 @@ const ButtonStyled = Styled.div`
         case "red":
           return `${color_red_main} !important;`
         default:
-          return `${color_blue_main} !important;`
+          return `${color_white_main} !important;`
       }
     }};
     border: ${(props) => {
@@ -66,8 +66,11 @@ const ButtonStyled = Styled.div`
       switch (props.color) {
         case "white":
           return `${color_black_main} !important;`
+        case "red":
+        case "black":
+          return `${color_white_main} !important;`
         default:
-          return `#FFF;`
+          return `${color_blue_main} !important`
       }
     }};
     &:hover {
@@ -78,7 +81,7 @@ const ButtonStyled = Styled.div`
           case "red":
             return `1px solid ${color_red_main} !important;`
           default:
-            return `${color_blue_dark} !important;`
+            return `${color_white_main} !important;`
         }
       }};
     }
@@ -92,8 +95,8 @@ const Button = (props) => {
       {...props}
       style={props.containerStyle}>
       {props.type === "link" ? (
-        <Link href={props.target} prefetch>
-          <a href={props.target}>{props.text}</a>
+        <Link href={props.target} as={props.targetAs || props.target}>
+          <a href={props.targetAs || props.target}>{props.text}</a>
         </Link>
       ) : (
         <button id={props.btnId} type="button" onClick={() => props.onClick}>

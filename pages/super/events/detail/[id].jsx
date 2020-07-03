@@ -1,18 +1,16 @@
 import React from "react"
 import Styled from "styled-components"
-import config from "../../../config/index"
-import fetch from "isomorphic-unfetch"
 
 // redux
-import { fetchEventDetail } from "../../../redux/events/actions"
+import { fetchEventDetail } from "../../../../redux/events/actions"
 import { connect } from "react-redux"
 
 // components
-import GlobalLayout from "../../../components/layouts/Global"
-import DefaultLayout from "../../../components/layouts/Default"
-import SuperLayout from "../../../components/layouts/Super"
-import PageHeader from "../../../components/boxs/PageHeader"
-import EventDetail from "../../../components/super/boxs/EventDetail"
+import GlobalLayout from "../../../../components/layouts/Global"
+import DefaultLayout from "../../../../components/layouts/Default"
+import SuperLayout from "../../../../components/layouts/Super"
+import PageHeader from "../../../../components/boxs/PageHeader"
+import EventDetail from "../../../../components/super/boxs/EventDetail"
 
 const BlogCreateStyled = Styled.div`
 
@@ -21,24 +19,12 @@ const BlogCreateStyled = Styled.div`
 class DetailPage extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = query
-    // if (typeof window == "undefined") {
-    if (typeof id != "undefined" && typeof window == "undefined") {
-      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (typeof query.id != "undefined" && req) {
+      await reduxStore.dispatch(fetchEventDetail(query.id))
     }
 
-    return { id }
+    return { id: query.id }
   }
 
   render() {
@@ -70,8 +56,8 @@ class DetailPage extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    events: state.Events
+    events: state.Events,
   }
 })(DetailPage)

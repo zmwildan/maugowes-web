@@ -1,7 +1,7 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import fetch from "isomorphic-unfetch"
-import config from "../../config/index"
+import { toCamelCase } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import {
@@ -22,7 +22,7 @@ import BikesBox from "../../components/boxs/BikesBox"
 const BikesStyled = Styled.div`
  margin-top: 50px;
  .content {
-  padding: 20px;
+  // padding: 20px;
  }
 `
 
@@ -31,7 +31,6 @@ const MetaData = {
   description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
 }
 
-const Host = config[process.env.NODE_ENV].host
 const MaxResults = 9
 
 export function requestQueryGenerator(query = {}) {
@@ -52,38 +51,9 @@ class BikesIndex extends React.Component {
     if (typeof window == "undefined") {
       const reqQuery = requestQueryGenerator(query)
 
-      // request list bike brands on server
-      const bikeBrandReponse = await fetch(
-        `${Host}${fetchBikeBrands()["CALL_API"].endpoint}`
-      )
-      const bikeBrands = await bikeBrandReponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeBrands()["CALL_API"].type,
-        filter: fetchBikeBrands()["CALL_API"].filter,
-        data: bikeBrands,
-      })
-
-      // request list bike types
-      const bikeTypesResponse = await fetch(
-        `${Host}${fetchBikeTypes()["CALL_API"].endpoint}`
-      )
-      const bikeTypes = await bikeTypesResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikeTypes()["CALL_API"].type,
-        filter: fetchBikeTypes()["CALL_API"].filter,
-        data: bikeTypes,
-      })
-
-      // request list bikes
-      const bikesResponse = await fetch(
-        `${Host}${fetchBikes("bike_list", reqQuery)["CALL_API"].endpoint}`
-      )
-      const bikes = await bikesResponse.json()
-      reduxStore.dispatch({
-        type: fetchBikes()["CALL_API"].type,
-        filter: fetchBikes()["CALL_API"].filter,
-        data: bikes,
-      })
+      await reduxStore.dispatch(fetchBikeBrands())
+      await reduxStore.dispatch(fetchBikeTypes())
+      await reduxStore.dispatch(fetchBikes("bike_list", reqQuery))
     }
     return { query }
   }
@@ -95,12 +65,16 @@ class BikesIndex extends React.Component {
   componentDidMount() {
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
+    const bikes = this.props.bikes.bike_list || {}
 
     const reqQuery = requestQueryGenerator(this.props.query)
 
     if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
     if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
-    this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    if (!bikes.status) {
+      progressBar.start()
+      this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    }
   }
 
   loadmoreHandler() {
@@ -120,38 +94,73 @@ class BikesIndex extends React.Component {
   }
 
   render() {
-    let { title, description } = MetaData
+    let title = "",
+      description = ""
     const { query } = this.props
+
+    const bikeTypes = this.props.bikes.bike_types || {}
+    const bikeBrands = this.props.bikes.bike_brands || {}
+    const bikes = this.props.bikes.bike_list || {}
+
     if (query.q) {
-      title = `Hasil Pencarian "${query.q}" di ${title}`
-      description = `Hasil Pencarian "${query.q}", ${description}`
+      title += `Hasil Pencarian "${query.q}" `
+      description += `Hasil Pencarian "${query.q}" `
     }
+
+    if (bikes.status) progressBar.stop()
+
+    if (query.type && bikeTypes.status === 200) {
+      const typeDetail = bikeTypes.results.find((n) => n.id === query.type)
+      if (typeDetail.name) {
+        title += `${typeDetail.name} `
+        description += `${typeDetail.name} `
+      }
+    }
+
+    if (query.brand && bikeBrands.status === 200) {
+      const brandDetail = bikeBrands.results.find((n) => n.id === query.brand)
+      if (brandDetail.name) {
+        title += `${brandDetail.name} `
+        description += `${brandDetail.name} `
+      }
+    }
+
+    title += `${title ? "di " : ""}${MetaData.title}`
+    description += `${description ? "di " : ""}${MetaData.description}`
 
     return (
       <GlobalLayout
         metadata={{
-          title,
+          title: toCamelCase(title),
           description,
         }}>
         <DefaultLayout>
           <Header
             title={title}
             text={description}
-            backgroundImage="/static/images/cover/cover-bikes.jpeg"
+            stats={{
+              suffix: "bikes",
+              total: bikes.total || 0,
+              show:
+                bikes.results && bikes.results.length
+                  ? bikes.results.length
+                  : 0,
+            }}
           />
           <BikesStyled>
             <div className="grid">
               <Sidebar
-                query={this.props.query}
+                query={query}
                 className="col-3_md-4_xs-12"
-                bikeBrands={this.props.bikes.bike_brands}
-                bikeTypes={this.props.bikes.bike_types}
+                bikeBrands={bikeBrands}
+                bikeTypes={bikeTypes}
               />
               <div className="content col-9_md-8_xs-12">
                 <BikesBox
-                  data={this.props.bikes.bike_list || {}}
+                  data={bikes}
                   loadmoreHandler={() => this.loadmoreHandler()}
                   maxResults={MaxResults}
+                  noHeaderTitle
                 />
               </div>
             </div>

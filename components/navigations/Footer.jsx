@@ -8,7 +8,6 @@ export const Footer = Styled.div`
   border-bottom: 1px solid ${color_gray_medium};
   text-align: center;
   color: ${color_gray_dark};
-  font-size: 13px;
   letter-spacing: .2px;
   line-height: 1.8;
   [class*=col-] {
@@ -67,6 +66,11 @@ export const Footer = Styled.div`
   }
   // gridlex _sm
   @media (max-width: 48em) {
+
+    .col.footer-content {
+      padding: 0 10px;
+    }
+
     .footer-social-link {
       margin-bottom: 20px;
     }
@@ -77,7 +81,7 @@ const FooterPoweredBy = Styled.div`
   text-align: center;
   padding: 10px;
   color: ${color_gray_dark};
-  font-size: 13px;
+  letter-spacing: 1px;
   a {
     color: ${color_gray_dark};
     text-decoration: none;
@@ -95,11 +99,11 @@ export default (props) => {
             src="/static/images/logo-2.png"
             alt="Logo Mau Gowes"
           />
-          <p>
+          <div style={{ margin: "10px 0" }}>
             Mau Gowes - Adalah platform online yang dibuat untuk kamu para
             pecinta sepeda. Disini kamu bisa dapat konten menarik dan sekalian
             belanja pula.
-          </p>
+          </div>
           <div className="footer-social-link text-black">
             <span style={{ marginRight: 20 }}>Social:</span>
             <span style={{ marginTop: 5 }}>
@@ -206,12 +210,10 @@ export default (props) => {
         </div>
       </Footer>
       <FooterPoweredBy>
-        <strong>
-          Powered by{" "}
-          <a href="https://byymg.com" target="_blank" rel="noopener noreferer">
-            Yussan Media Group
-          </a>
-        </strong>
+        Powered by{" "}
+        <a href="https://byymg.com" target="_blank" rel="noopener noreferer">
+          Yussan Media Group
+        </a>
       </FooterPoweredBy>
     </React.Fragment>
   )

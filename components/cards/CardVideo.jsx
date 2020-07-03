@@ -1,14 +1,10 @@
 import Styled from "styled-components"
-import { color_gray_soft, color_black_main, color_gray_dark } from "../Const"
+import { color_black_main, color_gray_dark } from "../Const"
 import Dayjs from "../../modules/dayjs"
+import Link from "next/link"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
-  margin-bottom: 30px;
-
-  &:hover {
-    border: 1px solid ${color_gray_soft};
-  }
 
   &.video-large {
     height: 350px;
@@ -39,9 +35,9 @@ const VideoCard = Styled.div`
 
  
  .video-card-meta {
-  padding: 15px 20px;
+  padding: 15px 0;
   .video-card-title {
-    height: 100px;
+    height: 90px;
     overflow: hidden;
     a {
       text-decoration: none;
@@ -67,6 +63,7 @@ const VideoCard = Styled.div`
   background-position: center;
   transition: background .5s ease;
   background-repeat: no-repeat;
+  border-radius: 10px;
   &:hover {
     background-size: 400px;
   }
@@ -109,34 +106,38 @@ const VideoCard = Styled.div`
 }
 `
 
-export default props => {
+export default (props) => {
   const { data = {}, size } = props || {}
   return (
     <div
       className={
         size === "large"
-          ? "col-8_md-12_xs-12"
+          ? "col-8_md-12_xs-6"
           : size === "supersmall"
           ? "col-3_md-4_xs-6"
-          : "col-4_md-6_xs-12"
+          : "col-4_md-6_xs-6"
       }>
       <VideoCard className={size === "large" ? "video-large" : "video-default"}>
         <div
           className="video-card-cover"
           style={{ backgroundImage: `url(${data.thumbnails.high.url})` }}>
-          <a className="btn-play-video" href={data.link} title="play video">
-            <img
-              src={"/static/images/icons/white-play-button.png"}
-              alt="play video"
-            />
-          </a>
+          <Link href="/videos/[id]" as={data.link}>
+            <a className="btn-play-video" title="play video">
+              <img
+                src={"/static/images/icons/white-play-button.png"}
+                alt="play video"
+              />
+            </a>
+          </Link>
         </div>
 
         <div className="video-card-meta">
           <div className="video-card-title">
-            <a href={data.link}>
-              <h2>{data.title}</h2>
-            </a>
+            <Link href="/videos/[id]" as={data.link}>
+              <a>
+                <h2>{data.title}</h2>
+              </a>
+            </Link>
           </div>
           <div className="video-card-date">
             Diposting {Dayjs(data.publishedDate).fromNow()}

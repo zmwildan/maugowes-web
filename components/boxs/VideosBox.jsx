@@ -1,7 +1,6 @@
 import React from "react"
 import Styled from "styled-components"
 import Card from "../cards/CardVideo"
-import { color_blue_main } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
@@ -10,15 +9,15 @@ import GA from "./GA"
 let isEven = true
 
 const VideosBoxStyled = Styled.div`
-  margin-top: ${props => (props.noHeaderTitle ? "50px" : "40px")};
+  margin-top: ${(props) => (props.noHeaderTitle ? "50px" : "40px")};
   .video-box-title {
-    border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
-    font-size: 20px
+    font-size: 30px;
+    font-weight: 500;
   }
 `
 
-const VideosBox = props => {
+const VideosBox = (props) => {
   const { results, status, message, total, is_loading } = props.data
   return (
     <VideosBoxStyled noHeaderTitle={props.noHeaderTitle}>
@@ -28,11 +27,6 @@ const VideosBox = props => {
             {props.title || "Yang Baru di Video"}
           </h2>
         </div>
-      ) : total ? (
-        <center style={{ marginBottom: 50 }}>
-          Menampilkan <strong>{results.length || 0}</strong> dari{" "}
-          <strong>{total}</strong> video
-        </center>
       ) : null}
 
       {status ? (
@@ -89,7 +83,7 @@ const VideosBox = props => {
 }
 
 VideosBox.defaultProps = {
-  data: {}
+  data: {},
 }
 
 export default VideosBox

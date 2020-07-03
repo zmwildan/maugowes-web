@@ -93,7 +93,8 @@ const ProductBox = ({ data }) => {
             size="small"
             text="Komparasi"
             type="link"
-            target={`/bikes/compare/${data.id}`}
+            targetAs={`/bikes/compare/${data.id}`}
+            target={`/bikes/compare/[id]`}
           />
         </div>
 

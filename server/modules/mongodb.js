@@ -1,7 +1,5 @@
 const mongoClient = require("mongodb").MongoClient
-const debug = require("debug")
 
-const debugMongo = debug("maugowes:mongo")
 const { MONGO_USER, MONGO_DB, MONGO_PASSWORD, MONGO_HOST } = process.env
 
 if (MONGO_USER && MONGO_PASSWORD) {
@@ -10,15 +8,26 @@ if (MONGO_USER && MONGO_PASSWORD) {
   url = `mongodb://${MONGO_HOST}`
 }
 
+/**
+ * @see http://mongodb.github.io/node-mongodb-native/2.2/reference/connecting/connection-settings/
+ */
 module.exports = (callback = () => {}) => {
-  mongoClient.connect(url, (err, client) => {
-    if (err) {
-      debugMongo("[mongodb error] to connect mongo")
-      debugMongo(err, "mongo")
-    } else {
-      debugMongo("[success] connected mongo server")
-      const db = client.db(MONGO_DB)
-      callback({ db, client })
+  mongoClient.connect(
+    url,
+    {
+      // retry to connect for 60 times
+      reconnectTries: 60,
+      // wait 1 second before retrying
+      reconnectInterval: 1000,
+    },
+    (err, client) => {
+      if (err) {
+        console.error("[mongodb error] to connect mongo", err)
+        callback({ err })
+      } else {
+        const db = client.db(MONGO_DB)
+        callback({ db, client })
+      }
     }
-  })
+  )
 }

@@ -1,4 +1,3 @@
-const { generateCustomUrl } = require("../modules/cloudinary")
 const { toSlug } = require("string-manager")
 
 module.exports = {

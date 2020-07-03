@@ -3,7 +3,7 @@ import {
   color_gray_dark,
   color_gray_medium,
   color_black_main,
-  color_blue_main
+  color_blue_main,
 } from "../Const"
 
 export const SidebarMarketplaceSytled = Styled.div`
@@ -59,6 +59,10 @@ export const SidebarMarketplaceSytled = Styled.div`
         }
       }
     }
+    // gridlex _sm
+    @media (max-width: 48em) {
+      padding: 0 10px;
+    }
   }
 `
 
@@ -69,13 +73,13 @@ const dummyCats = [
     subcategories: [
       {
         name: "aksesories",
-        link: "marketplace?category=23"
+        link: "marketplace?category=23",
       },
       {
         name: "parts",
-        link: "marketplace?category=23"
-      }
-    ]
+        link: "marketplace?category=23",
+      },
+    ],
   },
   {
     name: "semua sepeda",
@@ -83,14 +87,14 @@ const dummyCats = [
     subcategories: [
       {
         name: "aksesories",
-        link: "marketplace?category=23"
+        link: "marketplace?category=23",
       },
       {
         name: "parts",
-        link: "marketplace?category=23"
-      }
-    ]
-  }
+        link: "marketplace?category=23",
+      },
+    ],
+  },
 ]
 
 export default class SidebarMarketplace extends React.Component {
@@ -99,7 +103,7 @@ export default class SidebarMarketplace extends React.Component {
     this.state = {
       activeCat: null,
       sidebarWidth: 0,
-      sidebarFixed: false
+      sidebarFixed: false,
     }
     this.scrollHandler = this.scrollHandler.bind(this)
   }
@@ -117,13 +121,13 @@ export default class SidebarMarketplace extends React.Component {
     if (window.pageYOffset >= 710) {
       if (this.state.sidebarFixed === false) {
         this.setState({
-          sidebarFixed: true
+          sidebarFixed: true,
         })
       }
     } else {
       if (this.state.sidebarFixed === true) {
         this.setState({
-          sidebarFixed: false
+          sidebarFixed: false,
         })
       }
     }
@@ -137,7 +141,9 @@ export default class SidebarMarketplace extends React.Component {
             this.state.sidebarFixed ? "sidebar-items_fixed" : ""
           }`}
           style={{
-            width: this.state.sidebarFixed ? this.state.sidebarWidth : "inherit"
+            width: this.state.sidebarFixed
+              ? this.state.sidebarWidth
+              : "inherit",
           }}>
           <h2 className="title">Categories</h2>
           <div className="categories">
@@ -148,7 +154,7 @@ export default class SidebarMarketplace extends React.Component {
                     onClick={() =>
                       this.setState({
                         activeCat:
-                          this.state.activeCat === catKey ? null : catKey
+                          this.state.activeCat === catKey ? null : catKey,
                       })
                     }
                     href="javascript:;">

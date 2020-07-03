@@ -1,9 +1,8 @@
 import React from "react"
 import Styled from "styled-components"
 import DayJs from "dayjs"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import { nl2br } from "string-manager"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { connect } from "react-redux"
@@ -22,6 +21,7 @@ import EyeIcon from "../../components/icons/Eye"
 import { BlogDetailStyled } from "../blog/[id]"
 import InputLocation from "../../components/form/InputLocation"
 import Label from "../../components/labels"
+import { scaleNumber } from "string-manager/dist/modules/number"
 
 const EventDetailStyled = Styled(BlogDetailStyled)`
   strong.title {
@@ -37,27 +37,33 @@ function getId(title) {
 class EventDetail extends React.Component {
   state = {}
 
-  static async getInitialProps({ reduxStore, res, query }) {
-    if (typeof window == "undefined") {
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
       const id = getId(query.id)
-      const { type, endpoint } = fetchEventDetail(id)["CALL_API"]
-      //  only call in server side
-      const postsResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const posts = await postsResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: posts,
-      })
+      await reduxStore.dispatch(fetchEventDetail(id))
     }
 
     return { id: query.id }
   }
 
   async componentDidMount() {
+    progressBar.start()
     this.setState({ windowReady: true })
+    this.fetchEventDetail()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id != this.props.id) {
+      return this.fetchEventDetail()
+    }
+  }
+
+  fetchEventDetail() {
+    const id = getId(this.props.id)
+    const data = this.props.event[id] || {}
+    if (!data.status) {
+      this.props.dispatch(fetchEventDetail(id))
+    }
   }
 
   render() {
@@ -65,6 +71,8 @@ class EventDetail extends React.Component {
     const data = this.props.event[id] || {}
 
     let metadata = {}
+
+    if (data.status) progressBar.stop()
 
     if (data && data.status === 200) {
       metadata = {
@@ -103,10 +111,17 @@ class EventDetail extends React.Component {
         },
       }
     } else {
-      metadata = {
-        title: "Event tidak ditemukan",
-        description:
-          "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.",
+      if (!data.status) {
+        metadata = {
+          title: "Event Loading...",
+          description: "Tunggu sejenak.",
+        }
+      } else {
+        metadata = {
+          title: "Event tidak ditemukan",
+          description:
+            "Maaf event yang kamu tuju tidak ditemukan, silahkan cek url sekali lagi, bisa juga karena event telah di hapus.",
+        }
       }
     }
 
@@ -138,7 +153,7 @@ class EventDetail extends React.Component {
                     <div className="blog-detail_meta">
                       <span className="blog-detail_meta_item">
                         <EyeIcon width="30" height="30" />
-                        <span>{data.views}</span>
+                        <span>{scaleNumber(data.views)}</span>
                       </span>
 
                       <span className="blog-detail_meta_item">
@@ -200,7 +215,10 @@ class EventDetail extends React.Component {
                         <br />
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: data.note.trim() ? nl2br(data.note) : "-",
+                            __html:
+                              data.note && data.note.trim()
+                                ? nl2br(data.note)
+                                : "-",
                           }}
                         />
                         <br />

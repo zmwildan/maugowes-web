@@ -17,9 +17,9 @@ import Link from "next/link"
 const EventsBoxStyled = Styled.div`
   margin-top: ${(props) => (props.noHeaderTitle ? "80px" : "40px")};
   .events-box-title {
-    border-bottom: 2px solid ${color_blue_main};
     padding-bottom: 10px;
-    font-size: 20px
+    font-size: 30px;
+    font-weight: 500;
   }
   .events-box-meta {
     a {
@@ -52,20 +52,15 @@ const EventsBox = (props) => {
           </h2>
         </div>
       ) : (
-        <center style={{ marginBottom: 50, lineHeight: 1.5 }}>
+        <center style={{ marginBottom: 20, lineHeight: 1.5 }}>
           Atau kamu juga bisa{" "}
-          <Link href="/events/send" prefetch>
+          <Link href="/events/send">
             <a
               href="/events/send"
               title="Kamu punya event sepeda, yuk kirim ke Mau Gowes">
               + Kirim Event Baru
             </a>
           </Link>
-          <br />
-          <span>
-            Menampilkan <strong>{results ? results.length : 0}</strong> dari{" "}
-            <strong>{total || 0}</strong> events
-          </span>
         </center>
       )}
 
@@ -88,7 +83,7 @@ const EventsBox = (props) => {
                     })
                   }}
                 />
-                Tampilkan semua{" "}
+                &nbsp; Tampilkan semua{" "}
               </label>
             </form>
           </div>

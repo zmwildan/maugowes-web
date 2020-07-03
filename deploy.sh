@@ -1,1 +1,1 @@
-cd /home/webdev/Web/maugowes.com && git pull origin && yarn install && yarn build && pm2 restart maugowes-web
+cd /home/webdev/Web/maugowes.com && git pull origin && yarn install && yarn build && pm2 restart mg

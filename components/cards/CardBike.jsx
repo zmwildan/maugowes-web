@@ -6,52 +6,56 @@ import { imageFormatUrl } from "../../modules/cloudinary"
 
 const CardBikeStyled = Styled.div`
  .card-bike {
-  &:hover {
-   border: 1px solid ${color_blue_main};
-  }
   cursor: pointer;
-  height: 400px;
-  padding: 10px;
-  border: 1px solid ${color_gray_dark};
+  height: 380px;
   overflow: hidden;
   a {
    color: ${color_black_main};
   }
-  .card-bike__thumb {
-   height: 180px;
-   background-size: contain;
-   background-position: center;
-   background-repeat: no-repeat;
+  .card-bike__thumb__padding {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid ${color_gray_dark};
+    &:hover {
+      border: 1px solid ${color_blue_main};
+     }
+    .card-bike__thumb {
+      height: 180px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
   }
+  
   .card-bike__text {
-   text-align: center;
+    h3 {
+      font-weight: 300
+    }
   }
  }
 `
 
-const CardBike = ({ data }) => {
+const CardBike = ({ data, size }) => {
   const linkTarget = `/bikes/${toSlug(data.name)}-${data.id}`
   return (
-    <CardBikeStyled
-      className="col-4_xs-6"
-      onClick={() => {
-        if (typeof window !== "undefined") {
-          location.href = linkTarget
-        }
-      }}>
+    <CardBikeStyled className={size == "large" ? "col-3_xs-6" : "col-4_xs-6"}>
       <div className="card-bike">
-        <div
-          className="card-bike__thumb"
-          style={{
-            backgroundImage: `url(${imageFormatUrl(
-              data.images,
-              "c_scale,w_300"
-            )})`,
-          }}
-        />
+        <Link href={"/bikes/[id]"} as={linkTarget}>
+          <div className="card-bike__thumb__padding">
+            <div
+              className="card-bike__thumb"
+              style={{
+                backgroundImage: `url(${imageFormatUrl(
+                  data.images,
+                  "c_scale,w_300"
+                )})`,
+              }}
+            />
+          </div>
+        </Link>
         <div className="card-bike__text">
-          <Link href={"/bikes/[id]"} as={linkTarget} prefetch>
-            <a href={linkTarget}>
+          <Link href={"/bikes/[id]"} as={linkTarget}>
+            <a>
               <h3>{data.name}</h3>
               <small className="text-muted">
                 estimasi Rp {currencyFormat(data.estimated_price)},-

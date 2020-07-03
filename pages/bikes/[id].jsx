@@ -1,8 +1,7 @@
 import Styled from "styled-components"
 import { extractPath } from "../../modules/url"
-import config from "../../config/index"
-import fetch from "isomorphic-unfetch"
 import { connect } from "react-redux"
+import { progressBar } from "../../modules/loaders"
 
 // redux
 import { fetchBikeDetail } from "../../redux/bikes/actions"
@@ -37,20 +36,10 @@ const TabContents = [
 ]
 
 class BikeDetail extends React.Component {
-  static async getInitialProps({ reduxStore, res, query }) {
-    const { id } = extractPath(query.id)
-    if (typeof window == "undefined") {
-      const { type, endpoint } = fetchBikeDetail(id)["CALL_API"]
-      //  only call in server side
-      const bikeResponse = await fetch(
-        `${config[process.env.NODE_ENV].host}${endpoint}`
-      )
-      const bike = await bikeResponse.json()
-      reduxStore.dispatch({
-        type,
-        filter: id,
-        data: bike,
-      })
+  static async getInitialProps({ req, reduxStore, query }) {
+    if (req) {
+      const { id } = extractPath(query.id)
+      await reduxStore.dispatch(fetchBikeDetail(id))
     }
 
     return { id: query.id }
@@ -71,6 +60,15 @@ class BikeDetail extends React.Component {
     this.setState({
       windowReady: true,
     })
+    this.fetchBikeDetail()
+  }
+
+  fetchBikeDetail() {
+    const bikeData = this.props.bikes[this.state.id] || {}
+    if (!bikeData.status) {
+      progressBar.start()
+      this.props.dispatch(fetchBikeDetail(this.state.id))
+    }
   }
 
   boxRenderHandler() {
@@ -118,11 +116,14 @@ class BikeDetail extends React.Component {
 
   render() {
     const bikeData = this.props.bikes[this.state.id] || {}
+
     let MetaData = {
       title: `Bikes - Mau Gowes`,
       description: `Spesifikasi dan deskripsi bikes`,
     }
+
     if (bikeData.status) {
+      progressBar.stop()
       if (bikeData.status == 200) {
         MetaData = {
           title: `${bikeData.name} - Mau Gowes`,

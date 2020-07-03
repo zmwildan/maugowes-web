@@ -9,6 +9,7 @@ const bodyParser = require("body-parser")
 const ApiRoutes = require("./routers/api")
 const FeedRoutes = require("./routers/feed")
 const SitemapRoutes = require("./routers/sitemap")
+const HealthRoutes = require("./routers/health")
 const AuthMiddlewareFront = require("./middlewares/authMiddlewareFront")
 
 // config
@@ -19,15 +20,11 @@ var SESSION_CONF = {
   keys: [process.env.APP_KEY || "maugowes", "maugowes.com"],
   maxAge: 12 * 30 * 24 * 60 * 60 * 1000,
 }
-// if (process.env.NODE_ENV === "production") {
-//   app.set("trust proxy", 1) // trust first proxy
-//   SESSION_CONF.cookie.secure = true // serve secure cookies
-// }
 
 // next app config
 const nextApp = next({ dev: NODE_ENV !== "production" })
 const nextRoutes = require("./routers/next")
-const handle = nextRoutes.getRequestHandler(nextApp)
+const nextHandler = nextRoutes.getRequestHandler(nextApp)
 
 nextApp.prepare().then(() => {
   const app = express()
@@ -40,9 +37,15 @@ nextApp.prepare().then(() => {
 
   // app config
   app.use(session(SESSION_CONF))
-  // app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+
+  // cache config
+  app.use((req, res, next) => {
+    // max age cache
+    res.set("Cache-Control", "public, max-age=31557600")
+    next()
+  })
 
   // api endpoints
   app.use("/api", ApiRoutes)
@@ -57,15 +60,20 @@ nextApp.prepare().then(() => {
   app.use("/media", express.static(`${__dirname}/${process.env.MEDIA_DIR}`))
   app.use("/ads.txt", express.static(`${__dirname}/../static/ads.txt`))
 
+  // health check
+  app.use("/health", HealthRoutes)
+
   // all next stuff
   app.get("/super", AuthMiddlewareFront, (req, res) => {
-    return handle(req, res)
+    return nextHandler(req, res)
   })
   app.get("/super/*", AuthMiddlewareFront, (req, res) => {
-    return handle(req, res)
+    return nextHandler(req, res)
   })
+
+  // next js routes
   app.get("*", (req, res) => {
-    return handle(req, res) // for all the react stuff
+    return nextHandler(req, res) // for all the react stuff
   })
 
   app.listen(PORT, (err) => {
