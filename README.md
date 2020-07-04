@@ -2,6 +2,7 @@
 
 ## API Documentations
 
+Please check link bellow :
 https://gitlab.com/yussan-media-group/maugowes.com/tree/master/docs/api
 
 ## Tests
