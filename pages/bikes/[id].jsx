@@ -94,7 +94,7 @@ class BikeDetail extends React.Component {
       case 1:
         return bikeData.geometry ? (
           <div className="bike-detail__geometry">
-            <img src={bikeData.geometry} alt="geometry" />
+            <img src={bikeData.geometry} alt="bike geometry" />
           </div>
         ) : (
           <Error text="Geometri belum tersedia" />

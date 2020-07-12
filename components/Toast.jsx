@@ -13,17 +13,11 @@ const ToastStyled = Styled.div`
   right: 20px;
   cursor: pointer;
   transition: all .2s ease;
-  font-family: Montserrat, sans-serif;
   &:hover {
     padding: 20px 35px;
   }
 `
 
 export default () => {
-  return (
-    <ToastStyled
-      id="mg-toast">
-      sample text yuk
-    </ToastStyled>
-  )
+  return <ToastStyled id="mg-toast">sample text yuk</ToastStyled>
 }

@@ -194,6 +194,7 @@ class VideoDetail extends React.Component {
 
                 <div className="video-player" style={{ background: "#000" }}>
                   <iframe
+                    title={`embed video ${data.title}`}
                     src={`https://youtube.com/embed/${data.id}`}
                     frameBorder={0}
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

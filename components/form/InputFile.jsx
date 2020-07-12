@@ -19,10 +19,10 @@ export default class InputFile extends Component {
       maxWidth: "100%",
       width: 200,
       display: "block",
-      marginBottom: 10
+      marginBottom: 10,
     },
     accept: "",
-    preview: "/static/images/image-placeholder.jpeg"
+    preview: "/static/images/image-placeholder.jpeg",
   }
 
   componentDidMount = () => {
@@ -46,7 +46,7 @@ export default class InputFile extends Component {
           // change parent value
           this.props.setState(
             {
-              [`${this.props.name}_preview`]: reader.result
+              [`${this.props.name}_preview`]: reader.result,
             },
             () => {
               this.validateInput(this.props, file)
@@ -63,7 +63,7 @@ export default class InputFile extends Component {
     const result = validate(props, file)
     this.props.setState({
       [this.props.name + "_validate"]: result,
-      [this.props.name]: file
+      [this.props.name]: file,
     })
   }
 
@@ -87,7 +87,7 @@ export default class InputFile extends Component {
           <img
             style={this.props.customStylePreview}
             src={preview}
-            alt="preview"
+            alt="preview input file"
           />
         ) : null}
 
@@ -95,8 +95,8 @@ export default class InputFile extends Component {
           name={name}
           type="file"
           id={this.props.id || name}
-          onChange={e => this.handleChange(e)}
-          onBlur={e => this.handleChange(e)}
+          onChange={(e) => this.handleChange(e)}
+          onBlur={(e) => this.handleChange(e)}
           style={this.props.customStyleInput || {}}
           accept={this.props.accept}
         />

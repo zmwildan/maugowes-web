@@ -68,11 +68,26 @@ const ProductBox = ({ data }) => {
             <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
           </div>
           <div className="product-rate">
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/star-half.png" />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 1 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 2 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 3 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 4 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/star-half.png"
+              alt="rate 5 icon"
+            />
           </div>
           <div className="product-status">
             <strong>Waktu Rilis: </strong> {data.release_date}

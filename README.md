@@ -2,6 +2,7 @@
 
 ## API Documentations
 
+Please check link bellow :
 https://gitlab.com/yussan-media-group/maugowes.com/tree/master/docs/api
 
 ## Tests
@@ -17,9 +18,6 @@ npm run test
 **References :**
 
 - https://redux.js.org/recipes/writing-tests
-
-**Deploy Token**
-gitlab+deploy-token-194786 / 9fDj1YCkdAJ78QLwtyDz
 
 ## Colaborator
 

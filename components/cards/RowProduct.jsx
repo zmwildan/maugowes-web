@@ -56,11 +56,26 @@ export default (props) => {
             <h2>Stem Zipp Course SL</h2>
             <div className="row-product-right_price">Rp800.000</div>
             <div className="row-product-right_rating">
-              <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-              <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-              <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-              <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-              <img src="https://img.icons8.com/color/20/000000/star-half.png" />
+              <img
+                src="https://img.icons8.com/color/20/000000/filled-star.png"
+                alt="rate 1 icon"
+              />
+              <img
+                src="https://img.icons8.com/color/20/000000/filled-star.png"
+                alt="rate 2 icon"
+              />
+              <img
+                src="https://img.icons8.com/color/20/000000/filled-star.png"
+                alt="rate 3 icon"
+              />
+              <img
+                src="https://img.icons8.com/color/20/000000/filled-star.png"
+                alt="rate 4 icon"
+              />
+              <img
+                src="https://img.icons8.com/color/20/000000/star-half.png"
+                alt="rate 5 icon"
+              />
             </div>
             <div className="row-product-right_label">
               <strong>Kondisi:</strong> Bekas
