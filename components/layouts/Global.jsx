@@ -139,7 +139,7 @@ export default class HomeLayout extends React.Component {
             href="/static/icons/icon-128x128.png"
           />
           <link rel="apple-touch-icon" href="/static/icons/icon-128x128.png" />
-          <link rel="manifest" href="/static/manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
           <title>{metadata.title}</title>
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta

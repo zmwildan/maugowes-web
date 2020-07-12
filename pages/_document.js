@@ -64,7 +64,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           <Toast />
 
           {/* service worker initial */}
-          <script src="/static/scripts/service-worker/init-sw.js"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              if ("serviceWorker" in navigator) {
+                window.addEventListener("load", function () {
+                  navigator.serviceWorker
+                    .register("/service-worker.js", {
+                      scope: '/static'
+                    })
+                    .then(
+                      function (registration) {
+                        // Registration was successful
+                        console.log(
+                          "ServiceWorker registration successful with scope: ",
+                          registration.scope
+                        )
+                      },
+                      function (err) {
+                        // registration failed :(
+                        console.error("ServiceWorker registration failed: ", err)
+                      }
+                    )
+                })
+              }
+            
+            `,
+            }}></script>
           {/* end of service worker initial */}
         </body>
       </html>
