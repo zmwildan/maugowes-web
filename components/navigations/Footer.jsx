@@ -112,28 +112,31 @@ export default (props) => {
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://www.youtube.com/channel/UCc0sgRlqAJCWejiiSIDJjdg">
-                <img src="/static/images/youtube-48.png" />
+                <img src="/static/images/youtube-48.png" alt="Youtube icon" />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://instagram.com/maugowes">
-                <img src="/static/images/instagram-48.png" />
+                <img
+                  src="/static/images/instagram-48.png"
+                  alt="Instagram icon"
+                />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://facebook.com/maugowes">
-                <img src="/static/images/facebook-48.png" />
+                <img src="/static/images/facebook-48.png" alt="Facebook icon" />
               </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link_a"
                 href="https://twitter.com/maugowes">
-                <img src="/static/images/twitter-48.png" />
+                <img src="/static/images/twitter-48.png" alt="Twitter icon" />
               </a>
               <a
                 target="_blank"
@@ -143,6 +146,7 @@ export default (props) => {
                 <img
                   style={{ width: 31, padding: 2 }}
                   src="/static/images/logos/whatsapp-48.png"
+                  alt="Whatsapp icon"
                 />
               </a>
             </span>

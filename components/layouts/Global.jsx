@@ -103,6 +103,11 @@ export default class HomeLayout extends React.Component {
     return (
       <React.Fragment>
         <style jsx global>{`
+          @font-face {
+            font-family: 'Manrope',
+            src: url('/static/fonts/Manrope/Manrope-VariableFont_wght.ttf')
+          }
+
           body,
           [class~="grid"],
           [class*="grid-"] {
@@ -125,11 +130,6 @@ export default class HomeLayout extends React.Component {
             rel="stylesheet"
           />
           <link
-            rel="icon"
-            href="/static/img/fav-icon.png"
-            type="image/x-icon"
-          />
-          <link
             rel="stylesheet"
             href="/static/vendor/gridlex/gridlex.min.css"
           />
@@ -138,10 +138,9 @@ export default class HomeLayout extends React.Component {
             type="image/png"
             href="/static/icons/icon-128x128.png"
           />
+          <link rel="apple-touch-icon" href="/static/icons/icon-128x128.png" />
           <link rel="manifest" href="/static/manifest.json" />
-
           <title>{metadata.title}</title>
-
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-TileImage"
@@ -150,21 +149,18 @@ export default class HomeLayout extends React.Component {
           <meta name="theme-color" content="#ffffff" />
           <meta name="description" content={metadata.description} />
           <meta name="keywords" content={metadata.keywords} />
-
           {/* open graph */}
           <meta property="og:title" content={metadata.title} />
           <meta property="og:type" content={metadata.type} />
           <meta property="og:url" content={metadata.url} />
           <meta property="og:image" content={metadata.image} />
           <meta property="og:description" content={metadata.description} />
-
           {/* twitter card */}
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@maugowes" />
           <meta name="twitter:title" content={metadata.title} />
           <meta name="twitter:description" content={metadata.description} />
           <meta name="twitter:image" content={metadata.image} />
-
           {typeof metadata.jsonld == "object" ? (
             <script
               type="application/ld+json"
@@ -173,13 +169,11 @@ export default class HomeLayout extends React.Component {
               }}
             />
           ) : null}
-
           {scripts.length > 0
             ? scripts.map((n, key) => {
                 return <script src={n.src} key={key} />
               })
             : null}
-
           {process.env.NODE_ENV === "production" ? (
             <React.Fragment>
               <script

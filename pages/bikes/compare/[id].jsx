@@ -279,6 +279,7 @@ class BikesCompare extends React.Component {
               <div className="col-3_md-5_xs-12 bike-compare-search_input-group">
                 <img
                   src="/static/images/icons/search-icon.svg"
+                  alt="search icon"
                   width="16"
                   height="16"
                 />

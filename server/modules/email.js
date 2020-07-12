@@ -8,14 +8,14 @@ let transporter = nodemailer.createTransport({
   // secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.MAIL_USERNAME, // generated ethereal user
-    pass: process.env.MAIL_PASSWORD // generated ethereal password
-  }
+    pass: process.env.MAIL_PASSWORD, // generated ethereal password
+  },
 })
 
 function emailTemplate({ body }) {
   return `
   <!doctype html>
-   <html>
+   <html lang="id">
      <head>
        <meta name="viewport" content="width=device-width">
        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -163,6 +163,6 @@ module.exports.sendEmail = (target = [], subject = "", html = "") => {
     to: target.toString(),
     subject,
     text: stripTags(html),
-    html: emailTemplate({ body: html })
+    html: emailTemplate({ body: html }),
   })
 }

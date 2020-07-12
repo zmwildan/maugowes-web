@@ -23,7 +23,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <html>
+      <html lang="id">
         <Head>
           <meta property="fb:pages" content="250248599190287" />
           <meta
@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           {/* Google Tag Manager (noscript) */}
           <noscript
             dangerouslySetInnerHTML={{
-              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K5V4SXT"
+              __html: `<iframe title="load google tag manager" src="https://www.googletagmanager.com/ns.html?id=GTM-K5V4SXT"
 height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
             }}
           />
@@ -62,6 +62,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           <FullLoader />
           <NextScript />
           <Toast />
+
+          {/* service worker initial */}
+          <script src="/static/scripts/service-worker/init-sw.js"></script>
+          {/* end of service worker initial */}
         </body>
       </html>
     )

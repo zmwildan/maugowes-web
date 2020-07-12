@@ -128,11 +128,26 @@ const ProductBox = (props) => {
             <h1>Argon 81 Krypton Red</h1>
           </div>
           <div className="product-rate">
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/filled-star.png" />
-            <img src="https://img.icons8.com/color/20/000000/star-half.png" />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 1 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 2 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 3 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/filled-star.png"
+              alt="rate 4 icon"
+            />
+            <img
+              src="https://img.icons8.com/color/20/000000/star-half.png"
+              alt="rate 5 icon"
+            />
           </div>
           <div className="product-status">
             <strong>Kondisi:</strong> Bekas
@@ -149,10 +164,16 @@ const ProductBox = (props) => {
           <div className="product-share">
             <span style={{ marginRight: 20 }}>SHARE:</span>
             <a className="product-share_icon" href="#">
-              <img src="https://img.icons8.com/android/20/000000/facebook.png" />
+              <img
+                src="https://img.icons8.com/android/20/000000/facebook.png"
+                alt="Facebook share"
+              />
             </a>
             <a className="product-share_icon" href="#">
-              <img src="https://img.icons8.com/android/20/000000/twitter.png" />
+              <img
+                src="https://img.icons8.com/android/20/000000/twitter.png"
+                alt="Twitter share"
+              />
             </a>
           </div>
         </div>

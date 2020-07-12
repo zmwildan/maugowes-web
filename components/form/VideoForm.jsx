@@ -18,7 +18,7 @@ const VideoFormStyled = Styled(FormStyled)`
 
 class VideoForm extends React.Component {
   state = {
-    video_type: "youtube"
+    video_type: "youtube",
   }
 
   submitHandler() {
@@ -29,12 +29,12 @@ class VideoForm extends React.Component {
 
   componentWillReceiveProps(np) {
     const { formResponse } = np
-    if(formResponse.status != this.props.formResponse.status) {
+    if (formResponse.status != this.props.formResponse.status) {
       if (formResponse.status == 200 || formResponse.status == 201) {
-        if(formResponse.messages) Toast(true, formResponse.messages, "success")
+        if (formResponse.messages) Toast(true, formResponse.messages, "success")
         location.href = "/super/videos"
       } else {
-        if(formResponse.messages) Toast(true, formResponse.messages, "error")
+        if (formResponse.messages) Toast(true, formResponse.messages, "error")
       }
     }
   }
@@ -82,6 +82,7 @@ class VideoForm extends React.Component {
             </div>
             <div>
               <iframe
+                title="video preview"
                 className="video-preview"
                 src={`https://youtube.com/embed/${video_id}`}
               />
