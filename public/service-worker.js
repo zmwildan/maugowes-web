@@ -1,14 +1,23 @@
-const CACHE_NAME = "maugowes-cache-v1"
-const urlsToCache = [
+const STATIC_CACHE_NAME = "mg-static-v1"
+const staticsToCache = [
   "/static/images/logo-2.png",
-  "/public/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
+  "/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
+  "/static/images/cover/cover-videos.jpeg",
+  "/static/images/cover/cover-bikes.jpeg",
+  "/static/images/cover/cover-blog.jpeg",
+  "/static/images/icons/white-play-button.png",
+  "/static/images/youtube-48.png",
+  "/static/images/instagram-48.png",
+  "/static/images/facebook-48.png",
+  "/static/images/twitter-48.png",
+  "/static/images/logos/whatsapp-48.png",
 ]
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      console.log("Opened cache")
-      return cache.addAll(urlsToCache)
+    caches.open(STATIC_CACHE_NAME).then(function (cache) {
+      console.log("Opened cache", STATIC_CACHE_NAME)
+      return cache.addAll(staticsToCache)
     })
   )
 })
@@ -33,7 +42,7 @@ self.addEventListener("fetch", function (event) {
         // to clone it so we have two streams.
         var responseToCache = response.clone()
 
-        caches.open(CACHE_NAME).then(function (cache) {
+        caches.open(STATIC_CACHE_NAME).then(function (cache) {
           cache.put(event.request, responseToCache)
         })
 
@@ -41,4 +50,8 @@ self.addEventListener("fetch", function (event) {
       })
     })
   )
+})
+
+self.addEventListener("activate", (event) => {
+  console.log(STATIC_CACHE_NAME, "now ready to handle fetches!")
 })
