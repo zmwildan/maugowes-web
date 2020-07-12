@@ -1,5 +1,8 @@
-const CHACE_NAME = "maugowes-cache-v1"
-const urlsToCache = ["/static/*"]
+const CACHE_NAME = "maugowes-cache-v1"
+const urlsToCache = [
+  "/static/images/logo-2.png",
+  "/public/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
+]
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
