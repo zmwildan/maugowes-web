@@ -38,10 +38,10 @@ const VideosBox = (props) => {
               return (
                 <React.Fragment key={key}>
                   <Card size={size} data={n} />
-                  {results.length > 9 &&
+                  {results.length > 12 &&
                   key !== 0 &&
                   key !== results.length - 1 &&
-                  (key + 1) % 9 === 0 ? (
+                  (key + 1) % 12 === 0 ? (
                     <div className="col-12">
                       <GA
                         adClient="ca-pub-4468477322781117"

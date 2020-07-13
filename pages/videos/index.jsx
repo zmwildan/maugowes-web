@@ -14,7 +14,7 @@ const VideoStyled = Styled.div`
 `
 
 const StoreFilter = "list"
-const MaxResults = 7
+const MaxResults = 12
 
 class VideosPage extends React.Component {
   state = {
@@ -23,7 +23,7 @@ class VideosPage extends React.Component {
 
   static async getInitialProps({ req, reduxStore, query }) {
     if (req) {
-      const reqQuery = requestQueryGenerator(query)
+      let reqQuery = requestQueryGenerator(query)
       await reduxStore.dispatch(fetchVideos(StoreFilter, reqQuery))
     }
 
@@ -36,7 +36,7 @@ class VideosPage extends React.Component {
     const videos = this.props.videos[StoreFilter] || {}
     if (!videos.status) progressBar.start()
     if (!videos.status && !videos.loading) {
-      const query = requestQueryGenerator()
+      let query = requestQueryGenerator()
       this.props.dispatch(fetchVideos(StoreFilter, query))
     }
   }

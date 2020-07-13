@@ -65,10 +65,11 @@ const CardBlogStyled = Styled.div`
 `
 
 export default (props) => {
-  const { data = {} } = props || {}
+  const { data = {}, size } = props || {}
   const linkUrl = data.link
   return (
-    <CardBlogStyled className="col-4_xs-_md-6">
+    <CardBlogStyled
+      className={size === "small" ? "col-3_xs-_md-6" : "col-4_xs-_md-6"}>
       <Link href="/blog/[id]" as={linkUrl}>
         <a>
           <div

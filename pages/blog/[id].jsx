@@ -157,7 +157,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
   if (!blogRelated.status && !blogRelated.is_loading) {
     dispatch(
       fetchBlog(RelatedFilter, {
-        limit: 3,
+        limit: 4,
         page: 1,
         notId: id,
       })
@@ -343,6 +343,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
               {/* blog box */}
               <div className="blog-detail_related">
                 <BlogBox
+                  size="small"
                   hideAds
                   style={{ margin: "20px 0" }}
                   noHeaderTitle

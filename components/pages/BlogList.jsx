@@ -17,7 +17,7 @@ const BlogStyled = Styled.div`
 `
 
 const StoreFilter = "list"
-const MaxResults = 6
+const MaxResults = 12
 
 class Blog extends React.Component {
   state = {
