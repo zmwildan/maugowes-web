@@ -27,7 +27,7 @@ const BikesStyled = Styled.div`
 `
 
 const MetaData = {
-  title: "Bikes - Mau Gowes",
+  title: "",
   description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
 }
 
@@ -94,8 +94,7 @@ class BikesIndex extends React.Component {
   }
 
   render() {
-    let title = "",
-      description = ""
+    let { title, description } = MetaData
     const { query } = this.props
 
     const bikeTypes = this.props.bikes.bike_types || {}
@@ -103,30 +102,26 @@ class BikesIndex extends React.Component {
     const bikes = this.props.bikes.bike_list || {}
 
     if (query.q) {
-      title += `Hasil Pencarian "${query.q}" `
-      description += `Hasil Pencarian "${query.q}" `
+      description = `Hasil Pencarian "${query.q}" `
     }
 
     if (bikes.status) progressBar.stop()
 
     if (query.type && bikeTypes.status === 200) {
       const typeDetail = bikeTypes.results.find((n) => n.id === query.type)
-      if (typeDetail.name) {
+      if (typeDetail && typeDetail.name) {
         title += `${typeDetail.name} `
-        description += `${typeDetail.name} `
       }
     }
 
     if (query.brand && bikeBrands.status === 200) {
       const brandDetail = bikeBrands.results.find((n) => n.id === query.brand)
-      if (brandDetail.name) {
+      if (brandDetail && brandDetail.name) {
         title += `${brandDetail.name} `
-        description += `${brandDetail.name} `
       }
     }
 
-    title += `${title ? "di " : ""}${MetaData.title}`
-    description += `${description ? "di " : ""}${MetaData.description}`
+    title += `${title ? "- " : ""} Bikes Mau Gowes`
 
     return (
       <GlobalLayout
@@ -136,7 +131,7 @@ class BikesIndex extends React.Component {
         }}>
         <DefaultLayout>
           <Header
-            title={title}
+            title={toCamelCase(title)}
             text={description}
             stats={{
               suffix: "bikes",
