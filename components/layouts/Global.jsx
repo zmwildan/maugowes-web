@@ -102,51 +102,10 @@ export default class HomeLayout extends React.Component {
 
     return (
       <React.Fragment>
-        <style jsx global>{`
-          @font-face {
-            font-family: 'Manrope',
-            src: url('/static/fonts/Manrope/Manrope-VariableFont_wght.ttf')
-          }
-
-          body,
-          [class~="grid"],
-          [class*="grid-"] {
-            margin: 0 !important;
-          }
-          body {
-            font-family: "Manrope", sans-serif;
-            font-size: 14px;
-            letter-spacing: 0.9px;
-          }
-          p {
-            font-size: 16px;
-          }
-        `}</style>
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            rel="stylesheet"
-            href="/static/vendor/gridlex/gridlex.min.css"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            href="/static/icons/icon-128x128.png"
-          />
-          <link rel="apple-touch-icon" href="/static/icons/icon-128x128.png" />
-          <link rel="manifest" href="/manifest.json" />
           <title>{metadata.title}</title>
-          <meta name="msapplication-TileColor" content="#ffffff" />
-          <meta
-            name="msapplication-TileImage"
-            content="/static/ms-icon-144x144.png"
-          />
-          <meta name="theme-color" content="#ffffff" />
           <meta name="description" content={metadata.description} />
           <meta name="keywords" content={metadata.keywords} />
           {/* open graph */}

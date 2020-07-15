@@ -30,6 +30,46 @@ export default class MyDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta
+            name="msapplication-TileImage"
+            content="/static/ms-icon-144x144.png"
+          />
+          <meta name="theme-color" content="#ffffff" />
+          <link
+            rel="stylesheet"
+            href="/static/vendor/gridlex/gridlex.min.css"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            href="/static/icons/icon-128x128.png"
+          />
+          <link rel="apple-touch-icon" href="/static/icons/icon-128x128.png" />
+          <link rel="manifest" href="/manifest.json" />
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
+              @font-face {
+                font-family: 'Manrope',
+                src: url('/static/fonts/Manrope/Manrope-VariableFont_wght.ttf')
+              }
+              body,
+              [class~="grid"],
+              [class*="grid-"] {
+                margin: 0 !important;
+              }
+              body {
+                font-family: "Manrope", sans-serif;
+                font-size: 17px;
+                letter-spacing: 0.9px;
+              }
+              p {
+                font-size: 17px;
+              }
+            `,
+            }}
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

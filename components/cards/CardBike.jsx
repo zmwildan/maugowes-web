@@ -29,7 +29,7 @@ const CardBikeStyled = Styled.div`
   
   .card-bike__text {
     h3 {
-      font-weight: 300
+      font-weight: 500
     }
   }
  }
