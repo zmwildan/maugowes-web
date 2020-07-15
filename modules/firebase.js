@@ -11,13 +11,13 @@ const firebaseConfig = {
 }
 
 export function firebaseInit() {
-  if (typeof window == "undefined" && firebase == "undefined") {
+  if (typeof window == "undefined" && typeof window.firebase == "undefined") {
     return console.error("Firebase not available")
+  } else {
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig)
+    }
+    firebase.analytics()
   }
-
-  // Initialize Firebase
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
-  }
-  firebase.analytics()
 }
