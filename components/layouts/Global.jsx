@@ -94,7 +94,7 @@ const defaultMetadata = {
 
 export default class HomeLayout extends React.Component {
   componentDidMount() {
-    setTimeou(() => {
+    setTimeout(() => {
       Firebase.firebaseInit()
     }, 1500)
   }
