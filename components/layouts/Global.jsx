@@ -178,10 +178,12 @@ export default class HomeLayout extends React.Component {
             <React.Fragment>
               <script
                 async
+                defer
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
               />
               <script
                 async
+                defer
                 src="https://www.googletagmanager.com/gtag/js?id=UA-138742898-1"
               />
               <script

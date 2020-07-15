@@ -53,10 +53,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           {/* End Google Tag Manager (noscript) */}
 
           {/* The core Firebase JS SDK is always required and must be listed first */}
-          <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+          <script
+            async
+            defer
+            src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
 
           {/* TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries */}
-          <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+          <script
+            async
+            defer
+            src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
 
           <Main />
           <FullLoader />
