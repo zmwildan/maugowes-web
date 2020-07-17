@@ -1,3 +1,4 @@
+import Router from "next/router"
 import Styled from "styled-components"
 import { objToQuery } from "string-manager"
 import { SidebarMarketplaceSytled } from "./SidebarMarketplace"
@@ -34,7 +35,10 @@ class SidebarBikes extends React.Component {
     } else {
       query[name] = value
     }
-    return (location.href = `/bikes?${objToQuery(query)}`)
+    return Router.push(
+      `/bikes?${objToQuery(query)}`,
+      `/bikes?${objToQuery(query)}`
+    )
   }
 
   selectRender(dataKey) {

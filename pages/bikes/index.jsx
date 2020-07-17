@@ -1,6 +1,6 @@
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import { toCamelCase } from "string-manager"
+import { toCamelCase, objToQuery } from "string-manager"
 import { progressBar } from "../../modules/loaders"
 
 // redux
@@ -46,6 +46,12 @@ export function requestQueryGenerator(query = {}) {
   return reqQuery
 }
 
+export function bikeFilterGenerator(query = {}) {
+  delete query.page
+
+  return `list_${objToQuery(query)}`
+}
+
 class BikesIndex extends React.Component {
   static async getInitialProps({ reduxStore, query }) {
     if (typeof window == "undefined") {
@@ -53,33 +59,58 @@ class BikesIndex extends React.Component {
 
       await reduxStore.dispatch(fetchBikeBrands())
       await reduxStore.dispatch(fetchBikeTypes())
-      await reduxStore.dispatch(fetchBikes("bike_list", reqQuery))
+      await reduxStore.dispatch(
+        fetchBikes(bikeFilterGenerator(reqQuery), reqQuery)
+      )
     }
     return { query }
   }
 
-  state = {
-    page: 1,
+  constructor(props) {
+    super(props)
+
+    const reqQuery = requestQueryGenerator(props.query)
+
+    this.state = {
+      page: 1,
+      bikeFilter: bikeFilterGenerator(reqQuery),
+    }
   }
 
   componentDidMount() {
-    const bikeTypes = this.props.bikes.bike_types || {}
-    const bikeBrands = this.props.bikes.bike_brands || {}
-    const bikes = this.props.bikes.bike_list || {}
+    this.fetchData(true)
+  }
 
+  componentDidUpdate() {
+    this.fetchData()
+  }
+
+  fetchData(firstReq = false) {
     const reqQuery = requestQueryGenerator(this.props.query)
 
-    if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
-    if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
-    if (!bikes.status) {
-      progressBar.start()
-      this.props.dispatch(fetchBikes("bike_list", reqQuery))
+    // generate bike list filter
+    const BikeFilter = bikeFilterGenerator(reqQuery)
+
+    if (this.state.bikeFilter !== BikeFilter || firstReq) {
+      this.setState({ bikeFilter: BikeFilter })
+
+      const bikeTypes = this.props.bikes.bike_types || {}
+      const bikeBrands = this.props.bikes.bike_brands || {}
+      const bikes = this.props.bikes[BikeFilter] || {}
+
+      if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
+      if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
+      if (!bikes.status) {
+        progressBar.start()
+        this.props.dispatch(fetchBikes(BikeFilter, reqQuery))
+      }
     }
   }
 
   loadmoreHandler() {
-    const bikeData = this.props.bikes.bike_list || {}
-    if (!bikeData.is_loading && bikeData.status == 200) {
+    const { bikeFilter } = this.state
+    const bikeData = this.props.bikes[bikeFilter] || {}
+    if (!bikeData.is_loading && bikeData.data == 200) {
       this.setState(
         {
           page: this.state.page + 1,
@@ -87,19 +118,20 @@ class BikesIndex extends React.Component {
         async () => {
           let reqQuery = requestQueryGenerator(this.props.query)
           reqQuery.page = this.state.page
-          return this.props.dispatch(fetchBikes("bike_list", reqQuery))
+          return this.props.dispatch(fetchBikes(bikeFilter, reqQuery))
         }
       )
     }
   }
 
   render() {
+    const { bikeFilter } = this.state
     let { title, description } = MetaData
     const { query } = this.props
 
     const bikeTypes = this.props.bikes.bike_types || {}
     const bikeBrands = this.props.bikes.bike_brands || {}
-    const bikes = this.props.bikes.bike_list || {}
+    const bikes = this.props.bikes[bikeFilter] || {}
 
     if (query.q) {
       description = `Hasil Pencarian "${query.q}" `
