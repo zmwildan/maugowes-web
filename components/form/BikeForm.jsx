@@ -105,7 +105,6 @@ class BikeForm extends React.Component {
       "type",
       "release_date",
       "estimated_price",
-      "geometry",
       "source",
     ]
     const { id } = this.props
@@ -289,7 +288,6 @@ class BikeForm extends React.Component {
           value={this.state.geometry || ""}
           validate={this.state.geometry_validate || {}}
           setState={(n, cb) => this.setState(n, cb)}
-          required
         />
         {/* end of input geometry */}
 

@@ -18,6 +18,8 @@ export function firebaseInit() {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig)
     }
-    firebase.analytics()
+    if (firebase.analytics) {
+      firebase.analytics()
+    }
   }
 }
