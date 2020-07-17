@@ -14,8 +14,9 @@ export const Footer = Styled.div`
     padding: 0;
   }
   .footer-left-logo {
-    width: 200px;
+    width: 100px;
     max-width: 100%;
+    border-radius: 10px;
   }
   a {
     color: ${color_black_main};
@@ -96,7 +97,7 @@ export default (props) => {
         <div className="col-4_xs-12 footer-left">
           <img
             className="footer-left-logo"
-            src="/static/images/logo-2.png"
+            src="/static/images/logos/maugowes-v2/icon-128x128.png"
             alt="Logo Mau Gowes"
           />
           <div style={{ margin: "10px 0" }}>

@@ -18,8 +18,9 @@ const HeaderStyled = Styled.header`
     text-align: center;
     padding: 50px 0;
     .header-logo-img {
-      width: 180px;
+      width: 100px;
       max-width: 100%;
+      border-radius: 8px;
     }
   }
 
@@ -182,7 +183,7 @@ class Header extends React.Component {
               <a href="/">
                 <img
                   className="header-logo-img"
-                  src="/static/images/logo-2.png"
+                  src="/static/images/logos/maugowes-v2/icon-128x128.png"
                   alt="logo Mau Gowes"
                 />
               </a>

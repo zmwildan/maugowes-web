@@ -1,6 +1,6 @@
-const STATIC_CACHE_NAME = "mg-static-v1"
+const STATIC_CACHE_NAME = "mg-static-v2"
 const staticsToCache = [
-  "/static/images/logo-2.png",
+  "/static/images/logos/maugowes-v2/icon-128x128.png",
   "/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
   "/static/images/cover/cover-videos.jpeg",
   "/static/images/cover/cover-bikes.jpeg",

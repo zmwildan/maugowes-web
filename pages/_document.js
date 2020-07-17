@@ -43,10 +43,13 @@ export default class MyDocument extends Document {
           <link
             rel="icon"
             type="image/png"
-            href="/static/icons/icon-128x128.png"
+            href="/static/images/logos/maugowes-v2/icon-128x128.png"
           />
-          <link rel="apple-touch-icon" href="/static/icons/icon-128x128.png" />
-          <link rel="manifest" href="/manifest.json" />
+          <link
+            rel="apple-touch-icon"
+            href="/static/images/logos/maugowes-v2/icon-128x128.png"
+          />
+          <link rel="manifest" href="/manifest-v2.json" />
           <style
             dangerouslySetInnerHTML={{
               __html: `
