@@ -25,7 +25,6 @@ const VideoCard = Styled.div`
       width: calc(50% - 40px);
       float: left;
       .video-card-title {
-        height: 253px;
         h2{
           font-size: 30px;
         }
@@ -37,7 +36,6 @@ const VideoCard = Styled.div`
  .video-card-meta {
   padding: 15px 0;
   .video-card-title {
-    height: 90px;
     overflow: hidden;
     a {
       text-decoration: none;

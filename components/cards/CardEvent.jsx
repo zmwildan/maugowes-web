@@ -52,9 +52,6 @@ const CardEventStyled = Styled.div`
   }
 
   .card-event-title {
-    max-height: 63px;
-    overflow: hidden;
-    min-height: 35px;
     h3 {
       bottom: 0;
       margin: 0;
