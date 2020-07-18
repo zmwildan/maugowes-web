@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
+import Router from "next/router"
 import Styled from "styled-components"
 import Toast from "../../../../modules/toast"
 
@@ -24,12 +25,12 @@ const EditEvent = ({ events, id, location, dispatch }) => {
   const { status, message } = events.submit_post || {}
   const locationSearchResults = location.search_location || {}
 
-  if (status === 200 || status === 201) {
-    Toast(true, message)
-    setTimeout(() => {
-      location.href = `/super/events/detail/${id}`
-    }, 800)
-  }
+  useEffect(() => {
+    if (status === 200 || status === 201) {
+      Toast(true, message)
+      Router.push(`/super/events/detail/${id}`)
+    }
+  }, [events])
 
   return (
     <GlobalLayout metadata={{ title }}>

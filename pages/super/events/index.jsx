@@ -15,17 +15,15 @@ let StoreFilter = "super"
 
 class EventLists extends React.Component {
   state = {
-    page: 1
+    page: 1,
   }
 
   componentDidMount() {
     const eventState = this.props.events[StoreFilter] || {}
     if (!eventState.status && !eventState.is_loading) {
-      let reqQuery = requestQueryGenerator(this.props.query)
-      reqQuery = {
-        ...reqQuery,
+      const reqQuery = {
         show_all: 1,
-        status: "all"
+        status: "all",
       }
       reqQuery.showDraft = true
       this.props.dispatch(fetchEvents(StoreFilter, reqQuery))
@@ -37,14 +35,14 @@ class EventLists extends React.Component {
     if (!eventState.is_loading && eventState.status == 200) {
       this.setState(
         {
-          page: this.state.page + 1
+          page: this.state.page + 1,
         },
         async () => {
           let reqQuery = {
             limit: MaxResults,
             page: this.state.page,
             showDraft: true,
-            status: "all"
+            status: "all",
           }
 
           return this.props.dispatch(fetchMoreEvents(StoreFilter, reqQuery))
@@ -74,8 +72,8 @@ class EventLists extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
-    events: state.Events
+    events: state.Events,
   }
 })(EventLists)

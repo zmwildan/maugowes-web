@@ -14,7 +14,7 @@ import { searchLocation, resetLocation } from "../../redux/location/actions"
 // monas Jakarta
 const DEFAULT_LOCATION = {
   lat: -6.1754,
-  lng: 106.8272
+  lng: 106.8272,
 }
 
 const InputLocation = Styled.div`
@@ -55,7 +55,7 @@ class LocationPicker extends React.Component {
       locationStatus: null,
       coords: null,
       onSearchTyping: false,
-      searchResults: {}
+      searchResults: {},
     }
     this.savePositionToState = this.savePositionToState.bind(this)
     this.renderMap = this._renderMap.bind(this)
@@ -66,13 +66,13 @@ class LocationPicker extends React.Component {
     pushStyle("https://unpkg.com/leaflet@1.5.1/dist/leaflet.css", {
       integrity:
         "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==",
-      crossorigin: "true"
+      crossorigin: "true",
     })
 
     pushScript("https://unpkg.com/leaflet@1.5.1/dist/leaflet.js", {
       integrity:
         "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==",
-      crossorigin: "true"
+      crossorigin: "true",
     })
 
     if (readOnly || coordinate) {
@@ -81,7 +81,7 @@ class LocationPicker extends React.Component {
           this._renderMap({
             lat: coordinate.lat,
             lng: coordinate.lng || coordinate.lon,
-            readOnly
+            readOnly,
           }),
         1500
       )
@@ -105,22 +105,22 @@ class LocationPicker extends React.Component {
 
   getLocation() {
     if (navigator.permissions) {
-      navigator.permissions.query({ name: "geolocation" }).then(result => {
+      navigator.permissions.query({ name: "geolocation" }).then((result) => {
         // get location status
         this.setState({ locationStatus: result.state })
         if (result.state == "granted") {
-          navigator.geolocation.getCurrentPosition(position =>
+          navigator.geolocation.getCurrentPosition((position) =>
             this.savePositionToState({
               lat: position.coords.latitude,
-              lng: position.coords.longitude
+              lng: position.coords.longitude,
             })
           )
         } else if (result.state == "prompt") {
           navigator.geolocation.getCurrentPosition(
-            position =>
+            (position) =>
               this.savePositionToState({
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lng: position.coords.longitude,
               }),
             () => {
               // location denied
@@ -154,8 +154,8 @@ class LocationPicker extends React.Component {
             this.props.dispatch(
               searchLocation({
                 query: {
-                  q: value
-                }
+                  q: value,
+                },
               })
             )
           }, 1000)
@@ -171,18 +171,18 @@ class LocationPicker extends React.Component {
       {
         searchResults: {},
         onSearchTyping: false,
-        address: locationData.display_name
+        address: locationData.display_name,
       },
       () => {
         // set parrent address
         this.props.setState({
-          address: locationData.display_name
+          address: locationData.display_name,
         })
 
         // change map focus
         const coords = {
           lat: locationData.lat,
-          lng: locationData.lon
+          lng: locationData.lon,
         }
         this.savePositionToState(coords)
       }
@@ -196,12 +196,12 @@ class LocationPicker extends React.Component {
       // set lat, lng and zoom
       // map focus and zoom
       this.MyMap = L.map(this.props.name || "render-map", {
-        scrollWheelZoom: false
+        scrollWheelZoom: false,
       }).setView([lat, lng], 17)
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(this.MyMap)
 
       // render geo json (if available)
@@ -219,7 +219,7 @@ class LocationPicker extends React.Component {
 
       // click event listener
       if (!readOnly) {
-        this.MyMap.on("click", e => {
+        this.MyMap.on("click", (e) => {
           const lat = e.latlng.lat
           const lng = e.latlng.lng
 
@@ -227,16 +227,16 @@ class LocationPicker extends React.Component {
             {
               coords: {
                 lat,
-                lng
-              }
+                lng,
+              },
             },
             () => {
               // render marker
               this.props.setState({
                 coords: {
                   lat,
-                  lng
-                }
+                  lng,
+                },
               })
               this.renderMarker({ lat, lng })
             }
@@ -287,7 +287,7 @@ class LocationPicker extends React.Component {
   savePositionToState(coords) {
     this.setState(
       {
-        coords
+        coords,
       },
       () => {
         this.props.setState({ coords })
@@ -303,11 +303,13 @@ class LocationPicker extends React.Component {
       <InputLocation className="location-picker form-child">
         {readOnly ? null : (
           <React.Fragment>
-            <label
-              htmlFor="render"
-              style={{ marginBottom: 10, display: "block" }}>
-              {this.props.label}
-            </label>
+            {this.props.label ? (
+              <label
+                htmlFor="render"
+                style={{ marginBottom: 10, display: "block" }}>
+                {this.props.label}
+              </label>
+            ) : null}
 
             <InputText
               name="address"
@@ -315,7 +317,7 @@ class LocationPicker extends React.Component {
               placeholder="Masukan alamat disini"
               type="text"
               value={this.state.address || ""}
-              onChange={e => this._searchLocationHandler(e)}
+              onChange={(e) => this._searchLocationHandler(e)}
               setState={(n, cb) => {
                 this.setState(n, cb)
                 this.props.setState(n, cb)
@@ -357,7 +359,7 @@ class LocationPicker extends React.Component {
                             // force hide recomendation
                             this.setState({
                               onSearchTyping: "",
-                              searchResults: {}
+                              searchResults: {},
                             })
                           }}>
                           (x) Sembunyikan rekomendasi
@@ -380,13 +382,13 @@ class LocationPicker extends React.Component {
 LocationPicker.propTypes = {
   searchResults: PropTypes.object,
   readOnly: PropTypes.bool,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 }
 
 LocationPicker.defaultProps = {
   readOnly: false,
   searchResults: {},
-  dispatch: () => {}
+  dispatch: () => {},
 }
 
 export default LocationPicker

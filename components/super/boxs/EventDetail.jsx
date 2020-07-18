@@ -89,47 +89,54 @@ class EventDetail extends React.Component {
             )}
           </div>
         </div>
-
         {/* event start location row */}
         <div className="grid mb-25">
           <div className="col-3 text-bold">Event Location</div>
-          <div className="col-9">{eventData.location.address || "-"}</div>
-        </div>
-        <div className="grid mb-25">
-          <div className="col-3" />
           <div className="col-9">
-            <InputLocation
-              readOnly
-              coordinate={eventData.location.coordinate}
-            />
-            <a
-              href={`https://maps.google.com/maps?q=${eventData.location.coordinate.lat},${eventData.location.coordinate.lng}`}
-              target="_blank"
-              rel="noopener noreferer">
-              Lihat di Google Maps
-            </a>
+            {eventData.is_virtual
+              ? "Virtual Event"
+              : eventData.location.address || "-"}
           </div>
         </div>
-        {/* end of event start location row */}
-
+        {eventData.is_virtual ? null : (
+          <>
+            <div className="grid mb-25">
+              <div className="col-3" />
+              <div className="col-9">
+                <InputLocation
+                  readOnly
+                  coordinate={eventData.location.coordinate}
+                />
+                <a
+                  href={`https://maps.google.com/maps?q=${eventData.location.coordinate.lat},${eventData.location.coordinate.lng}`}
+                  target="_blank"
+                  rel="noopener noreferer">
+                  Lihat di Google Maps
+                </a>
+              </div>
+            </div>
+            {/* end of event start location row */}
+          </>
+        )}
         {/* event gpx */}
-        <div className="grid mb-25">
-          <div className="col-3 text-bold">Event GPX</div>
-          <div className="col-9">
-            {eventData.geoJSON ? (
-              <InputLocation
-                name="geoJSON"
-                readOnly
-                coordinate={eventData.location.coordinate}
-                geoJSON={eventData.geoJSON}
-              />
-            ) : (
-              "-"
-            )}
+        {eventData.is_virtual ? null : (
+          <div className="grid mb-25">
+            <div className="col-3 text-bold">Event GPX</div>
+            <div className="col-9">
+              {eventData.geoJSON ? (
+                <InputLocation
+                  name="geoJSON"
+                  readOnly
+                  coordinate={eventData.location.coordinate}
+                  geoJSON={eventData.geoJSON}
+                />
+              ) : (
+                "-"
+              )}
+            </div>
           </div>
-        </div>
+        )}
         {/* end of event gpx */}
-
         <div className="grid">
           <div
             className="col-9 d-flex"
@@ -146,6 +153,7 @@ class EventDetail extends React.Component {
                 style={{ marginRight: 10 }}
               />
             ) : null}
+            &nbsp;
             {eventData.event_status == "reject" ||
             eventData.event_status != "accept" ? (
               <Submit
@@ -156,7 +164,6 @@ class EventDetail extends React.Component {
                 style={{ marginRight: 10 }}
               />
             ) : null}
-
             {/* link to update event */}
             <a
               style={{ position: "absolute", right: 0, top: "30%" }}

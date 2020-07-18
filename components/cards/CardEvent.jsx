@@ -37,6 +37,7 @@ const CardEventStyled = Styled.div`
   }
 
   .card-event-time {
+    line-height: 1.3;
     text-align: left;
     overflow-y: hidden;
     .card-event-label {
@@ -106,8 +107,9 @@ const CardEvent = (props) => {
 
       <div className="card-event-time">
         <span className="card-event-label">
-          {DayJs(data.start_time).format("DD MMMM YYYY HH:mm")} <br />{" "}
-          {data.location.address}
+          {DayJs(data.start_time).format("DD MMMM YYYY HH:mm")}
+          <br />
+          {data.is_virtual ? "Virtual Event" : data.location.address}
         </span>
       </div>
 

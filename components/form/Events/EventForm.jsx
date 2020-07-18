@@ -32,6 +32,7 @@ class EventForm extends React.Component {
         coords: eventData.location.coordinate || {},
         poster_preview: eventData.poster[600],
         event_time: eventData.start_time,
+        is_virtual: eventData.is_virtual == "true" || false,
       }
     }
 
@@ -48,6 +49,7 @@ class EventForm extends React.Component {
 
     if (is_valid) {
       let params = {
+        is_virtual: this.state.is_virtual,
         email: this.state.email,
         title: this.state.title,
         link: this.state.link,
@@ -92,7 +94,6 @@ class EventForm extends React.Component {
           name="email"
           required
         />
-
         <h2>Tentang Event Gowes</h2>
         <InputFile
           label="Poster Event Gowes"
@@ -120,24 +121,45 @@ class EventForm extends React.Component {
           setState={(ns, cb) => this.setState(ns, cb)}
           required
         />
-        <InputLocation
-          address={this.state.address}
-          coordinate={this.state.coords}
-          dispatch={this.props.dispatch}
-          searchResults={this.props.locationSearchResults || {}}
-          name="location"
-          label="Lokasi Start / Meetpoint Gowes"
-          setState={(n, cb) => this.setState(n, cb)}
-        />
-        <InputFile
-          label="Upload GPX untuk menampilkan rute"
-          name="gpx"
-          max={5000000}
-          value={this.state.gpx || ""}
-          validate={this.state.gpx_validate || {}}
-          setState={(n, cb) => this.setState(n, cb)}
-          accept="*.gpx"
-        />
+        {/* show input location if not virtual */}
+        <div style={{ paddingBottom: 15 }}>
+          <label>
+            <strong>Lokasi Start / Meetpoint Gowes</strong>
+          </label>
+        </div>
+        <div style={{ marginBottom: this.state.is_virtual ? 35 : 10 }}>
+          <input
+            style={{ margin: 0 }}
+            type="checkbox"
+            checked={this.state.is_virtual}
+            onChange={() =>
+              this.setState({ is_virtual: !this.state.is_virtual })
+            }
+          />{" "}
+          Merupakan event sepeda virtual
+        </div>
+        {!this.state.is_virtual ? (
+          <>
+            <InputLocation
+              address={this.state.address}
+              coordinate={this.state.coords}
+              dispatch={this.props.dispatch}
+              searchResults={this.props.locationSearchResults || {}}
+              name="location"
+              setState={(n, cb) => this.setState(n, cb)}
+            />
+            <InputFile
+              label="Upload GPX untuk menampilkan rute"
+              name="gpx"
+              max={5000000}
+              value={this.state.gpx || ""}
+              validate={this.state.gpx_validate || {}}
+              setState={(n, cb) => this.setState(n, cb)}
+              accept="*.gpx"
+            />
+          </>
+        ) : null}
+
         <InputText
           label="Link website / sosial media"
           type="url"

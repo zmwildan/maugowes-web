@@ -32,6 +32,7 @@ module.exports = {
       },
       views: n.views || 1,
       is_ended: new Date().getTime() > n.start_time,
+      is_virtual: n.is_virtual,
       geoJSON: n.geoJSON || null,
     }
   },

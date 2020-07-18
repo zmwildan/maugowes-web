@@ -97,6 +97,7 @@ module.exports = {
       location_coordinate = {},
       note,
       start_time,
+      is_virtual,
     } = req.body
     const { poster, gpx } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
@@ -112,7 +113,9 @@ module.exports = {
       note,
       status: "waiting",
       created_on: currentTime,
+      updated_on: currentTime,
       views: 0,
+      is_virtual,
     }
 
     // if send gpx , generate geojson
@@ -219,6 +222,7 @@ module.exports = {
       location_coordinate = {},
       note,
       start_time,
+      is_virtual,
     } = req.body
     const { poster, gpx } = req.files
     const currentTime = Math.round(new Date().getTime() / 1000)
@@ -233,6 +237,7 @@ module.exports = {
       location_coordinate,
       note,
       update_on: currentTime,
+      is_virtual,
     }
 
     // if send gpx , generate geojson

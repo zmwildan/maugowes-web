@@ -238,47 +238,60 @@ class EventDetail extends React.Component {
 
                   {/* maps */}
 
-                  <div className="grid-center">
-                    <div className="col-7_xs-12">
-                      {data.location ? (
-                        <React.Fragment>
-                          <strong className="title">Titik Start : </strong>
-                          <br />
-                          {data.location.address ||
-                            `latitude: ${data.location.coordinate.lat}, longitude: ${data.location.coordinate.lng}`}
-                          <br />
-                          <a
-                            href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
-                            target="_blank"
-                            rel="noopener noreferer">
-                            Lihat Titik Start di Google Maps
-                          </a>
-                        </React.Fragment>
-                      ) : null}
+                  {data.is_virtual ? (
+                    <div className="grid-center">
+                      <div className="col-7_xs-12">
+                        <strong className="title">Titik Start : </strong>
+                        <p>
+                          Event sepeda ini merupakan{" "}
+                          <strong>Virtual Event</strong> yang dikuti melalui
+                          koneksi intenet.
+                        </p>
+                      </div>
                     </div>
-                    <div className="col-10_xs-12">
-                      {data.geoJSON ? (
-                        <InputLocation
-                          readOnly
-                          geoJSON={data.geoJSON}
-                          coordinate={data.location.coordinate}
-                          markers={[
-                            {
-                              name: "titik start",
-                              coordinate: data.location.coordinate,
-                            },
-                          ]}
-                          noLabel
-                        />
-                      ) : data.location && data.location.coordinate ? (
-                        <InputLocation
-                          readOnly
-                          coordinate={data.location.coordinate}
-                          noLabel
-                        />
-                      ) : null}
+                  ) : (
+                    <div className="grid-center">
+                      <div className="col-7_xs-12">
+                        {data.location ? (
+                          <React.Fragment>
+                            <strong className="title">Titik Start : </strong>
+                            <br />
+                            {data.location.address ||
+                              `latitude: ${data.location.coordinate.lat}, longitude: ${data.location.coordinate.lng}`}
+                            <br />
+                            <a
+                              href={`https://maps.google.com/maps?q=${data.location.coordinate.lat},${data.location.coordinate.lng}`}
+                              target="_blank"
+                              rel="noopener noreferer">
+                              Lihat Titik Start di Google Maps
+                            </a>
+                          </React.Fragment>
+                        ) : null}
+                      </div>
+                      <div className="col-10_xs-12">
+                        {data.geoJSON ? (
+                          <InputLocation
+                            readOnly
+                            geoJSON={data.geoJSON}
+                            coordinate={data.location.coordinate}
+                            markers={[
+                              {
+                                name: "titik start",
+                                coordinate: data.location.coordinate,
+                              },
+                            ]}
+                            noLabel
+                          />
+                        ) : data.location && data.location.coordinate ? (
+                          <InputLocation
+                            readOnly
+                            coordinate={data.location.coordinate}
+                            noLabel
+                          />
+                        ) : null}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </article>
                 {/* end of maps */}
 
