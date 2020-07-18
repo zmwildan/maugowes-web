@@ -22,6 +22,7 @@ const CardBlogStyled = Styled.div`
     text-align: left;
     overflow-y: hidden;
     height: 50px;
+    font-size: 14px;
     .card-blog-label {
       padding: 15px 0;
       margin-right: 15px;
@@ -40,7 +41,7 @@ const CardBlogStyled = Styled.div`
     h3 {
       bottom: 0;
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 400;
       a {
         color: ${color_black_main};
