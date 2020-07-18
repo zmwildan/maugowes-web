@@ -110,15 +110,15 @@ class BikesIndex extends React.Component {
   loadmoreHandler() {
     const { bikeFilter } = this.state
     const bikeData = this.props.bikes[bikeFilter] || {}
-    if (!bikeData.is_loading && bikeData.data == 200) {
+    if (!bikeData.is_loading && bikeData.status == 200) {
       this.setState(
         {
           page: this.state.page + 1,
         },
-        async () => {
+        () => {
           let reqQuery = requestQueryGenerator(this.props.query)
           reqQuery.page = this.state.page
-          return this.props.dispatch(fetchBikes(bikeFilter, reqQuery))
+          this.props.dispatch(fetchBikes(bikeFilter, reqQuery))
         }
       )
     }
