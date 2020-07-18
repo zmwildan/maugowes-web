@@ -6,33 +6,6 @@ import Link from "next/link"
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
 
-  &.video-large {
-    height: 350px;
-
-    .video-card-cover {
-      width: 50%;
-      float: left;
-      height: 100%;
-      .btn-play-video {
-        margin-left: -50px;
-        margin-top: -50px;
-      }
-      .btn-play-video img {
-        width: 100px;
-      }
-    }
-    .video-card-meta {
-      width: calc(50% - 40px);
-      float: left;
-      .video-card-title {
-        h2{
-          font-size: 30px;
-        }
-      }
-    }
-  }
-
- 
  .video-card-meta {
   padding: 15px 0;
   .video-card-title {
@@ -42,7 +15,7 @@ const VideoCard = Styled.div`
       color: ${color_black_main};
     }
     h2 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 400;
     }
    } 

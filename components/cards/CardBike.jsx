@@ -29,7 +29,17 @@ const CardBikeStyled = Styled.div`
   
   .card-bike__text {
     h3 {
-      font-weight: 500
+      font-weight: 500;
+      font-size: 20px;
+    }
+  }
+
+  // responsiveness
+  @media (max-width: 48em) { 
+    .card-bike__text {
+      h3 {
+        font-size: 18px;
+      }
     }
   }
  }

@@ -40,6 +40,7 @@ const CardEventStyled = Styled.div`
     line-height: 1.3;
     text-align: left;
     overflow-y: hidden;
+    font-size: 14px;
     .card-event-label {
       padding: 15px 0;
       margin-right: 15px;
@@ -56,12 +57,12 @@ const CardEventStyled = Styled.div`
     h3 {
       bottom: 0;
       margin: 0;
-      font-size: 1.5em;
+      font-size: 20px;
       text-align: left;
       margin-bottom: 10px;
+      font-weight: 400;
       a {
         color: ${color_black_main};
-        font-weight: bold;
         text-decoration: none;
       }
     }

@@ -62,6 +62,15 @@ const CardBlogStyled = Styled.div`
     color: ${color_gray_dark};
     text-align: left;
   }
+
+  // responsiveness
+  @media (max-width: 48em) { 
+    .card-blog-title {
+      h3 {
+        font-size: 18px;
+      }
+    }
+  }
 `
 
 export default (props) => {
