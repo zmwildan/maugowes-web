@@ -13,7 +13,7 @@ const staticsToCache = [
   "/static/images/logos/whatsapp-48.png",
 ]
 
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", async (event) => {
   console.log(STATIC_CACHE_NAME, "now ready to handle fetches!")
 })
 

@@ -49,7 +49,7 @@ export default class MyDocument extends Document {
             rel="apple-touch-icon"
             href="/static/images/logos/maugowes-v2/icon-128x128.png"
           />
-          <link rel="manifest" href="/manifest-v2.json" />
+          <link rel="manifest" href="/manifest-v2.0.1.json" />
           <style
             dangerouslySetInnerHTML={{
               __html: `
@@ -120,7 +120,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
                 window.addEventListener("load", function () {
                   navigator.serviceWorker
                     .register("/service-worker.js", {
-                      scope: '/static'
+                      scope: '/'
                     })
                     .then(
                       function (registration) {
