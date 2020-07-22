@@ -6,7 +6,7 @@ import Link from "next/link"
 
 const CardBlogStyled = Styled.div`
 
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 
   .card-blog-cover {
     position: relative;
@@ -65,6 +65,7 @@ const CardBlogStyled = Styled.div`
 
   // responsiveness
   @media (max-width: 48em) { 
+    margin-bottom: 40px;
     .card-blog-title {
       h3 {
         font-size: 18px;

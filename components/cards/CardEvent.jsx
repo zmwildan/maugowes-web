@@ -10,7 +10,7 @@ import DayJs from "../../modules/dayjs"
 import Link from "next/link"
 
 const CardEventStyled = Styled.div`
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 
   .label {
     &.label-red {
@@ -81,6 +81,11 @@ const CardEventStyled = Styled.div`
     font-size: 14px;
     color: ${color_gray_dark};
     text-align: left;
+  }
+
+  // responsiveness
+  @media (max-width: 48em) { 
+    margin-bottom: 40px;
   }
 `
 

@@ -5,6 +5,7 @@ import Link from "next/link"
 
 const VideoCard = Styled.div`
   border: 1px solid #FFF;
+  margin-bottom: 80px;
 
  .video-card-meta {
   padding: 15px 0;
@@ -58,6 +59,9 @@ const VideoCard = Styled.div`
 }
 // gridlex _sm
 @media (max-width: 48em) {
+
+  margin-bottom: 40px;
+
   &.video-large {
     .video-card-cover {
       width: 100%;
