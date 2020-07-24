@@ -43,7 +43,7 @@ nextApp.prepare().then(() => {
   // cache config
   app.use((req, res, next) => {
     // max age cache
-    res.set("Cache-Control", "public, max-age=31557600")
+    res.set("Cache-Control", "public, max-age=86400") //1 days
     next()
   })
 
