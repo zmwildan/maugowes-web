@@ -19,5 +19,5 @@ const ToastStyled = Styled.div`
 `
 
 export default () => {
-  return <ToastStyled id="mg-toast">sample text yuk</ToastStyled>
+  return <ToastStyled id="mg-toast" />
 }

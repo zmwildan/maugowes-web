@@ -1,6 +1,5 @@
 import Document, { Head, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
-import FullLoader from "../components/loaders/FullPageLoader"
 import Toast from "../components/Toast"
 
 export default class MyDocument extends Document {
@@ -108,7 +107,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
             src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
 
           <Main />
-          <FullLoader />
           <NextScript />
           <Toast />
 

@@ -1,9 +1,9 @@
 const express = require("express")
 const Router = express.Router()
-const FormDataMiddleware = require("../../middlewares/formDataMiddleware")
+const FormDataMiddleware = require("../../../middlewares/formDataMiddleware")
 
 // handlers
-const BikeHandler = require("../../handlers/bikes")
+const BikeHandler = require("../../../handlers/bikes")
 
 // routes
 Router.get("/bikes/:seal", BikeHandler.getBikes)
