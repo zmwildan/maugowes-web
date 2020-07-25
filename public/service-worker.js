@@ -1,4 +1,4 @@
-const STATIC_CACHE_NAME = "mg-static-v3"
+const STATIC_CACHE_NAME = "mg-static-v4"
 const staticsToCache = [
   "/static/images/logos/maugowes-v2/icon-128x128.png",
   "/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
