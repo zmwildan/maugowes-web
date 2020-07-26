@@ -1,5 +1,5 @@
-import { LOGIN, login, logout } from "../../../redux/auth/actions"
-import { CALL_API } from "../../../redux/middlewares/requestApi"
+import { LOGIN, login, logout } from "./actions"
+import { CALL_API } from "../middlewares/requestApi"
 
 describe("Login Action Test", () => {
   it("success login", () => {

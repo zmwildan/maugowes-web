@@ -1,6 +1,7 @@
 // modules
 const Redis = require("../redis")
 const mongo = require("../mongodb")
+const mongoV2 = require("../mongodb/v2")
 const { ObjectId } = require("mongodb")
 
 // transformers
@@ -26,6 +27,8 @@ module.exports = {
       return callback(reply)
     } else {
       // start mongo
+      const { err, db, client } = await mongoV2(callback)
+
       let aggregate = [
         {
           $match: { _id: ObjectId(id) },
@@ -50,99 +53,97 @@ module.exports = {
         },
       ]
 
-      return mongo(({ err, db, client }) => {
-        if (err) {
-          // error on mongo db connection
-          return callback({
-            status: 500,
-            message: "Something wrong, please try again",
-          })
-        }
+      if (err) {
+        // error on mongo db connection
+        return callback({
+          status: 500,
+          message: "Something wrong, please try again",
+        })
+      }
 
-        // request bike by bike id
-        db.collection("bikes")
-          .aggregate(aggregate)
-          .toArray((err, result) => {
-            // found error from database
-            if (err) {
-              // error on mongo db connection
-              console.error("[mongodb error] to connect mongo", err)
-              return callback({
-                status: 500,
-                message: "Something wrong, please try again",
-              })
+      // request bike by bike id
+      db.collection("bikes")
+        .aggregate(aggregate)
+        .toArray((err, result) => {
+          // found error from database
+          if (err) {
+            // error on mongo db connection
+            console.error("[mongodb error] to connect mongo", err)
+            return callback({
+              status: 500,
+              message: "Something wrong, please try again",
+            })
+          }
+
+          if (result.length < 1) {
+            if (req.no_count) return callback()
+            // response
+            const bikeResults = {
+              status: 204,
+              messages: "Bike Not Found",
             }
+            // save cache
+            Redis.set(redis_key, bikeResults)
+            // deliver as response
+            return callback(bikeResults)
+          }
 
-            if (result.length < 1) {
-              if (req.no_count) return callback()
-              // response
-              const bikeResults = {
-                status: 204,
-                messages: "Bike Not Found",
+          // transform result as standart format
+          let bikeResults = bikeTransformer.bike(result[0])
+          bikeResults.status == 200
+
+          // get specs based on bike_id
+          const bikeRelationsAggregate = [
+            { $match: { bike_id: ObjectId(bikeResults.id) } },
+            // join to bikes_specs table
+            {
+              $lookup: {
+                from: "bikes_specs",
+                localField: "spec_id",
+                foreignField: "_id",
+                as: "spec",
+              },
+            },
+            // join to bikes_specs_group table
+            {
+              $lookup: {
+                from: "bikes_specs_groups",
+                localField: "spec.spec_group_id",
+                foreignField: "_id",
+                as: "spec_group",
+              },
+            },
+          ]
+
+          // join to bike specs group
+          return db
+            .collection("bikes_specs_relations")
+            .aggregate(bikeRelationsAggregate)
+            .toArray((err, bikeSpecsResults) => {
+              if (err) {
+                // error on mongo db connection
+                console.error("[mongodb error] to connect mongo", err)
+                return callback({
+                  status: 500,
+                  message: "Something wrong, please try again",
+                })
               }
+
+              // transform bike specs results to standart version
+              if (bikeSpecsResults.length > 0)
+                bikeSpecsResults = bikeTransformer.bikeSpecs(bikeSpecsResults)
+
+              bikeResults.status = 200
+              bikeResults.message = "Sepeda ditemukan"
+              bikeResults.specs = bikeSpecsResults
+
               // save cache
               Redis.set(redis_key, bikeResults)
-              // deliver as response
+
+              // transform result to standart version
               return callback(bikeResults)
-            }
-
-            // transform result as standart format
-            let bikeResults = bikeTransformer.bike(result[0])
-            bikeResults.status == 200
-
-            // get specs based on bike_id
-            const bikeRelationsAggregate = [
-              { $match: { bike_id: ObjectId(bikeResults.id) } },
-              // join to bikes_specs table
-              {
-                $lookup: {
-                  from: "bikes_specs",
-                  localField: "spec_id",
-                  foreignField: "_id",
-                  as: "spec",
-                },
-              },
-              // join to bikes_specs_group table
-              {
-                $lookup: {
-                  from: "bikes_specs_groups",
-                  localField: "spec.spec_group_id",
-                  foreignField: "_id",
-                  as: "spec_group",
-                },
-              },
-            ]
-
-            // join to bike specs group
-            return db
-              .collection("bikes_specs_relations")
-              .aggregate(bikeRelationsAggregate)
-              .toArray((err, bikeSpecsResults) => {
-                if (err) {
-                  // error on mongo db connection
-                  console.error("[mongodb error] to connect mongo", err)
-                  return callback({
-                    status: 500,
-                    message: "Something wrong, please try again",
-                  })
-                }
-
-                // transform bike specs results to standart version
-                if (bikeSpecsResults.length > 0)
-                  bikeSpecsResults = bikeTransformer.bikeSpecs(bikeSpecsResults)
-
-                bikeResults.status = 200
-                bikeResults.message = "Sepeda ditemukan"
-                bikeResults.specs = bikeSpecsResults
-
-                // save cache
-                Redis.set(redis_key, bikeResults)
-
-                // transform result to standart version
-                return callback(bikeResults)
-              })
-          })
-      })
+            })
+        })
       // end of mongo
     }
   },
