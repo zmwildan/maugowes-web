@@ -1,9 +1,11 @@
 const RedisClient = require("redis").createClient
 
-const RedisCon = RedisClient(
-  process.env.REDIS_PORT || 6379,
-  process.env.REDIS_HOST || "localhost"
-)
+const { REDIS_PORT, REDIS_HOST, REDIS_PASSWORD } = process.env
+
+const RedisCon = RedisClient(REDIS_PORT || 6379, REDIS_HOST || "localhost", {
+  auth_pass: REDIS_PASSWORD || "",
+  return_buffers: true,
+})
 
 /**
  * function to get redis cache from key
