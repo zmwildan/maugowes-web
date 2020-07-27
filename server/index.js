@@ -42,8 +42,12 @@ nextApp.prepare().then(() => {
 
   // cache config
   app.use((req, res, next) => {
-    // max age cache
-    res.set("Cache-Control", "public, max-age=86400") //1 days
+    const urlArr = req.originalUrl.split("/")
+    if (urlArr[1] && urlArr[1] === "static") {
+      // max age cache
+      res.set("Cache-Control", "public, max-age=86400") //1 days
+    }
+
     next()
   })
 
