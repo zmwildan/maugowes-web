@@ -18,10 +18,10 @@ module.exports = {
       link: `/blog/${toSlug(n.title)}-${n._id}`,
       image: {
         original: n.image,
-        "600": generateCustomUrl(n.image, "w_600,c_scale")
+        "600": generateCustomUrl(n.image, "w_400,c_scale"),
       },
       author: userTransformer(n.author),
-      draft: n.draft || false
+      draft: n.draft || false,
     }
-  }
+  },
 }
