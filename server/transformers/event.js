@@ -28,7 +28,7 @@ module.exports = {
       event_status: n.status,
       poster: {
         original: n.poster,
-        "600": generateCustomUrl(n.poster, "w_400,c_scale"),
+        "600": generateCustomUrl(n.poster, "w_500,c_scale"),
       },
       views: n.views || 1,
       is_ended: new Date().getTime() > n.start_time,
