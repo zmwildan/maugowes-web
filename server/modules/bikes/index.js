@@ -170,7 +170,7 @@ module.exports = {
       estimated_price: req.body.estimated_price || 0,
       release_date: req.body.release_date || "-",
       images: JSON.parse(req.body.images) || [],
-      geometry: req.body.geometry,
+      geometry: req.body.geometry || "",
       source: req.body.source,
       updated_on: now,
     }
@@ -530,7 +530,7 @@ module.exports = {
       estimated_price: req.body.estimated_price || 0,
       release_date: req.body.release_date || "-",
       images: JSON.parse(req.body.images) || [],
-      geometry: req.body.geometry,
+      geometry: req.body.geometry || "",
       source: req.body.source,
       created_on: now,
       updated_on: now,

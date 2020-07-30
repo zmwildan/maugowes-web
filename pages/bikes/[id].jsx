@@ -92,7 +92,7 @@ class BikeDetail extends React.Component {
           <Error text="Spesifikasi belum tersedia" />
         )
       case 1:
-        return bikeData.geometry ? (
+        return bikeData.geometry && bikeData.geometry != "undefined" ? (
           <div className="bike-detail__geometry">
             <img src={bikeData.geometry} alt="bike geometry" />
           </div>

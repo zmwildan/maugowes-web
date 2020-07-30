@@ -1,7 +1,9 @@
-const mongo = require("./mongodb")
-const youtubeReq = require("../modules/youtubeRequest")
-const videoTransformer = require("../transformers/youtube")
-const videoDbTransformer = require("../transformers/videos")
+const mongo = require("../mongodb")
+const mongoV2 = require("../mongodb/v2")
+const Redis = require("../redis")
+const youtubeReq = require("../youtubeRequest")
+const videoTransformer = require("../../transformers/youtube")
+const videoDbTransformer = require("../../transformers/videos")
 const { ObjectId } = require("mongodb")
 
 module.exports = {
@@ -161,13 +163,21 @@ module.exports = {
    * fetch video detail by video id
    * @param {number} req.params.id id of video in db
    */
-  fetchVideoDetail(req, res, callback) {
+  async fetchVideoDetail(req, res, callback) {
     const { id } = req.params
     if (id && id.length != 24) {
       return callback({ status: 204, messages: "Video tidak ditemukan" })
     }
 
-    return mongo(({ err, db, client }) => {
+    const redis_key = `maugowes/video/${id}`
+    const { reply } = await Redis.get(redis_key)
+
+    if (reply) {
+      return callback(reply)
+    } else {
+      // start mongo
+      const { err, db, client } = await mongoV2(callback)
+
       if (err) {
         // error on mongo db connection
         return callback({
@@ -176,21 +186,11 @@ module.exports = {
         })
       }
 
-      // list post and order by created_on
       db.collection("videos")
         .aggregate([
           {
             $match: { _id: ObjectId(id) },
           },
-          // ,
-          // {
-          //   $lookup: {
-          //     from: "users",
-          //     localField: "user_id",
-          //     foreignField: "_id",
-          //     as: "author"
-          //   }
-          // }
         ])
         .toArray((err, result) => {
           // error from database
@@ -207,18 +207,22 @@ module.exports = {
 
           if (result.length < 1) {
             if (req.no_count) return callback()
-            return callback({
+            const response = {
               status: 204,
               messages: "Video tidak ditemukan",
-            })
+            }
+            Redis.set(redis_key, response)
+            return callback(response)
           }
 
           client.close()
           result = result[0]
           result.status = 200
           result.message = "success"
+          Redis.set(redis_key, result)
           return callback(result)
         })
-    })
+      // end of mongo
+    }
   },
 }

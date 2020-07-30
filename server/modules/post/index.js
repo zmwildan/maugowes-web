@@ -1,7 +1,9 @@
-const mongo = require("./mongodb")
-const postTransformer = require("../transformers/posts")
-const cloudinary = require("./cloudinary")
-const file = require("./file")
+const mongo = require("../mongodb")
+const mongoV2 = require("../mongodb/v2")
+const Redis = require("../redis")
+const postTransformer = require("../../transformers/posts")
+const cloudinary = require("../cloudinary")
+const file = require("../file")
 const { ObjectId } = require("mongodb")
 
 module.exports = {
@@ -143,14 +145,22 @@ module.exports = {
    * @param {*} res
    * @param {*} callback
    */
-  fetchPost(req, res, callback) {
+  async fetchPost(req, res, callback) {
     const { id } = req.params
     if (id && id.length != 24) {
       if (req.no_count) return callback()
       return callback({ status: 204, messages: "Postingan tidak ditemukan" })
     }
 
-    mongo(({ err, db, client }) => {
+    const redis_key = `maugowes/post/${id}`
+    const { reply } = await Redis.get(redis_key)
+
+    if (reply) {
+      return callback(reply)
+    } else {
+      // start mongo
+      const { err, db, client } = await mongoV2(callback)
+
       if (err) {
         // error on mongo db connection
         return callback({
@@ -159,7 +169,6 @@ module.exports = {
         })
       }
 
-      // list post and order by created_on
       db.collection("posts")
         .aggregate([
           {
@@ -189,10 +198,14 @@ module.exports = {
 
           if (result.length < 1) {
             if (req.no_count) return callback()
-            return callback({
+            const response = {
               status: 204,
               messages: "Postingan tidak ditemukan",
-            })
+            }
+            // save cache
+            Redis.set(redis_key, response)
+            // return as response
+            return callback(response)
           }
 
           // transform result
@@ -214,9 +227,14 @@ module.exports = {
           result.status = 200
           result.message = "success"
 
+          // save cache
+          Redis.set(redis_key, result)
+
+          // return as response
           return callback(result)
         })
-    })
+      // end of mongo
+    }
   },
 
   /**
@@ -325,6 +343,10 @@ module.exports = {
     const { title, content, tags = "", draft = false, video = "" } = req.body
     const { image } = req.files || {}
     const currentTime = Math.round(new Date().getTime() / 1000)
+
+    // delete redis key
+    const redis_key = `maugowes/post/${id}`
+    Redis.del(redis_key)
 
     id = ObjectId(id)
 

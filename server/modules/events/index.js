@@ -1,9 +1,11 @@
-const mongo = require("./mongodb")
+const mongo = require("../mongodb")
+const mongoV2 = require("../mongodb/v2")
+const Redis = require("../redis")
 const { ObjectId } = require("mongodb")
-const cloudinary = require("./cloudinary")
-const file = require("./file")
-const eventTransformer = require("../transformers/event")
-const { sendEmail } = require("../modules/email")
+const cloudinary = require("../cloudinary")
+const file = require("../file")
+const eventTransformer = require("../../transformers/event")
+const { sendEmail } = require("../email")
 const toGeoJson = require("togeojson")
 const path = require("path")
 const XMLDomParser = require("xmldom").DOMParser
@@ -15,21 +17,21 @@ module.exports = {
    * @param {number} req.query.page page
    * @param {number} req.query.limit page
    */
-  fetchEventDetail(req, res, callback) {
+  async fetchEventDetail(req, res, callback) {
     const { id } = req.params
 
     if (id && id.length != 24) {
       return callback({ status: 204, messages: "Event tidak ditemukan" })
     }
 
-    let aggregate = [
-      {
-        $match: { _id: ObjectId(id) },
-      },
-    ]
+    const redis_key = `maugowes/event/${id}`
+    const { reply } = await Redis.get(redis_key)
 
-    // open new connection
-    mongo(({ err, db, client }) => {
+    if (reply) {
+      return callback(reply)
+    } else {
+      // start mongo
+      const { err, db, client } = await mongoV2(callback)
       if (err) {
         // error on mongo db connection
         return callback({
@@ -37,6 +39,11 @@ module.exports = {
           message: "Something wrong, please try again",
         })
       }
+      let aggregate = [
+        {
+          $match: { _id: ObjectId(id) },
+        },
+      ]
 
       db.collection("events")
         .aggregate(aggregate)
@@ -51,10 +58,13 @@ module.exports = {
           }
 
           if (results.length < 1) {
-            return callback({
+            const response = {
               status: 204,
               messages: "Event tidak tersedia",
-            })
+            }
+            // save as cache
+            Redis.set(redis_key, result)
+            return callback(response)
           }
 
           const result = eventTransformer.event(results[0])
@@ -65,16 +75,19 @@ module.exports = {
             { $set: { views: result.views + 1 } }
           )
 
-          // close connection to mongo server
-          // client.close()
+          client.close()
 
           result.status = 200
           result.message = "success"
 
-          // success
+          // save as cache
+          Redis.set(redis_key, result)
+          // response
           return callback(result)
         })
-    })
+
+      // end of mongo
+    }
   },
 
   /**
@@ -211,6 +224,10 @@ module.exports = {
       if (req.no_count) return callback()
       return callback({ status: 204, messages: "Event tidak ditemukan" })
     }
+
+    // delete cache
+    const redis_key = `maugowes/event/${id}`
+    Redis.del(redis_key)
 
     id = ObjectId(id)
 
@@ -426,6 +443,10 @@ module.exports = {
     if (id && id.length != 24) {
       return callback({ status: 204, messages: "Event tidak ditemukan" })
     }
+
+    // delete cache
+    const redis_key = `maugowes/event/${id}`
+    Redis.del(redis_key)
 
     id = ObjectId(id)
 
