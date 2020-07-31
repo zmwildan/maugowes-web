@@ -28,6 +28,20 @@ module.exports = {
     const { reply } = await Redis.get(redis_key)
 
     if (reply) {
+      // update views on redis
+      reply.views = reply.views + 1
+      Redis.set(redis_key, reply)
+
+      // update views on mongodb
+      const { err, db, client } = await mongoV2(callback)
+      if (!err) {
+        db.collection("events").updateOne(
+          { _id: ObjectId(id) },
+          { $set: { views: reply.views + 1 } }
+        )
+        client.close()
+      }
+
       return callback(reply)
     } else {
       // start mongo

@@ -20,10 +20,11 @@ module.exports = () => {
         reconnectTries: 60,
         // wait 1 second before retrying
         reconnectInterval: 1000,
+        useNewUrlParser: true,
       },
       (err, client) => {
         if (err) {
-          console.error("[mongodb error] to connect mongo", err)
+          console.error("[Error MongoDB] to connect mongo", err)
           resolve({ err })
         } else {
           const db = client.db(MONGO_DB)

@@ -1,7 +1,5 @@
 import Head from "next/head"
-import React from "react"
 import Styled from "styled-components"
-import * as Firebase from "../../modules/firebase"
 
 // components
 import {
@@ -92,57 +90,49 @@ const defaultMetadata = {
   type: "blog",
 }
 
-export default class HomeLayout extends React.Component {
-  componentDidMount() {
-    setTimeout(() => {
-      Firebase.firebaseInit()
-    }, 1500)
-  }
-
-  render = () => {
-    const { children, metadata = defaultMetadata, scripts = [] } = this.props
-
-    return (
-      <React.Fragment>
-        <Head>
-          <meta charSet="utf-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <title>{metadata.title}</title>
-          <meta name="description" content={metadata.description} />
-          <meta name="keywords" content={metadata.keywords} />
-          {/* open graph */}
-          <meta property="og:title" content={metadata.title} />
-          <meta property="og:type" content={metadata.type} />
-          <meta property="og:url" content={metadata.url} />
-          <meta property="og:image" content={metadata.image} />
-          <meta property="og:description" content={metadata.description} />
-          {/* twitter card */}
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@maugowes" />
-          <meta name="twitter:title" content={metadata.title} />
-          <meta name="twitter:description" content={metadata.description} />
-          <meta name="twitter:image" content={metadata.image} />
-          {typeof metadata.jsonld == "object" ? (
+const HomeLayout = (props) => {
+  const { children, metadata = defaultMetadata, scripts = [] } = props
+  return (
+    <>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <meta name="keywords" content={metadata.keywords} />
+        {/* open graph */}
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:type" content={metadata.type} />
+        <meta property="og:url" content={metadata.url} />
+        <meta property="og:image" content={metadata.image} />
+        <meta property="og:description" content={metadata.description} />
+        {/* twitter card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@maugowes" />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
+        <meta name="twitter:image" content={metadata.image} />
+        {typeof metadata.jsonld == "object" ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(metadata.jsonld),
+            }}
+          />
+        ) : null}
+        {scripts.length > 0
+          ? scripts.map((n, key) => {
+              return <script src={n.src} key={key} />
+            })
+          : null}
+        {process.env.NODE_ENV === "production" ? (
+          <>
             <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify(metadata.jsonld),
-              }}
+              async
+              defer
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
             />
-          ) : null}
-          {scripts.length > 0
-            ? scripts.map((n, key) => {
-                return <script src={n.src} key={key} />
-              })
-            : null}
-          {process.env.NODE_ENV === "production" ? (
-            <React.Fragment>
-              <script
-                async
-                defer
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-              />
-              <script
+            {/* <script
                 async
                 defer
                 src="https://www.googletagmanager.com/gtag/js?id=UA-138742898-1"
@@ -157,13 +147,14 @@ export default class HomeLayout extends React.Component {
               gtag('config', 'UA-138742898-1');
             `,
                 }}
-              />
-            </React.Fragment>
-          ) : null}
-        </Head>
+              /> */}
+          </>
+        ) : null}
+      </Head>
 
-        <GlobalLayoutStyled>{children}</GlobalLayoutStyled>
-      </React.Fragment>
-    )
-  }
+      <GlobalLayoutStyled>{children}</GlobalLayoutStyled>
+    </>
+  )
 }
+
+export default HomeLayout

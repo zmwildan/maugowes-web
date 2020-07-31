@@ -17,12 +17,13 @@ const RedisGet = (redis_key) => {
     RedisCon.get(redis_key, (err, reply) => {
       if (err) {
         // redis error
-        console.error("[redis error]", err)
+        console.error("[Error Redis Connection]", err)
         resolve({
           err,
         })
       } else if (reply) {
         // cache found
+        console.log("[Success Get Redis]", redis_key)
         reply = JSON.parse(reply)
         resolve({ err: null, reply })
       } else {
@@ -39,6 +40,7 @@ const RedisGet = (redis_key) => {
  * @param {value} redis_value
  */
 const RedisSet = (redis_key, redis_value) => {
+  console.log("[Success Set Redis]", redis_key)
   return RedisCon.set(redis_key, JSON.stringify(redis_value))
 }
 
@@ -47,6 +49,7 @@ const RedisSet = (redis_key, redis_value) => {
  * @param {string} redis_key
  */
 const RedisDel = (redis_key) => {
+  console.log("[Success Del Redis]", redis_key)
   return RedisCon.del(redis_key)
 }
 

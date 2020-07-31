@@ -19,6 +19,7 @@ module.exports = (callback = () => {}) => {
       reconnectTries: 60,
       // wait 1 second before retrying
       reconnectInterval: 1000,
+      useNewUrlParser: true,
     },
     (err, client) => {
       if (err) {
