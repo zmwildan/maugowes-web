@@ -269,8 +269,8 @@ module.exports = {
     // ref: https://docs.mongodb.com/realm/mongodb/run-aggregation-pipelines/#aggregation-stages
     if (min_price || max_price) {
       let filter = {}
-      if (min_price) filter["$gte"] = min_price
-      if (max_price) filter["$lte"] = max_price
+      if (min_price) filter["$gte"] = parseInt(min_price)
+      if (max_price) filter["$lte"] = parseInt(max_price)
       aggregate.push({
         $match: {
           estimated_price: filter,
