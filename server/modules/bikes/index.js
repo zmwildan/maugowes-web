@@ -167,7 +167,7 @@ module.exports = {
       name: req.body.name,
       brand_id: ObjectId(req.body.brand_id),
       type_id: ObjectId(req.body.type_id),
-      estimated_price: req.body.estimated_price || 0,
+      estimated_price: parseInt(req.body.estimated_price || 0),
       release_date: req.body.release_date || "-",
       images: JSON.parse(req.body.images) || [],
       geometry: req.body.geometry || "",
@@ -204,7 +204,15 @@ module.exports = {
    * @param {string} req.query.brand id of brand
    */
   getBikes(req, res, callback) {
-    const { page = 1, limit = 7, type, brand, q } = req.query
+    const {
+      page = 1,
+      limit = 7,
+      type,
+      brand,
+      q,
+      min_price,
+      max_price,
+    } = req.query
 
     // start mongo
     let aggregate = [
@@ -254,6 +262,19 @@ module.exports = {
       // search with ignore capital text, source: https://stackoverflow.com/a/9655186/2780875
       aggregate.push({
         $match: { name: { $regex: `.*${q}.*`, $options: "i" } },
+      })
+    }
+
+    // filter by min price
+    // ref: https://docs.mongodb.com/realm/mongodb/run-aggregation-pipelines/#aggregation-stages
+    if (min_price || max_price) {
+      let filter = {}
+      if (min_price) filter["$gte"] = min_price
+      if (max_price) filter["$lte"] = max_price
+      aggregate.push({
+        $match: {
+          estimated_price: filter,
+        },
       })
     }
 
@@ -527,7 +548,7 @@ module.exports = {
       name: req.body.name,
       brand_id: ObjectId(req.body.brand_id),
       type_id: ObjectId(req.body.type_id),
-      estimated_price: req.body.estimated_price || 0,
+      estimated_price: parseInt(req.body.estimated_price || 0),
       release_date: req.body.release_date || "-",
       images: JSON.parse(req.body.images) || [],
       geometry: req.body.geometry || "",

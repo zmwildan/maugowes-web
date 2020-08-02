@@ -39,6 +39,8 @@ export function requestQueryGenerator(query = {}) {
     limit: MaxResults,
   }
 
+  if (query.min_price) reqQuery.min_price = query.min_price
+  if (query.max_price) reqQuery.max_price = query.max_price
   if (query.brand) reqQuery.brand = query.brand
   if (query.type) reqQuery.type = query.type
   if (query.q) reqQuery.q = query.q

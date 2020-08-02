@@ -5,7 +5,6 @@ import {
   color_red_main,
   color_gray_medium,
   color_blue_main,
-  color_gray_dark,
   color_black_main,
 } from "../Const"
 
@@ -35,6 +34,9 @@ export const SelectStyled = Styled.div`
     outline: 0;
     &:focus {
       border-bottom: 2px solid ${color_blue_main};
+    }
+    option:first-child {
+      color: ${color_gray_medium};
     }
   }
 `

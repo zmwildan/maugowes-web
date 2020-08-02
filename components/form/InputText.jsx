@@ -1,7 +1,12 @@
 import React from "react"
 import Styled from "styled-components"
 import { validate } from "../../modules/validator"
-import { color_red_main, color_gray_medium, color_blue_main } from "../Const"
+import {
+  color_red_main,
+  color_gray_medium,
+  color_blue_main,
+  color_gray_dark,
+} from "../Const"
 
 export const InputTextStyled = Styled.div`
   text-align: left;
@@ -20,7 +25,7 @@ export const InputTextStyled = Styled.div`
     padding: 10px 0;
     font-size: 15px;
     border: none;
-    border-bottom: 2px solid ${color_gray_medium};
+    border-bottom: 2px solid ${color_gray_dark};
     outline: 0;
     &:focus {
       border-bottom: 2px solid ${color_blue_main};
@@ -43,7 +48,7 @@ export default class InputText extends React.Component {
 
     this.props.setState(
       {
-        [this.props.name]: value
+        [this.props.name]: value,
       },
       () => {
         this.validateInput()
@@ -54,7 +59,7 @@ export default class InputText extends React.Component {
   validateInput(props = this.props) {
     const result = validate(props)
     this.props.setState({
-      [this.props.name + "_validate"]: result
+      [this.props.name + "_validate"]: result,
     })
   }
 
@@ -68,7 +73,7 @@ export default class InputText extends React.Component {
       type,
       validate,
       autoFocus,
-      autoComplete
+      autoComplete,
     } = this.props
     const is_valid = !(!validate.is_valid && validate.message)
     return (
@@ -82,11 +87,11 @@ export default class InputText extends React.Component {
           </label>
         ) : null}
         <input
-          onChange={e => {
+          onChange={(e) => {
             if (this.props.onChange) this.props.onChange(e)
             this.handleChange(e)
           }}
-          onBlur={e => this.handleChange(e)}
+          onBlur={(e) => this.handleChange(e)}
           type={type}
           name={name}
           id={this.props.id || name}
@@ -116,5 +121,5 @@ InputText.defaultProps = {
   containerStyle: {},
   validate: {},
   placeholder: "",
-  onChange: () => {}
+  onChange: () => {},
 }

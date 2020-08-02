@@ -1,10 +1,15 @@
+import { useState } from "react"
+import { currencyFormat } from "string-manager"
 import Router from "next/router"
 import Styled from "styled-components"
 import { objToQuery } from "string-manager"
 import { SidebarMarketplaceSytled } from "./SidebarMarketplace"
 import { SelectStyled } from "../form/Select"
 import { InputTextStyled } from "../form/InputText"
-import { color_black_main } from "../Const"
+import { InputRangeStyled } from "../form/InputRange"
+import { color_black_main, color_gray_medium } from "../Const"
+
+let FilterRedirectTimeout
 
 const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 .sidebar-items {
@@ -15,6 +20,7 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
    select {
      text-transform: capitalize;
      color: ${color_black_main};
+    }
    }
   }
  }
@@ -22,14 +28,18 @@ const SidebarBikesStyled = Styled(SidebarMarketplaceSytled)`
 }
 `
 
-class SidebarBikes extends React.Component {
-  state = {
-    q: this.props.query.q || "",
-  }
+const SidebarBikes = (props) => {
+  const { query } = props
 
-  changeHandler(e) {
+  const [q, setQ] = useState(query.q)
+  const [brand, setBrand] = useState(query.brand)
+  const [type, setType] = useState(query.type)
+  const [minPrice, setMinPrice] = useState(query.min_price || 0)
+  const [maxPrice, setMaxPrice] = useState(query.max_price || 0)
+
+  const changeHandler = (e) => {
     const { name, value } = e.target
-    let { query } = this.props
+    let { query } = props
     if (value == 0) {
       delete query[name]
     } else {
@@ -41,8 +51,8 @@ class SidebarBikes extends React.Component {
     )
   }
 
-  selectRender(dataKey) {
-    const { status, results } = this.props[dataKey] || {}
+  const selectRender = (dataKey) => {
+    const { status, results } = props[dataKey] || {}
     if (status && status == 200) {
       return results.map((n, key) => (
         <option key={key} value={n.id}>
@@ -54,68 +64,123 @@ class SidebarBikes extends React.Component {
     }
   }
 
-  render() {
-    const { brand, type } = this.props.query
-    return (
-      <SidebarBikesStyled className={this.props.className}>
-        <div className="sidebar-items">
-          <h2 style={{ marginTop: 0 }} className="title">
-            Cari
-          </h2>
-          <InputTextStyled>
-            <input
-              placeholder="Tulis brand atau tipe disini"
-              name="q"
-              type="text"
-              value={this.state.q}
-              onKeyDown={(e) => {
-                if (e.keyCode === 13) {
-                  this.changeHandler({
-                    target: {
-                      name: "q",
-                      value: this.state.q,
-                    },
-                  })
-                }
-              }}
-              onChange={(e) => this.setState({ q: e.target.value })}
-            />
-          </InputTextStyled>
-        </div>
-        <br />
-        <div className="sidebar-items">
-          <h2 className="title">Filter</h2>
-          <div className="categories">
-            <div className="category-item">
-              {/* select brand */}
-              <SelectStyled>
-                <select
-                  name="brand"
-                  onChange={(e) => this.changeHandler(e)}
-                  value={brand}>
-                  <option value={0}>Pilih Brand Sepeda</option>
-                  {this.selectRender("bikeBrands")}
-                </select>
-              </SelectStyled>
-              {/* end of select brand */}
+  return (
+    <SidebarBikesStyled className={props.className}>
+      {/* search bike */}
+      <div className="sidebar-items">
+        <h2 style={{ marginTop: 0 }} className="title">
+          Cari
+        </h2>
+        <InputTextStyled>
+          <input
+            placeholder="Tulis brand atau tipe disini"
+            name="q"
+            type="text"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.keyCode === 13) {
+                changeHandler({
+                  target: {
+                    name: "q",
+                    value: q,
+                  },
+                })
+              }
+            }}
+          />
+        </InputTextStyled>
+      </div>
+      <br />
+      {/* end of search bike */}
 
-              {/* select type */}
-              <SelectStyled>
-                <select
-                  name="type"
-                  onChange={(e) => this.changeHandler(e)}
-                  value={type}>
-                  <option value={0}>Pilih Jenis Sepeda</option>
-                  {this.selectRender("bikeTypes")}
-                </select>
-              </SelectStyled>
-              {/* end of select type */}
-            </div>
+      {/* filter by brand and type */}
+      <div className="sidebar-items">
+        <h2 className="title">Filter</h2>
+        <div className="categories">
+          <div className="category-item">
+            {/* select brand */}
+            <SelectStyled>
+              <select
+                name="brand"
+                onChange={(e) => changeHandler(e)}
+                value={brand}>
+                <option value={0}>Pilih Brand Sepeda</option>
+                {selectRender("bikeBrands")}
+              </select>
+            </SelectStyled>
+            {/* end of select brand */}
+
+            {/* select type */}
+            <SelectStyled>
+              <select
+                name="type"
+                onChange={(e) => changeHandler(e)}
+                value={type}>
+                <option value={0}>Pilih Jenis Sepeda</option>
+                {selectRender("bikeTypes")}
+              </select>
+            </SelectStyled>
+            {/* end of select type */}
           </div>
         </div>
-      </SidebarBikesStyled>
-    )
-  }
+      </div>
+      <br />
+      {/* end of filter by brand and type */}
+
+      {/* filter by price range */}
+      <div className="sidebar-items">
+        <h2 className="title">Range Harga</h2>
+
+        <p style={{ fontSize: 15 }}>Maks Rp. {currencyFormat(maxPrice)}</p>
+        <InputRangeStyled>
+          <input
+            type="range"
+            value={maxPrice}
+            min={minPrice}
+            max="200000000"
+            onChange={(e) => {
+              clearTimeout(FilterRedirectTimeout)
+              const { value } = e.target
+              setMaxPrice(value)
+              FilterRedirectTimeout = setTimeout(() => {
+                changeHandler({
+                  target: {
+                    name: "max_price",
+                    value,
+                  },
+                })
+              }, 800)
+            }}
+          />
+        </InputRangeStyled>
+
+        <p style={{ fontSize: 15 }}>Min Rp. {currencyFormat(minPrice)}</p>
+        <InputRangeStyled>
+          <input
+            type="range"
+            value={minPrice}
+            min="0"
+            max={maxPrice}
+            onChange={(e) => {
+              const { value } = e.target
+              clearTimeout(FilterRedirectTimeout)
+              setMinPrice(value)
+              FilterRedirectTimeout = setTimeout(() => {
+                changeHandler({
+                  target: {
+                    name: "min_price",
+                    value,
+                  },
+                })
+              }, 800)
+            }}
+          />
+        </InputRangeStyled>
+      </div>
+      {/* end of filter by price range */}
+    </SidebarBikesStyled>
+  )
 }
 
 SidebarBikes.defaultProps = {
