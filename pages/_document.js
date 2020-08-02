@@ -99,9 +99,7 @@ export default class MyDocument extends Document {
               if ("serviceWorker" in navigator) {
                 window.addEventListener("load", function () {
                   navigator.serviceWorker
-                    .register("/service-worker.js", {
-                      scope: '/'
-                    })
+                    .register("/service-worker.1.1.0.js")
                     .then(
                       function (registration) {
                         // Registration was successful
