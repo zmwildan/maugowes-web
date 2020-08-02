@@ -14,10 +14,12 @@ Router.get("/patch/parse-bike-price", async (req, res, next) => {
       if (!err) {
         // start looping and update data
         results.map((n, key) => {
+          const estimated_price = parseInt(n.estimated_price)
+
           // update one by one
-          db.collection("posts").updateOne(
+          db.collection("bikes").updateOne(
             { _id: ObjectId(n._id) },
-            { $set: { estimated_price: parseInt(n.estimated_price) } }
+            { $set: { estimated_price } }
           )
 
           if (key == results.length - 1) {
