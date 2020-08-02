@@ -3,6 +3,7 @@ const Router = express.Router()
 
 // Routes
 const BikesRoutes = require("./api/bikes")
+const PathRoutes = require("./api/patch")
 
 // handlers
 const VideoHandler = require("../handlers/video")
@@ -79,10 +80,13 @@ Router.post("/logout", AuthHandler.logout)
 // endpoint of : /api/bikes/*
 Router.use(BikesRoutes)
 
+// endpoint of : /api/patch/*
+Router.use(PathRoutes)
+
 Router.use("*", (req, res, next) => {
   return res.json({
     status: 404,
-    message: "request not available"
+    message: "request not available",
   })
 })
 
