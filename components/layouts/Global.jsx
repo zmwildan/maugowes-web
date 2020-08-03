@@ -132,22 +132,22 @@ const HomeLayout = (props) => {
               defer
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
             />
-            {/* <script
-                async
-                defer
-                src="https://www.googletagmanager.com/gtag/js?id=UA-138742898-1"
-              />
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
+            <script
+              async
+              defer
+              src="https://www.googletagmanager.com/gtag/js?id=UA-138742898-1"
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
               gtag('config', 'UA-138742898-1');
             `,
-                }}
-              /> */}
+              }}
+            />
           </>
         ) : null}
       </Head>
