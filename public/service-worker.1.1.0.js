@@ -1,4 +1,6 @@
-const STATIC_CACHE_NAME = "mg-static-v5"
+// ref: https://googlechrome.github.io/samples/service-worker/basic/
+
+const STATIC_CACHE_NAME = "mg-static-v6"
 const staticsToCache = [
   "/static/images/logos/maugowes-v2/icon-128x128.png",
   "/static/fonts/Manrope/Manrope-VariableFont_wght.ttf",
@@ -13,8 +15,26 @@ const staticsToCache = [
   "/static/images/logos/whatsapp-48.png",
 ]
 
+// The activate handler takes care of cleaning up old caches.
 self.addEventListener("activate", async (event) => {
-  console.log(STATIC_CACHE_NAME, "now ready to handle fetches!")
+  const currentCaches = [STATIC_CACHE_NAME]
+  event.waitUntil(
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return cacheNames.filter(
+          (cacheName) => !currentCaches.includes(cacheName)
+        )
+      })
+      .then((cachesToDelete) => {
+        return Promise.all(
+          cachesToDelete.map((cacheToDelete) => {
+            return caches.delete(cacheToDelete)
+          })
+        )
+      })
+      .then(() => self.clients.claim())
+  )
 })
 
 self.addEventListener("beforeinstallprompt", function (event) {
@@ -24,23 +44,21 @@ self.addEventListener("beforeinstallprompt", function (event) {
   showInstallPromotion()
 })
 
+// The install handler takes care of precaching the resources we always need.
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches.open(STATIC_CACHE_NAME).then(function (cache) {
-      console.log("Opened cache", STATIC_CACHE_NAME)
-      return cache.addAll(staticsToCache)
-    })
+    caches
+      .open(STATIC_CACHE_NAME)
+      .then((cache) => cache.addAll(staticsToCache))
+      .then(self.skipWaiting())
   )
 })
 
 self.addEventListener("fetch", function (event) {
   const request = event.request
 
-  // disabled service worker fetch on /api and /super
-  if (
-    request.url.indexOf("/api") === -1 &&
-    request.url.indexOf("/super") === -1
-  ) {
+  // only cache /static
+  if (request.url.indexOf("/static") !== -1) {
     event.respondWith(
       caches.match(event.request).then(function (response) {
         // Cache hit - return response

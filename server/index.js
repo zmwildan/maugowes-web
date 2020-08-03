@@ -46,6 +46,9 @@ nextApp.prepare().then(() => {
     if (urlArr[1] && urlArr[1] === "static") {
       // max age cache
       res.set("Cache-Control", "public, max-age=86400") //1 days
+    } else {
+      // non static / unversioned url
+      res.set("Cache-Control", "no-cache")
     }
 
     next()
