@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { fetchBlog, fetchMoreBlog } from "../../redux/blog/actions"
@@ -19,110 +20,92 @@ const BlogStyled = Styled.div`
 const StoreFilter = "list"
 const MaxResults = 12
 
-class Blog extends React.Component {
-  state = {
-    page: 1,
+const Blog = (props) => {
+  const [page, setPage] = useState(1)
+  const { tag, username, query } = props
+  const Filter = filterGenerator(query)
+  const blogState = props.blog[Filter] || {}
+  const firstUpdate = useRef(true)
+
+  let title = "Blog - Mau Gowes"
+  if (tag) {
+    title = `Postingan Dengan Tag "${tag}" - Mau Gowes`
+  } else if (username) {
+    title = `Postingan dari "${username}" - Mau Gowes`
   }
 
-  static async getInitialProps({ req, reduxStore, query }) {
-    const Filter = filterGenerator(query)
-
-    if (req) {
-      const reqQuery = requestQueryGenerator(query)
-      await reduxStore.dispatch(fetchBlog(Filter, reqQuery))
-    }
-
-    return {
-      tag: query.tag || "",
-      username: query.username,
-      query,
-    }
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      filterGenerator(prevProps.query) !== filterGenerator(this.props.query)
-    ) {
-      this.fetchData()
-    }
-  }
-
-  fetchData(query = this.props.query) {
-    const Filter = filterGenerator(query)
-    const blogState = this.props.blog[Filter] || {}
+  useEffect(() => {
     if (!blogState.status && !blogState.is_loading) {
-      progressBar.start()
+      if (typeof window !== "undefined") progressBar.start()
       const reqQuery = requestQueryGenerator(query)
-      this.props.dispatch(fetchBlog(Filter, reqQuery))
+      props.dispatch(fetchBlog(Filter, reqQuery))
     }
-  }
+  }, [query])
 
-  loadmoreHandler() {
-    const Filter = filterGenerator(this.props.query)
-    const blogState = this.props.blog[Filter] || {}
+  // listen page change
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+
+    const Filter = filterGenerator(query)
+    const blogState = props.blog[Filter] || {}
     if (!blogState.is_loading && blogState.status == 200) {
-      this.setState(
-        {
-          page: this.state.page + 1,
-        },
-        async () => {
-          let reqQuery = {
-            limit: MaxResults,
-            page: this.state.page,
-          }
-          if (this.props.tag) reqQuery.tag = this.props.tag
+      let reqQuery = {
+        limit: MaxResults,
+        page,
+      }
+      if (tag) reqQuery.tag = this.props.tag
 
-          return this.props.dispatch(fetchMoreBlog(Filter, reqQuery))
-        }
-      )
+      props.dispatch(fetchMoreBlog(Filter, reqQuery))
     }
+  }, [page])
+
+  return (
+    <GlobalLayout
+      metadata={{
+        title,
+        description: `${title}. Baca postingan terupdate seputar dunia pergowesan`,
+      }}>
+      <DefaultLayout>
+        <BlogStyled>
+          <Header
+            title={title}
+            text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
+            stats={{
+              suffix: "post",
+              total: blogState.total || 0,
+              show:
+                blogState.results && blogState.results.length
+                  ? blogState.results.length
+                  : 0,
+            }}
+          />
+          <BlogBox
+            noHeaderTitle
+            maxResults={MaxResults}
+            data={blogState}
+            loadmoreHandler={() => setPage(page + 1)}
+          />
+        </BlogStyled>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
+
+Blog.getInitialProps = async ({ req, reduxStore, query }) => {
+  const Filter = filterGenerator(query)
+
+  if (req) {
+    const reqQuery = requestQueryGenerator(query)
+    await reduxStore.dispatch(fetchBlog(Filter, reqQuery))
   }
 
-  render() {
-    const Filter = filterGenerator(this.props.query)
-    const blog = this.props.blog[Filter] || {}
-
-    if (blog.status) progressBar.stop()
-
-    let title = "Blog - Mau Gowes"
-    if (this.props.tag) {
-      title = `Postingan Dengan Tag "${this.props.tag}" - Mau Gowes`
-    } else if (this.props.username) {
-      title = `Postingan dari "${this.props.username}" - Mau Gowes`
-    }
-
-    return (
-      <GlobalLayout
-        metadata={{
-          title,
-          description: `${title}. Baca postingan terupdate seputar dunia pergowesan`,
-        }}>
-        <DefaultLayout>
-          <BlogStyled>
-            <Header
-              title={title}
-              text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
-              stats={{
-                suffix: "post",
-                total: blog.total || 0,
-                show:
-                  blog.results && blog.results.length ? blog.results.length : 0,
-              }}
-            />
-            <BlogBox
-              noHeaderTitle
-              maxResults={MaxResults}
-              data={blog}
-              loadmoreHandler={() => this.loadmoreHandler()}
-            />
-          </BlogStyled>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
+  return {
+    tag: query.tag || "",
+    username: query.username,
+    query,
   }
 }
 

@@ -7,7 +7,7 @@ import { SidebarMarketplaceSytled } from "./SidebarMarketplace"
 import { SelectStyled } from "../form/Select"
 import { InputTextStyled } from "../form/InputText"
 import { InputRangeStyled } from "../form/InputRange"
-import { color_black_main, color_gray_medium } from "../Const"
+import { color_black_main } from "../Const"
 
 let FilterRedirectTimeout
 
@@ -76,7 +76,7 @@ const SidebarBikes = (props) => {
             placeholder="Tulis brand atau tipe disini"
             name="q"
             type="text"
-            value={q}
+            value={q || ""}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={(e) => {
               if (e.keyCode === 13) {
@@ -105,7 +105,7 @@ const SidebarBikes = (props) => {
                 name="brand"
                 onChange={(e) => changeHandler(e)}
                 value={brand}>
-                <option value={0}>Pilih Brand Sepeda</option>
+                <option value={"0"}>Pilih Brand Sepeda</option>
                 {selectRender("bikeBrands")}
               </select>
             </SelectStyled>
@@ -117,7 +117,7 @@ const SidebarBikes = (props) => {
                 name="type"
                 onChange={(e) => changeHandler(e)}
                 value={type}>
-                <option value={0}>Pilih Jenis Sepeda</option>
+                <option value={"0"}>Pilih Jenis Sepeda</option>
                 {selectRender("bikeTypes")}
               </select>
             </SelectStyled>

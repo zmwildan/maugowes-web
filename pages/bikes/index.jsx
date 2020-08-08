@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
 import { toCamelCase, objToQuery } from "string-manager"
@@ -54,150 +55,148 @@ export function bikeFilterGenerator(query = {}) {
   return `list_${objToQuery(query)}`
 }
 
-class BikesIndex extends React.Component {
-  static async getInitialProps({ reduxStore, query }) {
-    if (typeof window == "undefined") {
-      const reqQuery = requestQueryGenerator(query)
+function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
 
-      await reduxStore.dispatch(fetchBikeBrands())
-      await reduxStore.dispatch(fetchBikeTypes())
-      await reduxStore.dispatch(
-        fetchBikes(bikeFilterGenerator(reqQuery), reqQuery)
-      )
+const BikesIndex = (props) => {
+  const { bikes, query } = props
+  const reqQuery = requestQueryGenerator(query)
+
+  const [page, setPage] = useState(1)
+  const [bikeFilter, setBikeFilter] = useState(bikeFilterGenerator(reqQuery))
+  let { title, description } = MetaData
+
+  const bikeTypes = bikes.bike_types || {}
+  const bikeBrands = bikes.bike_brands || {}
+  const bikesState = bikes[bikeFilter] || {}
+
+  const firstUpdate = useRef(true)
+  const oldPage = useRef(page)
+  const oldBikeFilter = useRef(bikeFilter)
+
+  useEffect(() => {
+    const reqQuery = requestQueryGenerator(query)
+
+    if (!bikeTypes.status) props.dispatch(fetchBikeTypes())
+    if (!bikeBrands.status) props.dispatch(fetchBikeBrands())
+    if (!bikesState.status) {
+      if (typeof window !== "undefined") progressBar.start()
+      props.dispatch(fetchBikes(bikeFilter, reqQuery))
     }
-    return { query }
-  }
+  }, [])
 
-  constructor(props) {
-    super(props)
-
-    const reqQuery = requestQueryGenerator(props.query)
-
-    this.state = {
-      page: 1,
-      bikeFilter: bikeFilterGenerator(reqQuery),
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
     }
-  }
+    setBikeFilter(bikeFilterGenerator(reqQuery))
+  }, [query])
 
-  componentDidMount() {
-    this.fetchData(true)
-  }
+  useEffect(() => {
+    const bikeData = props.bikes[bikeFilter] || {}
 
-  componentDidUpdate() {
-    this.fetchData()
-  }
-
-  fetchData(firstReq = false) {
-    const reqQuery = requestQueryGenerator(this.props.query)
-
-    // generate bike list filter
-    const BikeFilter = bikeFilterGenerator(reqQuery)
-
-    if (this.state.bikeFilter !== BikeFilter || firstReq) {
-      this.setState({ bikeFilter: BikeFilter })
-
-      const bikeTypes = this.props.bikes.bike_types || {}
-      const bikeBrands = this.props.bikes.bike_brands || {}
-      const bikes = this.props.bikes[BikeFilter] || {}
-
-      if (!bikeTypes.status) this.props.dispatch(fetchBikeTypes())
-      if (!bikeBrands.status) this.props.dispatch(fetchBikeBrands())
-      if (!bikes.status) {
-        progressBar.start()
-        this.props.dispatch(fetchBikes(BikeFilter, reqQuery))
-      }
-    }
-  }
-
-  loadmoreHandler() {
-    const { bikeFilter } = this.state
-    const bikeData = this.props.bikes[bikeFilter] || {}
-    if (!bikeData.is_loading && bikeData.status == 200) {
-      this.setState(
-        {
-          page: this.state.page + 1,
-        },
-        () => {
-          let reqQuery = requestQueryGenerator(this.props.query)
-          reqQuery.page = this.state.page
-          this.props.dispatch(fetchBikes(bikeFilter, reqQuery))
-        }
-      )
-    }
-  }
-
-  render() {
-    const { bikeFilter } = this.state
-    let { title, description } = MetaData
-    const { query } = this.props
-
-    const bikeTypes = this.props.bikes.bike_types || {}
-    const bikeBrands = this.props.bikes.bike_brands || {}
-    const bikes = this.props.bikes[bikeFilter] || {}
-
-    if (query.q) {
-      description = `Hasil Pencarian "${query.q}" `
-    }
-
-    if (bikes.status) progressBar.stop()
-
-    if (query.type && bikeTypes.status === 200) {
-      const typeDetail = bikeTypes.results.find((n) => n.id === query.type)
-      if (typeDetail && typeDetail.name) {
-        title += `${typeDetail.name} `
+    if (oldBikeFilter.current != bikeFilter) {
+      oldBikeFilter.current = bikeFilter
+      if (!bikeData.status) {
+        let reqQuery = requestQueryGenerator(query)
+        props.dispatch(fetchBikes(bikeFilter, reqQuery))
       }
     }
 
-    if (query.brand && bikeBrands.status === 200) {
-      const brandDetail = bikeBrands.results.find((n) => n.id === query.brand)
-      if (brandDetail && brandDetail.name) {
-        title += `${brandDetail.name} `
+    if (oldPage.current != page) {
+      oldPage.current = page
+      if (!bikeData.is_loading && bikeData.status == 200) {
+        let reqQuery = requestQueryGenerator(query)
+        reqQuery.page = page
+        props.dispatch(fetchBikes(bikeFilter, reqQuery))
       }
     }
+  }, [bikeFilter, page])
 
-    title += `${title ? "- " : ""} Bikes Mau Gowes`
+  // meta data generator
+  if (query.q) {
+    description = `Hasil Pencarian "${query.q}" `
+  }
 
-    return (
-      <GlobalLayout
-        metadata={{
-          title: toCamelCase(title),
-          description,
-        }}>
-        <DefaultLayout>
-          <Header
-            title={toCamelCase(title)}
-            text={description}
-            stats={{
-              suffix: "bikes",
-              total: bikes.total || 0,
-              show:
-                bikes.results && bikes.results.length
-                  ? bikes.results.length
-                  : 0,
-            }}
-          />
-          <BikesStyled>
-            <div className="grid">
-              <Sidebar
-                query={query}
-                className="col-3_md-4_xs-12"
-                bikeBrands={bikeBrands}
-                bikeTypes={bikeTypes}
+  if (bikesState.status) progressBar.stop()
+
+  if (query.type && bikeTypes.status === 200) {
+    const typeDetail = bikeTypes.results.find((n) => n.id === query.type)
+    if (typeDetail && typeDetail.name) {
+      title += `${typeDetail.name} `
+    }
+  }
+
+  if (query.brand && bikeBrands.status === 200) {
+    const brandDetail = bikeBrands.results.find((n) => n.id === query.brand)
+    if (brandDetail && brandDetail.name) {
+      title += `${brandDetail.name} `
+    }
+  }
+
+  title += `${title ? "- " : ""} Bikes Mau Gowes`
+  // end of meta data generator
+
+  return (
+    <GlobalLayout
+      metadata={{
+        title: toCamelCase(title),
+        description,
+      }}>
+      <DefaultLayout>
+        <Header
+          title={toCamelCase(title)}
+          text={description}
+          stats={{
+            suffix: "bikes",
+            total: bikesState.total || 0,
+            show:
+              bikesState.results && bikesState.results.length
+                ? bikesState.results.length
+                : 0,
+          }}
+        />
+        <BikesStyled>
+          <div className="grid">
+            <Sidebar
+              query={query}
+              className="col-3_md-4_xs-12"
+              bikeBrands={bikeBrands}
+              bikeTypes={bikeTypes}
+            />
+            <div className="content col-9_md-8_xs-12">
+              <BikesBox
+                data={bikesState}
+                loadmoreHandler={() => {
+                  setPage(page + 1)
+                }}
+                maxResults={MaxResults}
+                noHeaderTitle
               />
-              <div className="content col-9_md-8_xs-12">
-                <BikesBox
-                  data={bikes}
-                  loadmoreHandler={() => this.loadmoreHandler()}
-                  maxResults={MaxResults}
-                  noHeaderTitle
-                />
-              </div>
             </div>
-          </BikesStyled>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
+          </div>
+        </BikesStyled>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
+
+BikesIndex.getInitialProps = async ({ req, reduxStore, query }) => {
+  if (req) {
+    const reqQuery = requestQueryGenerator(query)
+    const filter = bikeFilterGenerator(reqQuery)
+
+    await reduxStore.dispatch(fetchBikeBrands())
+    await reduxStore.dispatch(fetchBikeTypes())
+    await reduxStore.dispatch(fetchBikes(filter, reqQuery))
   }
+  return { query }
 }
 
 export default connect((state) => {
