@@ -15,10 +15,13 @@ const AuthMiddlewareFront = require("./middlewares/authMiddlewareFront")
 // config
 const PORT = process.env.PORT || 2019
 const NODE_ENV = process.env.NODE_ENV || "development"
+
+// ref: http://expressjs.com/en/resources/middleware/cookie-session.html
 var SESSION_CONF = {
   name: "maugowes",
   keys: [process.env.APP_KEY || "maugowes", "maugowes.com"],
   maxAge: 12 * 30 * 24 * 60 * 60 * 1000,
+  sameSite: "Strict",
 }
 
 // next app config
@@ -45,10 +48,10 @@ nextApp.prepare().then(() => {
     const urlArr = req.originalUrl.split("/")
     if (urlArr[1] && urlArr[1] === "static") {
       // max age cache
-      res.set("Cache-Control", "public, max-age=86400") //1 days
+      res.set("Cache-Control", "public, max-age=86400, sameSite=Strict") //1 days
     } else {
       // non static / unversioned url
-      res.set("Cache-Control", "no-cache")
+      res.set("Cache-Control", "no-cache, sameSite=Strict")
     }
 
     next()

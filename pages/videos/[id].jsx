@@ -3,6 +3,7 @@ import Styled from "styled-components"
 import { connect } from "react-redux"
 import { nl2br } from "string-manager"
 import { progressBar } from "../../modules/loaders"
+import Dayjs from "../../modules/dayjs"
 
 // redux
 import { fetchVideoDetail, fetchVideos } from "../../redux/videos/actions"
@@ -12,6 +13,7 @@ import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 
 // components
+import { color_gray_dark } from "../../components/Const"
 import VideoSSBox from "../../components/boxs/VideoSuperSmallBox"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
@@ -21,7 +23,7 @@ import GA from "../../components/boxs/GA"
 const VideoDetailStyled = Styled.div`
   .video-title {
     padding: 5px 20px;
-    margin: 0 -8px;
+    margin: 0 -8px 20px;
     h1 {
       font-weight: 400;
       line-height: 1.3;
@@ -30,12 +32,16 @@ const VideoDetailStyled = Styled.div`
     }
   }
 
+  .video-meta {
+    color: ${color_gray_dark};
+    font-size: 14px;
+  }
+
   .video-player {
     display: flex;
     justify-content: center;
-    background: #000;
-    padding: 20px;
     margin: 0 -8px;
+    background: #000;
     
     iframe {
       width: 100%;
@@ -188,11 +194,14 @@ class VideoDetail extends React.Component {
                   <div className="col-7_xs-12">
                     <div className="video-title">
                       <h1>{data.title}</h1>
+                      <div className="video-meta">
+                        Diposting {Dayjs(data.created_on * 1000).fromNow()}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="video-player" style={{ background: "#000" }}>
+                <div className="video-player">
                   <iframe
                     title={`embed video ${data.title}`}
                     src={`https://youtube.com/embed/${data.id}`}

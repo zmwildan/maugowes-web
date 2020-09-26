@@ -1,22 +1,28 @@
 import Styled from "styled-components"
-import GlobalLayout from "../../components/layouts/Global"
-import DefaultLayout from "../../components/layouts/Default"
 import { toCamelCase } from "string-manager"
+
+// redux
+import { connect } from "react-redux"
+import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
+
+// modules
+import Dayjs from "../../modules/dayjs"
+import { progressBar } from "../../modules/loaders"
+import { scaleNumber } from "string-manager"
+
+// components
 import {
   color_gray_dark,
   color_gray_soft,
   color_blue_main,
   color_white_main,
 } from "../../components/Const"
+import GlobalLayout from "../../components/layouts/Global"
+import DefaultLayout from "../../components/layouts/Default"
 import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 import GA from "../../components/boxs/GA"
-import { progressBar } from "../../modules/loaders"
-
-import { scaleNumber } from "string-manager"
-import { connect } from "react-redux"
-import { fetchBlogDetail, fetchBlog } from "../../redux/blog/actions"
 import BlogBox from "../../components/boxs/BlogBox"
 import ShareIcon from "../../components/icons/Share"
 import CommentIcon from "../../components/icons/Comment"
@@ -256,10 +262,10 @@ const BlogDetail = ({ id, dispatch, blog }) => {
                         alt={`${blogData.author.username} avatar`}
                       />
                       <div className="blog-detail_author_name">
-                        {toCamelCase(blogData.author.fullname)}
+                        Oleh {toCamelCase(blogData.author.fullname)}
                       </div>
                       <div className="blog-detail_author_level">
-                        alias {blogData.author.username} sebagai Penulis
+                        Diposting {Dayjs(blogData.created_on * 1000).fromNow()}
                       </div>
                     </div>
                   </a>
