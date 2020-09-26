@@ -1,13 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import Router from "next/router"
 import Styled from "styled-components"
 import Card from "../cards/CardEvent"
-import {
-  color_blue_main,
-  color_gray_medium,
-  color_gray_dark,
-  color_gray_soft,
-} from "../Const"
+import { color_gray_medium, color_gray_dark, color_gray_soft } from "../Const"
 import Loader from "../Loader"
 import Error from "../cards/CardError"
 import Button from "../buttons/index"
@@ -72,7 +67,7 @@ const EventsBox = (props) => {
                 <input
                   id="filter-show-active"
                   type="checkbox"
-                  checked={query.show_all}
+                  checked={query.show_all || 0}
                   onChange={() => {
                     query.show_all = query.show_all ? 0 : 1
                     props.setState({ query })

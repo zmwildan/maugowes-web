@@ -1,15 +1,21 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
+import dynamic from "next/dynamic"
+
+//modules
+import Toast from "../../modules/toast"
+
 // components
 import GlobalLayout from "../../components/layouts/Global"
 import DefaultLayout from "../../components/layouts/Default"
 import Header from "../../components/boxs/FullWidthHeader"
 import GA from "../../components/boxs/GA"
-import EventForm from "../../components/form/Events/EventForm"
 
-//modules
-import Toast from "../../modules/toast"
+// dynamic compoent
+const EventForm = dynamic(() =>
+  import("../../components/form/Events/EventForm")
+)
 
 const SendCompetitionStyled = Styled.div`
 `
@@ -19,7 +25,7 @@ class SendEvent extends React.Component {
     const metadata = {
       title: "Kirim Events - Mau Gowes",
       description:
-        "Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator"
+        "Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator",
     }
     const { status, message } = this.props.events.submit_post || {}
     if (status === 200 || status === 201) {
@@ -35,11 +41,7 @@ class SendEvent extends React.Component {
       <GlobalLayout metadata={metadata}>
         <DefaultLayout>
           <SendCompetitionStyled>
-            <Header
-              title="Events"
-              text={metadata.description}
-              backgroundImage="https://images.unsplash.com/photo-1558009525-29a300db7b7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-            />
+            <Header title="Events" text={metadata.description} />
             <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
 
             {/* form send event */}
@@ -62,9 +64,9 @@ class SendEvent extends React.Component {
   }
 }
 
-export default connect(state => {
+export default connect((state) => {
   return {
     events: state.Events,
-    location: state.Location
+    location: state.Location,
   }
 })(SendEvent)
