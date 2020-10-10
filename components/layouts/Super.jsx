@@ -104,8 +104,8 @@ class SuperLayout extends React.Component {
   render() {
     return (
       <SuperStyled>
-        <div className="grid">
-          <div className="col-2_md-3_xs-12">
+        <div className="grid m-t-b-30">
+          <div className="col-2_md-3_xs-12" data-push-right="off-1_md-0">
             <div className="super-sidebar">
               {Menus.map((n, key) => {
                 return (
