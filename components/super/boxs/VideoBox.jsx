@@ -13,7 +13,7 @@ function generateStats(results, total) {
   )
 }
 
-export default props => {
+export default (props) => {
   const { results, status, message, stats, is_loading, total } = props.data
 
   return (
@@ -40,7 +40,7 @@ export default props => {
       status === 200 &&
       results &&
       results.length >= props.maxResults ? (
-        <div className="grid-center" style={{ margin: "20px 0 40px" }}>
+        <div className="grid-center m-t-30">
           <Button
             type="button"
             isDisabled={is_loading}

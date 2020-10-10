@@ -195,7 +195,7 @@ class VideoDetail extends React.Component {
                     <div className="video-title">
                       <h1>{data.title}</h1>
                       <div className="video-meta">
-                        Diposting {Dayjs(data.created_on * 1000).fromNow()}
+                        Diposting {Dayjs(data.publishedDate).fromNow()}
                       </div>
                     </div>
                   </div>

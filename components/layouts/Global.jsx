@@ -43,10 +43,13 @@ const GlobalLayoutStyled = Styled.div`
     margin: 0;
   }
   .m-t-b-30 {
-    margin: 30px 0;
+    margin: 30px 0 !important;
   }
   .m-t-50 {
-    margin-top: 50px;
+    margin-top: 50px !important;
+  }
+  .m-t-30 {
+    margin-top: 30px !important;
   }
   .p-t-b-30 {
     padding: 30px 0;
