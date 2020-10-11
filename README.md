@@ -15,6 +15,18 @@ We are using https://jestjs.io/ , just run
 npm run test
 ```
 
+## Development 
+
+- Replace .env.example to .env
+- install (only for first time)
+    ```
+    npm install
+    ```
+- start app with
+    ```
+    npm run local
+    ```
+
 **References :**
 
 - https://redux.js.org/recipes/writing-tests
