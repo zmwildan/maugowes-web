@@ -1,5 +1,6 @@
 import Styled from "styled-components"
 import { toCamelCase } from "string-manager"
+import { useEffect } from "react"
 
 // redux
 import { connect } from "react-redux"
@@ -158,17 +159,20 @@ const BlogDetail = ({ id, dispatch, blog }) => {
     dispatch(fetchBlogDetail(id))
   }
 
-  // fetch blog related
   const blogRelated = blog[RelatedFilter] || {}
-  if (!blogRelated.status && !blogRelated.is_loading) {
-    dispatch(
-      fetchBlog(RelatedFilter, {
-        limit: 4,
-        page: 1,
-        notId: id,
-      })
-    )
-  }
+  //get related post
+  useEffect(() => {
+    if (blogData.tags && process.browser) {
+      dispatch(
+        fetchBlog(RelatedFilter, {
+          limit: 4,
+          page: 1,
+          tag:blogData.tags,
+          notId: id,
+        })
+      )
+    }
+  }, [])
 
   let metadata = {}
 
