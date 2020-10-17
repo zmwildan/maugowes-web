@@ -4,6 +4,7 @@ const Router = express.Router()
 // Routes
 const BikesRoutes = require("./api/bikes")
 const PathRoutes = require("./api/patch")
+const SearchRoutes = require("./api/search")
 
 // handlers
 const VideoHandler = require("../handlers/video")
@@ -82,6 +83,9 @@ Router.use(BikesRoutes)
 
 // endpoint of : /api/patch/*
 Router.use(PathRoutes)
+
+// endpoint of : /api/search/*
+Router.use(SearchRoutes)
 
 Router.use("*", (req, res, next) => {
   return res.json({

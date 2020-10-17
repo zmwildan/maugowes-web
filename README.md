@@ -15,17 +15,21 @@ We are using https://jestjs.io/ , just run
 npm run test
 ```
 
-## Development 
+## Development
 
 - Replace .env.example to .env
 - install (only for first time)
-    ```
-    npm install
-    ```
+  ```
+  npm install
+  ```
 - start app with
-    ```
-    npm run local
-    ```
+  ```
+  npm run local
+  ```
+
+## Documentations
+
+- API Docs : https://documenter.getpostman.com/view/100843/TVRrV4Qg
 
 **References :**
 

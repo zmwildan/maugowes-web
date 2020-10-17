@@ -9,9 +9,9 @@ const { ObjectId } = require("mongodb")
 module.exports = {
   /**
    * fetch posts list by some parameters
-   * @param {*} req
-   * @param {*} res
-   * @param {*} callback
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Function} callback
    */
   fetchPosts(req, res, callback) {
     const { page, limit, tag, username, showDraft, notId } = req.query
@@ -162,7 +162,7 @@ module.exports = {
 
       // update views total on mongo
       if (!req.no_count) {
-        const { err, db, client } = await mongoV2(callback)
+        const { err, db, client } = await mongoV2()
         if (!err) {
           db.collection("posts").updateOne(
             { _id: ObjectId(id) },
@@ -176,7 +176,7 @@ module.exports = {
       return callback(reply)
     } else {
       // start mongo
-      const { err, db, client } = await mongoV2(callback)
+      const { err, db, client } = await mongoV2()
 
       if (err) {
         // error on mongo db connection
