@@ -1,20 +1,5 @@
 # Mau Gowes Web
 
-## API Documentations
-
-Please check link bellow :
-https://gitlab.com/yussan-media-group/maugowes.com/tree/master/docs/api
-
-## Tests
-
-### Unit Testing
-
-We are using https://jestjs.io/ , just run
-
-```
-npm run test
-```
-
 ## Development
 
 - Replace .env.example to .env
@@ -27,9 +12,33 @@ npm run test
   npm run local
   ```
 
+## Tests
+
+### Unit Testing
+
+We are using https://jestjs.io/ , just run
+
+```
+npm run test
+```
+
 ## Documentations
 
 - API Docs : https://documenter.getpostman.com/view/100843/TVRrV4Qg
+
+## Architecture
+
+### FE Architecture
+
+- **Flow**
+
+  Page (Connect Redux / or Not) -> Component
+
+### BE Architecture
+
+- **Flow**
+
+  Endpoint -> Handler -> ( (module a -> model a), (module b -> model a / model b / etc) )
 
 **References :**
 
