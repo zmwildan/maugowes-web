@@ -1,17 +1,14 @@
-import React from "react"
+import { useEffect, useState } from "react"
 import Styled from "styled-components"
-import {
-  color_gray_soft,
-  color_gray_dark,
-  color_black_main,
-  color_blue_main,
-} from "../Const"
+import { color_gray_soft, color_black_main, color_blue_main } from "../Const"
 import initialDropdown from "../../modules/dropdown"
 
 // components
 import Link from "next/link"
 import Dropdown from "../dropdown/index"
 import IconBottomArrow from "../icons/bottom-arrow"
+import IconSearch from "../icons/Search"
+import SearchModal from "../modals/SearchInput"
 
 const HeaderStyled = Styled.header`
   .header-logo {
@@ -27,10 +24,21 @@ const HeaderStyled = Styled.header`
   .header-top-menu {
     border-top: 2px solid ${color_gray_soft}; 
     border-bottom: 2px solid ${color_blue_main};
-    overflow-x: auto;
+    
     margin: 0;
     button.header-top-menu_link {
       background: transparent;
+    }
+
+    .header-top-menu__left, .header-top-menu__right {
+      padding: 0 5px;
+      display: flex;
+      align-items: center;
+      height: 50px;
+    }
+
+    .header-top-menu__right {
+      justify-content: flex-end
     }
 
     .header-top-menu_link {
@@ -80,29 +88,56 @@ const HeaderStyled = Styled.header`
       }
     }
 
-    .header-top-menu_group_left {
-      border-right: 2px solid ${color_gray_soft}; 
-    }
 
     .header-top-menu_group {
       margin: 0;
       padding: 0;
       display: -webkit-inline-box;
-      padding: 25px 10px;
+      position: relative;
       li {
         list-style: none;
         padding: 0 20px;
+        &:first-child {
+          padding-left: 0;
+        }
         &.active {
           a {
             color: ${color_blue_main};
           }
         }
       }
+      a.btn-search {
+        width: 25px !important;
+        height: 25px !important;
+        position: absolute;
+        top: -11px;
+        right: 5px;
+      }
     }
   }
 
   [class*=col-] {
     padding: 0;
+  }
+
+  // responsiveness
+  // gridlex _xs
+  @media (max-width: 36em) {
+    .header-logo {
+      padding: 10px 0;
+      .header-logo-img {
+        width: 50px;
+      }
+    }
+  }
+  // gridlex _sm
+  @media (max-width: 48em) {
+    .header-logo {
+      padding: 10px 0;
+      .header-logo-img {
+        width: 50px;
+      }
+    }
   }
 `
 
@@ -133,160 +168,115 @@ const AvailableMenu = [
   // },
 ]
 
-// const AvailableSellCategories = [
-//   {
-//     name: "Roadbike",
-//     link: "/categories/roadbike",
-//     child: [
-//       { name: "accesories", link: "/categories/roadbike/accesories" },
-//       { name: "part", link: "/categories/roadbike/part" },
-//       { name: "frameset", link: "/categories/roadbike/frameset" }
-//     ]
-//   },
-//   {
-//     name: "MTB",
-//     link: "/categories/mtb",
-//     child: [
-//       { name: "accesories", link: "/categories/roadbike/mtb" },
-//       { name: "part", link: "/categories/mtb/part" },
-//       { name: "frameset", link: "/categories/mtb/frameset" }
-//     ]
-//   }
-// ]
+const Header = (props) => {
+  const [path, setPath] = useState({})
+  const [doSearch, setDoSearch] = useState(false)
+  const { pathname } = path
 
-class Header extends React.Component {
-  state = {
-    pathname: "",
-  }
-
-  componentDidMount = () => {
+  useEffect(() => {
     initialDropdown()
 
     const pathArr = window.location.pathname.split("/")
-    this.setState({ pathname: pathArr[1] })
+    setPath({ pathname: pathArr[1] })
+  }, [])
 
-    // set category weight same as category link
-    // const CatDropDown = document.getElementById("dropdown-categories")
-    // const BtnDropDown = document.getElementById("button-categories")
+  return (
+    <HeaderStyled>
+      {/* search modal */}
+      {doSearch ? <SearchModal onClose={() => setDoSearch(false)} /> : null}
 
-    // CatDropDown.style.width = `calc(${BtnDropDown.offsetWidth}px - 40px)`
-  }
+      {/* end of search modal */}
 
-  render = () => {
-    const { pathname } = this.state
+      <div className="grid-center header-logo">
+        <div className="col">
+          <Link href="/">
+            <a href="/">
+              <img
+                className="header-logo-img"
+                src="/static/images/logos/maugowes-v2/icon-128x128.png"
+                alt="logo Mau Gowes"
+              />
+            </a>
+          </Link>
+        </div>
+      </div>
 
-    return (
-      <HeaderStyled>
-        <div className="grid-center header-logo">
-          <div className="col">
-            <Link href="/">
-              <a href="/">
-                <img
-                  className="header-logo-img"
-                  src="/static/images/logos/maugowes-v2/icon-128x128.png"
-                  alt="logo Mau Gowes"
-                />
-              </a>
-            </Link>
+      <div className="grid-noGuttter header-top-menu">
+        {/* left menus */}
+        <div
+          className="col-6_xs-11 header-top-menu__left"
+          style={{ overflow: "auto" }}>
+          <ul className="header-top-menu_group">
+            {AvailableMenu.map((n, key) => {
+              return (
+                <li
+                  className={n.pathname == pathname ? "active" : ""}
+                  key={key}>
+                  {n.child ? (
+                    <Dropdown>
+                      <button
+                        type="button"
+                        className="dropdown-btn header-top-menu_link">
+                        {n.name}
+                        <IconBottomArrow
+                          className="header-top-menu_link_icon"
+                          size="10"
+                        />
+                      </button>
+                      <div className="dropdown-content dropdown-btn header-top-menu_dropdown">
+                        <ul>
+                          {n.child.map((m, key) => {
+                            return (
+                              <li key={key}>
+                                <Link href={m.link}>
+                                  <a href={m.link}>
+                                    {m.name}{" "}
+                                    <IconBottomArrow
+                                      className="header-top-menu_link_icon"
+                                      size="10"
+                                    />
+                                  </a>
+                                </Link>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      </div>
+                    </Dropdown>
+                  ) : (
+                    <Link href={n.link}>
+                      <a className="header-top-menu_link" href={n.link}>
+                        {n.name}
+                      </a>
+                    </Link>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+        {/* end of left menus */}
+
+        {/* right menus */}
+        <div className="col-6_xs-1 header-top-menu__right">
+          <div className="header-top-menu_group">
+            <a
+              onClick={(e) => {
+                e.preventDefault()
+                setDoSearch(true)
+              }}
+              style={{ background: "#FFF" }}
+              className="btn-search"
+              href="#"
+              title="Pencarian Mau Gowes">
+              <IconSearch width={25} height={25} />
+            </a>
           </div>
         </div>
-
-        <div className="grid-noGuttter header-top-menu">
-          {/* <div
-            className="col-3_xs-6 header-top-menu_group header-top-menu_group_left"
-            id="button-categories">
-            <Dropdown>
-              <button
-                className="dropdown-btn header-top-menu_link"
-                type="button">
-                Mau Beli apa ?
-                <IconBottomArrow
-                  className="header-top-menu_link_icon"
-                  size="10"
-                />
-              </button>
-              <div
-                className="dropdown-content header-categories-list-dropdown"
-                id="dropdown-categories"
-                style={{ right: -10 }}>
-                {AvailableSellCategories.map((n, key) => {
-                  return (
-                    <div key={key}>
-                      <h3>{n.name}</h3>
-                      <ul
-                        style={
-                          key == AvailableSellCategories.length - 1
-                            ? { borderBottom: "none", marginBottom: 0 }
-                            : {}
-                        }>
-                        {n.child.map((m, key) => {
-                          return (
-                            <li key={key}>
-                              <a href={m.link}>{m.name}</a>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </div>
-                  )
-                })}
-              </div>
-            </Dropdown>
-          </div> */}
-          <div className="col-3_xs-6">
-            <ul className="header-top-menu_group">
-              {AvailableMenu.map((n, key) => {
-                return (
-                  <li
-                    className={n.pathname == pathname ? "active" : ""}
-                    key={key}>
-                    {n.child ? (
-                      <Dropdown>
-                        <button
-                          type="button"
-                          className="dropdown-btn header-top-menu_link">
-                          {n.name}
-                          <IconBottomArrow
-                            className="header-top-menu_link_icon"
-                            size="10"
-                          />
-                        </button>
-                        <div className="dropdown-content dropdown-btn header-top-menu_dropdown">
-                          <ul>
-                            {n.child.map((m, key) => {
-                              return (
-                                <li key={key}>
-                                  <Link href={m.link}>
-                                    <a href={m.link}>
-                                      {m.name}{" "}
-                                      <IconBottomArrow
-                                        className="header-top-menu_link_icon"
-                                        size="10"
-                                      />
-                                    </a>
-                                  </Link>
-                                </li>
-                              )
-                            })}
-                          </ul>
-                        </div>
-                      </Dropdown>
-                    ) : (
-                      <Link href={n.link}>
-                        <a className="header-top-menu_link" href={n.link}>
-                          {n.name}
-                        </a>
-                      </Link>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
-      </HeaderStyled>
-    )
-  }
+        {/* end of right menus */}
+      </div>
+    </HeaderStyled>
+  )
 }
 
 export default Header

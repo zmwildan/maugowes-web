@@ -1,16 +1,12 @@
+// components
 import Header from "../navigations/Header"
 import Footer from "../navigations/Footer"
-import Styled from "styled-components"
 import ThanksTo from "../boxs/ThanksToFooter"
 import ProgressBar from "../loaders/ProgressBar"
 
-const DefaultLayout = Styled.div`
-
-`
-
 export default (props) => {
   return (
-    <DefaultLayout>
+    <>
       <ProgressBar />
       <div className="container">
         <Header />
@@ -18,6 +14,6 @@ export default (props) => {
         <ThanksTo />
         <Footer />
       </div>
-    </DefaultLayout>
+    </>
   )
 }
