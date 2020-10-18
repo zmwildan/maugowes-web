@@ -8,6 +8,7 @@ import Auth from "../redux/auth/reducers"
 import Location from "../redux/location/reducer"
 import Bikes from "../redux/bikes/reducer"
 import GroupSpec from "../redux/groupSpec/reducer"
+import Search from "../redux/search/reducer"
 
 // middlewares
 import apiMiddleware from "../redux/middlewares/requestApi"
@@ -19,7 +20,8 @@ const Reducers = combineReducers({
   Events,
   Location,
   Bikes,
-  GroupSpec
+  GroupSpec,
+  Search,
 })
 
 let Middlewares = applyMiddleware(apiMiddleware)

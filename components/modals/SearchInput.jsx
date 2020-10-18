@@ -34,11 +34,13 @@ const SearchInput = (props) => {
                 setValue(e.target.value)
               }}
               onKeyDown={(e) => {
-                if (e.keyCode === 13) {
-                  return Router.push(
+                // press ente and value not empty
+                if (e.keyCode === 13 && !!value) {
+                  Router.push(
                     `/search?keyword=${value}`,
                     `/search?keyword=${value}`
                   )
+                  setTimeout(() => props.onClose(), 200)
                 }
               }}
               type="search"

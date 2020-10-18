@@ -17,7 +17,16 @@ const BikesModel = {
       }
 
       // start mongo query
-      let aggregate = []
+      let aggregate = [
+        {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            as: "author",
+          },
+        },
+      ]
 
       // search by keyword
       if (keyword) {
