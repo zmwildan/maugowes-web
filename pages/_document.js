@@ -49,6 +49,12 @@ export default class MyDocument extends Document {
             href="/static/images/logos/maugowes-v2/icon-128x128.png"
           />
           <link rel="manifest" href="/manifest-v2.0.1.json" />
+          <link
+            rel="search"
+            type="application/opensearchdescription+xml"
+            href="/opensearch.xml"
+            title="Pencarian di Mau Gowes"
+          />
           <style
             dangerouslySetInnerHTML={{
               __html: `
