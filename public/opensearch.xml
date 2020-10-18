@@ -1,6 +1,6 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
 <ShortName>Mau Gowes</ShortName>
-<Description>Pencarian id MauGowes</Description>
+<Description>Pencarian id Mau Gowes</Description>
 <Url type="text/html" method="get" template="https://maugowes.com/search?keyword={searchTerms}"/>
 <Image height="16" width="16" type="image/png"> https://maugowes.com/static/images/logos/maugowes-v2/icon-72x72.png </Image>
 <moz:SearchForm>https://maugowes.com</moz:SearchForm>
