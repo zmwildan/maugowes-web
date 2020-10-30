@@ -153,7 +153,7 @@ module.exports = {
    * delete redis cache done
    * @param {string} req.params.bike_id
    */
-  updateBike(req, res) {
+  updateBike(req, res, callback) {
     let { id } = req.params
     id = ObjectId(id)
 
@@ -189,7 +189,7 @@ module.exports = {
 
       client.close()
 
-      return res.json({
+      return callback({
         status: 200,
         message: "Update Bike Success",
       })
