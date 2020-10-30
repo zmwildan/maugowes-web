@@ -3,7 +3,6 @@ const fs = require("fs")
 
 const now = new Date()
 const LogDir = StorageConf[process.env.NODE_ENV].log
-const LogFileName = "tdr.log"
 
 /**
  * function to add log text
@@ -24,16 +23,15 @@ const log = ({ req = {}, resp = {}, rt = 0 }) => {
 
   const logText = `${JSON.stringify(logObj)}\n`
 
-  const TargetDir = `${LogDir}/${now.getFullYear()}/${(
+  const TargetFile = `${LogDir}/tdr_${now.getFullYear()}_${(
     "0" +
     (now.getMonth() + 1)
-  ).slice(-2)}/${now.getDate()}`
-  const TargetFile = `${TargetDir}/${LogFileName}`
+  ).slice(-2)}_${now.getDate()}.log`
 
   try {
     // create dir if not exist
-    if (!fs.existsSync(TargetDir)) {
-      fs.mkdirSync(TargetDir, { recursive: true }, (err) => {
+    if (!fs.existsSync(LogDir)) {
+      fs.mkdirSync(LogDir, { recursive: true }, (err) => {
         if (err) console.error("Create Log Dir Failed", err)
       })
     }
