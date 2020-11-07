@@ -30,34 +30,42 @@ module.exports = {
         "get",
         `/youtube/v3/videos?id=${video_id}&part=snippet&key=${process.env.GOOGLE_TOKEN}`,
         (response) => {
-          // return callback(response.items.length)
-          if (response.items && response.items.length > 0) {
-            const videodata = videoTransformer.transformer(response.items[0])
-            // insert to the database
-            return mongo(({ err, db, client }) => {
-              if (err) {
-                // error on mongo db connection
-                return callback({
-                  status: 500,
-                  message: "Something wrong, please try again",
-                })
-              }
-
-              const currentTime = Math.round(new Date().getTime() / 1000)
-              videodata.created_on = currentTime
-              videodata.updated_on = currentTime
-              db.collection("videos").insert(videodata)
-              client.close()
-              return callback({
-                status: 201,
-                messages: "video berhasil ditambahkan",
-              })
+          if (response.error) {
+            // error response for youtube api
+            return callback({
+              status: response.error.code,
+              message: response.error.message,
             })
           } else {
-            return callback({
-              status: 204,
-              messages: "video tidak ditemukan",
-            })
+            // return callback(response.items.length)
+            if (response.items && response.items.length > 0) {
+              const videodata = videoTransformer.transformer(response.items[0])
+              // insert to the database
+              return mongo(({ err, db, client }) => {
+                if (err) {
+                  // error on mongo db connection
+                  return callback({
+                    status: 500,
+                    message: "Something wrong, please try again",
+                  })
+                }
+
+                const currentTime = Math.round(new Date().getTime() / 1000)
+                videodata.created_on = currentTime
+                videodata.updated_on = currentTime
+                db.collection("videos").insert(videodata)
+                client.close()
+                return callback({
+                  status: 201,
+                  messages: "video berhasil ditambahkan",
+                })
+              })
+            } else {
+              return callback({
+                status: 204,
+                messages: "video tidak ditemukan",
+              })
+            }
           }
         }
       )
