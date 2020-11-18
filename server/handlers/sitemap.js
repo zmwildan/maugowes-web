@@ -28,9 +28,6 @@ module.exports.indexSitemap = (req, res) => {
         <loc>https://maugowes.com/sitemap/menus</loc>
       </sitemap>
       <sitemap>
-        <loc>https://maugowes.com/sitemap/bike-menus</loc>
-      </sitemap>
-      <sitemap>
         <loc>https://maugowes.com/sitemap/bike-brands</loc>
       </sitemap>
     </sitemapindex>
@@ -142,7 +139,7 @@ module.exports.eventsSitemap = (req, res) => {
 }
 
 module.exports.menusSitemap = (req, res) => {
-  const Menus = ["/blog", "/videos", "/events", "/bikes"]
+  const Menus = ["/blog", "/videos", "/events", "/bikes", "/search"]
 
   res.set("Content-Type", "text/xml")
   let content = ``
