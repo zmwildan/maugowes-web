@@ -98,7 +98,7 @@ const ProductBox = ({ data }) => {
             <strong>Tipe:</strong>{" "}
             <a href={`/bikes?type=${data.type.id}`}>{data.type.name}</a>
             <br />
-            <strong>Estimasi Harga:</strong> Rp{" "}
+            <strong>Harga Resmi:</strong> Rp{" "}
             {currencyFormat(data.estimated_price)},-
           </div>
           <br />
