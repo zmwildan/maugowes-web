@@ -18,7 +18,7 @@ const ButtonStyled = Styled.div`
     opacity: ${(props) => (props.isDisabled ? 0.8 : 1)};
     transition: background .5s ease;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     border-radius: 5px;
     word-break: break-word;
     padding: ${(props) => {
@@ -53,13 +53,13 @@ const ButtonStyled = Styled.div`
     border: ${(props) => {
       switch (props.color) {
         case "white":
-          return `1px solid ${color_black_main} !important;`
+          return `2px solid ${color_black_main} !important;`
         case "black":
-          return `1px solid ${color_black_main} !important;`
+          return `2px solid ${color_black_main} !important;`
         case "red":
-          return `1px solid ${color_red_main} !important;`
+          return `2px solid ${color_red_main} !important;`
         default:
-          return `1px solid ${color_blue_main} !important;`
+          return `2px solid ${color_blue_main} !important;`
       }
     }}
     color: ${(props) => {
@@ -79,7 +79,7 @@ const ButtonStyled = Styled.div`
           case "white":
             return `${color_gray_medium} !important;`
           case "red":
-            return `1px solid ${color_red_main} !important;`
+            return `2px solid ${color_red_main} !important;`
           default:
             return `${color_white_main} !important;`
         }

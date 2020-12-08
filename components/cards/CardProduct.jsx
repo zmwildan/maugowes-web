@@ -29,7 +29,7 @@ const CardProductStyled = Styled.div`
       padding: 10px;
       padding-top: 20px;
       height: 50px;
-      font-weight: 500;
+      font-weight: 600;
     }
     .card-product-desc {
       font-size: 10px;
@@ -47,22 +47,21 @@ const CardProductStyled = Styled.div`
   }
 `
 
-const CardProduct = props => {
+const CardProduct = (props) => {
   return (
     <CardProductStyled className="col-3">
-        <div className="card-product">
-          <span className="label">Bekas</span>
-          <div className="card-product-cover" style={{backgroundImage: `url(/static/images/dummies/product-1.jpg)`}} />
-          <div className="card-product-text">
-            Stem Zipp Course 100mm
-          </div>
-          <div className="card-product-desc">
-            COD di Sleman, DIY
-          </div>
-          <div className="card-product-price">
-            Rp 700.000,-
-          </div>
-        </div>
+      <div className="card-product">
+        <span className="label">Bekas</span>
+        <div
+          className="card-product-cover"
+          style={{
+            backgroundImage: `url(/static/images/dummies/product-1.jpg)`,
+          }}
+        />
+        <div className="card-product-text">Stem Zipp Course 100mm</div>
+        <div className="card-product-desc">COD di Sleman, DIY</div>
+        <div className="card-product-price">Rp 700.000,-</div>
+      </div>
     </CardProductStyled>
   )
 }

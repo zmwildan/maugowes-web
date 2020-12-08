@@ -38,7 +38,7 @@ export const BlogDetailStyled = Styled.div`
   position: relative;
   h1 {
     margin-top: 50px;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 38px;
   }
   h2 {

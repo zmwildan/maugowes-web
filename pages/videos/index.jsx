@@ -59,7 +59,7 @@ const VideosPage = (props) => {
         <>
           <Header
             title="Videos - Mau Gowes"
-            text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
+            text="Nikmati tontonan dari Mau Gowes."
             stats={{
               suffix: "video",
               total: videos.total || 0,

@@ -17,7 +17,7 @@ const FullWidthHeaderStyled = Styled.div`
   }
   h1{
     margin: auto;  
-    font-weight: 500;
+    font-weight: 600;
     font-size: 45px;
     padding-bottom: 5px;
     color: ${color_blue_main};
@@ -25,7 +25,7 @@ const FullWidthHeaderStyled = Styled.div`
     letter-spacing: .7px;
   }
   h2 {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 45px;
     color: ${color_black_main};
     margin: 0;

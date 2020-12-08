@@ -29,7 +29,7 @@ const CardBikeStyled = Styled.div`
   
   .card-bike__text {
     h3 {
-      font-weight: 500;
+      font-weight: 600;
       font-size: 20px;
     }
   }
@@ -67,9 +67,9 @@ const CardBike = ({ data, size }) => {
           <Link href={"/bikes/[id]"} as={linkTarget}>
             <a>
               <h3>{data.name}</h3>
-              <small className="text-muted">
+              <p className="text-muted">
                 Harga Resmi: Rp {currencyFormat(data.estimated_price)},-
-              </small>
+              </p>
             </a>
           </Link>
         </div>

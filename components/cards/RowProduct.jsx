@@ -20,7 +20,7 @@ const RowProduct = Styled.div`
       cursor: pointer;
       color: ${color_black_main};
       margin: 0;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 16px;
     }
     .row-product-right_price {
@@ -39,7 +39,7 @@ const RowProduct = Styled.div`
     .row-product-desc {
       color: ${color_gray_dark};
       margin-top: 30px;
-      font-weight: 500;
+      font-weight: 600;
     }
   }
 `

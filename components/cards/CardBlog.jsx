@@ -42,7 +42,7 @@ const CardBlogStyled = Styled.div`
       bottom: 0;
       margin: 0;
       font-size: 20px;
-      font-weight: 400;
+      font-weight: 600;
       a {
         color: ${color_black_main};
         text-decoration: none;
@@ -58,7 +58,6 @@ const CardBlogStyled = Styled.div`
   }
 
   .card-blog-date {
-    font-size: 14px;
     color: ${color_gray_dark};
     text-align: left;
   }
