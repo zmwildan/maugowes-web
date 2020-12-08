@@ -1,4 +1,4 @@
-import {} from "react"
+import { useEffect } from "react"
 import { connect } from "react-redux"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
 import { progressBar } from "../../modules/loaders"
@@ -13,10 +13,40 @@ const StoreFilter = "list"
 const MaxResults = 12
 
 const VideosPage = (props) => {
-  const videos = this.props.videos[StoreFilter] || {}
+  const videos = props.videos[StoreFilter] || {}
   if (videos.status) {
     progressBar.stop()
   }
+
+  const loadmoreHandler = () => {
+    const videosState = props.videos.list || {}
+    if (!videosState.is_loading && videosState.status == 200) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+        },
+        () => {
+          let reqQuery = {
+            limit: MaxResults,
+            page: this.state.page,
+          }
+
+          props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
+        }
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const videos = props.videos[StoreFilter] || {}
+      if (!videos.status) progressBar.start()
+      if (!videos.status && !videos.loading) {
+        let query = requestQueryGenerator()
+        props.dispatch(fetchVideos(StoreFilter, query))
+      }
+    }
+  }, [])
 
   return (
     <GlobalLayout
@@ -41,7 +71,7 @@ const VideosPage = (props) => {
           />
           <VideosBox
             data={videos}
-            loadmoreHandler={() => this.loadmoreHandler()}
+            loadmoreHandler={() => loadmoreHandler()}
             maxResults={MaxResults}
             noHeaderTitle
           />
@@ -51,86 +81,14 @@ const VideosPage = (props) => {
   )
 }
 
-class VideosPage extends React.Component {
-  state = {
-    page: 1,
+VideosPage.getInitialProps = async ({ req, reduxStore, query }) => {
+  if (req) {
+    let reqQuery = requestQueryGenerator(query)
+    await reduxStore.dispatch(fetchVideos(StoreFilter, reqQuery))
   }
 
-  static async getInitialProps({ req, reduxStore, query }) {
-    if (req) {
-      let reqQuery = requestQueryGenerator(query)
-      await reduxStore.dispatch(fetchVideos(StoreFilter, reqQuery))
-    }
-
-    return {
-      query,
-    }
-  }
-
-  componentDidMount() {
-    const videos = this.props.videos[StoreFilter] || {}
-    if (!videos.status) progressBar.start()
-    if (!videos.status && !videos.loading) {
-      let query = requestQueryGenerator()
-      this.props.dispatch(fetchVideos(StoreFilter, query))
-    }
-  }
-
-  loadmoreHandler() {
-    const videosState = this.props.videos.list || {}
-    if (!videosState.is_loading && videosState.status == 200) {
-      this.setState(
-        {
-          page: this.state.page + 1,
-        },
-        () => {
-          let reqQuery = {
-            limit: MaxResults,
-            page: this.state.page,
-          }
-
-          this.props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
-        }
-      )
-    }
-  }
-
-  render() {
-    const videos = this.props.videos[StoreFilter] || {}
-    if (videos.status) {
-      progressBar.stop()
-    }
-    return (
-      <GlobalLayout
-        metadata={{
-          title: "Video - Mau Gowes",
-          description: "Video - video terbaru dari channel Youtube Mau Gowes",
-          keywords: "video maugowes,youtube maugowes,gowes,sepeda",
-        }}>
-        <DefaultLayout>
-          <>
-            <Header
-              title="Videos - Mau Gowes"
-              text="Nikmati tontonan Dari Mau Gowes. Semoga kamu semakin termotivasi setelah menonton ini ya."
-              stats={{
-                suffix: "video",
-                total: videos.total || 0,
-                show:
-                  videos.results && videos.results.length
-                    ? videos.results.length
-                    : 0,
-              }}
-            />
-            <VideosBox
-              data={videos}
-              loadmoreHandler={() => this.loadmoreHandler()}
-              maxResults={MaxResults}
-              noHeaderTitle
-            />
-          </>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
+  return {
+    query,
   }
 }
 
