@@ -105,8 +105,8 @@ const ProductBox = ({ data }) => {
           <Button
             style={{ marginTop: 5 }}
             color="blue"
-            size="small"
-            text="Komparasi"
+            size="large"
+            text="Bandingkan Spesifikasi"
             type="link"
             targetAs={`/bikes/compare/${data.id}`}
             target={`/bikes/compare/[id]`}

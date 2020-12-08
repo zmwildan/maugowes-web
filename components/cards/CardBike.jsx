@@ -68,7 +68,7 @@ const CardBike = ({ data, size }) => {
             <a>
               <h3>{data.name}</h3>
               <small className="text-muted">
-                Harga Resmi : Rp {currencyFormat(data.estimated_price)},-
+                Harga Resmi: Rp {currencyFormat(data.estimated_price)},-
               </small>
             </a>
           </Link>

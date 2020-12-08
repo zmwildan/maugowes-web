@@ -288,7 +288,7 @@ class BikesCompare extends React.Component {
                   name="input-search-bike"
                   id="input-search-bike"
                   value={this.state.search}
-                  placeholder="Pencarian sepeda"
+                  placeholder="Cari sepeda"
                   onChange={(e) => this.setState({ search: e.target.value })}
                   onKeyDown={this.handleKeyDown}
                   autoComplete="off"
