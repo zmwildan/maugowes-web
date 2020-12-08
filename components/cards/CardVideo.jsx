@@ -17,12 +17,11 @@ const VideoCard = Styled.div`
     }
     h2 {
       font-size: 20px;
-      font-weight: 400;
+      font-weight: 600;
     }
    } 
   
    .video-card-date {
-     font-size: 14px;
      color: ${color_gray_dark}
    }
  }
@@ -73,7 +72,6 @@ const VideoCard = Styled.div`
         height: 100px;
         h2 {
           font-size: 18px;
-          font-weight: 400;
         }
       }
     }

@@ -81,8 +81,7 @@ class Events extends React.Component {
 
     const metadata = {
       title: "Events - Mau Gowes",
-      description:
-        "Dapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
+      description: "Kumpulan info race, tour gowes se Indonesia",
     }
 
     return (

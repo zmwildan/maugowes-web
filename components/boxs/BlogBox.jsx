@@ -10,7 +10,7 @@ const BlogBoxStyled = Styled.div`
   .blog-box-title {
     padding-bottom: 10px;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 600;
   }
 `
 

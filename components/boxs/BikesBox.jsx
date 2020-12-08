@@ -11,7 +11,7 @@ const BikesBoxStyled = Styled.div`
 .blog-box-title {
   padding-bottom: 10px;
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 600;
 }
 `
 
@@ -22,7 +22,7 @@ const BikesBox = (props) => {
       {!props.noHeaderTitle ? (
         <div className="grid-center">
           <h2 className="blog-box-title">
-            {props.title || "Yang Baru di Bikes"}
+            {props.title || "Sepeda Baru Rilis"}
           </h2>
         </div>
       ) : null}

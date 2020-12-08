@@ -60,7 +60,7 @@ const CardEventStyled = Styled.div`
       font-size: 20px;
       text-align: left;
       margin-bottom: 10px;
-      font-weight: 400;
+      font-weight: 600;
       a {
         color: ${color_black_main};
         text-decoration: none;

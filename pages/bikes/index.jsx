@@ -29,7 +29,7 @@ const BikesStyled = Styled.div`
 
 const MetaData = {
   title: "",
-  description: "Temukan sepeda dan sepesifikasinya di halaman ini.",
+  description: "Temukan sepeda dan sepesifikasinya disini.",
 }
 
 const MaxResults = 12
