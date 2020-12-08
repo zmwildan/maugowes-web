@@ -38,7 +38,7 @@ export const BlogDetailStyled = Styled.div`
   position: relative;
   h1 {
     margin-top: 50px;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 38px;
   }
   h2 {
@@ -81,12 +81,10 @@ export const BlogDetailStyled = Styled.div`
   .blog-detail_author_name {
     padding-top: 6px;
     padding-left: 60px;
-    font-size: 14px;
   }
   .blog-detail_author_level {
     padding-left: 60px;
     color: ${color_gray_dark};
-    font-size: 14px;
   }
   .blog-detail_main-image {
     margin-top: 50px;
@@ -167,7 +165,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
         fetchBlog(RelatedFilter, {
           limit: 4,
           page: 1,
-          tag:blogData.tags,
+          tag: blogData.tags,
           notId: id,
         })
       )

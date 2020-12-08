@@ -58,10 +58,7 @@ export default class MyDocument extends Document {
           <style
             dangerouslySetInnerHTML={{
               __html: `
-              @font-face {
-                font-family: 'Manrope',
-                src: url('/static/fonts/Manrope/Manrope-VariableFont_wght.ttf')
-              }
+              @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
               body,
               [class~="grid"],
               [class*="grid-"] {

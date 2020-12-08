@@ -16,6 +16,8 @@ const CardHomeSlidderStyled = Styled.div`
     height: 100%;
     h2 {
       font-size: 2.5em;
+      line-height: 1.1;
+      font-weight: 700;
     }
   }
 
@@ -86,11 +88,11 @@ export default () => {
   return SliderContent.map((n, key) => (
     <CardHomeSlidderStyled className="grid" key={key}>
       <div
-        className="col-8_xs-6 slider-item-left"
+        className="col-7_xs-6 slider-item-left"
         style={{ backgroundImage: `url(${n.cover_image})` }}>
         <span className="text">Sumber: unsplash.com</span>
       </div>
-      <div className="col-4_xs-6">
+      <div className="col-5_xs-6">
         <div className="slider-item-right">
           <div>
             <h2>{n.title}</h2>
