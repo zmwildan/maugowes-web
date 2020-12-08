@@ -25,7 +25,7 @@ const VideoDetailStyled = Styled.div`
     padding: 5px 20px;
     margin: 0 -8px 20px;
     h1 {
-      font-weight: 400;
+      font-weight: 700;
       line-height: 1.3;
       font-size: 38px;
       margin-top: 50px
@@ -34,7 +34,6 @@ const VideoDetailStyled = Styled.div`
 
   .video-meta {
     color: ${color_gray_dark};
-    font-size: 14px;
   }
 
   .video-player {
