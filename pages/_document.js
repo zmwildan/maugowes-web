@@ -35,6 +35,7 @@ export default class MyDocument extends Document {
             content="/static/ms-icon-144x144.png"
           />
           <meta name="theme-color" content="#ffffff" />
+          <link rel="stylesheet" href="/static/style.css" />
           <link
             rel="stylesheet"
             href="/static/vendor/gridlex/gridlex.min.css"
@@ -55,26 +56,7 @@ export default class MyDocument extends Document {
             href="/opensearch.xml"
             title="Pencarian di Mau Gowes"
           />
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `
-              @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
-              body,
-              [class~="grid"],
-              [class*="grid-"] {
-                margin: 0 !important;
-              }
-              body {
-                font-family: "Manrope", sans-serif;
-                font-size: 17px;
-                letter-spacing: 0.9px;
-              }
-              p {
-                font-size: 17px;
-              }
-            `,
-            }}
-          />
+
           {/* Step 5: Output the styles in the head  */}
           {this.props.styleTags}
         </Head>

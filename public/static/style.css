@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+body,
+[class~="grid"],
+[class*="grid-"] {
+  margin: 0 !important;
+}
+body {
+  font-family: "Manrope", sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.9px;
+}
+p {
+  font-size: 17px;
+}
