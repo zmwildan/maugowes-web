@@ -8,7 +8,6 @@ import DefaultLayout from "../../../components/layouts/Default"
 import SuperLayout from "../../../components/layouts/Super"
 import PageHeader from "../../../components/boxs/PageHeader"
 import EventBox from "../../../components/super/boxs/EventBox"
-import { requestQueryGenerator } from "../../events/index"
 
 const MaxResults = 6
 let StoreFilter = "super"
