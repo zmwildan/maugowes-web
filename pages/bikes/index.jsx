@@ -55,13 +55,13 @@ export function bikeFilterGenerator(query = {}) {
   return `list_${objToQuery(query)}`
 }
 
-function usePrevious(value) {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
-}
+// function usePrevious(value) {
+//   const ref = useRef()
+//   useEffect(() => {
+//     ref.current = value
+//   })
+//   return ref.current
+// }
 
 const BikesIndex = (props) => {
   const { bikes, query } = props

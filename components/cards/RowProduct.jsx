@@ -91,7 +91,7 @@ export default (props) => {
             </div>
             <Button
               style={{ marginTop: 30 }}
-              text="Selengkapnya"
+              text="Cek Disini"
               type="link"
               target="/product/1"
               size="small"

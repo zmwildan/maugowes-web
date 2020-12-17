@@ -62,13 +62,13 @@ const SliderContent = [
     title: "Cek Video Terbaru di Youtube Mau Gowes",
     cover_image: "/static/images/cover/cover-videos.jpeg",
     link_target: "/videos",
-    link_text: "Video Terbaru",
+    link_text: "Video Baru",
   },
   {
     title: "Membandingkan Spek Berbagai Sepeda",
     cover_image: "/static/images/cover/cover-bikes.jpeg",
     link_target: "/bikes",
-    link_text: "Selengkapnya",
+    link_text: "Berikutnya",
   },
   {
     title: "Punya Event Gowes / Ingin Gowes Bareng ?",
@@ -80,7 +80,7 @@ const SliderContent = [
     title: "Postingan Terbaru di Blog Mau Gowes",
     cover_image: "/static/images/cover/cover-blog.jpeg",
     link_target: "/blog",
-    link_text: "Selengkapnya",
+    link_text: "Berikutnya",
   },
 ]
 

@@ -223,14 +223,12 @@ class EventDetail extends React.Component {
                         />
                         <br />
                         {data.event_link ? (
-                          <React.Fragment>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={data.event_link}>
-                              Pelajari Selengkapnya
-                            </a>
-                          </React.Fragment>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={data.event_link}>
+                            Pelajari Selengkapnya
+                          </a>
                         ) : null}
                       </p>
                     </div>
