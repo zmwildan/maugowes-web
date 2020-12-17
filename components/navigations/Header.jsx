@@ -47,7 +47,7 @@ const HeaderStyled = Styled.header`
       cursor: pointer;
       text-decoration: none;
       color: ${color_black_main};
-      font-size: 15px;
+      font-size: 16px;
       display: block;
       text-align: center;
       font-weight: bold;

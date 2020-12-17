@@ -5,6 +5,7 @@
 ## Development
 
 - Replace .env.example to .env
+- Config available at https://github.com/ymg-team/config/blob/main/maugowes-web/.env
 - install (only for first time)
   ```
   npm install

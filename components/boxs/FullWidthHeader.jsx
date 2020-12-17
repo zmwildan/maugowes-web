@@ -8,7 +8,7 @@ const FullWidthHeaderStyled = Styled.div`
   background-color: #FFF;
   background-size: cover !important;
   background-position: center! important;
-  padding: 90px 0;
+  padding: 50px 0;
   text-align: center;
   letter-spacing: .6px;
   display: block;
@@ -38,14 +38,14 @@ const FullWidthHeaderStyled = Styled.div`
     h1, h2 {
       font-size: 25px;
     }
-    padding: 50px 0;
+    padding: 10px 0;
   }
   // gridlex _sm
   @media (max-width: 48em) {
     h1, h2 {
       font-size: 30px;
     }
-    padding: 50px 0;
+    padding: 10px 0;
   }
 `
 
