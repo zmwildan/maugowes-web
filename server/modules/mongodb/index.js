@@ -1,11 +1,17 @@
 const mongoClient = require("mongodb").MongoClient
 
-const { MONGO_USER, MONGO_DB, MONGO_PASSWORD, MONGO_HOST } = process.env
+const {
+  MONGO_USER,
+  MONGO_DB,
+  MONGO_PASSWORD,
+  MONGO_HOST,
+  MONGO_HOST_ONLY,
+} = process.env
 
 if (MONGO_USER && MONGO_PASSWORD) {
   url = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DB}`
 } else {
-  url = `mongodb://${MONGO_HOST}`
+  url = MONGO_HOST_ONLY ? MONGO_HOST : `mongodb://${MONGO_HOST}`
 }
 
 /**
