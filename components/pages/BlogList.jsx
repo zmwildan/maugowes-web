@@ -27,6 +27,7 @@ const Blog = (props) => {
   const blogState = props.blog[Filter] || {}
   const firstUpdate = useRef(true)
 
+  // metadata generator
   let title = "Blog - Mau Gowes"
   if (tag) {
     title = `Postingan Dengan Tag "${tag}" - Mau Gowes`
@@ -61,6 +62,8 @@ const Blog = (props) => {
       props.dispatch(fetchMoreBlog(Filter, reqQuery))
     }
   }, [page])
+
+  if (blogState.status) progressBar.stop()
 
   return (
     <GlobalLayout

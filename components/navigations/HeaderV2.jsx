@@ -10,16 +10,34 @@ import initialDropdown from "../../modules/dropdown"
 
 // components
 import Link from "next/link"
-import Dropdown from "../dropdown/index"
-import IconBottomArrow from "../icons/bottom-arrow"
+// import Dropdown from "../dropdown/index"
+// import IconBottomArrow from "../icons/bottom-arrow"
 import IconSearch from "../icons/Search"
 import SearchModal from "../modals/SearchInput"
 
-const HeaderStyled = Styled.header`
+const HeaderMobileStyle = `
+font-size: 12px;
 
+.header-menu {
+  .header-menu__left {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .header-menu__left__logo {
+      margin-left: 10px;
+      margin-right: 10px;
+  }
+  .header-menu__right {
+    padding-left: 10px;
+  }
+}
+`
+
+const HeaderStyled = Styled.header`
     border-bottom: 1px solid ${color_gray_medium};
     margin-bottom: 50px;
     padding: 10px 0;
+    font-size: 15px;
 
     .header-menu {
         display: flex;
@@ -32,7 +50,7 @@ const HeaderStyled = Styled.header`
             color: ${color_black_main};
         }
 
-        .header-menu__left__item, .header-menu__right__item {
+        .header-menu__left, .header-menu__right {
             display: flex;
             align-items: center;
         }
@@ -44,45 +62,39 @@ const HeaderStyled = Styled.header`
             height: 100%;
             display: flex;
             align-items: center;
+            padding:10px 0;
             li {
                 margin-right: 30px;
                 float:left;
                 &.active {
                     a {
                         color: ${color_blue_main};
-                        font-weight: 700;
+                        font-weight: bold;
                     }
                 }
             }
         }
 
         .header-menu__left__logo {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 5px;
+            margin-right: 30px;
+        }
+
+        .header-menu__right {
+          padding-left: 30px;
         }
     }
   
     // responsiveness
     // gridlex _xs
     @media (max-width: 36em) {
-        .header-menu__left {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        .header-menu__left__logo {
-            margin-left: 10px;
-        }
+        ${HeaderMobileStyle}
     }
     // gridlex _sm
     @media (max-width: 48em) {
-        .header-menu__left {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        .header-menu__left__logo {
-            margin-left: 10px;
-        }
+      ${HeaderMobileStyle}
     }
 `
 
@@ -133,30 +145,30 @@ const Header = (props) => {
 
       <div className="container header-menu">
         <div className="header-menu__left">
-          <ul className="header-menu__left__item">
-            <li style={{ marginBottom: -5 }}>
-              <Link href="/">
-                <a href="/">
-                  <img
-                    className="header-menu__left__logo"
-                    src="/static/images/logos/maugowes-v2/icon-128x128.png"
-                    alt="Logo Mau Gowes"
-                  />
-                </a>
-              </Link>
-            </li>
-            {AvailableMenu.map((n, key) => {
-              return (
-                <li
-                  className={n.pathname == pathname ? "active" : ""}
-                  key={n.link}>
-                  <Link href={n.link}>
-                    <a href={n.link}>{n.name}</a>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+          <Link href="/">
+            <a href="/">
+              <img
+                className="header-menu__left__logo"
+                src="/static/images/logos/maugowes-v2/icon-128x128.png"
+                alt="Logo Mau Gowes"
+              />
+            </a>
+          </Link>
+          <div style={{ overflowX: "auto", overflowY: "hidden" }}>
+            <ul className="header-menu__left__item">
+              {AvailableMenu.map((n, key) => {
+                return (
+                  <li
+                    className={n.pathname == pathname ? "active" : ""}
+                    key={n.link}>
+                    <Link href={n.link}>
+                      <a href={n.link}>{n.name}</a>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
         <div className="header-menu__right">
           <a
