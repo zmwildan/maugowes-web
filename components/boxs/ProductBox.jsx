@@ -6,6 +6,7 @@ const ProductBoxStyled = Styled.div`
 margin: 80px 0;
 .product-page-left {
  .preview-product {
+   margin-bottom: 30px;
    img {
      max-width: 100%;
    }

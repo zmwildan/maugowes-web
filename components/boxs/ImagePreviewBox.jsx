@@ -5,10 +5,11 @@ import { imageFormatUrl } from "../../modules/cloudinary"
 
 const ImagePreviewBoxStyled = Styled.div`
 .preview-product {
-cursor: pointer;
- img {
-   max-width: 100%;
- }
+  cursor: pointer;
+  margin-bottom: 30px;
+  img {
+    max-width: 100%;
+  }
 }
 .product-thumb {
  overflow-x: auto;

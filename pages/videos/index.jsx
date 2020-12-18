@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { fetchVideos, fetchMoreVideos } from "../../redux/videos/actions"
 import { progressBar } from "../../modules/loaders"
@@ -12,7 +12,20 @@ import VideosBox from "../../components/boxs/VideosBox"
 const StoreFilter = "list"
 const MaxResults = 12
 
+const Breadcrumb = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/videos",
+    title: "Videos",
+  },
+]
+
 const VideosPage = (props) => {
+  const [page, setPage] = useState(1)
+
   const videos = props.videos[StoreFilter] || {}
   if (videos.status) {
     progressBar.stop()
@@ -21,19 +34,16 @@ const VideosPage = (props) => {
   const loadmoreHandler = () => {
     const videosState = props.videos.list || {}
     if (!videosState.is_loading && videosState.status == 200) {
-      this.setState(
-        {
-          page: this.state.page + 1,
-        },
-        () => {
-          let reqQuery = {
-            limit: MaxResults,
-            page: this.state.page,
-          }
+      const nextPage = page + 1
 
-          props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
-        }
-      )
+      setPage(nextPage)
+
+      let reqQuery = {
+        limit: MaxResults,
+        page: nextPage,
+      }
+
+      props.dispatch(fetchMoreVideos(StoreFilter, reqQuery))
     }
   }
 
@@ -60,6 +70,7 @@ const VideosPage = (props) => {
           <Header
             title="Videos - Mau Gowes"
             text="Nikmati tontonan dari Mau Gowes."
+            breadcrumb={Breadcrumb}
             stats={{
               suffix: "video",
               total: videos.total || 0,

@@ -20,6 +20,17 @@ import Header from "../../components/boxs/FullWidthHeader"
 import Sidebar from "../../components/navigations/SidebarBikes"
 import BikesBox from "../../components/boxs/BikesBox"
 
+const Breadcrumb = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/bikes",
+    title: "Bikes",
+  },
+]
+
 const BikesStyled = Styled.div`
  margin-top: 50px;
  .content {
@@ -29,7 +40,7 @@ const BikesStyled = Styled.div`
 
 const MetaData = {
   title: "",
-  description: "Temukan sepeda dan sepesifikasinya disini.",
+  description: "Kumpulan sepeda dan spesifikasinya.",
 }
 
 const MaxResults = 12
@@ -54,14 +65,6 @@ export function bikeFilterGenerator(query = {}) {
 
   return `list_${objToQuery(query)}`
 }
-
-// function usePrevious(value) {
-//   const ref = useRef()
-//   useEffect(() => {
-//     ref.current = value
-//   })
-//   return ref.current
-// }
 
 const BikesIndex = (props) => {
   const { bikes, query } = props
@@ -151,6 +154,7 @@ const BikesIndex = (props) => {
       }}>
       <DefaultLayout>
         <Header
+          breadcrumb={Breadcrumb}
           title={toCamelCase(title)}
           text={description}
           stats={{

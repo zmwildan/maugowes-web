@@ -16,12 +16,27 @@ import BikeBox from "../../components/boxs/BikeBox"
 import TabContent from "../../components/boxs/BikeDetailTabContent"
 import Tab from "../../components/navigations/Tab"
 import Loader from "../../components/Loader"
+import Breadcrumb from "../../components/navigations/Breadcrumb"
+import { toSlug } from "string-manager/dist/modules/slug"
 
 const BikeDetailStyled = Styled.div`
 .bike-detail__geometry {
   margin-top: 40px;
   img {
     width: 100%;
+  }
+}
+// responsiveness
+// gridlex _xs
+@media (max-width: 36em) {
+  .breadcrumb {
+    padding: 0 10px;
+  }
+}
+// gridlex _sm
+@media (max-width: 48em) {
+  .breadcrumb {
+    padding: 0 10px;
   }
 }
 `
@@ -35,6 +50,18 @@ const TabContents = [
 
 const BikeDetail = (props) => {
   const [activeTab, setActiveTab] = useState(0)
+
+  // breadcrumbs
+  const BreadcrumbData = [
+    {
+      link: "/",
+      title: "Home",
+    },
+    {
+      link: "/bikes",
+      title: "Bikes",
+    },
+  ]
 
   // get data form store
   const bikeData = props.bikes[props.id] || {}
@@ -51,6 +78,11 @@ const BikeDetail = (props) => {
   if (bikeData.status) {
     progressBar.stop()
     if (bikeData.status == 200) {
+      BreadcrumbData.push({
+        title: bikeData.name,
+        link: `/bikes/${toSlug(bikeData.name)}-${bikeData.id}`,
+      })
+
       MetaData = {
         title: `${bikeData.name} - Mau Gowes`,
         description: `Spesifikasi dan deskripsi dari ${bikeData.name}`,
@@ -71,6 +103,9 @@ const BikeDetail = (props) => {
           {bikeData.status ? (
             bikeData.status == 200 ? (
               <div className="grid-center">
+                <div className="col-12" style={{ paddingBottom: 0 }}>
+                  <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
+                </div>
                 <div className="col-12">
                   <BikeBox data={bikeData} />
                   <div className="grid-center">

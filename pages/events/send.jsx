@@ -16,14 +16,28 @@ const EventForm = dynamic(() =>
   import("../../components/form/Events/EventForm")
 )
 
+const Breadcrumb = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/events",
+    title: "Events",
+  },
+  {
+    link: "/events/send",
+    title: "Kirim Event Sepeda",
+  },
+]
+
 const SendCompetitionStyled = Styled.div`
 `
 
 const SendEvent = (props) => {
   const metadata = {
-    title: "Kirim Events - Mau Gowes",
-    description:
-      "Yuk sebarkan event sepeda di form ini, event akan tampil setelah mendapatkan persetujuan dari moderator",
+    title: "Kirim Event Sepeda",
+    description: "Sebarkan event sepeda kamu lewat Mau Gowes",
   }
   const { status, message } = props.events.submit_post || {}
   if (status === 200 || status === 201) {
@@ -38,7 +52,11 @@ const SendEvent = (props) => {
     <GlobalLayout metadata={metadata}>
       <DefaultLayout>
         <SendCompetitionStyled>
-          <Header title="Events" text={metadata.description} />
+          <Header
+            breadcrumb={Breadcrumb}
+            title={metadata.title}
+            text={metadata.description}
+          />
           <GA adClient="ca-pub-4468477322781117" adSlot="4886894471" />
 
           {/* form send event */}

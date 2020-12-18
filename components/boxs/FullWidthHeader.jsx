@@ -2,13 +2,17 @@ import React from "react"
 import Styled from "styled-components"
 import { color_blue_main, color_black_main } from "../Const"
 
+// components
+import Breadcrumb from "../../components/navigations/Breadcrumb"
+
 const FullWidthHeaderStyled = Styled.div`
   left: 0;
   width: 100%;
   background-color: #FFF;
   background-size: cover !important;
   background-position: center! important;
-  padding: 50px 0;
+  padding: ${(props) =>
+    props.breadcrumb && props.breadcrumb.length > 0 ? "17px 0 50px" : "50px 0"};
   text-align: center;
   letter-spacing: .6px;
   display: block;
@@ -50,10 +54,14 @@ const FullWidthHeaderStyled = Styled.div`
 `
 
 const FullWidthHeader = (props) => {
-  const { stats } = props
+  const { stats, breadcrumb } = props
   return (
-    <React.Fragment>
-      <FullWidthHeaderStyled id={props.id || "full-width-header"}>
+    <>
+      {props.breadcrumb && props.breadcrumb.length > 0 ? (
+        <Breadcrumb breadcrumb={breadcrumb} />
+      ) : null}
+
+      <FullWidthHeaderStyled {...props} id={props.id || "full-width-header"}>
         <div className="container">
           <h1>{props.title}</h1>
           <h2>{props.text}</h2>
@@ -64,7 +72,7 @@ const FullWidthHeader = (props) => {
           ) : null}
         </div>
       </FullWidthHeaderStyled>
-    </React.Fragment>
+    </>
   )
 }
 
