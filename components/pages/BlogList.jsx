@@ -17,6 +17,17 @@ const BlogStyled = Styled.div`
 
 `
 
+const Breadcrumb = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/blog",
+    title: "Blog",
+  },
+]
+
 const StoreFilter = "list"
 const MaxResults = 12
 
@@ -74,8 +85,9 @@ const Blog = (props) => {
       <DefaultLayout>
         <BlogStyled>
           <Header
+            breadcrumb={Breadcrumb}
             title={title}
-            text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
+            text="Berbagi cerita seputar dunia sepeda"
             stats={{
               suffix: "post",
               total: blogState.total || 0,

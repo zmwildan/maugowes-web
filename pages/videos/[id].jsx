@@ -1,7 +1,7 @@
 import React from "react"
 import Styled from "styled-components"
 import { connect } from "react-redux"
-import { nl2br } from "string-manager"
+import { nl2br, toSlug } from "string-manager"
 import { progressBar } from "../../modules/loaders"
 import Dayjs from "../../modules/dayjs"
 
@@ -19,16 +19,17 @@ import DisqusBox from "../../components/boxs/Disqus"
 import ShareBox from "../../components/boxs/Share"
 import Loader from "../../components/Loader"
 import GA from "../../components/boxs/GA"
+import Breadcrumb from "../../components/navigations/Breadcrumb"
 
 const VideoDetailStyled = Styled.div`
   .video-title {
-    padding: 5px 20px;
+    padding: 5px 5px;
     margin: 0 -8px 20px;
     h1 {
       font-weight: 600;
       line-height: 1.3;
       font-size: 38px;
-      margin-top: 50px
+      margin-top: 17px
     }
   }
 
@@ -123,7 +124,22 @@ class VideoDetail extends React.Component {
     const data = this.props.videos[id] || {}
     const relatedData = this.props.videos.related || {}
 
+    const BreadcrumbData = [
+      {
+        link: "/",
+        title: "Home",
+      },
+      {
+        link: "/videos",
+        title: "Videos",
+      },
+    ]
+
     if (data.status) {
+      BreadcrumbData.push({
+        title: data.title,
+        link: `/videos/${toSlug(data.title)}-${data._id}`,
+      })
       progressBar.stop()
     }
 
@@ -191,6 +207,7 @@ class VideoDetail extends React.Component {
                 {/* video detail */}
                 <div className="grid-center">
                   <div className="col-7_xs-12">
+                    <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
                     <div className="video-title">
                       <h1>{data.title}</h1>
                       <div className="video-meta">

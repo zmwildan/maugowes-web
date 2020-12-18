@@ -8,11 +8,12 @@ import ImagePrevBox from "./ImagePreviewBox"
 import GA from "../../components/boxs/GA"
 
 const ProductBoxStyled = Styled.div`
-margin: 50px 0;
+margin: 20px 0;
 line-height: 2;
 
 .product-page-right {
- padding: 0 0 0 40px;
+ padding: 0;
+ margin-bottom: 30px;
  .product-title {
   h1 {
     padding: 0;
@@ -59,10 +60,6 @@ const ProductBox = ({ data }) => {
   return (
     <ProductBoxStyled>
       <div className="grid">
-        <div className="col-8_xs-12 product-page-left">
-          <ImagePrevBox data={data.images} />
-        </div>
-
         <div className="col-4_xs-12 product-page-right">
           <div className="product-title">
             <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
@@ -89,6 +86,7 @@ const ProductBox = ({ data }) => {
               alt="rate 5 icon"
             />
           </div>
+
           <div className="product-status">
             <strong>Waktu Rilis: </strong> {data.release_date}
             <br />
@@ -106,11 +104,15 @@ const ProductBox = ({ data }) => {
             style={{ marginTop: 5 }}
             color="blue"
             size="large"
-            text="Bandingkan Spesifikasi"
+            text="Bandingkan Spek"
             type="link"
             targetAs={`/bikes/compare/${data.id}`}
             target={`/bikes/compare/[id]`}
           />
+        </div>
+
+        <div className="col-8_xs-12 product-page-left">
+          <ImagePrevBox data={data.images} />
         </div>
 
         <div className="col-12">

@@ -13,6 +13,20 @@ const BikesBoxStyled = Styled.div`
   font-size: 30px;
   font-weight: 600;
 }
+
+// responsiveness
+// gridlex _xs
+@media (max-width: 36em) {
+  .breadcrumb {
+    padding: 0 10px;
+  }
+}
+// gridlex _sm
+@media (max-width: 48em) {
+  .breadcrumb {
+    padding: 0 10px;
+  }
+}
 `
 
 const BikesBox = (props) => {
