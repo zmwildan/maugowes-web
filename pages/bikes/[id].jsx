@@ -105,6 +105,7 @@ const BikeDetail = (props) => {
               <div className="grid-center">
                 <div className="col-12" style={{ paddingBottom: 0 }}>
                   <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
+                  <br />
                 </div>
                 <div className="col-12">
                   <BikeBox data={bikeData} />

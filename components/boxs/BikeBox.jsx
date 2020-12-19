@@ -12,7 +12,7 @@ margin: 20px 0;
 line-height: 2;
 
 .product-page-right {
- padding: 0;
+ padding: 0 0 0 20px;
  margin-bottom: 30px;
  .product-title {
   h1 {
@@ -60,7 +60,13 @@ const ProductBox = ({ data }) => {
   return (
     <ProductBoxStyled>
       <div className="grid">
-        <div className="col-4_xs-12 product-page-right">
+        <div className="col-8_xs-12 product-page-left">
+          <ImagePrevBox data={data.images} />
+        </div>
+
+        <div
+          className="col-4_xs-12 product-page-right"
+          data-push-left="off_lg_1">
           <div className="product-title">
             <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
           </div>
@@ -109,10 +115,6 @@ const ProductBox = ({ data }) => {
             targetAs={`/bikes/compare/${data.id}`}
             target={`/bikes/compare/[id]`}
           />
-        </div>
-
-        <div className="col-8_xs-12 product-page-left">
-          <ImagePrevBox data={data.images} />
         </div>
 
         <div className="col-12">
