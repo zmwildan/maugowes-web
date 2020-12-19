@@ -18,6 +18,7 @@ const ImagePreviewBoxStyled = Styled.div`
  padding: 2px 0;
  .product-thumb-item {
    transition: border ease .5s;
+   border-radius: 10px;
    cursor: pointer;
    margin-right: 6px;
    width: calc(25% - 7px);
