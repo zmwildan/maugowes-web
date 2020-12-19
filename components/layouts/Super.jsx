@@ -100,39 +100,38 @@ const Menus = [
   },
 ]
 
-class SuperLayout extends React.Component {
-  render() {
-    return (
-      <SuperStyled>
-        <div className="grid m-t-b-30">
-          <div className="col-2_md-3_xs-12" data-push-right="off-1_md-0">
-            <div className="super-sidebar">
-              {Menus.map((n, key) => {
-                return (
-                  <div key={key} className="super-sidebar-child">
-                    <strong>{n.name}</strong>
-                    {n.child ? (
-                      <ul>
-                        {n.child.map((m, mkey) => {
-                          return (
-                            <li key={mkey}>
-                              <a
-                                href={m.onClick ? "#" : m.link || ""}
-                                onClick={(e) => {
-                                  if (m.onClick)
-                                    return m.onClick(e, this.props.dispatch)
-                                }}>
-                                {m.name}
-                              </a>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    ) : null}
-                  </div>
-                )
-              })}
-              {/* <div className="super-sidebar-child">
+const SuperLayout = (props) => {
+  return (
+    <SuperStyled>
+      <div className="grid m-t-b-30">
+        <div className="col-2_md-3_xs-12" data-push-right="off-1_md-0">
+          <div className="super-sidebar">
+            {Menus.map((n, key) => {
+              return (
+                <div key={key} className="super-sidebar-child">
+                  <strong>{n.name}</strong>
+                  {n.child ? (
+                    <ul>
+                      {n.child.map((m, mkey) => {
+                        return (
+                          <li key={mkey}>
+                            <a
+                              href={m.onClick ? "#" : m.link || ""}
+                              onClick={(e) => {
+                                if (m.onClick)
+                                  return m.onClick(e, props.dispatch)
+                              }}>
+                              {m.name}
+                            </a>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  ) : null}
+                </div>
+              )
+            })}
+            {/* <div className="super-sidebar-child">
                 <strong>Blog</strong>
                 <ul>
                   <li>
@@ -183,7 +182,7 @@ class SuperLayout extends React.Component {
                   <li>
                     <a
                       onClick={() => {
-                        this.props.dispatch(logout())
+                        props.dispatch(logout())
                         setTimeout(() => location.reload(), 2000)
                       }}
                       href="javascript:;">
@@ -192,13 +191,12 @@ class SuperLayout extends React.Component {
                   </li>
                 </ul>
               </div> */}
-            </div>
           </div>
-          <div className="col-8_md-9_xs-12">{this.props.children}</div>
         </div>
-      </SuperStyled>
-    )
-  }
+        <div className="col-8_md-9_xs-12">{props.children}</div>
+      </div>
+    </SuperStyled>
+  )
 }
 
 export default connect((state) => {

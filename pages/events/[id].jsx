@@ -22,6 +22,8 @@ import { BlogDetailStyled } from "../blog/[id]"
 import InputLocation from "../../components/form/InputLocation"
 import Label from "../../components/labels"
 import { scaleNumber } from "string-manager/dist/modules/number"
+import Breadcrumb from "../../components/navigations/Breadcrumb"
+import { toSlug } from "string-manager/dist/modules/slug"
 
 const EventDetailStyled = Styled(BlogDetailStyled)`
   strong.title {
@@ -72,9 +74,26 @@ class EventDetail extends React.Component {
 
     let metadata = {}
 
+    // breadcrumbs
+    const BreadcrumbData = [
+      {
+        link: "/",
+        title: "Home",
+      },
+      {
+        link: "/events",
+        title: "Events",
+      },
+    ]
+
     if (data.status) progressBar.stop()
 
     if (data && data.status === 200) {
+      BreadcrumbData.push({
+        title: data.title,
+        link: `/events/${toSlug(data.title)}-${data.id}`,
+      })
+
       metadata = {
         title: data.title,
         // description: data.truncatedContent,
@@ -135,6 +154,7 @@ class EventDetail extends React.Component {
               <React.Fragment>
                 <div className="grid-center">
                   <div className="col-7_xs-12">
+                    <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
                     <h1 style={{ marginBottom: -10 }}>
                       {data.title}{" "}
                       {data.is_ended ? (
@@ -223,14 +243,12 @@ class EventDetail extends React.Component {
                         />
                         <br />
                         {data.event_link ? (
-                          <React.Fragment>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={data.event_link}>
-                              Pelajari Selengkapnya
-                            </a>
-                          </React.Fragment>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={data.event_link}>
+                            Pelajari Selengkapnya
+                          </a>
                         ) : null}
                       </p>
                     </div>

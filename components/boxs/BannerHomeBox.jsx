@@ -1,4 +1,3 @@
-import React from "react"
 import Styled from "styled-components"
 import { color_blue_main, color_red_main, color_white_main } from "../Const"
 
@@ -51,61 +50,59 @@ const BannerHomeBoxStyled = Styled.div`
     }
 `
 
-class BannerHomeBox extends React.Component {
-  render() {
-    return (
-      <BannerHomeBoxStyled className="grid">
-        <div className="col-6_xs-12_md-6 banner-home banner-home_left">
-          <div className="banner-home_content">
-            <img
-              src="/static/images/banner-maugowes-youtube.png"
-              alt="mau gowes bike shop"
-            />
-            <div>
-              <h2>
-                Mau Gowes <br />
-                di Youtube{" "}
-              </h2>
-              <a
-                href="https://youtube.com/maugowes"
-                target="_blank"
-                rel="noreferer noopener">
-                Kunjungi &#x2192;
-              </a>
-            </div>
-            <small className="copyright">Sumber: unsplash.com</small>
+const BannerHomeBox = (props) => {
+  return (
+    <BannerHomeBoxStyled className="grid">
+      <div className="col-6_xs-12_md-6 banner-home banner-home_left">
+        <div className="banner-home_content">
+          <img
+            src="/static/images/banner-maugowes-youtube.png"
+            alt="mau gowes bike shop"
+          />
+          <div>
+            <h2>
+              Mau Gowes <br />
+              di Youtube{" "}
+            </h2>
+            <a
+              href="https://youtube.com/maugowes"
+              target="_blank"
+              rel="noreferer noopener">
+              Kunjungi &#x2192;
+            </a>
           </div>
+          <small className="copyright">Sumber: unsplash.com</small>
         </div>
-        <div className="col-6_xs-12_md-6 banner-home banner-home_right">
-          <div className="banner-home_content">
-            <img
-              src="/static/images/banner-maugowes-bike-shop.png"
-              alt="mau gowes bike shop"
-            />
-            <div>
-              <h2>
-                Mau Gowes <br /> Bike Shop
-              </h2>
-              <a
-                href="https://tokopedia.com/maugowes"
-                target="_blank"
-                rel="noreferer noopener">
-                Tokopedia &#x2192;
-              </a>
-              <br />
-              <a
-                href="https://www.bukalapak.com/u/mr_yussan"
-                target="_blank"
-                rel="noreferer noopener">
-                Bukalapak &#x2192;
-              </a>
-            </div>
-            <small className="copyright">Sumber: unsplash.com</small>
+      </div>
+      <div className="col-6_xs-12_md-6 banner-home banner-home_right">
+        <div className="banner-home_content">
+          <img
+            src="/static/images/banner-maugowes-bike-shop.png"
+            alt="mau gowes bike shop"
+          />
+          <div>
+            <h2>
+              Mau Gowes <br /> Bike Shop
+            </h2>
+            <a
+              href="https://tokopedia.com/maugowes"
+              target="_blank"
+              rel="noreferer noopener">
+              Tokopedia &#x2192;
+            </a>
+            <br />
+            <a
+              href="https://www.bukalapak.com/u/mr_yussan"
+              target="_blank"
+              rel="noreferer noopener">
+              Bukalapak &#x2192;
+            </a>
           </div>
+          <small className="copyright">Sumber: unsplash.com</small>
         </div>
-      </BannerHomeBoxStyled>
-    )
-  }
+      </div>
+    </BannerHomeBoxStyled>
+  )
 }
 
 export default BannerHomeBox

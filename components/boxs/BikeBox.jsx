@@ -8,11 +8,12 @@ import ImagePrevBox from "./ImagePreviewBox"
 import GA from "../../components/boxs/GA"
 
 const ProductBoxStyled = Styled.div`
-margin: 50px 0;
+margin: 20px 0;
 line-height: 2;
 
 .product-page-right {
- padding: 0 0 0 40px;
+ padding: 0 0 0 20px;
+ margin-bottom: 30px;
  .product-title {
   h1 {
     padding: 0;
@@ -63,7 +64,9 @@ const ProductBox = ({ data }) => {
           <ImagePrevBox data={data.images} />
         </div>
 
-        <div className="col-4_xs-12 product-page-right">
+        <div
+          className="col-4_xs-12 product-page-right"
+          data-push-left="off_lg_1">
           <div className="product-title">
             <h1 style={{ lineHeight: 1.5 }}>{data.name}</h1>
           </div>
@@ -89,6 +92,7 @@ const ProductBox = ({ data }) => {
               alt="rate 5 icon"
             />
           </div>
+
           <div className="product-status">
             <strong>Waktu Rilis: </strong> {data.release_date}
             <br />
@@ -105,8 +109,8 @@ const ProductBox = ({ data }) => {
           <Button
             style={{ marginTop: 5 }}
             color="blue"
-            size="small"
-            text="Komparasi"
+            size="large"
+            text="Bandingkan Spek"
             type="link"
             targetAs={`/bikes/compare/${data.id}`}
             target={`/bikes/compare/[id]`}

@@ -13,7 +13,7 @@ const VideosBoxStyled = Styled.div`
   .video-box-title {
     padding-bottom: 10px;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 600;
   }
 `
 

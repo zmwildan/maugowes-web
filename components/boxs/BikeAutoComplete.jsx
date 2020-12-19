@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import Styled from "styled-components"
 
 import Loader from "../Loader"
@@ -26,71 +27,63 @@ const Wrapper = Styled.div`
     background-color: ${color_gray_soft};
   }
 `
-class BikeAutoComplete extends React.Component {
-  state = {
-    selected: 0,
-  }
+const BikeAutoComplete = (props) => {
+  const [selected, setSelected] = useState(0)
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKey, false)
-  }
+  const { setSuggestion, data } = props
+  const { status, results, message, is_loading } = data
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.data.results &&
-      this.props.data.results &&
-      this.props.data.results.length !== prevProps.data.results.length
-    ) {
-      this.setState({ selected: 0 })
+  useEffect(() => {
+    if (typeof window !== "undefined")
+      document.addEventListener("keydown", handleKey, false)
+    return () => {
+      if (typeof window !== "undefined")
+        document.removeEventListener("keydown", handleKey, false)
     }
-  }
+  }, [])
 
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKey, false)
-  }
+  useEffect(() => {
+    if (data.results && data.results.length) {
+      setSelected({ selected: 0 })
+    }
+  }, [data])
 
-  handleKey = (e) => {
-    const { results } = this.props.data
-    const { selected } = this.state
+  const handleKey = (e) => {
+    const { results } = props.data
     const key = e.keyCode
     if (key === 40) {
       if (selected < results.length - 1) {
-        this.setState({ selected: selected + 1 })
+        setSelected({ selected: selected + 1 })
       }
     } else if (key === 38) {
-      if (this.state.selected > 0) {
-        this.setState({ selected: selected - 1 })
+      if (selected > 0) {
+        setSelected({ selected: selected - 1 })
       }
     } else if (key === 13 && results.length) {
-      this.props.setSuggestion(results[selected].id)
+      setSuggestion(results[selected].id)
     }
   }
-  render() {
-    const { setSuggestion, data } = this.props
-    const { status, results, message, is_loading } = data
-    return (
-      <Wrapper onKeyDown={this.handleKey}>
-        {!status || is_loading ? (
-          <Loader size="small" />
-        ) : status == 200 ? (
-          results.map((n, key) => {
-            return (
-              <div
-                className={`bike-lists ${
-                  this.state.selected === key ? "selected" : ""
-                }`}
-                onClick={() => setSuggestion(n.id)}
-                key={key}>
-                {n.name}
-              </div>
-            )
-          })
-        ) : (
-          <Error text={message} />
-        )}
-      </Wrapper>
-    )
-  }
+
+  return (
+    <Wrapper onKeyDown={handleKey}>
+      {!status || is_loading ? (
+        <Loader size="small" />
+      ) : status == 200 ? (
+        results.map((n, key) => {
+          return (
+            <div
+              className={`bike-lists ${selected === key ? "selected" : ""}`}
+              onClick={() => setSuggestion(n.id)}
+              key={key}>
+              {n.name}
+            </div>
+          )
+        })
+      ) : (
+        <Error text={message} />
+      )}
+    </Wrapper>
+  )
 }
 
 export default BikeAutoComplete

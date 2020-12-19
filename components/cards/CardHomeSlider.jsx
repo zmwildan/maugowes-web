@@ -16,6 +16,8 @@ const CardHomeSlidderStyled = Styled.div`
     height: 100%;
     h2 {
       font-size: 2.5em;
+      line-height: 1.1;
+      font-weight: 700;
     }
   }
 
@@ -60,13 +62,13 @@ const SliderContent = [
     title: "Cek Video Terbaru di Youtube Mau Gowes",
     cover_image: "/static/images/cover/cover-videos.jpeg",
     link_target: "/videos",
-    link_text: "Video Terbaru",
+    link_text: "Video Baru",
   },
   {
     title: "Membandingkan Spek Berbagai Sepeda",
     cover_image: "/static/images/cover/cover-bikes.jpeg",
     link_target: "/bikes",
-    link_text: "Selengkapnya",
+    link_text: "Berikutnya",
   },
   {
     title: "Punya Event Gowes / Ingin Gowes Bareng ?",
@@ -78,7 +80,7 @@ const SliderContent = [
     title: "Postingan Terbaru di Blog Mau Gowes",
     cover_image: "/static/images/cover/cover-blog.jpeg",
     link_target: "/blog",
-    link_text: "Selengkapnya",
+    link_text: "Berikutnya",
   },
 ]
 
@@ -86,11 +88,11 @@ export default () => {
   return SliderContent.map((n, key) => (
     <CardHomeSlidderStyled className="grid" key={key}>
       <div
-        className="col-8_xs-6 slider-item-left"
+        className="col-7_xs-6 slider-item-left"
         style={{ backgroundImage: `url(${n.cover_image})` }}>
         <span className="text">Sumber: unsplash.com</span>
       </div>
-      <div className="col-4_xs-6">
+      <div className="col-5_xs-6">
         <div className="slider-item-right">
           <div>
             <h2>{n.title}</h2>

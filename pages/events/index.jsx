@@ -77,12 +77,22 @@ class Events extends React.Component {
   render() {
     const events = this.props.events[StoreFilter] || {}
 
+    const Breadcrumb = [
+      {
+        link: "/",
+        title: "Home",
+      },
+      {
+        link: "/events",
+        title: "Events",
+      },
+    ]
+
     if (events.status) progressBar.stop()
 
     const metadata = {
       title: "Events - Mau Gowes",
-      description:
-        "Dapatkan informasi seputar ajakan gowes, tour, race maupun acara apapun yang berhubungan dengan sepeda",
+      description: "Kumpulan info race, tour gowes se Indonesia",
     }
 
     return (
@@ -90,6 +100,7 @@ class Events extends React.Component {
         <DefaultLayout>
           <EventsStyled>
             <Header
+              breadcrumb={Breadcrumb}
               title="Events - Mau Gowes"
               text={metadata.description}
               stats={{

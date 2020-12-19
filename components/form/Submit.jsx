@@ -1,29 +1,19 @@
 import React from "react"
 import Button from "../buttons/index"
-// import {
-//   validator,
-//   validationSeter,
-//   validationChecker
-// } from '../../modules/validator'
-// import Toast from '../../modules/toast'
 
-export default class Submit extends React.Component {
-  handleClick() {
-    return this.props.onClick()
-  }
-
-  render() {
-    let { style, className } = this.props
-    return (
-      <Button
-        color={this.props.color}
-        onClick={() => this.handleClick()}
-        className={`${className} ${this.props.loading ? "loading" : ""}`}
-        disabled={this.props.disabled || this.props.loading}
-        style={style}
-        type={this.props.type}
-        text={this.props.loading ? "Memproses permintaan..." : this.props.text}
-      />
-    )
-  }
+const Submit = (props) => {
+  const { style, className } = props
+  return (
+    <Button
+      color={props.color}
+      onClick={() => props.onClick()}
+      className={`${className} ${props.loading ? "loading" : ""}`}
+      disabled={props.disabled || props.loading}
+      style={style}
+      type={props.type}
+      text={props.loading ? "Memproses permintaan..." : props.text}
+    />
+  )
 }
+
+export default Submit

@@ -18,6 +18,7 @@ const ModalStyled = Styled.div`
       .modal-header__title {
         font-size: 30px;
         margin-bottom: 25px;
+        font-weight: 600px;
       }
       .modal-header__btn-close {
         position: absolute;

@@ -20,6 +20,7 @@ import CardCompareBike from "../../../components/cards/CardCompareBike"
 // components
 import Loader from "../../../components/Loader"
 import { progressBar } from "../../../modules/loaders"
+import Breadcrumb from "../../../components/navigations/Breadcrumb"
 
 const BikesCompareStyled = Styled.div`
     margin-top: 50px;
@@ -215,6 +216,22 @@ class BikesCompare extends React.Component {
     const groupSpec = this.props.groupSpec["list"] || {}
     const bikeLists = this.props.bikes["bike_autocomplete"] || {}
 
+    // breadcrumbs
+    const BreadcrumbData = [
+      {
+        link: "/",
+        title: "Home",
+      },
+      {
+        link: "/bikes",
+        title: "Bikes",
+      },
+      {
+        link: "/bikes/compare",
+        title: "Bikes Comparison",
+      },
+    ]
+
     let metadata = {}
 
     if (data.status) progressBar.stop()
@@ -276,6 +293,11 @@ class BikesCompare extends React.Component {
           <BikesCompareStyled>
             {/* input to search data */}
             <div className="bike-compare-search grid">
+              {/* breadcrumbs */}
+              <div className="col-12" style={{ marginBottom: 30 }}>
+                <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
+              </div>
+
               <div className="col-3_md-5_xs-12 bike-compare-search_input-group">
                 <img
                   src="/static/images/icons/search-icon.svg"
@@ -288,7 +310,7 @@ class BikesCompare extends React.Component {
                   name="input-search-bike"
                   id="input-search-bike"
                   value={this.state.search}
-                  placeholder="Pencarian sepeda"
+                  placeholder="Cari sepeda"
                   onChange={(e) => this.setState({ search: e.target.value })}
                   onKeyDown={this.handleKeyDown}
                   autoComplete="off"

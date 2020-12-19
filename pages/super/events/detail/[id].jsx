@@ -16,44 +16,40 @@ const BlogCreateStyled = Styled.div`
 
 `
 
-class DetailPage extends React.Component {
-  state = {}
+const DetailPage = (props) => {
+  const { id } = props
+  const title = "Event Detail"
+  const eventData = props.events[id] || {}
+  const formResponse = props.events.submit_post || {}
+  const { is_loading } = eventData
+  return (
+    <GlobalLayout metadata={{ title }}>
+      <DefaultLayout>
+        <SuperLayout>
+          <BlogCreateStyled className="p-t-b-30">
+            <PageHeader title={title} />
+            {is_loading ? (
+              <Loading />
+            ) : (
+              <EventDetail
+                dispatch={props.dispatch}
+                formResponse={formResponse}
+                eventData={eventData}
+              />
+            )}
+          </BlogCreateStyled>
+        </SuperLayout>
+      </DefaultLayout>
+    </GlobalLayout>
+  )
+}
 
-  static async getInitialProps({ req, reduxStore, query }) {
-    if (typeof query.id != "undefined" && req) {
-      await reduxStore.dispatch(fetchEventDetail(query.id))
-    }
-
-    return { id: query.id }
+DetailPage.getInitialProps = async ({ req, reduxStore, query }) => {
+  if (typeof query.id != "undefined" && req) {
+    await reduxStore.dispatch(fetchEventDetail(query.id))
   }
 
-  render() {
-    const { id } = this.props
-    const title = "Event Detail"
-    const eventData = this.props.events[id] || {}
-    const formResponse = this.props.events.submit_post || {}
-    const { is_loading } = eventData
-    return (
-      <GlobalLayout metadata={{ title }}>
-        <DefaultLayout>
-          <SuperLayout>
-            <BlogCreateStyled className="p-t-b-30">
-              <PageHeader title={title} />
-              {is_loading ? (
-                <Loading />
-              ) : (
-                <EventDetail
-                  dispatch={this.props.dispatch}
-                  formResponse={formResponse}
-                  eventData={eventData}
-                />
-              )}
-            </BlogCreateStyled>
-          </SuperLayout>
-        </DefaultLayout>
-      </GlobalLayout>
-    )
-  }
+  return { id: query.id }
 }
 
 export default connect((state) => {

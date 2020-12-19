@@ -1,15 +1,11 @@
-import React from "react"
+import { useEffect } from "react"
 
-class Disqus extends React.Component {
-  componentDidMount() {
-    this.renderDisqus()
-  }
-
-  renderDisqus() {
-    var disqus_config = function () {
-      this.page.url = this.props.url // Replace PAGE_URL with your page's canonical URL variable
-      this.page.identifier = this.props.identifier // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    }
+const Disqus = (props) => {
+  const renderDisqus = () => {
+    // var disqus_config = function () {
+    //   this.page.url = props.url // Replace PAGE_URL with your page's canonical URL variable
+    //   this.page.identifier = props.identifier // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    // }
     if (!window.DISQUS) {
       /**
        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -26,16 +22,20 @@ class Disqus extends React.Component {
       DISQUS.reset({
         reload: true,
         config: function () {
-          this.page.identifier = this.props.identifier
-          this.page.url = this.props.url
+          this.page.identifier = props.identifier
+          this.page.url = props.url
         },
       })
     }
   }
 
-  render() {
-    return <div id="disqus_thread" />
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      renderDisqus()
+    }
+  }, [])
+
+  return <div id="disqus_thread" />
 }
 
 export default Disqus

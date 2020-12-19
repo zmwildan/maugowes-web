@@ -1,5 +1,5 @@
 import Styled from "styled-components"
-import { toCamelCase } from "string-manager"
+import { toCamelCase, toSlug } from "string-manager"
 import { useEffect } from "react"
 
 // redux
@@ -28,6 +28,7 @@ import BlogBox from "../../components/boxs/BlogBox"
 import ShareIcon from "../../components/icons/Share"
 import CommentIcon from "../../components/icons/Comment"
 import EyeIcon from "../../components/icons/Eye"
+import Breadcrumb from "../../components/navigations/Breadcrumb"
 
 function getId(title) {
   let titleArr = title.split("-")
@@ -37,8 +38,7 @@ function getId(title) {
 export const BlogDetailStyled = Styled.div`
   position: relative;
   h1 {
-    margin-top: 50px;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 38px;
   }
   h2 {
@@ -81,12 +81,10 @@ export const BlogDetailStyled = Styled.div`
   .blog-detail_author_name {
     padding-top: 6px;
     padding-left: 60px;
-    font-size: 14px;
   }
   .blog-detail_author_level {
     padding-left: 60px;
     color: ${color_gray_dark};
-    font-size: 14px;
   }
   .blog-detail_main-image {
     margin-top: 50px;
@@ -153,6 +151,17 @@ export const BlogDetailStyled = Styled.div`
 const BlogDetail = ({ id, dispatch, blog }) => {
   const RelatedFilter = `related_${id}`
 
+  const BreadcrumbData = [
+    {
+      link: "/",
+      title: "Home",
+    },
+    {
+      link: "/blog",
+      title: "Blog",
+    },
+  ]
+
   // fetch blog data
   const blogData = blog[id] || {}
   if (!blogData.status && !blogData.is_loading) {
@@ -167,7 +176,7 @@ const BlogDetail = ({ id, dispatch, blog }) => {
         fetchBlog(RelatedFilter, {
           limit: 4,
           page: 1,
-          tag:blogData.tags,
+          tag: blogData.tags,
           notId: id,
         })
       )
@@ -178,6 +187,12 @@ const BlogDetail = ({ id, dispatch, blog }) => {
 
   if (blogData && blogData.status === 200) {
     progressBar.stop()
+
+    BreadcrumbData.push({
+      link: `/blog/${toSlug(blogData.title)}-${blogData.id}`,
+      title: blogData.title,
+    })
+
     metadata = {
       title: blogData.title,
       description: blogData.truncatedContent,
@@ -241,6 +256,8 @@ const BlogDetail = ({ id, dispatch, blog }) => {
             <>
               <div className="grid-center">
                 <div className="col-7_xs-12">
+                  <Breadcrumb position="left" breadcrumb={BreadcrumbData} />
+
                   <h1>{blogData.title}</h1>
 
                   {/* list tag of post */}

@@ -17,6 +17,17 @@ const BlogStyled = Styled.div`
 
 `
 
+const Breadcrumb = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/blog",
+    title: "Blog",
+  },
+]
+
 const StoreFilter = "list"
 const MaxResults = 12
 
@@ -27,6 +38,7 @@ const Blog = (props) => {
   const blogState = props.blog[Filter] || {}
   const firstUpdate = useRef(true)
 
+  // metadata generator
   let title = "Blog - Mau Gowes"
   if (tag) {
     title = `Postingan Dengan Tag "${tag}" - Mau Gowes`
@@ -62,6 +74,8 @@ const Blog = (props) => {
     }
   }, [page])
 
+  if (blogState.status) progressBar.stop()
+
   return (
     <GlobalLayout
       metadata={{
@@ -71,8 +85,9 @@ const Blog = (props) => {
       <DefaultLayout>
         <BlogStyled>
           <Header
+            breadcrumb={Breadcrumb}
             title={title}
-            text="Yuk berbagi cerita tentang sepeda di Mau Gowes Blog"
+            text="Berbagi cerita seputar dunia sepeda"
             stats={{
               suffix: "post",
               total: blogState.total || 0,
