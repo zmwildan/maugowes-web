@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react"
 import Styled from "styled-components"
-import {
-  color_gray_soft,
-  color_black_main,
-  color_blue_main,
-  color_gray_medium,
-} from "../Const"
-import initialDropdown from "../../modules/dropdown"
+import { color_black_main, color_blue_main, color_gray_medium } from "../Const"
+// import initialDropdown from "../../modules/dropdown"
 
 // components
 import Link from "next/link"
-// import Dropdown from "../dropdown/index"
-// import IconBottomArrow from "../icons/bottom-arrow"
 import IconSearch from "../icons/Search"
 import SearchModal from "../modals/SearchInput"
 
 const HeaderMobileStyle = `
-font-size: 12px;
+font-size: 16px;
+transition: all .5s ease;
 
 .header-menu {
   .header-menu__left {
@@ -25,19 +19,29 @@ font-size: 12px;
   }
   .header-menu__left__logo {
       margin-left: 10px;
-      margin-right: 10px;
+      margin-right: 15px;
   }
   .header-menu__right {
-    padding-left: 10px;
+    padding: 0 15px;
   }
 }
 `
 
 const HeaderStyled = Styled.header`
+    transition: top .5 ease;
     border-bottom: 1px solid ${color_gray_medium};
     margin-bottom: 50px;
-    padding: 10px 0;
+    padding: 5px 0 10px;
     font-size: 15px;
+    top: inherit;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      z-index: 99;
+      background: #ffffffd9;
+      width: 100%;
+    }
 
     .header-menu {
         display: flex;
@@ -121,24 +125,45 @@ const AvailableMenu = [
   },
   // {
   //   name: "Marketplace",
-  //   link: "/marketplace"
+  //   link: "/marketplace",
   // },
 ]
 
-const Header = (props) => {
+let Fixed = false
+
+const Header = () => {
   const [path, setPath] = useState({})
+  const [fixed, setFixed] = useState(false)
   const [doSearch, setDoSearch] = useState(false)
   const { pathname } = path
 
-  useEffect(() => {
-    initialDropdown()
+  const toggleFixHeader = () => {
+    if (window.pageYOffset > 500 && !Fixed) {
+      Fixed = true
+      setFixed(Fixed)
+    }
 
+    if (window.pageYOffset <= 500 && Fixed) {
+      Fixed = false
+      setFixed(Fixed)
+    }
+  }
+
+  useEffect(() => {
+    // initialDropdown()
     const pathArr = window.location.pathname.split("/")
     setPath({ pathname: pathArr[1] })
+
+    // add event listener
+    document.addEventListener("scroll", toggleFixHeader, false)
+
+    return () => {
+      document.removeEventListener("scroll", toggleFixHeader, false)
+    }
   }, [])
 
   return (
-    <HeaderStyled>
+    <HeaderStyled className={`${fixed ? "fixed" : ""}`} fixed={fixed}>
       {/* search modal */}
       {doSearch ? <SearchModal onClose={() => setDoSearch(false)} /> : null}
       {/* end of search modal */}
