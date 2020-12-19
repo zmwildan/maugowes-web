@@ -12,6 +12,11 @@ const BreadcrumbStyled = Styled.div`
   &.breadcrumb {
     .breadcrumb-child {
       color: ${color_gray_dark};
+      &:last-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
     .breadcrumb-child__arrow {
       padding: 0 5px;

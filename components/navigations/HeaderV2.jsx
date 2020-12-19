@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react"
 import Styled from "styled-components"
-import {
-  color_gray_soft,
-  color_black_main,
-  color_blue_main,
-  color_gray_medium,
-} from "../Const"
+import { color_black_main, color_blue_main, color_gray_medium } from "../Const"
 import initialDropdown from "../../modules/dropdown"
 
 // components
 import Link from "next/link"
-// import Dropdown from "../dropdown/index"
-// import IconBottomArrow from "../icons/bottom-arrow"
 import IconSearch from "../icons/Search"
 import SearchModal from "../modals/SearchInput"
 
 const HeaderMobileStyle = `
-font-size: 12px;
+font-size: 16px;
 
 .header-menu {
   .header-menu__left {
@@ -25,10 +18,10 @@ font-size: 12px;
   }
   .header-menu__left__logo {
       margin-left: 10px;
-      margin-right: 10px;
+      margin-right: 15px;
   }
   .header-menu__right {
-    padding-left: 10px;
+    padding-left: 15px;
   }
 }
 `
@@ -121,7 +114,7 @@ const AvailableMenu = [
   },
   // {
   //   name: "Marketplace",
-  //   link: "/marketplace"
+  //   link: "/marketplace",
   // },
 ]
 
