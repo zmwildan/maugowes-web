@@ -248,7 +248,7 @@ const InputDateTime = (props) => {
 
   const changeHandler = (e) => {
     const value = moment(e).unix() * 1000
-    props.setState({ [props.name]: value })
+    props.setState({ [name]: value })
   }
 
   return (

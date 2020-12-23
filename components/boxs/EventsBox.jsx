@@ -71,9 +71,6 @@ const EventsBox = (props) => {
                   onChange={() => {
                     query.show_all = query.show_all ? 0 : 1
                     props.setState(query)
-
-                    console.log("query", query)
-
                     // ref : https://github.com/zeit/next.js/#userouter
                     return Router.push({
                       pathname: "/events",
